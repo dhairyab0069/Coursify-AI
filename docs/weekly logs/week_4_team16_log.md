@@ -27,4 +27,7 @@ Gurbir: Typed the milestones we will need to achieve throughout the course of th
 
 ## Burnup Chart
 
+![Screenshot 2023-10-01 at 9 40 35 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/bde6b479-253a-4bd1-a534-d7e0ac9a2403)
+
+## Kanban Board
 
