@@ -1,3 +1,5 @@
+# Team 16
+
 ### Date:
 > 25/09/23 - 01/10/23
 
@@ -31,6 +33,4 @@ Gurbir: Typed the milestones we will need to achieve throughout the course of th
 
 ## Kanban Board
 
-![Screenshot 2023-10-01 at 9 42 35 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/f234fc1e-b09a-493c-a8e1-b82a7ccdfb93)
-
-
+![kb](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/894730fc-2bde-41ab-984d-46616c8d5761)
