@@ -31,3 +31,6 @@ Gurbir: Typed the milestones we will need to achieve throughout the course of th
 
 ## Kanban Board
 
+![Screenshot 2023-10-01 at 9 42 35 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/f234fc1e-b09a-493c-a8e1-b82a7ccdfb93)
+
+
