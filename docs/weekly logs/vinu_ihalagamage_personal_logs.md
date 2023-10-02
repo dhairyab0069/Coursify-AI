@@ -10,6 +10,6 @@
   - Discussing the technology that may be used by the user to interact with our software. 
   - Discussing with the team to create the stack of technologies that is suitable for our web application.
   - Conducting research on which technologies are easy to use or valuable to learn.
-- Completed the Individual Log and contributed to the Team Log. 
+- Completing the Individual Log and contributing to the Team Log. 
 
 
