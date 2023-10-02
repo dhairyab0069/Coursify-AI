@@ -1,6 +1,6 @@
 ### Date: 25/09/23 - 01/10/23
 
-### Tasks worked on: <br>
+### Tasks worked on:<br>
 &nbsp;![Screenshot 2023-10-01 at 7 24 18 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/be28a203-9c30-41c8-8df4-12050e17ab51)
 
 
