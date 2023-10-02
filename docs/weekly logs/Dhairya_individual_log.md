@@ -6,4 +6,4 @@ Worked on the 1.1 Section - Usage Scenario to describe scenarios to describe how
 
 ### Date Ended : 10/01/2023
 
-![D29CD65F-C20A-4B63-8809-4C5C970EEAC2.png]
+![](D29CD65F-C20A-4B63-8809-4C5C970EEAC2.png)
