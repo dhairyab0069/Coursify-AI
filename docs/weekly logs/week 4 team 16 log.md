@@ -4,11 +4,11 @@
 
 ### Usernames:
 
-> Gurbir Amrit      - gurbirRemy
-> Vinu Ihalagamage  - vinui409
-> Bolu Yomi-Adeyemi - boluya
-> Harsimar Singh    - sardarboi
-> Dhairya Bhatia    - dhairyab0069
+> Gurbir Amrit      - gurbirRemy<br>
+> Vinu Ihalagamage  - vinui409<br>
+> Bolu Yomi-Adeyemi - boluya<br>
+> Harsimar Singh    - sardarboi<br>
+> Dhairya Bhatia    - dhairyab0069<br>
 
 
 
