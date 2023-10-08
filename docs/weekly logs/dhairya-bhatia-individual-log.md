@@ -15,7 +15,8 @@ Completed the usage scenario to describe scenarios on how the users will be able
 ### Tasks Completed
 Created an SDLC document with Vinu to describe which Software development methodology we would be using for the project
 
-<img width="1179" alt="Screenshot 2023-10-08 at 4 30 56 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ec81248e-0e2f-42b1-a0dd-6eda69fe4cc8">
+<img width="1205" alt="Screenshot 2023-10-08 at 4 42 37 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/392fa063-2f30-4944-bd3b-529996094c1a">
+
 
 ###  MileStones
 <img width="1205" alt="Screenshot 2023-10-08 at 4 39 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/6203916a-453c-4f7d-a21f-0e7135ded6b3">
