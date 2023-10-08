@@ -23,4 +23,5 @@ Created an SDLC document with Vinu to describe which Software development method
 
 ### Burnup Chart
 
-<img width="1205" alt="Screenshot 2023-10-08 at 4 34 53 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/f2fb2f82-2e32-423d-8670-f7ff786ff69c">
+
+<img width="1205" alt="Screenshot 2023-10-08 at 4 35 25 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/cb0bec50-4d37-453d-828b-5e32f12e3200">
