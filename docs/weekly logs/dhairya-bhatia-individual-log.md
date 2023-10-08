@@ -18,10 +18,6 @@ Created an SDLC document with Vinu to describe which Software development method
 <img width="1179" alt="Screenshot 2023-10-08 at 4 30 56 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ec81248e-0e2f-42b1-a0dd-6eda69fe4cc8">
 
 ###  MileStones
-
-<img width="1179" alt="Screenshot 2023-10-08 at 4 27 17 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/b98d4c9c-744b-4dbb-a6be-994964ffd307">
-
-### Burnup Chart
+<img width="1205" alt="Screenshot 2023-10-08 at 4 39 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/6203916a-453c-4f7d-a21f-0e7135ded6b3">
 
 
-<img width="1205" alt="Screenshot 2023-10-08 at 4 35 25 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/cb0bec50-4d37-453d-828b-5e32f12e3200">
