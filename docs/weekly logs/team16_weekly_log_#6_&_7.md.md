@@ -17,13 +17,15 @@ Test Reports <br>
 Dashboard Creation <br>
 
 ## Tasks:
-Dhairya: Created test reports <br>
-Vinu: Created test reports <br>
-Bolu: Designed the dashboard <br>
-Harsimar: Designed the dashboard <br>
-Gurbir: Set up MongoDB and created login and registration authentication system <br>
+Dhairya: Created test reports (In Progress) <br>
+Vinu: Created test reports (In Progress) <br>
+Bolu: Designed the dashboard (In Progress) <br>
+Harsimar: Designed the dashboard (In Progress) <br>
+Gurbir: Set up MongoDB and created login and registration authentication system (In Progress) <br>
 
 ## Burnup Chart
 
 ## Kanban Board
+![Screenshot 2023-10-22 at 8 29 02 PM (2)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/21671f4c-ba5d-4015-969b-4ffaceea7071)
+
 
