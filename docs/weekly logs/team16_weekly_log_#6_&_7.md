@@ -39,8 +39,10 @@ Gurbir: Made Web Application Mockup 2 (Completed) <br>
         Set up Login and Registration Authentication system (Completed) <br>
 
 ## Burnup Chart
+![Screenshot 2023-10-22 at 8 48 57 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/4c1e9e65-f781-4ea4-86b5-a42a1fee7098)
 
-## Kanban Board
+## Kanban![Uploading Screenshot 2023-10-22 at 8.48.57 PM.png…]()
+ Board
 ![Screenshot 2023-10-22 at 8 45 42 PM (2)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/6a77b9c7-ae18-435e-9d10-a38b070f5efc)
 
 
