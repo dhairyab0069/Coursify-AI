@@ -36,12 +36,13 @@ Harsimar: Made Web Application Mockup 1 (Completed) <br>
           
 Gurbir: Made Web Application Mockup 2 (Completed) <br>
         Set up MongoDB (In Progress) <br>
-        Set up Login and Registration Authentication system (In Progress) <br>
+        Set up Login and Registration Authentication system (Completed) <br>
 
 ## Burnup Chart
 
 ## Kanban Board
-![Screenshot 2023-10-22 at 8 32 51 PM (2)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/56f2606d-7209-4a4b-a407-9b059249b71e)
+![Screenshot 2023-10-22 at 8 45 42 PM (2)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/6a77b9c7-ae18-435e-9d10-a38b070f5efc)
+
 
 
 
