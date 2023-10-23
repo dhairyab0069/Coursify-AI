@@ -23,3 +23,20 @@ Screenshot of tasks assigned on the board
 Tasks Completed : Finished designing a login page and dashboard page mockup for the web application <br>
 Tasks in progress : Completing the mockup for the whole application and compare my design with other mockups to derive a final design
 
+
+
+<p><h1>Individual Log Week 6 and 7 - Harsimar Singh </h1> </p>
+<p>Date Started : 10/09/2023 <br>
+Date Ended : 10/22/2023
+</p>
+![eval](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/810e76e5-2391-4399-a9d8-1ede0b928062)
+
+<br>
+Goals this week : Revise front end coding and css styling , Start working on the dashboard
+<br>
+Screenshot of tasks assigned on the board
+![trell](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/506f2b82-cf43-4359-936b-2edc77dd0dbb)
+
+
+Tasks Completed : Designed a dashboard page for the web application from scratch and started coding on the dashboard to get the first design  <br>
+Tasks in progress : Work on the dashboard to finish the page with more elements and features.
