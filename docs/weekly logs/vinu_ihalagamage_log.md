@@ -32,3 +32,18 @@
  
 <img width="1440" alt="trello w5" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/f7632fc0-193d-4735-8721-ca9a350a6bb1">
 
+# Week 6  
+## Date: 09/10/23 - 22/10/23
+### Vinu Ihalagamage - vinui409
+
+### Tasks worked on:
+
+&nbsp;![Screenshot 2023-10-22 at 7 00 28 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/584e6135-509e-4782-b26b-4a904382d54b)
+
+### Tasks in progress
+- Learning Extent Reports
+- Exploring methods to create test reports for automated tests.
+### Tasks completed
+- Conducting Automation Testing using Selenium
+ 
+![Screenshot 2023-10-22 at 9 05 06 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/28a6889b-40f6-42b0-b7c4-028253958bd0)
