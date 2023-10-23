@@ -33,8 +33,8 @@ Designing a potential mockup that we could use for our project. (In Progress)
 <img width="1069" alt="Screenshot 2023-10-22 at 8 52 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/9ffcf58d-8f23-40ce-a809-2ab029536b93">
 
 ### Tasks:
-Made Web Application Mockup 3 (Completed)
-Designing the dashboard (In Progress)
+Made Web Application Mockup 3 (Completed) <br>
+Designing the dashboard (In Progress) <br>
 
 ![Screenshot 2023-10-22 at 8 56 09 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/0dfdb528-135d-4c0d-8d91-78300128597a)
 
