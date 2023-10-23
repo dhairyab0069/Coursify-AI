@@ -11,10 +11,10 @@
 > Dhairya Bhatia - dhairyab0069 <br>
 
 # Milestones:
-MongoDB Setup
-Login and Registration Portal
-Test Reports
-Dashboard Creation
+MongoDB Setup <br>
+Login and Registration Portal <br>
+Test Reports <br>
+Dashboard Creation <br>
 
 ## Tasks:
 Dhairya: Created test reports <br>
