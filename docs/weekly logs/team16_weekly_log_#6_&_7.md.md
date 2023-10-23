@@ -15,17 +15,33 @@ MongoDB Setup <br>
 Login and Registration Portal <br>
 Test Reports <br>
 Dashboard Creation <br>
+Web Application Mockup 1 <br>
+Web Application Mockup 2 <br>
+Web Application Mockup 3 <br>
+Automation Testing <br>
 
 ## Tasks:
-Dhairya: Created test reports (In Progress) <br>
-Vinu: Created test reports (In Progress) <br>
-Bolu: Designed the dashboard (In Progress) <br>
-Harsimar: Designed the dashboard (In Progress) <br>
-Gurbir: Set up MongoDB and created login and registration authentication system (In Progress) <br>
+Dhairya: Creating test reports (In Progress) <br>
+         Desiging the dashboard (In Progress) <br>
+         Automation Testing (In Progress) <br>
+         
+Vinu: Creating test reports (In Progress) <br>
+      Automation Testing <br>
+      
+Bolu: Made Web Application Mockup 3 (Completed) <br>
+      Designing the dashboard (In Progress) <br>
+      
+Harsimar: Made Web Application Mockup 1 (Completed) <br>
+          Designing the dashboard (In Progress) <br>
+          
+Gurbir: Made Web Application Mockup 2 (Completed) <br>
+        Set up MongoDB (In Progress) <br>
+        Set up Login and Registration Authentication system (In Progress) <br>
 
 ## Burnup Chart
 
 ## Kanban Board
-![Screenshot 2023-10-22 at 8 29 02 PM (2)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/21671f4c-ba5d-4015-969b-4ffaceea7071)
+![Screenshot 2023-10-22 at 8 32 51 PM (2)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/56f2606d-7209-4a4b-a407-9b059249b71e)
+
 
 
