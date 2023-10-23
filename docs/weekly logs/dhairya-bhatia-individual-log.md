@@ -28,7 +28,7 @@ Created an SDLC document with Vinu to describe which Software development method
 10/09/2023-10/22/2023
 ### Tasks Completed
  - Working with Vinu on Automated Testing using Selenium and Allure
- - Worked on Dashboard on Bolu and Harsimar
+ - Worked on Dashboard with Bolu and Harsimar
 
 
 
