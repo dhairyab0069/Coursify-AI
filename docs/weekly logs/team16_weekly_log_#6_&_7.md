@@ -26,7 +26,7 @@ Dhairya: Creating test reports (In Progress) <br>
          Automation Testing (In Progress) <br>
          
 Vinu: Creating test reports (In Progress) <br>
-      Automation Testing <br>
+      Automation Testing (In Progress) <br>
       
 Bolu: Made Web Application Mockup 3 (Completed) <br>
       Designing the dashboard (In Progress) <br>
