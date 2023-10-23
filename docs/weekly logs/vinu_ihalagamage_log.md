@@ -41,8 +41,8 @@
 &nbsp;![Screenshot 2023-10-22 at 7 00 28 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/584e6135-509e-4782-b26b-4a904382d54b)
 
 ### Tasks in progress
-- Learnign Extent Report
-- Exploring methods to create test repors for automating tests.
+- Learning Extent Reports
+- Exploring methods to create test reports for automated tests.
 ### Tasks completed
 - Conducting Automation Testing using Selenium
  
