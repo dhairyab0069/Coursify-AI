@@ -46,4 +46,5 @@ Gurbir: Made Web Application Mockup 2 (Completed) <br>
 
 
 
+<img width="1462" alt="Screenshot 2023-10-26 at 2 59 28 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/15eca5bf-bca5-4e62-ae31-1d9acc425e0d">
 
