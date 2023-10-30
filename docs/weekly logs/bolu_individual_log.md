@@ -38,6 +38,21 @@ Designing the dashboard (In Progress) <br>
 
 ![Screenshot 2023-10-22 at 8 56 09 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/0dfdb528-135d-4c0d-8d91-78300128597a)
 
+# Dates worked on: 22/10/2023 - 29/10/2023
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+<img width="1091" alt="Screenshot 2023-10-29 at 9 02 27 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/5910af75-5af9-410d-a6d9-a337c370ef55">
+
+### Tasks:
+Designing the settings page (In Progress) <br>
+Designing the My Content page (In Progress) <br>
+Designing the My Profile page (In Progress) <br>
+
+![Screenshot 2023-10-29 at 9 07 14 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/4af7ee41-a7fd-46f2-8755-5f0a99e847f6)
+
+
 
 
 
