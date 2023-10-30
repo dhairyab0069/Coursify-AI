@@ -57,13 +57,14 @@
 
 ### Tasks in progress
 - Learning Extent Reports or other methods to create testing reports for presentations.
-- Finding ways to entend the code for dashboard testing (testing the content inside of a form rather than only testing if the form exists and is displayed)
+- Finding ways to extend the code for dashboard testing (testing the content inside of a form rather than only testing if the form exists and is displayed)
 - Figuring out how to conduct automation testing to see if the links / buttons on the dashbaord are interactive. (finished creating testing to see if elements of the dashboard are present)
 
 ### Tasks Completed
 - added 2 alternative functions for testing incorrect username and password to the login and registration test.
-- created testing for the dashboard with functions testing the presence of the sidebar, heading, logo, menu items, and the content generate form. 
-![Screenshot 2023-10-29 at 8 58 52 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/d74bf8b3-ef68-4cfe-b484-75df54898aec)
+- created testing for the dashboard with functions testing the presence of the sidebar, heading, logo, menu items, and the content generate form.
+  
+&nbsp;![Screenshot 2023-10-29 at 8 58 52 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/d74bf8b3-ef68-4cfe-b484-75df54898aec)
 
 
 
