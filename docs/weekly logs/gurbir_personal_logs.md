@@ -28,6 +28,20 @@ This week I create a kanban board on Trello to keep our tasks tracked and organi
 
 Setup MongoDB Atlas Cluster . Created login and registration page in VScode using Node.js, css and bootstrap. Created a database collection to store login details. Added background AI-generated pictures for personalization and then connected the code to the database using a connection string of the cluster in VScode. 
 
+### Date:
+22/10/2023-29/10/2023
+
+### Github Username:
+# Gurbir Amrit- gurbirRemy
+
+<img width="1090" alt="Screenshot 2023-10-29 at 9 18 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/baef46b3-a435-4d45-9779-d314f071e42f">
+<img width="1198" alt="Screenshot 2023-10-29 at 9 19 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/7909ac70-5038-45d7-bdcb-3cc62452bd3b">
+
+
+I learnt how to navigate mongoDB atlas. Added a new login route for logging into the website to handle incorrect login requests.
+Troubleshooted the database setup to ensure writing to collection.
+
+
 
 
 

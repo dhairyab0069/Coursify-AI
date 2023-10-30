@@ -25,7 +25,7 @@ Created an SDLC document with Vinu to describe which Software development method
 
 ## Week 6 and 7
 ### Date 
-10/09/2023-10/22/2023
+10/23/2023-10/29/2023
 ### Tasks Completed
  - Working with Vinu on Automated Testing using Selenium and Allure
  - Worked on Dashboard with Bolu and Harsimar
@@ -37,5 +37,15 @@ Created an SDLC document with Vinu to describe which Software development method
 ###  MileStones
 <img width="1182" alt="Screenshot 2023-10-22 at 8 54 49 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/fc28c5fd-2716-498b-b0f9-16bf575b9d59">
 
+## Week 8
+### Date 
+10/09/2023-10/22/2023
+### Tasks Completed
+ - Completed Work on Login Testing
+
+<img width="1095" alt="Screenshot 2023-10-29 at 8 27 42 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/d683bfd9-4044-43a8-800c-4fea1ba72dcc">
+
+
+<img width="1180" alt="Screenshot 2023-10-29 at 8 24 09 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/a433da5a-6b9b-404f-b55d-ca2ab5b38bfb">
 
 
