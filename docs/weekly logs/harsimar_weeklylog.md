@@ -40,5 +40,30 @@ Screenshot of tasks assigned on the board
 ![](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/506f2b82-cf43-4359-936b-2edc77dd0dbb)
 
 
-Tasks Completed : Designed a dashboard page for the web application from scratch and started coding on the dashboard to get the first design  <br>
-Tasks in progress : Work on the dashboard to finish the page with more elements and features.
+Tasks Completed: Designed a dashboard page for the web application from scratch and started coding on the dashboard to get the first design  <br>
+Tasks in progress: Work on the dashboard to finish the page with more elements and features.
+
+
+
+
+
+<p><h1>Individual Log Week 8 - Harsimar Singh </h1> </p>
+<p>Date Started : 10/22/2023 <br>
+Date Ended: 10/29/2023
+</p>
+
+
+![Screenshot (128)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/45128ac0-d58a-49a2-aa6a-48299f430d05)
+
+<br>
+Goals this week: Start researching Python libraries to integrate our dashboard
+<br>
+Screenshot of tasks assigned on the board
+
+
+![Screenshot (127)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/f23150c2-2944-4d5a-ba3d-98d2f844fed6)
+
+
+Tasks Completed: I created a document(general outline) to map out the process of integrating Python libraries into our application. I also modified the dashboard generate button and the form and assigned some dashboard work.  <br>
+Tasks in progress: Research Python libraries and start integrating Python code for the dashboard.
+
