@@ -25,7 +25,7 @@ Created an SDLC document with Vinu to describe which Software development method
 
 ## Week 6 and 7
 ### Date 
-10/09/2023-10/22/2023
+10/23/2023-10/29/2023
 ### Tasks Completed
  - Working with Vinu on Automated Testing using Selenium and Allure
  - Worked on Dashboard with Bolu and Harsimar
