@@ -67,3 +67,30 @@ Screenshot of tasks assigned on the board
 Tasks Completed: I created a document(general outline) to map out the process of integrating Python libraries into our application. I also modified the dashboard generate button and the form and assigned some dashboard work.  <br>
 Tasks in progress: Research Python libraries and start integrating Python code for the dashboard.
 
+
+
+
+
+
+
+<p><h1>Individual Log Week 9 - Harsimar Singh </h1> </p>
+<p>Date Started : 10/29/2023 <br>
+Date Ended: 11/05/2023
+</p>
+
+![w8Git](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/defe4def-a8d5-4e0b-86e1-90c95cd09db4)
+
+<br>
+Goals this week: Prepare for the mini-presentation. Create a new Dashboard Mockup
+<br>
+Screenshot of tasks assigned on the board
+
+![w8board](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/8e3f00ae-6c13-461d-a2e3-4520e8026853)
+
+Tasks Completed: Created the presentation for the live demo <br> Created a new design for the dashboard using Canva. Our previous dashboard was not satisfactory so we decided to re-do our dashboard <br>
+Tasks in progress: Finish the new dashboard as soon as possible.
+
+
+
+
+
