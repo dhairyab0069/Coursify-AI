@@ -52,6 +52,23 @@ Designing the My Profile page (In Progress) <br>
 
 ![Screenshot 2023-10-29 at 9 07 14 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/4af7ee41-a7fd-46f2-8755-5f0a99e847f6)
 
+# Dates worked on: 29/10/2023 - 05/11/2023
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+![Screenshot 2023-11-05 at 6 20 51 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/5d638c58-1c80-4b3e-87f9-d6f576a409c4)
+
+
+### Tasks:
+Designing the new home page using HTML/CSS (In Progress) <br>
+Implementation of AI API so we could generate courses (In Progress) <br>
+
+![Screenshot 2023-11-05 at 6 43 15 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/671bac14-d13e-48e3-898a-b899df94e9fd)
+
+
+
+
 
 
 

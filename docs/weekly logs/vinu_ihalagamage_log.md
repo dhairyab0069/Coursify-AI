@@ -66,6 +66,28 @@
   
 &nbsp;![Screenshot 2023-10-29 at 8 58 52 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/d74bf8b3-ef68-4cfe-b484-75df54898aec)
 
+# Week 9
+## Date: 29/10/23 - 05/11/23
+### Vinu Ihalagamage - vinui409
+
+### Tasks worked on:
+&nbsp;<img width="757" alt="Screenshot 2023-11-05 at 6 24 34 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/6e7dccf4-72e3-49bc-937a-db0bad6444f4">
+
+### Tasks in progress
+- Finding ways to extend the code for dashboard testing (testing the content inside of a form rather than only testing if the form exists and is displayed)
+- Figuring out how to conduct automation testing to see if the links / buttons on the dashbaord are interactive. (finished creating testing to see if elements of the dashboard are present)
+- Creating the 'My Settings' page for the dashboard.
+- Learning how to implement APIs.
+
+### Tasks Completed 
+- Created 2 testing files using Selenium and Pytest.
+- The first test file was designed to test every element in the dashboard after testing wehther the log-in was successful.
+- The second file tests only the dashboard element without having to log-in, as we did not integrate the log-in page and the dashboard page before the presentation 
+
+<img width="1427" alt="Screenshot 2023-11-05 at 6 59 51 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/8208175a-e767-4411-add3-105c83af7f9b">
+
+
+
 
 
 
