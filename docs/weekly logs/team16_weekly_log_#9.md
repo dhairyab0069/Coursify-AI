@@ -29,11 +29,12 @@ Bolu:  worked on the dashboard and designed the content page, profile, and setti
 Harsimar: I finished designing the new dashboard mockup after our presentation. <br>
           Before presentation I worked on the slides for the live demo.<br>
           
-    Gurbir: Updated  editing in css and html(e.g. jumbotron, gradient background) to make the login and authetication page.<br>
+Gurbir: Updated  editing in css and html(e.g. jumbotron, gradient background) to make the login and authetication page.<br>
         Solved database connection issues on  MongoDB Atlas <br>
+
+    
+
         
-        ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74
-        <img width="948" alt="Screenshot_2023-11-05_at_6 45 11_PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/dafc2fd0-a53a-427f-93cd-b03810ba6954">
-217749/ed4b6cd6-432a-4540-9524-c0fb6574afed)
+        
         
 
