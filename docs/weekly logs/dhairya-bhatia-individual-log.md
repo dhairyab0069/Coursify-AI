@@ -53,6 +53,7 @@ Created an SDLC document with Vinu to describe which Software development method
 10/23/2023-11/05/2023
 ### Tasks Completed
  - Updated Work on Testing with Vinu
+ - Making Automated Test Reports
  - Started Implementation of  AI API's
 
 
