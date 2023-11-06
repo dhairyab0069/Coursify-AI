@@ -42,6 +42,22 @@ I learnt how to navigate mongoDB atlas. Added a new login route for logging into
 Troubleshooted the database setup to ensure writing to collection.
 
 
+### Date:
+22/10/2023-29/10/2023
+
+### Github Username:
+# Gurbir Amrit- gurbirRemy
+
+<img width="1153" alt="Screenshot 2023-11-05 at 7 18 45 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/6766a29e-53d4-4245-aac4-e02b6cb8e751">
+<img width="1100" alt="Screenshot 2023-11-05 at 7 25 00 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/03e3d2c6-a6db-47dc-9ffd-3f5a341dbd6d">
+
+Updated editing in css and html(e.g. jumbotron, gradient background) to make the login and authetication page.
+Solved database connection issues on MongoDB Atlas
+
+
+
+
+
 
 
 
