@@ -59,9 +59,8 @@ Created an SDLC document with Vinu to describe which Software development method
 
 <img width="1047" alt="Screenshot 2023-11-05 at 6 15 03 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/38ecdb8a-3b63-4a2a-acbc-6cf7fb670b6d">
 
-<img width="1180" alt="Screenshot 2023-10-29 at 6 15 50 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/a433da5a-6b9b-404f-b55d-ca2ab5b38bfb">
 
-
+<img width="1448" alt="Screenshot 2023-11-05 at 6 17 00 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/db75e401-4641-410c-8da6-c4df6cff707a">
 
 
 
