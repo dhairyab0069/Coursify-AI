@@ -61,8 +61,8 @@ Designing the My Profile page (In Progress) <br>
 
 
 ### Tasks:
-Designing the home page (In Progress) <br>
-Implementation of AI API (In Progress) <br>
+Designing the new home page using HTML/CSS (In Progress) <br>
+Implementation of AI API so we could generate courses (In Progress) <br>
 
 ![Screenshot 2023-11-05 at 6 43 15 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/671bac14-d13e-48e3-898a-b899df94e9fd)
 
