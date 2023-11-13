@@ -54,8 +54,20 @@ Troubleshooted the database setup to ensure writing to collection.
 Updated editing in css and html(e.g. jumbotron, gradient background) to make the login and authetication page.
 Solved database connection issues on MongoDB Atlas
 
+### Date:
+06/10/2023-12/11/2023
+
+### Github Username:
+# Gurbir Amrit- gurbirRemy
+
+<img width="1037" alt="Screenshot 2023-11-12 at 9 25 42 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/ab3193c3-1a7f-449a-9463-7044020ae665">
 
 
+<img width="1155" alt="Screenshot 2023-11-12 at 9 19 53 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/31ad9ad7-1c1f-448e-8fd1-fe90712618dc">
+
+Went through the GPT API Documentation
+Made some changes to the look and feel of the web app
+Created customized GPTs using OpenAI GPT Builder. 
 
 
 
