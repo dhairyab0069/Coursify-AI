@@ -38,4 +38,5 @@ Gurbir: Creating customized GPT on OpenAI GPT Builder <br>
 
 
 ## Kanban Board
-<img width="1425" alt="Screenshot 2023-11-12 at 9 26 58 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/4294cdd9-6113-4592-ac25-435345ae11d5">
+<img width="1423" alt="Screenshot 2023-11-12 at 9 44 51 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/ff0d668a-8a76-4751-b2a2-30eda1ce810c">
+
