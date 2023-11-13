@@ -33,7 +33,7 @@ Gurbir: Creating customized GPT on OpenAI GPT Builder <br>
         GPT API Documentation <br>
 
 ## Burnup Chart
-<img width="925" alt="Screenshot_2023-10-08_at_4 19 45_PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/676dc9d1-9939-4dae-86af-4e7e06ddc678">
+
 
 
 
