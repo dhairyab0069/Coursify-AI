@@ -93,4 +93,25 @@ Tasks in progress: Finish the new dashboard as soon as possible.
 
 
 
+<p><h1>Individual Log Week 10 - Harsimar Singh </h1> </p>
+<p>Date Started : 11/05/2023 <br>
+Date Ended: 11/12/2023
+</p>
+![w9git](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/99588f16-d5e6-4049-9e71-4234686a8416)
+
+<br>
+Goals this week: Work on the My Content Page
+<br>
+Screenshot of tasks assigned on the board
+![w9board](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/2f2a689d-f145-4d09-8f7b-c9775f13e788)
+
+Tasks Completed: Created my content page front-end layout <br> Also coded front-end elements for AI chatbot for our dashboard.<br>
+Tasks in progress: Add usability and features to these static front-end elements
+
+Screenshot of the work done (Coding output,Code in dashboard home branch)
+<br>
+![41](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/5c8aa4c6-1718-463e-8434-8839d68c74da)
+
+![42](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/1a11f07e-13b5-4c10-8dff-25fd0f98fd95)
+
 
