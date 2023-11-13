@@ -66,6 +66,22 @@ Implementation of AI API so we could generate courses (In Progress) <br>
 
 ![Screenshot 2023-11-05 at 6 43 15 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/671bac14-d13e-48e3-898a-b899df94e9fd)
 
+# Dates worked on: 05/11/2023 - 12/11/2023
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+<img width="1083" alt="Screenshot 2023-11-12 at 9 38 10 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/0c7216eb-ed67-41cd-b8d5-a32a13d3988a">
+
+
+### Tasks:
+Designing the new home page using HTML/CSS (Completed) <br>
+Implementation of AI API so we could generate courses (In Progress) <br>
+Implementing Mobile Responsiveness (In Progress) <br>
+
+<img width="1425" alt="Screenshot 2023-11-12 at 9 40 10 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/459035d5-3e67-476e-8b02-e785907b5b0f">
+
+
 
 
 
