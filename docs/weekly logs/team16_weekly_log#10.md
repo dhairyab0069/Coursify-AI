@@ -19,6 +19,7 @@ Testing <br>
 Mobile Responsiveness <br>
 Creating customized GPT on OpenAI GPT Builder <br>
 GPT API documentation <br>
+<img width="1048" alt="Screenshot 2023-11-12 at 9 55 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/a5401106-a8d5-4c85-aa66-264c6172509c">
 
 
 ## Tasks
@@ -33,8 +34,7 @@ Gurbir: Creating customized GPT on OpenAI GPT Builder <br>
         GPT API Documentation <br>
 
 ## Burnup Chart
-
-
+<img width="1048" alt="Screenshot 2023-11-12 at 9 55 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/a5401106-a8d5-4c85-aa66-264c6172509c">
 
 
 ## Kanban Board
