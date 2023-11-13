@@ -86,6 +86,26 @@
 
 <img width="1427" alt="Screenshot 2023-11-05 at 6 59 51 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/8208175a-e767-4411-add3-105c83af7f9b">
 
+# Week 10
+## Date: 05/11/23 - 12/11/23
+### Vinu Ihalagamage - vinui409
+
+### Tasks worked on:
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/9dec4213-1467-427d-8e4c-de20e6f3a740)
+
+### Tasks in progress
+- Finding appropriate settings that suits our web application.
+- Learning to display each setting page within the main settings page.
+- For example: I have profile settings, notifications, and preferences as the 3 options in the main settings page. I'm learning how to display each of these 3 pages within the main settings page through the js script.
+- Implementing APIs
+
+### Tasks completed
+- Creating the settings page and matching the overall format of the web application. The settings page includes all 3 options mentioned above, and forms inside of each of the page. Next steps are to use js to have these pages open up on the main settings page instead of a new URL.
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/b27d6d60-301d-4ad6-8dc2-c172bbc07760)
+
+
+
 
 
 
