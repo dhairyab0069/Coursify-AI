@@ -81,6 +81,23 @@ Implementing Mobile Responsiveness (In Progress) <br>
 
 <img width="1425" alt="Screenshot 2023-11-12 at 9 40 10 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/459035d5-3e67-476e-8b02-e785907b5b0f">
 
+# Dates worked on: 12/11/2023 - 26/11/2023
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+![Screenshot 2023-11-26 at 8 44 49 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/2e323898-67bc-4a12-8bab-bbf6d1557c19)
+
+
+
+### Tasks:
+Designing the new home page using HTML/CSS (Completed) <br>
+Designing and Implementing Mobile Responsiveness in Home Page (Completed) <br>
+
+![Screenshot 2023-11-26 at 10 08 17 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/e3eb4d9a-959c-4c37-8621-1de1a0125be9)
+
+
+
 
 
 

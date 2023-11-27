@@ -104,6 +104,23 @@
 
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/b27d6d60-301d-4ad6-8dc2-c172bbc07760)
 
+# Week 12
+## Date: 12/11/23 - 26/11/23
+### Vinu Ihalagamage - vinui409
+
+### Tasks worked on: 
+<img width="673" alt="Screenshot 2023-11-26 at 10 02 26 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/4c9c85a3-80ec-4111-be6b-a3ae15ce28ab">
+
+### Tasks in progress
+- I have created forms for each setting, for example, the Account Settings would have a form that is populated with the user's name, username, email and password, and then the notification settings would have a form that controls the notifications. I am having a fair bit of trouble figuring out how to display these forms on the main settings page once the option clicked.
+- Displaying these forms in the main settings page (when the sepcific setting option is clicked) is executed via the js script. My next step is writing the unctional javascript code inside of the HTML file using the <script> tags to see if I can result in a more efficient outcome.
+
+### Tasks Completed
+- The overall look of the setting page with the 3 settings options displayed.
+<img width="1439" alt="Screenshot 2023-11-26 at 10 10 25 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/42c54c3c-dad6-4165-8259-c2ce861d1c9c">
+
+
+
 
 
 
