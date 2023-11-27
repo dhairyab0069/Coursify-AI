@@ -115,3 +115,20 @@ Screenshot of the work done (Coding output,Code in dashboard home branch)
 ![42](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/1a11f07e-13b5-4c10-8dff-25fd0f98fd95)
 
 
+
+
+<p><h1>Individual Log Week 11 and 12 - Harsimar Singh </h1> </p>
+<p>Date Started : 11/12/2023 <br>
+Date Ended: 11/26/2023
+</p>
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/0904fc5c-fef2-471e-a253-261a8905dae2)
+
+<br>
+Goals this week: Work on AI chatbot API
+<br>
+Screenshot of tasks assigned on the board
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/c29c9681-dd1a-4397-9bdc-4d9cf95bd023)
+
+Tasks Completed: Modified Chatbot code with responsiveness and icons for profiles <br> Also coded app.py for integrating open ai API for chatbot.<br>
+Tasks in progress: Integrate the Python and chatbot code
+
