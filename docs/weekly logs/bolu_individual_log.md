@@ -92,7 +92,7 @@ Implementing Mobile Responsiveness (In Progress) <br>
 
 ### Tasks:
 Designing the new home page using HTML/CSS (Completed) <br>
-Implementing Mobile Responsiveness for Content and Settings Pages(In Progress) <br>
+Designing and Implementing Mobile Responsiveness in Home Page (In Progress) <br>
 
 ![Screenshot 2023-11-26 at 8 46 37 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/4f666ad0-3e63-478d-932b-f77522615960)
 
