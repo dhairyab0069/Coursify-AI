@@ -77,6 +77,15 @@ Created an SDLC document with Vinu to describe which Software development method
 
 <img width="1353" alt="Screenshot 2023-11-12 at 8 00 39 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/22207d87-1f90-4cdc-bd90-1bb2de37bd62">
 
+## Week 11 and 12
+### Date 
+10/23/2023-11/05/2023
+### Tasks Completed
+ - Finished working on PDF creation for course generation
+ - Integrated GPT 3.5 turbo API with PDF creation
+
+
+<img width="1321" alt="Screenshot 2023-11-26 at 9 17 31 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/f7ef0a69-aae6-4730-8592-7a3680222eff">
 
 
 
