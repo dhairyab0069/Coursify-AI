@@ -65,7 +65,7 @@ Created an SDLC document with Vinu to describe which Software development method
 
 ## Week 10
 ### Date 
-10/23/2023-11/05/2023
+11/06/2023-11/12/2023
 ### Tasks Completed
  - Testing on Settings using Selenium
  - Learning Pytorch to implement learning models
@@ -79,7 +79,7 @@ Created an SDLC document with Vinu to describe which Software development method
 
 ## Week 11 and 12
 ### Date 
-10/23/2023-11/05/2023
+11/13/2023-11/26/2023
 ### Tasks Completed
  - Finished working on PDF creation for course generation
  - Integrated GPT 3.5 turbo API with PDF creation
