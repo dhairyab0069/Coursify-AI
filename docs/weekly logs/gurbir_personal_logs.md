@@ -69,6 +69,19 @@ Went through the GPT API Documentation
 Made some changes to the look and feel of the web app
 Created customized GPTs using OpenAI GPT Builder. 
 
+### Date:
+06/10/2023-12/11/2023
+
+### Github Username:
+# Gurbir Amrit- gurbirRemy
+<img width="1158" alt="Screenshot 2023-11-26 at 10 03 45 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/392d7ded-5d8b-4827-b121-64a18b716c17">
+<img width="741" alt="Screenshot 2023-11-26 at 10 07 30 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/16cde3d2-1075-47b7-a6bb-a9429be10454">
+Created a coursify AI GPT using Open AI GPT Builder and configuring  it for the specific purpose of generating  Course materials 
+Created new collection and setup in MongoDB to save generated pdfs to upload to my content page
+
+
+
+
 
 
 
