@@ -110,8 +110,26 @@ Tasks in progress: Add usability and features to these static front-end elements
 
 Screenshot of the work done (Coding output,Code in dashboard home branch)
 <br>
-![41](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/5c8aa4c6-1718-463e-8434-8839d68c74da)
 
-![42](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/1a11f07e-13b5-4c10-8dff-25fd0f98fd95)
+
+
+
+<p><h1>Individual Log Week 11 and 12 - Harsimar Singh </h1> </p>
+<p>Date Started : 11/12/2023 <br>
+Date Ended: 11/26/2023
+</p>
+![Screenshot (147)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/b76d60bb-d4d6-4a73-b939-b1f3ac3844b9)
+
+
+<br>
+Goals this week: Work on AI chatbot API
+<br>
+Screenshot of tasks assigned on the board
+![Screenshot (148)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/bc98b5fc-9f9a-4cb4-96a9-8757985ed41a)
+
+Tasks Completed: Modified Chatbot code with responsiveness and icons for profiles <br> Also coded app.py for integrating open ai API for chatbot.<br>
+Tasks in progress: Integrate the Python and chatbot code
+
+
 
 
