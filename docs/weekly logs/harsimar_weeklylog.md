@@ -132,6 +132,21 @@ Tasks in progress: Integrate the Python and chatbot code
 
 
 
+<p><h1>Individual Log Week 13 - Harsimar Singh </h1> </p>
+<p>Date Started : 11/26/2023 <br>
+Date Ended: 12/3/2023
+</p>
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/cebb3b32-051d-489c-9e53-8c4ad0ffff3a)
+
+<br>
+Goals this week: Finish Chatbot and work on Design milestone
+<br>
+Screenshot of tasks assigned on the board
+<img width="1276" alt="Screenshot_2023-12-04_at_12 54 04_AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/fb47d28c-d68f-418e-8ad6-251512d02929">
+
+
+Tasks Completed: Completed the chatbot, My code for app.py and Ai.html(updated) was locally sent to Gurbir via the discord channel who pushed the changes to the GitHub <br> I also worked on design milestone document and video editing for the demo  <br>
+Tasks in progress: Save AI chatbot conversation in the database.
 
 
 

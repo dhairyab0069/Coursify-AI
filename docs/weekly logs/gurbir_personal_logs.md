@@ -80,9 +80,17 @@ Created a coursify AI GPT using Open AI GPT Builder and configuring  it for the 
 Created new collection and setup in MongoDB to save generated pdfs to upload to my content page
 
 
+### Date:
+06/10/2023-12/11/2023
 
+### Github Username:
+# Gurbir Amrit- gurbirRemy
+<img width="1155" alt="Screenshot 2023-12-04 at 1 00 43 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/f88eff3b-25df-4903-a778-bf51ea163e93">
 
+<img width="1062" alt="Screenshot 2023-12-04 at 1 08 49 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/ed94f007-1c75-45c1-829b-feebdf267dd9">
 
+Email verification feature in progress, generated sendgrid API key for SMTP and created email verification template for the code
+Made a new integrated Login and registration using Flask. Created all routes necessary for Registering users and logging in. Successfully integrated the settings page and the chatbot with the existing repo.
 
 
 
