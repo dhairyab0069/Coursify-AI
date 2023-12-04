@@ -119,6 +119,24 @@
 - The overall look of the setting page with the 3 settings options displayed.
 <img width="1439" alt="Screenshot 2023-11-26 at 10 10 25 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/42c54c3c-dad6-4165-8259-c2ce861d1c9c">
 
+# Week 13
+## Date: 26/12/23 - 03/12/23
+### Vinu Ihalagamage - vinui409
+
+### Tasks worked on: 
+<img width="675" alt="Screenshot 2023-12-04 at 1 05 27 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/7cf09662-7314-4f5c-b5a8-70a0e468a475">
+
+### Tasks in progress
+- updating my route to the database, that currently fetches user information from the database, so I can also write back to the database for when users want to change their personal information
+- adding an "edit fields" button which can trigger the route that writes back to the database.
+- Figuring out where to store user's profile pictures as it might not be the best idea to store profile pictures within the MongoDB cluster.
+
+### Tasks Completed
+- Completed .hover and .selected css funtiions which shows clear indication on which setting is already selected, and which setting it being hovered.
+- A frame where the user chosen profile can be resized and displayed.
+- Flask route to fetch user information from the MongoDB Cluster.
+- Added Jinja2 templating syntax to autopopulate the fields on the settings page based on the specific user that is logged in.
+<img width="1440" alt="Screenshot 2023-12-04 at 1 19 17 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/26ba1696-63e5-4931-8464-341733027094">
 
 
 
