@@ -46,4 +46,6 @@ Creating a team meeting schedule for the coming weeks and project planning<br>
 
 ## Kanban Board
 
+<img width="1470" alt="Screenshot 2024-01-14 at 7 29 26 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/1f8b719a-39df-4667-bc46-c4e87be922d6">
 
+<img width="256" alt="Screenshot 2024-01-14 at 7 29 43 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/4c5e5f85-0874-45f3-89cc-42e659527152">
