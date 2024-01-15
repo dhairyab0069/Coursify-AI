@@ -42,7 +42,8 @@ Working on email verification for the new login and registration page and creati
 Creating a team meeting schedule for the coming weeks and project planning<br>
 
 ## Burnup Chart
-![Screenshot 2023-12-03 at 11 02 24 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/a6ba678d-e59e-4e59-8ab1-f46e94a90793)
+
+<img width="1052" alt="Screenshot 2024-01-14 at 7 36 53 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/2729439e-9215-4607-8f50-cb7808f04e83">
 
 ## Kanban Board
 
