@@ -55,7 +55,7 @@ Updated editing in css and html(e.g. jumbotron, gradient background) to make the
 Solved database connection issues on MongoDB Atlas
 
 ### Date:
-06/10/2023-12/11/2023
+06/11/2023-12/11/2023
 
 ### Github Username:
 # Gurbir Amrit- gurbirRemy
@@ -70,7 +70,7 @@ Made some changes to the look and feel of the web app
 Created customized GPTs using OpenAI GPT Builder. 
 
 ### Date:
-06/10/2023-12/11/2023
+13/11/2023-26/11/2023
 
 ### Github Username:
 # Gurbir Amrit- gurbirRemy
@@ -81,7 +81,7 @@ Created new collection and setup in MongoDB to save generated pdfs to upload to 
 
 
 ### Date:
-06/10/2023-12/11/2023
+26/11/2023-05/12/2023
 
 ### Github Username:
 # Gurbir Amrit- gurbirRemy
@@ -92,6 +92,23 @@ Created new collection and setup in MongoDB to save generated pdfs to upload to 
 Email verification feature in progress, generated sendgrid API key for SMTP and created email verification template for the code
 Made a new integrated Login and registration using Flask. Created all routes necessary for Registering users and logging in. Successfully integrated the settings page and the chatbot with the existing repo.
 
+### Date:
+08/01/2023-014/12/2023
+
+### Github Username:
+# Gurbir Amrit- gurbirRemy
+
+<img width="1144" alt="Screenshot 2024-01-14 at 7 20 55 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/d47cdc32-a5c5-4536-8148-cf19f6c56217">
+<img width="1108" alt="Screenshot 2024-01-14 at 7 27 27 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/419207e9-c42b-4504-8277-27919fe7312b">
+
+
+
+
+Discussing  relevant design changes with team based on client feedback 
+e.g. changing the difficulty parameter to grade level to suit the K-12 educator target demographic of the project
+Working on email verification for the new login and registration page and creating google api key to allow signup with google
+Creating a team meeting schedule for the coming weeks and project planning 
+     
 
 
 
