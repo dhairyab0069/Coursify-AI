@@ -120,7 +120,7 @@
 <img width="1439" alt="Screenshot 2023-11-26 at 10 10 25 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/42c54c3c-dad6-4165-8259-c2ce861d1c9c">
 
 # Week 13
-## Date: 26/12/23 - 03/12/23
+## Date: 03/12/23 - 26/12/23
 ### Vinu Ihalagamage - vinui409
 
 ### Tasks worked on: 
