@@ -139,7 +139,7 @@
 <img width="1440" alt="Screenshot 2023-12-04 at 1 19 17 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/26ba1696-63e5-4931-8464-341733027094">
 
 # Week T2 #1
-## Date: 26/12/23 - 03/12/23
+## Date: 26/12/23 - 14/01/24
 ### Vinu Ihalagamage - vinui409
 
 ### Tasks worked on: 
