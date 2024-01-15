@@ -128,6 +128,24 @@ Completed the UI section of Design Document (Completed) <br>
 
 ![Screenshot 2023-12-03 at 11 18 32 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/c50b165a-abf8-4233-b5da-2ca1ce5e2533)
 
+# Dates worked on: 08/01/2023 - 14/01/2023
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+<img width="1071" alt="Screenshot 2024-01-14 at 6 41 09 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/42e560b3-5e91-4764-bf3e-29921804c71e">
+
+### Tasks:
+Implemented an auto-scroll that when the share button is clicked, it scrolls to the share form (Completed) <br>
+File preview (In Progress) <br>
+My Content Page reorganisation (In Progress) <br>
+
+<img width="1404" alt="Screenshot 2024-01-14 at 6 52 22 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/b78a13de-5207-4579-8ca9-12223ad25a4e">
+
+
+
+
+
 
 
 
