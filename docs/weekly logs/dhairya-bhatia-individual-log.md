@@ -111,9 +111,10 @@ Created an SDLC document with Vinu to describe which Software development method
 ### Date 
 08/01/2024-14/01/2024
 ### Tasks Completed
- - Finished working on PDF Creation for course Generation using GPT 3.5 (Completed)
- - Conducted testing on the PDF generation, My Content Page, and other backend features. (Completed)
- - Completed the UI section of Design Document (Completed)
+ - Working on Client Feedback
+ - Working on updating PDF GEneration( Can genererate better results and added table of content)
+
+ 
 
 <img width="1311" alt="Screenshot 2024-01-14 at 7 42 09 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/1a1fa232-6980-44af-a17b-b951c87c4584">
 
