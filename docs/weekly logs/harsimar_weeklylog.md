@@ -148,3 +148,23 @@ Screenshot of tasks assigned on the board
 Tasks Completed: Completed the chatbot, My code for app.py and Ai.html(updated) was locally sent to Gurbir via the discord channel who pushed the changes to the GitHub <br> I also worked on design milestone document and video editing for the demo  <br>
 Tasks in progress: Save AI chatbot conversation in the database.
 
+
+
+
+
+<p><h1>Individual Log Week T2 W1 - Harsimar Singh </h1> </p>
+<p>Date Started : 1/08/2024 <br>
+Date Ended: 1/14/2023
+</p>
+![evalu](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/5e68134b-fa73-4ba2-8d97-03eed32d8fde)
+
+<br>
+Goals this week: Train Chatbot model
+<br>
+Screenshot of tasks assigned on the board
+![kanb](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/2f872f03-91c3-4298-baa2-12ea361d6a99)
+
+
+
+Tasks Completed: Still learning how to use OpenAi assistant to implement it directly with our chatbot  <br>
+Tasks in progress: Training Chat bot Model using Open AI Assistant feature to customise it according to the website. This update would allow our chatbot to provide responses to the questions based on our website specifically.
