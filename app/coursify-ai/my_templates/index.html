@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html land="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Coursify.ai</title>
+
+        <!--icons-->
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+    </head>
+    <body>
+        <!--header design-->
+        <header class="header">
+            <div class="link_container">
+              <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+        </div>
+
+
+        <div class="link_container" >
+
+
+            <nav class="navbar" >
+              <div id ="sidebar"></div>
+                <a href="{{ url_for('index') }}" id = "home">HOME</a>
+                <a href="{{ url_for('content') }}" id = "content">MY CONTENT</a>
+                <a href="settings.html" id = "settings">SETTINGS</a>
+                <a href="ai.html" id = "ai">AI ASSISTANT</a>
+                <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+
+            </div>
+        </nav>
+        <i class='bx bx-menu'></i>
+        
+        </button>    
+        </header>
+
+        <!--home section-->
+        <section class="home" id="home">
+            <div class="left">
+                <h1 id ="head">Welcome to Coursify.ai</h1>
+                <h2>As an educator, you are forced to make slides you dont want to.<br />
+                  Don't worry, we will make them for you.</h2>
+            </div>
+            <div class="right">
+                <div id="content">
+                    <div id="title-box">
+                      <div class="content-container">
+                        <h1>Generate Content</h1>
+                        <div class="form-container">
+                          <form id="content-form" action="#" method="post"  enctype="multipart/form-data">
+                            <div class="form-group">
+                              <label for="length">Length of Content:</label>
+                              <input
+                                type="number"
+                                id="length"
+                                name="length"
+                                placeholder="Enter length (e.g., 1000 words)"
+                                required
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label for="difficulty">Difficulty (0-3):</label>
+                              <input type="number" id="difficulty" name ="difficulty" min="0"
+                              max="3" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="topics">Main Topics  :</label>
+                              <input
+                                type="text"
+                                id="topics"
+                                name="topics"
+                                placeholder="Enter main topics"
+                                required
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label for="pdf-upload">Upload PDF: (Optional)</label>
+                              <input
+                                type="file"
+                                id="pdf-upload"
+                                name="pdf-upload"
+                                accept=".pdf"
+                              
+                              />
+                            </div>
+                            <button type="submit" id="generate-button">Generate</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                      var form = document.getElementById("content-form");
+                      var generateButton = document.getElementById("generate-button");
+                    
+                      form.addEventListener("submit", function (e) {
+                        e.preventDefault();
+                        generateButton.innerHTML = "Generating...";
+                        generateButton.disabled = true;
+                    
+                        var formData = new FormData(form);
+                        fetch('/generate_pdf', {
+                          method: 'POST',
+                          body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                          if(data.success) {
+                            // Update the generate button to a download link
+                            generateButton.innerHTML = "Download PDF";
+                            generateButton.style.color = "green";
+                            generateButton.onclick = function() {
+                              window.location.href = data.pdf_url; // URL of the generated PDF
+                            };
+                          } else {
+                            // Handle the case where PDF generation failed
+                            generateButton.innerHTML = "Failed to Generate PDF";
+                            generateButton.style.color = "red";
+                          }
+                          generateButton.disabled = false;
+                        })
+                        .catch(error => {
+                          console.error('Error:', error);
+                          generateButton.innerHTML = "Error: " + error.message;
+                          generateButton.style.color = "red";
+                          generateButton.disabled = false;
+                        });
+                      });
+                    });
+                    </script>
+                    
+                    
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+                    
+ 
+            </div>
+            </div>
+        </section>
+        <div id="footer">&copy; 2023 CoursifyAI. All rights reserved.</div>   
+    </body>
+</html>

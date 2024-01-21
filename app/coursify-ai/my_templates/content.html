@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Content - Coursify.ai</title>
+
+    <!-- Icons -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="link_container">
+        <a href="{{ url_for('index') }}"
+          ><img src="{{ url_for('static', filename='cap_logo1.png') }}" alt="Coursify.ai Logo" id="logo"
+        /></a>
+      </div>
+
+      <nav class="navbar">
+        <div id="sidebar">
+            <a href="{{ url_for('index') }}" id = "home">HOME</a>
+            <a href="{{ url_for('content') }}" id = "content">MY CONTENT</a>
+            <a href="settings.html" id = "settings">SETTINGS</a>
+            <a href="ai.html" id = >AI ASSISTANT</a>
+            <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+
+        </div>
+      </nav>
+      <i class="bx bx-menu"></i>
+    </header>
+
+    <!-- My Content Section -->
+    <!-- <section id="my-content">
+      <div class="content-header">
+        <h1 id = "title">My Notes</h1>
+      </div>
+      <div class="notes-container"> -->
+        <!-- Note Cards -->
+        <!-- <div class="note-card">
+          <div class="note-title">Note Title 1</div>
+          <div class="note-summary">Brief summary of the note...</div>
+          <button class="download-btn">Download</button>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Note Title 1</div>
+          <div class="note-summary">Brief summary of the note...</div>
+          <button class="download-btn">Download</button>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Note Title 1</div>
+          <div class="note-summary">Brief summary of the note...</div>
+          <button class="download-btn">Download</button>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Note Title 1</div>
+          <div class="note-summary">Brief summary of the note...</div>
+          <button class="download-btn">Download</button>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Note Title 1</div>
+          <div class="note-summary">Brief summary of the note...</div>
+          <button class="download-btn">Download</button>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Note Title 1</div>
+          <div class="note-summary">Brief summary of the note...</div>
+          <button class="download-btn">Download</button>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Note Title 1</div>
+          <div class="note-summary">Brief summary of the note...</div>
+          <button class="download-btn">Download</button>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Note Title 1</div>
+          <div class="note-summary">Brief summary of the note...</div>
+          <button class="download-btn">Download</button>
+        </div> -->
+        <!-- Repeat for more note cards -->
+        <!-- Add more cards as needed -->
+      <!-- </div>
+    </section> -->
+
+    <!-- <section id="my-content">
+      <div class="content-header">
+        <h1 id = "title">My Notes</h1>
+      </div>
+      <div class="notes-container"> -->
+        <!-- Note Cards -->
+        <!-- {% for file in file_data %}
+        <div class="note-card">
+          <div class="note-title">{{ file.filename }}</div>
+          <div class="note-summary">Click download to view the PDF...</div>
+          <a href="{{ url_for('get_pdf', filename=file.filename) }}" class="download-btn">Download</a> -->
+          <!-- Share Button -->
+      <!-- <button onclick="showForm('{{ file._id }}')" class="share-btn">Share</button>
+    </div>
+    {% endfor %}
+  </div>
+</section> -->
+
+
+
+<!-- Share Form -->
+<!-- <div id="shareForm" style="display: none;">
+  <form action="{{ url_for('share_via_email') }}" method="post">
+    <input type="hidden" id="fileId" name="file_id">
+    <label for="email">Recipient's Email:</label>
+    <input type="email" id="email" name="email" required>
+    <input type="submit" value="Share">
+  </form>
+</div> -->
+<section id="my-content">
+  <div class="content-header">
+    <h1 id = "title">My Notes</h1>
+  </div>
+  <div class="notes-container">
+    <div class="notes-list">
+      <!-- Note Cards -->
+      {% for file in file_data %}
+      <div class="note-card" onclick="showDetails('{{ file._id }}', '{{ file.filename }}')">
+        <div class="note-title">{{ file.filename }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div id="note-details" style="display:none;">
+     <div class="note-content">
+      <div class="note-title" id="detailTitle"></div>
+      <div class="note-summary">Click download to view the PDF...</div>
+      <a href="" id="downloadLink" class="download-btn">Download</a>
+      <button onclick="showForm()" id="shareButton" class="share-btn">Share</button>
+     </div> 
+    </div> 
+  </div>
+</section>
+<!-- Share Form -->
+<div id="shareForm" style="display: none;">
+  <form action="{{ url_for('share_via_email') }}" method="post">
+    <input type="hidden" id="fileId" name="file_id">
+    <label for="email">Recipient's Email:</label>
+    <input type="email" id="email" name="email" required>
+    <input type="submit" value="Share">
+  </form>
+</div>
+
+
+<script>
+//function showForm(fileId) {
+  // Set the file id in the form
+  //document.getElementById('fileId').value = fileId;
+
+  // Show the form
+  //document.getElementById('shareForm').style.display = 'block';
+//}
+document.getElementById('shareButton').addEventListener('click', function() {
+  document.getElementById('shareForm').scrollIntoView({behavior: "smooth"});
+});
+function showDetails(id, filename) {
+  document.getElementById('detailTitle').textContent = filename;
+  document.getElementById('downloadLink').href = "{{ url_for('get_pdf', filename='') }}" + filename;
+  document.getElementById('note-details').style.display = 'block';
+}
+
+function showForm() {
+  // Show the form
+  document.getElementById('shareForm').style.display = 'block';
+}
+window.onload = function() {
+  var noteCards = document.getElementsByClassName('note-card');
+
+// Add click event listener to each note card
+for (var i = 0; i < noteCards.length; i++) {
+    noteCards[i].addEventListener('click', function() {
+        // Remove 'clicked' class from all note cards
+        for (var j = 0; j < noteCards.length; j++) {
+            noteCards[j].classList.remove('clicked');
+        }
+        // Add 'clicked' class to the clicked note card
+        this.classList.add('clicked');
+});
+}}
+</script>
+
+    <footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
+  </body>
+</html>

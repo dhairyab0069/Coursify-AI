@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="link_container">
+            <a href="index.html"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+
+        </div>
+
+        <nav class="navbar">
+            <a href="index.html" id="home">HOME</a>
+            <a href="content.html" id="content">MY CONTENT</a>
+            <a href="settings.html" id="settings">SETTINGS</a>
+            <a href="ai.html" id="ai-assistant">AI ASSISTANT</a>
+            <a href="#" id="logout">LOGOUT</a>
+        </nav>
+        <i class='bx bx-menu'></i>
+    </header>
+
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <div id="user-input">
+            <input type="text" id="message-input" placeholder="Type your message here...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        var botImageUrl = "{{ url_for('static', filename='gpt.jpg') }}";
+        var userImageUrl = "{{ url_for('static', filename='user.png') }}";
+      
+                    function displayMessage(message, sender) {
+                            let chatBox = document.getElementById('chat-box');
+                            let messageDiv = document.createElement('div');
+                            
+                            // Add a class based on the sender
+                            messageDiv.classList.add('message', sender === 'bot' ? 'bot-message' : 'user-message');
+                            
+                            let imageUrl = sender === 'bot' ? botImageUrl : userImageUrl;
+                            messageDiv.innerHTML = `<img src="${imageUrl}" class="icon"> <p>${message}</p>`;
+                            chatBox.appendChild(messageDiv);
+                            chatBox.scrollTop = chatBox.scrollHeight;
+                         }
+
+        document.getElementById('send-button').addEventListener('click', function() {
+            let message = document.getElementById('message-input').value;
+            if (message) {
+                displayMessage(message, 'user');
+                fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => {
+                    console.log("Raw response:", response);  // Debugging log
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Parsed data:", data);  // Debugging log
+                    if (data.reply) {
+                        displayMessage(data.reply, 'bot');
+                    } else {
+                        console.log("No reply received:", data);
+                    }
+                })
+                .catch(error => console.error('Fetch error:', error));
+            }
+            document.getElementById('message-input').value = '';
+        });
+
+        window.onload = function() {
+            displayMessage("How can I help you today?", 'bot');
+        };
+    </script>
+</body>
+</html>
+

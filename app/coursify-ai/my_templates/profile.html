@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to CoursifyAI</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="sidebar">
+        <div id="sidebar-header">
+            <h2>My Dashboard</h2>
+            <img src="logo.png" alt="Dashboard Image">
+        </div>
+        <div id="toolbar">
+            <ul>
+                <li><a href="#home"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="content.html"><i class="fa fa-file"></i> My Content</a></li>
+                <li><a href="Settings.html"><i class="fa fa-cog"></i> Settings</a></li>
+                <li><a href="profile.html"><i class="fa fa-user"></i> My Profile</a></li>
+                <li><a href="#logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="content">
+        <div id="title-box">
+            <div class="content-container">
+                <h1>Profile</h1>
+                <div class="profile_container">
+                  <div class="pic_container">
+                    <img src="default.jpeg">
+
+                  </div>
+                  <div class="detail_container">
+                    <div class="name_container">
+                        <h4>Name: </h4>
+                    </div>
+                    <div class="age_container">
+                        <h4>Age: </h4>
+                    </div>
+                    <div class="year_container">
+                        <h4>School Year: </h4>
+                    </div>
+
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        &copy; 2023 CoursifyAI. All rights reserved.
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('content-form');
+            var generateButton = document.getElementById('generate-button');
+        
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                generateButton.innerHTML = "Download";
+                generateButton.style.color = "red";
+            });
+        });
+        </script>
+        
+</body>
+</html>
