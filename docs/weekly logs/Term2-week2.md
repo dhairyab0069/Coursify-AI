@@ -1,7 +1,7 @@
 # Team 16
 
 ### Date:
-> 08/01/24 - 14/01/24
+> 15/01/24 - 21/01/24
 
 ### Usernames:
 > Gurbir Amrit - gurbirRemy <br>
@@ -21,25 +21,21 @@ Email Verification <br>
 
 
 ## Tasks
-Dhairya: Working on Client Feedback <br>
-Working on updating PDF GEneration( Can genererate better results and added table of content) <br>
+Dhairya: Code cleanup , Bug fixes , Working on formatting of pdf generation <br>
 
 
-Vinu: Changing to forms to 'POST' for the '/change_password' and settings route.<br>
-Completing the password fucntion by creating routs to write back to the database<br>
-completing the account settings functions by creating routs to write back to the database<br>
-updating the third settings option by adding a difficulty slider and notification setting options.<br>
+Vinu: Flask route to fetch user information from MongoDB cluster. <br>
+Flask route to change first name, last name, and email from the settings page <br>
+The account settings form is updated according so when the user clicks the "save changes" button, the Database is succesfully updated and account settings is autopopulated with the new user information. <br>
+User being able to change the email, verify the email and use it to log in (in-progress) <br>
+User being able to change the password from the settings page by entering the previous password (in progress) <br>
 
-Bolu: Implemented an auto-scroll that when the share button is clicked, it scrolls to the share form (Completed) <br>
-File preview (In Progress) <br>
-My Content Page reorganisation (In Progress) <br>
+Bolu: File preview (In Progress) ,  My Content Page Reorganisation (Completed) , Sharing for pop-up when share button is clicked (In Progress) <br>
 
 
-Harsimar: Training Chat bot Model using Open AI Assistant feature to customise it according to the website. This update would allow our chatbot to provide responses to the questions based on our website specifically. <br>
+Harsimar: Designed and coded the FAQ page under AI assistant. Training Chat bot Model using Open AI Assistant feature to customise it according to the website. <br>
 
-Gurbir: Discussing  relevant design changes with team based on client feedback e.g. changing the difficulty parameter to grade level to suit the K-12 educator target demographic of the project<br>
-Working on email verification for the new login and registration page and creating google api key to allow signup with google<br>
-Creating a team meeting schedule for the coming weeks and project planning<br>
+Gurbir: Email Verification (Completed) and Signing up with google (In-Progress)<br>
 
 ## Burnup Chart
 
