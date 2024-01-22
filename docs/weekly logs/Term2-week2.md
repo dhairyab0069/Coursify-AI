@@ -39,10 +39,9 @@ Gurbir: Email Verification (Completed) and Signing up with google (In-Progress)<
 
 ## Burnup Chart
 
-<img width="1052" alt="Screenshot 2024-01-14 at 7 36 53 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/2729439e-9215-4607-8f50-cb7808f04e83">
+![burn](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/73179e3a-df9c-4eb6-8b5b-7a02154ce46a)
+
 
 ## Kanban Board
+![trell](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/c020e697-ffbd-4a4e-80c1-f4b515dfd53d)
 
-<img width="1470" alt="Screenshot 2024-01-14 at 7 29 26 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/1f8b719a-39df-4667-bc46-c4e87be922d6">
-
-<img width="256" alt="Screenshot 2024-01-14 at 7 29 43 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/4c5e5f85-0874-45f3-89cc-42e659527152">
