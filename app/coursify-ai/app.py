@@ -27,6 +27,7 @@ from bson.objectid import ObjectId
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from flask_mail import Mail, Message
 
 
 
@@ -53,6 +54,14 @@ db = client['generated_pdfs']
 db2=client['Login_details']
 fs = GridFS(db)
 users_collection=db2.users
+
+app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'coursify@outlook.com'  
+app.config['MAIL_PASSWORD'] = 'Gunners4Eva$'
+
+mail = Mail(app)
 
 
 # User model
@@ -235,7 +244,27 @@ def update_account_settings():
     flash('your account is updated')
     return redirect(url_for('settings_html'))
 
+@app.route('/share_via_email', methods=['POST'])
+def share_via_email():
+    # Get the recipient's email address and the file id from the form data
+    recipient = request.form.get('email')
+    file_id = request.form.get('file_id')
 
+    # Generate the shareable URL
+    share_url = url_for('share_file', file_id=file_id, _external=True)
+
+    # Create a new email message
+    msg = Message('Your Shared File',
+                  sender='coursify@outlook.com',
+                  recipients=[recipient])
+
+    # Add the shareable URL to the email body
+    msg.body = f'Here is the file you requested: {share_url}'
+
+    # Send the email
+    mail.send(msg)
+
+    return 'Email sent!'
 
         
 @app.route('/share/<file_id>')
@@ -280,25 +309,6 @@ def my_content():
 
     # Render a template and pass the file data to it
     return render_template('content.html', file_data=file_data)
-
-@app.route('/share_via_email', methods=['POST'])
-def share_via_email():
-    # Get the recipient's email address and the file id from the form data
-    recipient = request.form.get('email')
-    file_id = request.form.get('file_id')
-
-    # Generate the shareable URL
-    share_url = url_for('share_file', file_id=file_id, _external=True)
-
-    # Create a new email message
-    msg = Message('Your Shared File',
-                  sender='coursify@outlook.com',
-                  recipients=[recipient])
-
-    # Add the shareable URL to the email body
-    msg.body = f'Here is the file you requested: {share_url}'
-
-    # Send the email
 
 @app.route('/content')
 def content():
