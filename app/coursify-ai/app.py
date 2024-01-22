@@ -507,6 +507,10 @@ def generate_pdf():
                 y_position -= line_height 
     
     c.save()
+    
+    with open(pdf_path, 'rb') as pdf_file:
+        fs.put(pdf_file, filename=pdf_filename)
+    
 
     # Respond with the URL of the PDF
     pdf_url = url_for('get_pdf', filename=pdf_filename)
