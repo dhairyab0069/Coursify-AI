@@ -159,6 +159,25 @@
 - Added Jinja2 templating syntax to autopopulate the fields on the settings page based on the specific user that is logged in.
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/a9795dad-3c1d-4726-bca8-c8b30ef600d8)
 
+# Week T2 #2
+## Date: 14/01/24 - 21-01-24
+### Vinu Ihalagamage - vinui409
+
+### Tasks worked on:
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/503f3819-f1b7-4a64-893c-f17b65237204)
+
+### Tasks in progress
+- The user is now able to change their first and last name and email and save the information in the MongoDB collection, currently working on the user being able to change their email, then do email varification and being able to use the new email for logging in.
+- Figuring out where to store user's profile pictures as it might not be the best idea to store profile pictures within the MongoDB cluster.
+- Flask rout to change the password from the settings page is in progress.
+
+### Tasks Completed
+- Flask route to fetch user information from MongoDB cluster.
+- Flask route to change first name, last name, and email from the settings page,
+- The account settings form is updated according so when the user clicks the "save changes" button, the Database is succesfully updated and account settings is autopopulated with the new user information.
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/37feff3d-e6c8-4987-a585-d5c4169ea17d)
+
+
 
 
 
