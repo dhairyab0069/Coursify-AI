@@ -273,6 +273,10 @@ def content():
 @app.route('/ai.html')
 def ai_html():
     return render_template('ai.html')
+
+@app.route('/faq.html')
+def faq():
+    return render_template('faq.html')
 @app.route('/api/chat', methods=['POST'])
 @app.route('/api/chat', methods=['POST'])
 def chat():
