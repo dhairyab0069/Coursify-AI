@@ -52,10 +52,10 @@ Flask : package in python. web framework, collection of tools and libraries.
 2. Form Submission has to be handled in flask.
 3. Flask route:
 
-@app.route('/update_account', methods=['POST]) || @app.ropute() is a decorator that tells flask what URL should trigger the function that is written next. 'POST' requests are for submitting post data
-@login_required || only authenticated users can access
-def update_account_info(); || method
-first_name = request.form.get('firstname') || data form the users form is fetched
+@app.route('/update_account', methods=['POST])           || @app.ropute() is a decorator that tells flask what URL should trigger the function that is written next. 'POST' requests are for submitting post data
+@login_required                                          || only authenticated users can access
+def update_account_info();                               || method
+first_name = request.form.get('firstname')               || data form the users form is fetched
 last_name = request.form.get('lastname')
 email = request.form.get('email')
 

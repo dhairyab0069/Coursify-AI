@@ -186,7 +186,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-    
+# SETINGS PAGE
 @app.route('/settings.html')
 @login_required  # Ensure that the user is logged in
 def settings_html():
@@ -198,9 +198,40 @@ def settings_html():
     else:
         flash("User not found.")
         return redirect(url_for('index'))
+ 
+# ACCOUNT SETTINGS - UPDATE (FIRST / LAST NAME, EMAIL)
+@app.route('/update_account_settings', methods=['POST'])
+@login_required
+def update_account_settings():
+    first_name = request.form.get('firstname')
+    last_name = request.form.get('lastname')
+    email = request.form.get('email')
 
+    user_id = current_user.get_id()
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
 
+    if user:
+        updates = {}
+        if user.get('first_name') != first_name:
+            updates['first_name'] = first_name
 
+        if user.get('last_name') != last_name:
+            updates['last_name'] = last_name
+
+        if user.get('email') != email:
+            updates['email'] = email
+
+        if updates:
+            users_collection.update_one({"_id":ObjectId(user_id)}, {"$set":updates})
+            flash('Your account has been updated successfully.')
+        else:
+            flash('No changes were made to your account.')
+
+    else:
+        flash('User not found.')
+        return redirect(url_for('settings_html'))
+
+        
 @app.route('/share/<file_id>')
 def share_file(file_id):
     # converts id to objectid
