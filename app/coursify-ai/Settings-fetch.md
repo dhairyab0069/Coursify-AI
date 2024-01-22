@@ -88,4 +88,9 @@ email = request.form.get('email')
 
     return redirect (url_for('settings_html'))
 
-4. Profile picture: TBD
+4. Changing the email through settings page.
+
+    1. varify if the email is valid
+    2. have the user do email carification.
+
+5. Change password
