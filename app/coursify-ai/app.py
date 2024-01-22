@@ -231,7 +231,7 @@ def extract_text_from_pdf(pdf_path):
 @app.route('/content')
 def my_content():
     # Get a list of all files in GridFS
-    files = fs.find()
+    files = fs.find().sort("_id",-1)
 
     # Create a list to store file data
     file_data = []
