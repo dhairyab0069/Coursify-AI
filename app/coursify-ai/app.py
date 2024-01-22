@@ -200,9 +200,9 @@ def settings_html():
         return redirect(url_for('index'))
  
 # ACCOUNT SETTINGS - UPDATE (FIRST / LAST NAME, EMAIL)
-@app.route('/update_account_settings', methods=['POST'])
-@login_required
-def update_account_settings():
+#@app.route('/update_account_settings', methods=['POST'])
+#@login_required
+#def update_account_settings():
     first_name = request.form.get('firstname')
     last_name = request.form.get('lastname')
     email = request.form.get('email')
@@ -229,7 +229,7 @@ def update_account_settings():
 
     else:
         flash('User not found.')
-        return redirect(url_for('settings_html'))
+        return redirect(url_for('settings_html')) 
 
         
 @app.route('/share/<file_id>')
