@@ -93,7 +93,7 @@ Email verification feature in progress, generated sendgrid API key for SMTP and 
 Made a new integrated Login and registration using Flask. Created all routes necessary for Registering users and logging in. Successfully integrated the settings page and the chatbot with the existing repo.
 
 ### Date:
-08/01/2023-014/12/2023
+08/01/2023-014/01/2023
 
 ### Github Username:
 # Gurbir Amrit- gurbirRemy
@@ -110,6 +110,19 @@ Working on email verification for the new login and registration page and creati
 Creating a team meeting schedule for the coming weeks and project planning 
      
 
+### Date:
+14/01/2023- 21/01/2023
+
+### Github Username:
+# Gurbir Amrit- gurbirRemy
+<img width="1140" alt="Screenshot 2024-01-21 at 7 45 14 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/fa76e8ad-a017-4179-a133-586782c930ba">
+
+<img width="1129" alt="Screenshot 2024-01-21 at 7 49 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/e7f952d7-7124-4418-a575-1e7969e6ec7c">
+
+registering domain for email verification and creating secure sendgrid api keys
+working on integrating google api key to allow signup with google option 
+Bug fixes regarding registration and login routes
+Editing Database ER design to incoporate more fields and connecting the generated files with usernames.
 
 
 

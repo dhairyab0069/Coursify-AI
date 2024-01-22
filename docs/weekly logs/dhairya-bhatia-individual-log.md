@@ -121,3 +121,15 @@ Created an SDLC document with Vinu to describe which Software development method
 
 <img width="1311" alt="Screenshot 2024-01-14 at 7 41 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/90d685ed-41b6-4486-9aa1-cd844550c399">
 
+## Week 15
+### Date 
+15/01/2024-21/01/2024
+### Tasks Completed
+ - Code cleanup
+ - Bug fixes
+ - Working on formatting of pdf generation
+
+<img width="1413" alt="Screenshot 2024-01-21 at 6 52 42 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/14836d08-a4ea-49fa-9caf-bec893806686">
+
+<img width="1311" alt="Screenshot 2024-01-14 at 7 41 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/90d685ed-41b6-4486-9aa1-cd844550c399">
+

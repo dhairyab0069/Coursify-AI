@@ -150,26 +150,6 @@ Tasks in progress: Save AI chatbot conversation in the database.
 
 
 
-
-
-
-<p><h1>Individual Log Week T2 W1 - Harsimar Singh </h1> </p>
-<p>Date Started : 1/08/2024 <br>
-Date Ended: 1/14/2023
-</p>
-![evalu](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/5e68134b-fa73-4ba2-8d97-03eed32d8fde)
-
-<br>
-Goals this week: Train Chatbot model
-<br>
-Screenshot of tasks assigned on the board
-![kanb](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/2f872f03-91c3-4298-baa2-12ea361d6a99)
-
-
-
-Tasks Completed: Still learning how to use OpenAi assistant to implement it directly with our chatbot  <br>
-Tasks in progress: Training Chat bot Model using Open AI Assistant feature to customise it according to the website. This update would allow our chatbot to provide responses to the questions based on our website specifically.
-
 <p><h1>Individual Log Week 11 and 12 - Harsimar Singh </h1> </p>
 <p>Date Started : 11/12/2023 <br>
 Date Ended: 11/26/2023
@@ -185,4 +165,38 @@ Screenshot of tasks assigned on the board
 Tasks Completed: Modified Chatbot code with responsiveness and icons for profiles <br> Also coded app.py for integrating open ai API for chatbot.<br>
 Tasks in progress: Integrate the Python and chatbot code
 
+
+<p><h1>Individual Log Week T2 W1 - Harsimar Singh </h1> </p>
+<p>Date Started : 1/08/2024 <br>
+Date Ended: 1/14/2023
+</p>
+![evalu](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/5e68134b-fa73-4ba2-8d97-03eed32d8fde)
+
+<br>
+Goals this week: Train Chatbot model
+<br>
+Screenshot of tasks assigned on the board
+![kanb](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/2f872f03-91c3-4298-baa2-12ea361d6a99)
+
+Tasks Completed: Still learning how to use OpenAi assistant to implement it directly with our chatbot  <br>
+Tasks in progress: Training Chat bot Model using Open AI Assistant feature to customise it according to the website. This update would allow our chatbot to provide responses to the questions based on our website specifically.
+
+
+
+<p><h1>Individual Log Week T2 W2 - Harsimar Singh </h1> </p>
+<p>Date Started : 1/14/2024 <br>
+Date Ended: 1/21/2023
+</p>
+![eval](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/8102b1bd-8c73-4356-9ffb-030e48470f9c)
+
+
+<br>
+Goals this week: Create FAQ page for the website
+<br>
+Screenshot of tasks assigned on the board
+![board](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/17347296-f78c-4825-8552-9ee705fc6192)
+
+
+Tasks Completed: Finished the FAQ page (Code pushed by dhairya bhatia) <br>
+Tasks in progress: Training Chat bot. Preparing instructions and reading the API documentation.
 

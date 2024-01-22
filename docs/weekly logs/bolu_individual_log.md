@@ -128,7 +128,7 @@ Completed the UI section of Design Document (Completed) <br>
 
 ![Screenshot 2023-12-03 at 11 18 32 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/c50b165a-abf8-4233-b5da-2ca1ce5e2533)
 
-# Dates worked on: 08/01/2023 - 14/01/2023
+# Dates worked on: 08/01/2024 - 14/01/2024
 
 ## Name: Bolu Yomi-Adeyemi
 ## Username: boluya
@@ -141,6 +141,23 @@ File preview (In Progress) <br>
 My Content Page reorganisation (In Progress) <br>
 
 <img width="1404" alt="Screenshot 2024-01-14 at 6 52 22 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/b78a13de-5207-4579-8ca9-12223ad25a4e">
+
+# Dates worked on: 14/01/2024 - 21/01/2024
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+<img width="1102" alt="Screenshot 2024-01-21 at 4 23 23 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/50a85957-8515-4200-8e39-d600bcd17e0b">
+
+
+### Tasks:
+File preview (In Progress) <br>
+My Content Page Reorganisation (Completed) <br>
+Sharing for pop-up when share button is clicked (In Progress) <br>
+
+<img width="1359" alt="Screenshot 2024-01-21 at 4 26 10 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/f78f7afd-2564-4ce0-a1bb-2bf6fb26e434">
+
+
 
 
 
