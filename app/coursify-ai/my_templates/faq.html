@@ -10,24 +10,24 @@
 
     <header class="header">
         <div class="link_container">
-            <a href="index.html"><img src="{{ url_for('static', filename='images/cap_logo1.png') }}" id="logo"></a>
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
 
         </div>
 
         <nav class="navbar">
-            <a href="index.html" id="home">HOME</a>
-            <a href="content.html" id="content">MY CONTENT</a>
+            <a href="{{ url_for('index') }}" id="home">HOME</a>
+            <a href="{{ url_for('content') }}" id="content">MY CONTENT</a>
             <a href="settings.html" id="settings">SETTINGS</a>
             <a href="ai.html" id="ai-assistant">AI ASSISTANT</a>
             <a href="#" id="logout">LOGOUT</a>
-        </nav>
+          </nav>
         <i class='bx bx-menu'></i>
     </header>
 
     <div class="container">
         <div class="sidebar">
             <a href="ai.html" id="ai-assistant">AI ASSISTANT</a>
-            <a href="faqs.html">FAQs</a>
+            <a href="{{ url_for('faq') }}">FAQs</a>
         </div>
         <div id="chat-container">
             <div class="faq-section">
