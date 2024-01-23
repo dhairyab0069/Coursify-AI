@@ -100,7 +100,7 @@
 
           <!-- PASSWORD SETTINGS FROM ----------------------------------------------------------------------------->
           <!------------------------------------------------------------------------------------------------------->
-          <form id="password-settings-form" class="settings-form" style="display: none">
+          <form id="password-settings-form" class="settings-form" action="{{ url_for('change_password') }}" method="post" style="display: none"> <!-- Add action and method -->
             <!-- Current password -->
             <div class="form-group">
               <label for="current-password">Enter Current Password:</label>

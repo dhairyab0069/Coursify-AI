@@ -244,6 +244,35 @@ def update_account_settings():
     flash('your account is updated')
     return redirect(url_for('settings_html'))
 
+@app.route('/change_password', methods=['POST'])
+@login_required
+def change_password():
+    current_password = request.form.get('current-password')
+    new_password = request.form.get('new-password')
+    confirm_new_password = request.form.get('confirm-new-password')
+
+    user_id = current_user.get_id()
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+
+    if not user:
+        return redirect(url_for('settings_html')) #redirect to settings page
+    
+    #function provided by flask, checks if a plain text password matches a hash password
+    #user['password'] is the hashed PW fro DB, current password is what the user enters
+    if not bcrypt.check_password_hash(user['password'], current_password): 
+        flash('Current password is incorrect.')
+        return redirect(url_for('settings_html'))
+
+    if new_password != confirm_new_password:
+        flash('New passwords do not match.')
+        return redirect(url_for('settings_html'))
+
+    hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": {"password": hashed_new_password}})
+
+    flash('Your password has been updated successfully.')
+    return redirect(url_for('settings_html'))
+
 @app.route('/share_via_email', methods=['POST'])
 def share_via_email():
     # Get the recipient's email address and the file id from the form data
