@@ -1,5 +1,5 @@
 from mailbox import Message
-from flask import flash
+from flask import flash, session
 from datetime import datetime
 import os
 import re
@@ -50,7 +50,7 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 
 # Setup MongoDB connection
 client = MongoClient('mongodb+srv://Remy:1234@cluster0.vgzdbrr.mongodb.net/')
-db = client['generated_pdfs']
+db = client['new_pdfs']
 db2=client['Login_details']
 fs = GridFS(db)
 users_collection=db2.users
@@ -62,6 +62,30 @@ app.config['MAIL_USERNAME'] = 'coursify@outlook.com'
 app.config['MAIL_PASSWORD'] = 'Gunners4Eva$'
 
 mail = Mail(app)
+
+def store_file(user_id, file_path):
+    with open(file_path, 'rb') as f:
+        fs.put(f, filename=file_path, metadata={"owner": user_id})
+        
+def assign_files_to_user(user_id):
+    # Get all files in the database
+    files = fs.find()
+
+    # Assign each file to the user
+    for file in files:
+        fs.update_one(
+            {"_id": file._id},
+            {"$set": {"metadata.owner": user_id}}
+        )
+
+def get_user_files(user_id):
+    return fs.find({"metadata.owner": user_id})
+
+@app.route('/user_files')
+def user_files():
+    user_id = "65ade44396e033fda670da4e"  # replace this with the actual logged in user's id
+    user_files = get_user_files(user_id)
+    return render_template('user_files.html', files=user_files)                
 
 
 # User model
