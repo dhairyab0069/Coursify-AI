@@ -326,6 +326,8 @@ def extract_text_from_pdf(pdf_path):
 
 @app.route('/content')
 def my_content():
+ if current_user.is_authenticated:
+    fs=GridFS(db)
     # Get a list of all files in GridFS
     files = fs.find().sort("_id",-1)
 
