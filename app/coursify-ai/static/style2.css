@@ -257,3 +257,10 @@ header {
 .faq-answer.active {
   display: block;
 }
+
+
+.typing-indicator {
+  
+  font-style: italic;
+  color: gray;
+}

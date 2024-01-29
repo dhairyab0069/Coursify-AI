@@ -36,6 +36,11 @@
       </div>
       <div id="chat-container">
         <div id="chat-box"></div>
+        
+        <div id="typing-indicator" style="display: none;">
+          <p>AI is typing...</p> 
+      </div>
+      
         <div id="user-input">
           <input
             type="text"
@@ -51,21 +56,21 @@
       var botImageUrl = "{{ url_for('static', filename='gpt.jpg') }}";
       var userImageUrl = "{{ url_for('static', filename='user.png') }}";
 
-      function displayMessage(message, sender) {
-        let chatBox = document.getElementById("chat-box");
-        let messageDiv = document.createElement("div");
+      function displayMessage(message, sender, isTypingIndicator = false) {
+                        let chatBox = document.getElementById('chat-box');
+                        let messageDiv = document.createElement('div');
 
-        // Add a class based on the sender
-        messageDiv.classList.add(
-          "message",
-          sender === "bot" ? "bot-message" : "user-message"
-        );
+                        
+                        messageDiv.classList.add('message', sender === 'bot' ? 'bot-message' : 'user-message');
+                        if (isTypingIndicator) {
+                            messageDiv.classList.add('typing-indicator');
+                        }
 
-        let imageUrl = sender === "bot" ? botImageUrl : userImageUrl;
-        messageDiv.innerHTML = `<img src="${imageUrl}" class="icon"> <p>${message}</p>`;
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
+                        let imageUrl = sender === 'bot' ? botImageUrl : userImageUrl;
+                        messageDiv.innerHTML = `<img src="${imageUrl}" class="icon"> <p>${message}</p>`;
+                        chatBox.appendChild(messageDiv);
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
 
       document
         .getElementById("send-button")
@@ -73,6 +78,9 @@
           let message = document.getElementById("message-input").value;
           if (message) {
             displayMessage(message, "user");
+            displayMessage("AI is typing...", 'bot', true);
+
+
             fetch("/api/chat", {
               method: "POST",
               headers: {
@@ -81,6 +89,10 @@
               body: JSON.stringify({ message: message }),
             })
               .then((response) => {
+                let typingIndicator = document.querySelector('.typing-indicator');
+                        if (typingIndicator) {
+                            typingIndicator.remove();
+                        }
                 console.log("Raw response:", response); // Debugging log
                 return response.json();
               })
@@ -100,6 +112,13 @@
       window.onload = function () {
         displayMessage("How can I help you today?", "bot");
       };
+
+      document.getElementById('message-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('send-button').click(); 
+    }
+});
     </script>
   </body>
 </html>
