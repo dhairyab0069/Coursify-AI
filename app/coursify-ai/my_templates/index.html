@@ -128,12 +128,13 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                          if(data.success) {
+                          if (data.success) {
                             var downloadLabel = formData.get('format') === 'pdf' ? 'Download PDF' : 'Download Slides';
                             generateButton.innerHTML = downloadLabel;
                             generateButton.style.color = "green";
                             generateButton.onclick = function() {
-                              window.location.href = data.url;  // 'data.url' should contain the link to the generated file
+                              var fileUrl = formData.get('format') === 'pdf' ? data.pdf_url : data.pptx_url;
+                              window.location.href = fileUrl;  // URL of the generated file
                             };
                           } else {
                             generateButton.innerHTML = "Failed to Generate";

@@ -530,9 +530,7 @@ def generate_pdf(prompt, length, difficulty):
         os.makedirs(pdf_directory)
 
     # Process form data
-    length = request.form.get('length', type=int, default=100)
-    prompt = request.form.get('topics', default='')
-    difficulty = request.form.get('difficulty',type=int,default = 1)
+    
 
     pdf_basename = sanitize_filename(prompt)
 
@@ -673,14 +671,9 @@ def generate_pdf(prompt, length, difficulty):
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
 def generate_slides(prompt, length, difficulty):
-    # Create a subdirectory for presentations if it doesn't exist
     pptx_directory = os.path.join(os.getcwd(), 'presentations')
     if not os.path.exists(pptx_directory):
         os.makedirs(pptx_directory)
-    # Process form data
-    length = request.form.get('length', type=int, default=100)
-    prompt = request.form.get('topics', default='')
-    difficulty = request.form.get('difficulty', type=int, default=1)
 
     # Define filename for the presentation
     pptx_basename = sanitize_filename(prompt)
@@ -689,47 +682,53 @@ def generate_slides(prompt, length, difficulty):
     unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
     pptx_filename = f"{pptx_basename}_{timestamp}_{unique_suffix}.pptx"
 
-    # Generate table of contents or other content
-    toc = call_openai_api("Generate content for slides for topic: " + prompt + "...")
+    # Generate table of contents
+    toc = call_openai_api("Give Table of contents for topic: " + prompt + "...")
     if toc is None:
-        return jsonify(success=False, error="Failed to generate content from OpenAI API")
+        return jsonify(success=False, error="Failed to generate text from OpenAI API")
 
-    # Create and populate the presentation
+    # Create a presentation object
     prs = Presentation()
-    slide_layout = prs.slide_layouts[1]  # Assuming a title and content layout
+    slide_layout = prs.slide_layouts[1]  # Using a title and content layout
 
-    # Iterate through each item in the TOC
-    for topic in toc.split('\n'):
-        # Create a new slide for each topic
-        logging.info(f"Topic '{topics}' slide created.")
-        slide = prs.slides.add_slide(slide_layout)
-        title, content = slide.shapes.title, slide.placeholders[1]
+    # Add a slide for the Table of Contents
+    slide = prs.slides.add_slide(slide_layout)
+    title = slide.shapes.title
+    title.text = "Table of Contents"
 
-        # Set the title of the slide as the topic
-        title.text = topic
+    content = slide.placeholders[1]
+    tf = content.text_frame
 
-        # Optionally generate and add detailed content for each topic
-        detailed_content = call_openai_api("Generate detailed content for topic: " + topic)
-        if detailed_content:
-            content.text = detailed_content
-        else:
-            content.text = "Details coming soon..."
-            
-        logging.info(f"Topic '{topic}' slide created.")
+    for line in toc.split('\n'):
+        p = tf.add_paragraph()
+        p.text = line
+        p.level = 0 if line.isupper() else 1  # Main topic or subtopic
+
+    # Create slides for each topic
+    # (this part would be similar to how you handled topics in your PDF generation)
+        if line.isupper():  # Check if the line is a main topic
+            slide = prs.slides.add_slide(slide_layout)
+            title = slide.shapes.title
+            title.text = line  # Set the title for the slide
+
+            # Log the creation of the slide
+            print(f"Slide created for topic: {line}")
 
     # Save the presentation
     pptx_path = os.path.join(pptx_directory, pptx_filename)
     prs.save(pptx_path)
+    
 
-    # Store the presentation in GridFS if the user is authenticated
     if current_user.is_authenticated:
         fs = GridFS(db)
         with open(pptx_path, 'rb') as pptx_file:
             fs.put(pptx_file, filename=pptx_filename, user_id=current_user.user_id)
 
     # Respond with the URL of the presentation
-    pptx_url = url_for('get_presentation', filename=pptx_filename)
+    pptx_url = url_for('get_presentation', filename=pptx_filename, _external=True)
+    print(pptx_url)
     return jsonify(success=True, pptx_url=pptx_url)
+
 
 
 @app.route('/get_user_pdfs', methods=['GET'])
