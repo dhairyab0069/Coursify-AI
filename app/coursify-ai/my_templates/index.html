@@ -28,9 +28,9 @@
               <div id ="sidebar"></div>
                 <a href="{{ url_for('index') }}" id = "home">HOME</a>
                 <a href="{{ url_for('content') }}" id = "content">MY CONTENT</a>
-                <a href="settings.html" id = "settings">SETTINGS</a>
-                <a href="ai.html" id = "ai">AI ASSISTANT</a>
-                <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+                <a href="{{ url_for('settings_html') }}" id = "settings">SETTINGS</a>
+                <a href="#" id = "ai">AI ASSISTANT</a>
+                <a href="#" id="logout">LOGOUT</a>
 
             </div>
         </nav>
@@ -78,6 +78,18 @@
                                 required
                               />
                             </div>
+                            <div class="form-group">
+                              <label for="format">Choose your format  :</label>
+                              <label>
+                                  <input type="radio" name="format" value="pdf" id="pdf"> PDF
+                              </label>
+                              <label>
+                                  <input type="radio" name="format" value="docx" id = "docx"> DOCX
+                              </label>
+                              <label>
+                                  <input type="radio" name="format" value="epub" id="epub"> EPUB
+                              </label>
+                          </div>
                             <div class="form-group">
                               <label for="pdf-upload">Upload PDF: (Optional)</label>
                               <input
