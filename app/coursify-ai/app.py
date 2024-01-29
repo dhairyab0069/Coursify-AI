@@ -52,8 +52,10 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 client = MongoClient('mongodb+srv://Remy:1234@cluster0.vgzdbrr.mongodb.net/')
 db = client['new_pdfs']
 db2=client['Login_details']
+db3=client['reviews']
 fs = GridFS(db)
 users_collection=db2.users
+reviews_collection=db3.reviews
 
 app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
 app.config['MAIL_PORT'] = 587
@@ -700,6 +702,25 @@ def check_file(filename):
     except:
         return jsonify(success=False, message="File does not exist in the database.")
     
+@app.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review():
+    file_id = request.form['file_id']
+    filename = request.form['filename']
+    review_text = request.form['review_text']
+
+    review = {"user_id": current_user.get_id(), "file_id": file_id, "filename": filename, "review_text": review_text}
+    reviews_collection.insert_one(review)
+
+    flash('Review submitted successfully.')
+    return redirect(url_for('index'))
+    
+@app.route('/reviews/<filename>')
+@login_required
+def reviews(filename):
+    slide_reviews = reviews_collection.find({"filename": filename})
+    return render_template('reviews.html', reviews=slide_reviews) 
+   
 
 @app.route("/chatbot", methods=["POST"])
 def chatbot():

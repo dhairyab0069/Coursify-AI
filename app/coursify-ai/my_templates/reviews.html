@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reviews</title>
+    <!-- Add your CSS here -->
+</head>
+<body>
+    <h1>Reviews</h1>
+    {% for review in reviews %}
+    <div class="review">
+        <h2>User: {{ review.user_id }}</h2>
+        <h3>Slide: {{ review.filename }}</h3>
+        <p>{{ review.review_text }}</p>
+    </div>
+    {% endfor %}
+</body>
+</html>
