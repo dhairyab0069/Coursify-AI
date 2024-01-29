@@ -133,3 +133,15 @@ Created an SDLC document with Vinu to describe which Software development method
 
 <img width="1311" alt="Screenshot 2024-01-14 at 7 41 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/90d685ed-41b6-4486-9aa1-cd844550c399">
 
+## Week 16
+### Date
+22/01/2024-28/01/2024
+### Tasks Completed
+- updated the index page to include form for choosing form for content generation (Completed)
+- added functionality for slide generation.(Completed)
+- updated javascript handling and flask routes for handling new content generation features(Completed)
+Above worked on V2.0 Branch
+
+<img width="1413" alt="Screenshot 2024-01-28 at 11 33 00 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/b00f8ba5-0041-4298-ab15-71e92af8e677">
+
+<img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">

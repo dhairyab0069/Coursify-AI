@@ -185,7 +185,7 @@ Tasks in progress: Training Chat bot Model using Open AI Assistant feature to cu
 
 <p><h1>Individual Log Week T2 W2 - Harsimar Singh </h1> </p>
 <p>Date Started : 1/14/2024 <br>
-Date Ended: 1/21/2023
+Date Ended: 1/21/2024
 </p>
 ![eval](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/8102b1bd-8c73-4356-9ffb-030e48470f9c)
 
@@ -199,4 +199,29 @@ Screenshot of tasks assigned on the board
 
 Tasks Completed: Finished the FAQ page (Code pushed by dhairya bhatia) <br>
 Tasks in progress: Training Chat bot. Preparing instructions and reading the API documentation.
+
+
+
+
+
+# Individual Log Week T2 W3 - Harsimar Singh (Code pushed to branch V2.0)
+## Date: 1/21/24 - 1/28/24
+
+### Tasks worked on: 
+![task](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/ba4d5ef9-a314-4884-a1c1-d50742978df7)
+
+### Tasks in progress
+- Save AI chat for the Session
+- Google translate API for PDFS translation
+
+### Tasks Completed
+- typing indicators for Chatbot
+- Enter to send message for Chatbot
+
+  ![Screenshot (172)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/23765aaf-4b83-48cc-910b-581037a124b3)
+
+
+
+
+
 
