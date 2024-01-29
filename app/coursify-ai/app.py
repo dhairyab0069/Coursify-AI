@@ -1,4 +1,6 @@
+import logging
 from mailbox import Message
+from pydoc_data import topics
 from flask import flash, session
 from datetime import datetime
 import os
@@ -28,6 +30,8 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from flask_mail import Mail, Message
+from pptx import Presentation
+from flask import send_file, abort
 
 
 
@@ -503,8 +507,23 @@ def call_openai_api(prompt):
         print(f"Error calling OpenAI API: {e}")
         return None
     
-@app.route('/generate_pdf', methods=['POST'])
-def generate_pdf():
+
+@app.route('/generate_content', methods=['POST'])
+def generate_content():
+    # Common form data processing
+    length = request.form.get('length', type=int, default=100)
+    prompt = request.form.get('topics', default='')
+    difficulty = request.form.get('difficulty', type=int, default=1)
+    content_format = request.form.get('format', default='pdf')
+
+    if content_format == 'pdf':
+        return generate_pdf(prompt, length, difficulty)
+    elif content_format == 'slides':
+        return generate_slides(prompt, length, difficulty)
+    else:
+        return jsonify(success=False, error="Invalid format selected")
+
+def generate_pdf(prompt, length, difficulty):
     # Create a subdirectory for PDFs if it doesn't exist
     pdf_directory = os.path.join(os.getcwd(), 'pdfs')
     if not os.path.exists(pdf_directory):
@@ -538,6 +557,8 @@ def generate_pdf():
         return jsonify(success=False, error="Failed to generate text from OpenAI API")
     
 
+    
+
 
 
     
@@ -564,6 +585,7 @@ def generate_pdf():
     c.drawString(left_margin, y_position, "Table of Contents")
     y_position -= line_height
     for line in toc.split('\n'):
+        
         
         is_topic = line.isupper()  # Assuming topics are in uppercase
         contains_latex = is_latex(line)  # Renamed the variable here
@@ -650,7 +672,64 @@ def generate_pdf():
     # Respond with the URL of the PDF
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
+def generate_slides(prompt, length, difficulty):
+    # Create a subdirectory for presentations if it doesn't exist
+    pptx_directory = os.path.join(os.getcwd(), 'presentations')
+    if not os.path.exists(pptx_directory):
+        os.makedirs(pptx_directory)
+    # Process form data
+    length = request.form.get('length', type=int, default=100)
+    prompt = request.form.get('topics', default='')
+    difficulty = request.form.get('difficulty', type=int, default=1)
 
+    # Define filename for the presentation
+    pptx_basename = sanitize_filename(prompt)
+    pptx_basename = pptx_basename if pptx_basename else 'generated_presentation'
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+    pptx_filename = f"{pptx_basename}_{timestamp}_{unique_suffix}.pptx"
+
+    # Generate table of contents or other content
+    toc = call_openai_api("Generate content for slides for topic: " + prompt + "...")
+    if toc is None:
+        return jsonify(success=False, error="Failed to generate content from OpenAI API")
+
+    # Create and populate the presentation
+    prs = Presentation()
+    slide_layout = prs.slide_layouts[1]  # Assuming a title and content layout
+
+    # Iterate through each item in the TOC
+    for topic in toc.split('\n'):
+        # Create a new slide for each topic
+        logging.info(f"Topic '{topics}' slide created.")
+        slide = prs.slides.add_slide(slide_layout)
+        title, content = slide.shapes.title, slide.placeholders[1]
+
+        # Set the title of the slide as the topic
+        title.text = topic
+
+        # Optionally generate and add detailed content for each topic
+        detailed_content = call_openai_api("Generate detailed content for topic: " + topic)
+        if detailed_content:
+            content.text = detailed_content
+        else:
+            content.text = "Details coming soon..."
+            
+        logging.info(f"Topic '{topic}' slide created.")
+
+    # Save the presentation
+    pptx_path = os.path.join(pptx_directory, pptx_filename)
+    prs.save(pptx_path)
+
+    # Store the presentation in GridFS if the user is authenticated
+    if current_user.is_authenticated:
+        fs = GridFS(db)
+        with open(pptx_path, 'rb') as pptx_file:
+            fs.put(pptx_file, filename=pptx_filename, user_id=current_user.user_id)
+
+    # Respond with the URL of the presentation
+    pptx_url = url_for('get_presentation', filename=pptx_filename)
+    return jsonify(success=True, pptx_url=pptx_url)
 
 
 @app.route('/get_user_pdfs', methods=['GET'])
@@ -681,6 +760,26 @@ def get_pdf(filename):
             return "File not found", 404
        else:
         return "Unauthorized", 401
+@app.route('/presentation/<filename>')
+def get_presentation(filename):
+    if current_user.is_authenticated:
+        fs = GridFS(db)  # Assuming 'db' is your MongoDB database instance
+        grid_out = fs.find_one({'filename': filename, 'user_id': current_user.user_id})
+
+        if grid_out:
+            # Read the file data from GridFS
+            response = make_response(grid_out.read())
+            # Set the MIME type to 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            response.mimetype = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            # Set the filename in the Content-Disposition header for downloading
+            response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+            return response
+        else:
+            # File not found in the database
+            abort(404, description="Presentation file not found")
+    else:
+        # Unauthorized access
+        abort(401, description="Unauthorized to access this presentation")
 
 @app.route('/list_pdfs', methods=['GET'])
 def list_pdfs():
