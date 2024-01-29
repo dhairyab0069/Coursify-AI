@@ -157,6 +157,24 @@ Sharing for pop-up when share button is clicked (In Progress) <br>
 
 <img width="1359" alt="Screenshot 2024-01-21 at 4 26 10 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/f78f7afd-2564-4ce0-a1bb-2bf6fb26e434">
 
+# Dates worked on: 21/01/2024 - 28/01/2024
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+<img width="1116" alt="Screenshot 2024-01-28 at 5 53 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/d26a8332-05d4-416f-a19d-5f5d642fa462">
+
+
+
+### Tasks:
+File preview (In Progress) <br>
+My Content Page Reorganisation (Completed) <br>
+Sharing for pop-up when share button is clicked (In Progress) <br>
+Review feature (In Progress) <br>
+
+<img width="1135" alt="Screenshot 2024-01-28 at 5 58 40 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/4849e5b4-0781-4cb7-978d-166d93f17f13">
+
+
 
 
 
