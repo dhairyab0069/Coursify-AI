@@ -14,6 +14,7 @@
 ### Tasks completed
 - Flask routes for the user to be able to change account deletails is now working, but I am currently deciding whether I should display the user's ID on the settings page, because it is the ID given by MongoDB and it cannot be changed.
 - The user is able to use the current password to successfully change to a new password, provided all the condiditions are met (the current password has to match with the password in the DB and the new password must match twice).
+  
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/0cc00802-5462-4bb7-ae16-53fcd19fb630)
 
 # Week T2 #2
