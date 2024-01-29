@@ -1,3 +1,21 @@
+# Week T2 #3
+## Date: 21/01/24 - 28/01/24
+### Vinu Ihalagamage - vinui409
+
+### Tasks worked on:
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/872cd379-1e1a-4d63-a156-511ed826b192)
+
+### Tasks in progress
+- Implementing flash messages to communicate with the user on the Settings page.
+- Creating a brand new feature, which is similar to the content generator, but for quizzes. 
+- Figuring out the best user interface for the Gerenate Quiz face
+- learning how to work with the chatGPT api to generate the quizzes based on the instructor's promt
+
+### Tasks completed
+- Flask routes for the user to be able to change account deletails is now working, but I am currently deciding whether I should display the user's ID on the settings page, because it is the ID given by MongoDB and it cannot be changed.
+- The user is able to use the current password to successfully change to a new password, provided all the condiditions are met (the current password has to match with the password in the DB and the new password must match twice).
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/0cc00802-5462-4bb7-ae16-53fcd19fb630)
+
 # Week T2 #2
 ## Date: 14/01/24 - 21-01-24
 ### Vinu Ihalagamage - vinui409
