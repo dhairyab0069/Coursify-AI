@@ -171,6 +171,7 @@ File preview (In Progress) <br>
 My Content Page Reorganisation (Completed) <br>
 Sharing for pop-up when share button is clicked (In Progress) <br>
 Review feature (In Progress) <br>
+Bug fix for linking content db with users db <br>
 
 <img width="1135" alt="Screenshot 2024-01-28 at 5 58 40 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/4849e5b4-0781-4cb7-978d-166d93f17f13">
 
