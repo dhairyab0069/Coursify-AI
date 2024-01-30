@@ -715,11 +715,12 @@ def submit_review():
     flash('Review submitted successfully.')
     return redirect(url_for('index'))
     
-@app.route('/reviews/<filename>')
+@app.route('/reviews')
 @login_required
-def reviews(filename):
-    slide_reviews = reviews_collection.find({"filename": filename})
-    return render_template('reviews.html', reviews=slide_reviews) 
+def reviews():
+    all_reviews = reviews_collection.find()
+    return render_template('reviews.html', reviews=all_reviews)
+ 
    
 
 @app.route("/chatbot", methods=["POST"])
