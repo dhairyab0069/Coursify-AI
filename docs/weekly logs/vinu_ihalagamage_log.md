@@ -2,7 +2,7 @@
 ## Date: 21/01/24 - 28/01/24
 ### Vinu Ihalagamage - vinui409
 
-#### Link to the branch with the code for Week 1 and Week 2 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0
+#### Link to the branch with code for Week 1 and Week 2 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0
 
 ### Tasks worked on:
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/872cd379-1e1a-4d63-a156-511ed826b192)
