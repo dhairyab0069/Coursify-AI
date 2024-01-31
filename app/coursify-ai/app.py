@@ -719,7 +719,7 @@ def submit_review():
     reviews_collection.insert_one(review)
 
     flash('Review submitted successfully.')
-    return 'Review'
+    return 'Review sent'
     
 @app.route('/reviews')
 @login_required
