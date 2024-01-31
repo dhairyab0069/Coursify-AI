@@ -1,17 +1,59 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Reviews</title>
-    <!-- Add your CSS here -->
-</head>
-<body>
-    <h1>Reviews</h1>
-    {% for review in reviews %}
-    <div class="review">
-        <h2>User: {{ review.user_id }}</h2>
-        <h3>Slide: {{ review.filename }}</h3>
-        <p>Review: {{ review.review_text }}</p>
-    </div>
-    {% endfor %}
-</body>
-</html>
+<html land="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reviews</title>
+
+        <!--icons-->
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylereview.css') }}">
+
+
+    </head>
+    <body>
+        <!--header design-->
+        <header class="header">
+            <div class="link_container">
+              <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+        </div>
+
+
+        <div class="link_container" >
+
+
+            <nav class="navbar" >
+              <div id ="sidebar"></div>
+              <a href="{{ url_for('index') }}" id = "home">HOME</a>
+              <a href="{{ url_for('content') }}" id = "content">MY CONTENT</a>
+              <a href="ai.html" id = "ai">AI ASSISTANT</a>
+              <a href="{{ url_for('reviews') }}">REVIEW</a>
+              <a href="settings.html" id = "settings">SETTINGS</a>
+              <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+                
+
+            </div>
+        </nav>
+        <i class='bx bx-menu'></i>
+        
+        </button>    
+        </header>
+        <section id="my-content">
+        <div class="content-header">
+            <h1 id = "title">Review Page</h1>
+          </div>
+        </section>
+        <div id="review_container">
+        <form id="review_form" action="/submit_review" method="post">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" placeholder="Write a Title"><br>
+            <label for="review_text">Review:</label><br>
+            <textarea id="review_text" name="review_text" rows="4" cols="50" placeholder="Write a Review"></textarea><br>
+            <input type="submit" value="Submit Review">
+        </form>
+        </div>
+        
+        <footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
+</html>    

@@ -705,15 +705,21 @@ def check_file(filename):
 @app.route('/submit_review', methods=['POST'])
 @login_required
 def submit_review():
-    file_id = request.form['file_id']
-    filename = request.form['filename']
+    title = request.form['title']
     review_text = request.form['review_text']
+    user_id = ObjectId(current_user.get_id())
+    
+    user_details = users_collection.find_one({"_id": user_id})
+    
+    if user_details is not None:
+        first_name = user_details.get('first_name')
+        last_name = user_details.get('last_name')
 
-    review = {"user_id": current_user.get_id(), "file_id": file_id, "filename": filename, "review_text": review_text}
+    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "title": title, "review_text": review_text}
     reviews_collection.insert_one(review)
 
     flash('Review submitted successfully.')
-    return redirect(url_for('index'))
+    return 'Review'
     
 @app.route('/reviews')
 @login_required
