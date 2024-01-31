@@ -38,6 +38,16 @@
     <section class="settings">
       <h1>Settings</h1>
       <div class="settings-container">
+
+        <div class="flash">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
         <!----------------------- LEFT HAND SIDE MENU BAR ------------------------------------------------>
         <!------------------------------------------------------------------------------------------------>
 
@@ -79,19 +89,19 @@
                 <label for="email">Email :</label>
                 <input type="email" id="email" name="email" value="{{ user.get('email', '') }}">
             </div>
-        
+            
             <!-- Profile Picture Upload-->
-            <!-- This part might need JavaScript to display an existing picture, if you store the URL/path of the profile picture -->
+            <!-- This part might need JavaScript to display an existing picture, if you store the URL/path of the profile picture 
             <div class="form-group">
                 <label for="profile-picture">Profile Picture :</label>
                 <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
-                <!-- Frame for the picture -->
+                
                 <div id="image-preview-frame">
                     <img id="profile-picture-preview" src="{{ user.get('profile_picture_url', '') }}" alt="Profile Picture Preview">
                     <div id="no-image-text" {% if user.get('profile_picture_url') %}style="display: none;"{% endif %}>No profile picture uploaded</div>
                 </div>
-            </div>
-        
+            </div>  -->
+            
             <!-- Save Button --> 
             <div class="form-group">
                 <button type="submit">Save Changes</button>
@@ -131,7 +141,7 @@
 
           <!----------------PREFERENCE SETTINGS FORM----------------------------------------------------------------->
           <!------------------------------------------------------------------------------------------------------->
-          <form id="preferences-settings-form" class="settings-form">
+          <form id="preferences-settings-form" class="settings-form" style="display: none">
             <!-- Save Previous Chats Checkbox -->
             <div class="form-group">
               <label for="save-chats">Save Previous Chats:</label>
@@ -216,40 +226,7 @@
             }
           });
 
-        /* Fetching user data (THIS MAY NOT BE NEEDED)
-        async function fetchUserData() {
-          try {
-            const token = localStorage.getItem("jwt");
-            if (!token) {
-              throw new Error("no JWT found");
-            }
-            const response = await fetch("/api/user/data", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
-          } catch (error) {
-            console.error("Could not fetch user data: ", error);
-          }
-        }
-
-        // Function to populate the settings form with fetched user data
-        function populateSettingsForm(userData) {
-          document.getElementById("firstname").value = userData.firstName || "";
-          document.getElementById("lastname").value = userData.lastName || "";
-          document.getElementById("email").value = userData.email || "";
-        }
-
-        const userData = await fetchUserData();
-        if (userData) {
-          populateSettingsForm(userData);
-        }
-        */
+        
         showForm("account-settings-form"); // show the Account Form by default when the page is open.
       });
     </script>
