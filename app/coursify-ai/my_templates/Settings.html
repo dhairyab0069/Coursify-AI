@@ -91,17 +91,17 @@
                 <input type="email" id="email" name="email" value="{{ user.get('email', '') }}">
             </div>
             
-            <!-- Profile Picture Upload-->
-            <!-- This part might need JavaScript to display an existing picture, if you store the URL/path of the profile picture 
-            <div class="form-group">
-                <label for="profile-picture">Profile Picture :</label>
-                <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
-                
-                <div id="image-preview-frame">
-                    <img id="profile-picture-preview" src="{{ user.get('profile_picture_url', '') }}" alt="Profile Picture Preview">
-                    <div id="no-image-text" {% if user.get('profile_picture_url') %}style="display: none;"{% endif %}>No profile picture uploaded</div>
-                </div>
-            </div>  -->
+                              <!-- Profile Picture Upload (might not be needed)-->
+                              <!-- This part might need JavaScript to display an existing picture, if you store the URL/path of the profile picture 
+                              <div class="form-group">
+                                  <label for="profile-picture">Profile Picture :</label>
+                                  <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+                                  
+                                  <div id="image-preview-frame">
+                                      <img id="profile-picture-preview" src="{{ user.get('profile_picture_url', '') }}" alt="Profile Picture Preview">
+                                      <div id="no-image-text" {% if user.get('profile_picture_url') %}style="display: none;"{% endif %}>No profile picture uploaded</div>
+                                  </div>
+                              </div>  -->
             
             <!-- Save Button --> 
             <div class="form-group">
@@ -162,9 +162,6 @@
     </section>
 
       
-
-
-
     <!-------------------------------------SCRIPT-------------------------------------------------------------------------------------->
     <!--------------------------------------------------------------------------------------------------------------------------------->
 
