@@ -81,6 +81,22 @@
                               />
                             </div>
                             <div class="form-group">
+                              <label for="format">Choose your format  :</label>
+                              <label>
+                                  <input type="radio" name="format" value="pdf" id="pdf"> PDF
+                              </label>
+                              <label>
+                                  <input type="radio" name="format" value="docx" id = "docx"> DOCX
+                              </label>
+                              <label>
+                                  <input type="radio" name="format" value="epub" id="epub"> EPUB
+                                  
+                              </label>
+                              <label>
+                                <input type="radio" name="format" value="slides" id="epub"> Slides
+                            </label>
+                          </div>
+                            <div class="form-group">
                               <label for="pdf-upload">Upload PDF: (Optional)</label>
                               <input
                                 type="file"
@@ -101,29 +117,29 @@
                     document.addEventListener("DOMContentLoaded", function () {
                       var form = document.getElementById("content-form");
                       var generateButton = document.getElementById("generate-button");
-                    
+                  
                       form.addEventListener("submit", function (e) {
                         e.preventDefault();
                         generateButton.innerHTML = "Generating...";
                         generateButton.disabled = true;
-                    
+                  
                         var formData = new FormData(form);
-                        fetch('/generate_pdf', {
+                        fetch('/generate_content', {  // Updated endpoint
                           method: 'POST',
                           body: formData
                         })
                         .then(response => response.json())
                         .then(data => {
-                          if(data.success) {
-                            // Update the generate button to a download link
-                            generateButton.innerHTML = "Download PDF";
+                          if (data.success) {
+                            var downloadLabel = formData.get('format') === 'pdf' ? 'Download PDF' : 'Download Slides';
+                            generateButton.innerHTML = downloadLabel;
                             generateButton.style.color = "green";
                             generateButton.onclick = function() {
-                              window.location.href = data.pdf_url; // URL of the generated PDF
+                              var fileUrl = formData.get('format') === 'pdf' ? data.pdf_url : data.pptx_url;
+                              window.location.href = fileUrl;  // URL of the generated file
                             };
                           } else {
-                            // Handle the case where PDF generation failed
-                            generateButton.innerHTML = "Failed to Generate PDF";
+                            generateButton.innerHTML = "Failed to Generate";
                             generateButton.style.color = "red";
                           }
                           generateButton.disabled = false;
@@ -136,7 +152,7 @@
                         });
                       });
                     });
-                    </script>
+                  </script>
                     
                     
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
