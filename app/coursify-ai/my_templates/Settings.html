@@ -37,14 +37,16 @@
 
     <section class="settings">
       <h1>Settings</h1>
+
+      <!-- Flash message -->
       {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <div id="flash">
-              <!-- This will display all messages joined by a space -->
-              {{ messages | join(' ') }}
-            </div>
-          {% endif %}
-        {% endwith %}
+        {% if messages %}
+          <div id="flash">
+            <!-- This will display all messages joined by a space -->
+            {{ messages | join(' ') }}
+          </div>
+        {% endif %}
+      {% endwith %}
 
       <div class="settings-container">
         <!----------------------- LEFT HAND SIDE MENU BAR ------------------------------------------------>
