@@ -95,7 +95,7 @@ def home():
     # Otherwise, show the homepage with login and register options
     return render_template('homepage.html')
 
-SENDGRID_API_KEY = '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'  
+#SENDGRID_API_KEY = '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'  
 
    
     # Registration Route
@@ -126,28 +126,28 @@ def register():
         token = serializer.dumps(email, salt='email-confirmation-salt')
 
         # Send verification email
-        confirm_url = url_for('confirm_email', token=token, _external=True)
-        subject = "Please confirm your email"
-        send_email(email, subject, confirm_url)
+       # confirm_url = url_for('confirm_email', token=token, _external=True)
+        #subject = "Please confirm your email"
+        #send_email(email, subject, confirm_url)
 
-        flash('A confirmation email has been sent.', 'success')
-        return redirect(url_for('login'))
+        #flash('A confirmation email has been sent.', 'success')
+        #return redirect(url_for('login'))
     return render_template('register.html')
 # Send Email Function
-def send_email(to_email, subject, confirm_url):
-    html_content = render_template('email_verification.html', confirm_url=confirm_url)
-    message = Mail(
-        from_email='your-email@example.com',  # Replace with your verified sender email
-        to_emails=to_email,
-        subject=subject,
-        html_content=html_content
-    )
-    try:
-        sg = SendGridAPIClient(SENDGRID_API_KEY)
-        response = sg.send(message)
-        print(f"Email sent with status code: {response.status_code}")
-    except Exception as e:
-        print(f"Error sending email: {e}")
+#def send_email(to_email, subject, confirm_url):
+   # html_content = render_template('email_verification.html', confirm_url=confirm_url)
+   # message = Mail(
+       # from_email='',  # Replace with your verified sender email
+       # to_emails=to_email,
+        #subject=subject,
+       # html_content=html_content
+    #)
+    #try:
+        #sg = SendGridAPIClient(SENDGRID_API_KEY)
+        #response = sg.send(message)
+       # print(f"Email sent with status code: {response.status_code}")
+    #except Exception as e:
+     #   print(f"Error sending email: {e}")
 
 # Email Confirmation Route
 @app.route('/confirm/<token>')
