@@ -54,8 +54,8 @@
     </div>
 
     <script>
-      var botImageUrl = "{{ url_for('static', filename='images/gpt.jpg') }}";
-      var userImageUrl = "{{ url_for('static', filename='images/user.png') }}";
+      var botImageUrl = "{{ url_for('static', filename='gpt.jpg') }}";
+      var userImageUrl = "{{ url_for('static', filename='user.png') }}";
   
       function saveChatHistory(message, sender) {
           let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
