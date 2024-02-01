@@ -443,7 +443,9 @@ button[type="submit"]:hover {
     font-size: 14px;
     cursor: pointer;
   }
-  
+
+
+
   .download-btn:hover {
     background-color: #555555;
   }
@@ -451,6 +453,9 @@ button[type="submit"]:hover {
   .share-btn:hover {
     background-color: #555555;
   } 
+  /* .delete-btn:hover {
+    background-color: #555555;
+  } */
   #shareForm {
     background-color: #fff;
     padding: 20px;

@@ -33,7 +33,7 @@
       <nav class="navbar">
         <div id="sidebar">
           <a href="{{ url_for('index') }}" id = "home">HOME</a>
-          <a href="{{ url_for('content') }}" id = "content">MY CONTENT</a>
+          <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
           <a href="ai.html" id = "ai">AI ASSISTANT</a>
           <a href="{{ url_for('reviews') }}">REVIEW</a>
           <a href="settings.html" id = "settings">SETTINGS</a>
@@ -144,6 +144,7 @@
         <div class="note-summary">Click download to view the PDF...</div>
         <a href="" id="downloadLink" class="download-btn">Download</a>
         <button onclick="showForm()" id="shareButton" class="share-btn">Share</button>
+
         <!-- <button onclick="showReviewForm(document.getElementById('reviewFileId').value, document.getElementById('reviewFilename').value)" id="reviewButton" class="review-btn">Review</button> -->
       </div> 
     </div>
@@ -179,6 +180,7 @@ function showDetails(id, filename) {
   document.getElementById('detailTitle').textContent = filename;
   document.getElementById('downloadLink').href = "{{ url_for('get_pdf', filename='') }}" + filename;
   document.getElementById('note-details').style.display = 'block';
+  document.getElementById('deleteForm').action = '/delete/' + id;
 }
 
 function showForm() {
