@@ -238,7 +238,7 @@ def update_account_settings():
 
         if updates:
             users_collection.update_one({"_id":ObjectId(user_id)}, {"$set":updates})
-            flash('Your account has been updated successfully.')
+            flash('Your account has been updated successfully')
         else:
             flash('No changes were made to your account.')
 
