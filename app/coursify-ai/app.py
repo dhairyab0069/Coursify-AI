@@ -726,6 +726,17 @@ def submit_review():
 def reviews():
     all_reviews = reviews_collection.find()
     return render_template('reviews.html', reviews=all_reviews)
+
+@app.route('/delete/<file_id>', methods=['POST'])
+def delete_file(file_id):
+    # Convert the file_id to an ObjectId
+    file_id = ObjectId(file_id)
+
+    # Delete the file from GridFS
+    fs.delete(file_id)
+
+    # Redirect the user to the content page
+    return redirect(url_for('my_content'))
  
    
 
