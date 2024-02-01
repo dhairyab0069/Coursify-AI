@@ -444,8 +444,28 @@ button[type="submit"]:hover {
     cursor: pointer;
   }
 
+.delete-btn{
+    width: 202px;
+    height: 40px; 
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 36%;
+    margin-top: 1rem;
+    margin-right: 36%;
 
+}
+#deleteForm button{
+    background-color: #333;
+    font-size: 14px;
+    color: red;
+}
 
+#deleteForm button:hover{
+    background-color: #555555;
+}
   .download-btn:hover {
     background-color: #555555;
   }
@@ -453,9 +473,7 @@ button[type="submit"]:hover {
   .share-btn:hover {
     background-color: #555555;
   } 
-  /* .delete-btn:hover {
-    background-color: #555555;
-  } */
+
   #shareForm {
     background-color: #fff;
     padding: 20px;
