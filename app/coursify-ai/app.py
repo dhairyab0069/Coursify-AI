@@ -56,8 +56,10 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 client = MongoClient('mongodb+srv://Remy:1234@cluster0.vgzdbrr.mongodb.net/')
 db = client['new_pdfs']
 db2=client['Login_details']
+db3=client['reviews']
 fs = GridFS(db)
 users_collection=db2.users
+reviews_collection=db3.reviews
 
 app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
 app.config['MAIL_PORT'] = 587
@@ -333,7 +335,7 @@ def my_content():
  if current_user.is_authenticated:
     fs=GridFS(db)
     # Get a list of all files in GridFS
-    files = fs.find().sort("_id",-1)
+    files = fs.find({"user_id": current_user.get_id()}).sort("_id",-1)
 
     # Create a list to store file data
     file_data = []
@@ -346,9 +348,9 @@ def my_content():
     # Render a template and pass the file data to it
     return render_template('content.html', file_data=file_data)
 
-@app.route('/content')
-def content():
-    return render_template('content.html')
+# @app.route('/content')
+# def content():
+#     return render_template('content.html')
 
 
 
@@ -800,6 +802,32 @@ def check_file(filename):
     except:
         return jsonify(success=False, message="File does not exist in the database.")
     
+@app.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review():
+    title = request.form['title']
+    review_text = request.form['review_text']
+    user_id = ObjectId(current_user.get_id())
+    
+    user_details = users_collection.find_one({"_id": user_id})
+    
+    if user_details is not None:
+        first_name = user_details.get('first_name')
+        last_name = user_details.get('last_name')
+
+    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "title": title, "review_text": review_text}
+    reviews_collection.insert_one(review)
+
+    flash('Review submitted successfully.')
+    return 'Review sent'
+    
+@app.route('/reviews')
+@login_required
+def reviews():
+    all_reviews = reviews_collection.find()
+    return render_template('reviews.html', reviews=all_reviews)
+ 
+   
 
 @app.route("/chatbot", methods=["POST"])
 def chatbot():

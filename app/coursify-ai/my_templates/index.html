@@ -26,11 +26,13 @@
 
             <nav class="navbar" >
               <div id ="sidebar"></div>
-                <a href="{{ url_for('index') }}" id = "home">HOME</a>
-                <a href="{{ url_for('content') }}" id = "content">MY CONTENT</a>
-                <a href="{{ url_for('settings_html') }}" id = "settings">SETTINGS</a>
-                <a href="#" id = "ai">AI ASSISTANT</a>
-                <a href="#" id="logout">LOGOUT</a>
+              <a href="{{ url_for('index') }}" id = "home">HOME</a>
+              <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
+              <a href="ai.html" id = "ai">AI ASSISTANT</a>
+              <a href="{{ url_for('reviews') }}">REVIEW</a>
+              <a href="settings.html" id = "settings">SETTINGS</a>
+              <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+                
 
             </div>
         </nav>
@@ -79,22 +81,6 @@
                               />
                             </div>
                             <div class="form-group">
-                              <label for="format">Choose your format  :</label>
-                              <label>
-                                  <input type="radio" name="format" value="pdf" id="pdf"> PDF
-                              </label>
-                              <label>
-                                  <input type="radio" name="format" value="docx" id = "docx"> DOCX
-                              </label>
-                              <label>
-                                  <input type="radio" name="format" value="epub" id="epub"> EPUB
-                                  
-                              </label>
-                              <label>
-                                <input type="radio" name="format" value="slides" id="epub"> Slides
-                            </label>
-                          </div>
-                            <div class="form-group">
                               <label for="pdf-upload">Upload PDF: (Optional)</label>
                               <input
                                 type="file"
@@ -115,29 +101,29 @@
                     document.addEventListener("DOMContentLoaded", function () {
                       var form = document.getElementById("content-form");
                       var generateButton = document.getElementById("generate-button");
-                  
+                    
                       form.addEventListener("submit", function (e) {
                         e.preventDefault();
                         generateButton.innerHTML = "Generating...";
                         generateButton.disabled = true;
-                  
+                    
                         var formData = new FormData(form);
-                        fetch('/generate_content', {  // Updated endpoint
+                        fetch('/generate_pdf', {
                           method: 'POST',
                           body: formData
                         })
                         .then(response => response.json())
                         .then(data => {
-                          if (data.success) {
-                            var downloadLabel = formData.get('format') === 'pdf' ? 'Download PDF' : 'Download Slides';
-                            generateButton.innerHTML = downloadLabel;
+                          if(data.success) {
+                            // Update the generate button to a download link
+                            generateButton.innerHTML = "Download PDF";
                             generateButton.style.color = "green";
                             generateButton.onclick = function() {
-                              var fileUrl = formData.get('format') === 'pdf' ? data.pdf_url : data.pptx_url;
-                              window.location.href = fileUrl;  // URL of the generated file
+                              window.location.href = data.pdf_url; // URL of the generated PDF
                             };
                           } else {
-                            generateButton.innerHTML = "Failed to Generate";
+                            // Handle the case where PDF generation failed
+                            generateButton.innerHTML = "Failed to Generate PDF";
                             generateButton.style.color = "red";
                           }
                           generateButton.disabled = false;
@@ -150,7 +136,7 @@
                         });
                       });
                     });
-                  </script>
+                    </script>
                     
                     
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
