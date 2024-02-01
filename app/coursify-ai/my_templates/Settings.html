@@ -37,17 +37,16 @@
 
     <section class="settings">
       <h1>Settings</h1>
-      <div class="settings-container">
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div id="flash">
+              <!-- This will display all messages joined by a space -->
+              {{ messages | join(' ') }}
+            </div>
+          {% endif %}
+        {% endwith %}
 
-        <div class="flash">
-          {% with messages = get_flashed_messages() %}
-            {% if messages %}
-              {% for message in messages %}
-                <div class="alert alert-info">{{ message }}</div>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
-        </div>
+      <div class="settings-container">
         <!----------------------- LEFT HAND SIDE MENU BAR ------------------------------------------------>
         <!------------------------------------------------------------------------------------------------>
 
@@ -160,12 +159,24 @@
       </div>
     </section>
 
+      
+
+
+
     <!-------------------------------------SCRIPT-------------------------------------------------------------------------------------->
     <!--------------------------------------------------------------------------------------------------------------------------------->
 
     <script>
       //DOMContent - sets up an event listner that waits for the entire HTML document to be fully loaded before running the fucntion
       document.addEventListener("DOMContentLoaded", async function () {
+
+        //Display the flash message
+        const flashMessage = document.getElementById('flash');
+        if (flashMessage) {
+          // make it dissapear
+          setTimeout(() => { flashMessage.style.display = 'none';}, 4000); // 4 seconds
+        }
+      
         //This function first hides all of the forms inside of setting-form class by setting the display to none.
         function showForm(formID) {
           document.querySelectorAll(".settings-form").forEach(function (form) {
@@ -177,41 +188,32 @@
 
         //This function first removes the "selected" class from all links in the 'settings-list'
         function selectedLink(selectedLinkID) {
-          document
-            .querySelectorAll(".settings-list a")
-            .forEach(function (link) {
+          document.querySelectorAll(".settings-list a").forEach(function (link) {
               link.classList.remove("selected");
-            });
+          });
           //Then it adds the 'selected' class to the link with the SelectedLinkID
           document.getElementById(selectedLinkID).classList.add("selected");
         }
         ///// passes the settings id that is cliked to the functions///////////////////////////////////////////
-        document
-          .getElementById("account-settings-link")
-          .addEventListener("click", function () {
-            showForm("account-settings-form");
-            selectedLink("account-settings-link");
-          });
+        document.getElementById("account-settings-link").addEventListener("click", function () {
+          showForm("account-settings-form");
+          selectedLink("account-settings-link");
+        });
 
-        document
-          .getElementById("password-settings-link")
-          .addEventListener("click", function () {
-            showForm("password-settings-form");
-            selectedLink("password-settings-link");
-          });
+        document.getElementById("password-settings-link").addEventListener("click", function () {
+          showForm("password-settings-form");
+          selectedLink("password-settings-link");
+        });
 
-        document
-          .getElementById("preferences-settings-link")
-          .addEventListener("click", function () {
-            showForm("preferences-settings-form");
-            selectedLink("preferences-settings-link");
-          });
+        document.getElementById("preferences-settings-link").addEventListener("click", function () {
+          showForm("preferences-settings-form");
+          selectedLink("preferences-settings-link");
+        });
 
         //selects the HTML element with the ID "profile picture", which is the file input by the user.
         //Event listner looks for a change, then calls the function.
-        document
-          .getElementById("profile-picture")
-          .addEventListener("change", function (event) {
+        
+        document.getElementById("profile-picture").addEventListener("change", function (event) {
             //constant for the file chosen by the user
             const [file] = event.target.files;
             //if the file was selected
@@ -224,9 +226,8 @@
               preview.style.display = "block";
               document.getElementById("no-image-text").style.display = "none";
             }
-          });
+        });
 
-        
         showForm("account-settings-form"); // show the Account Form by default when the page is open.
       });
     </script>

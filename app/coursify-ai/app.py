@@ -245,8 +245,7 @@ def update_account_settings():
     else:
         flash('User not found.')
         return redirect(url_for('settings_html'))
-    
-    flash('your account is updated')
+
     return redirect(url_for('settings_html'))
 
 @app.route('/change_password', methods=['POST'])

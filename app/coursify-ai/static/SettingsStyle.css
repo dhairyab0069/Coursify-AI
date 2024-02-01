@@ -365,7 +365,7 @@ button[type="submit"]:hover {
   display: none;
 }
 
-.flash{
+#flash{
   position:fixed;
   bottom: 0; 
   right:0;
@@ -376,6 +376,5 @@ button[type="submit"]:hover {
   color: white;
   font-weight: bold;
   z-index: 1000;
-  display: none;
 }
 
