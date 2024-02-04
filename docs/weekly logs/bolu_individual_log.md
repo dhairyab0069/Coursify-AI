@@ -184,6 +184,35 @@ Bug fix for linking content db with users db <br>
 
 <img width="1135" alt="Screenshot 2024-01-28 at 5 58 40 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/4849e5b4-0781-4cb7-978d-166d93f17f13">
 
+# Dates worked on: 28/01/2024 - 04/02/2024
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+Link to the branch for this week: [
+](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0) and [
+](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-review) and 
+[
+](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-delete)
+
+![Screenshot 2024-02-04 at 2 38 06 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/2114b17c-b682-4888-9c3e-23fc07b874a7)
+
+
+
+
+### Tasks:
+File preview (In Progress) <br>
+My Content Page Reorganisation (Completed) <br>
+Sharing for pop-up when share button is clicked (In Progress) <br>
+Review feature (Completed) <br>
+Design for review feature (In Progress) <br>
+Bug fix for linking content db with users db (Completed) <br>
+Delete feature (Completed) <br>
+
+![Screenshot 2024-02-04 at 2 41 52 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/9a20f6c6-d581-477a-ba3d-b889861bc6ab)
+
+
+
 
 
 
