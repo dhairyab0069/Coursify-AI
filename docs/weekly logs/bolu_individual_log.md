@@ -167,9 +167,7 @@ Sharing for pop-up when share button is clicked (In Progress) <br>
 ## Name: Bolu Yomi-Adeyemi
 ## Username: boluya
 
-Link to the branch for this week: [
-](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0) and [
-](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-review)
+Link to the branch for this week: (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0) and (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-review)
 
 <img width="1116" alt="Screenshot 2024-01-28 at 5 53 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/d26a8332-05d4-416f-a19d-5f5d642fa462">
 
@@ -189,11 +187,7 @@ Bug fix for linking content db with users db <br>
 ## Name: Bolu Yomi-Adeyemi
 ## Username: boluya
 
-Link to the branch for this week: [
-](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0) and [
-](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-review) and 
-[
-](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-delete)
+Link to the branch for this week: (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0) and (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-review) and (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-delete)
 
 ![Screenshot 2024-02-04 at 2 38 06 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/2114b17c-b682-4888-9c3e-23fc07b874a7)
 
