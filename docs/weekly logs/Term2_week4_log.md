@@ -61,4 +61,8 @@ Login and registration (completed)
 ## Kanban Board
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/10c83afe-1b70-4b4e-b33f-b8b5c3c91082)
 
+## Settings Page Test Report
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/e17e3441-e630-4a9b-9655-c985386aaff3)
+
+
 
