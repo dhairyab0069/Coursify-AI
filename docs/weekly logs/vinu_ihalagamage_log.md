@@ -13,7 +13,7 @@
 - Learning about using the Chat GPT AI
 - Fixing Test Case 5, the change password function, which passes when manuel testing, but fails when conducting automated testing.
 
-- Automated test report (the cases that are supposed to fail are marked "should_fail" )
+### Automated test report (the cases that are supposed to fail are marked "should_fail" )
 
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/bde1c697-ec3a-47f7-a2dd-703fa96a0d22)
 
