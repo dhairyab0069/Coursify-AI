@@ -224,4 +224,22 @@ Tasks in progress: Training Chat bot. Preparing instructions and reading the API
 
 
 
+# Individual Log Week T2 W4 - Harsimar Singh (Code pushed to branch V2.0-AI)
+## Date: 1/21/24 - 1/28/24
+(Code pushed to branch V2.0-AI)
+### Tasks worked on: 
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/e3dc075f-cb62-4d7f-80c3-48da4babb298)
+
+
+### Tasks in progress
+- Update the UI of the website
+- Work on Peer test reviews
+
+### Tasks Completed
+- Chats saved locally for Users 
+- Clear chat function to remove chat
+
+ ![2](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/b09c4900-ce39-46b9-9cb9-e151346a78f7)
+
+
 
