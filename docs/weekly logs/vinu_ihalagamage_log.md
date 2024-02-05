@@ -1,4 +1,4 @@
-# Week T2 #3
+# Week T2 #4
 ## Date: 28/01/24 - 04/02/2024
 ### Vinu Ihalagamage - vinui409
 
@@ -13,7 +13,7 @@
 - Learning about using the Chat GPT AI
 - Fixing Test Case 5, the change password function, which passes when manuel testing, but fails when conducting automated testing.
 
-- Automated tests (the cases that are supposed to fail are marked "should_fail" )
+- Automated test report (the cases that are supposed to fail are marked "should_fail" )
 
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/bde1c697-ec3a-47f7-a2dd-703fa96a0d22)
 
@@ -23,6 +23,7 @@
 - Implementing flash messages to communicate with the user on the settings page
 - Testing the appearence of the flash messages according to tasks completed by the user
 
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/5eb92e55-b40d-46c5-85fe-0589d2329835)
 
 
 # Week T2 #3
