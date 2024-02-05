@@ -1,4 +1,31 @@
 # Week T2 #3
+## Date: 28/01/24 - 04/02/2024
+### Vinu Ihalagamage - vinui409
+
+#### Link to the branch with code for Week 4 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-Settings
+
+### Tasks worked on 
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/b1ff3e0e-1807-46de-aa3e-d3894f573eec)
+
+### Tasks in progress 
+- Creating a brand new feature, which is similar to the content generator, but for quizzer.
+- Learning about using the Chat GPT AI
+- Fixing Test Case 5, the change password function, which passes when manuel testing, but fails when conducting automated testing.
+
+- Automated tests (the cases that are supposed to fail are marked "should_fail" )
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/bde1c697-ec3a-47f7-a2dd-703fa96a0d22)
+
+### Tasks completed
+- Testing the navigation to the settings page
+- Testing changing account details
+- Implementing flash messages to communicate with the user on the settings page
+- Testing the appearence of the flash messages according to tasks completed by the user
+
+
+
+# Week T2 #3
 ## Date: 21/01/24 - 28/01/24
 ### Vinu Ihalagamage - vinui409
 
