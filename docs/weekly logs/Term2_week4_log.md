@@ -57,11 +57,10 @@ Login and registration (completed)
 
 
 ## Burnup Chart
-
-
-
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/bc9c1d7c-bc8b-4226-a026-2d2942844c9c)
 
 
 ## Kanban Board
-![Screenshot 2024-01-28 at 11 39 33 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/3353d84a-364d-48b1-8292-393053da3e38)
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/10c83afe-1b70-4b4e-b33f-b8b5c3c91082)
+
 
