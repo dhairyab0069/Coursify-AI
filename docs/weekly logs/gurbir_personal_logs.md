@@ -125,6 +125,7 @@ Bug fixes regarding registration and login routes
 Editing Database ER design to incoporate more fields and connecting the generated files with usernames.
 
 
+# T2-W2+W3 Logs
 ### Date:
 21/01/2023- 04/02/2023
 
