@@ -264,6 +264,13 @@ button[type="submit"]:hover {
   background-color: transparent;
   border-radius: 28px;
 }
+#password-settings-form {
+  max-width: 800px;
+  margin: 0 auto; /* Center the form */
+  padding: 30px;
+  background-color: transparent;
+  border-radius: 28px;
+}
 /* text fields on the side of the item name rather than under */
 .form-group {
   font-size: 18px;
