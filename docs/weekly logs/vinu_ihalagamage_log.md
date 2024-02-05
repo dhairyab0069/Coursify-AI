@@ -1,11 +1,42 @@
+# Week T2 #4
+## Date: 28/01/24 - 04/02/2024
+### Vinu Ihalagamage - vinui409
+
+#### Link to the branch with code for Week 4 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-Settings
+#### Last commit to the branch v2.0-Setting : "testing bug fix / report" : 1ecc16066850010d02d67b2a51366d0f39c81766
+
+### Tasks worked on 
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/b1ff3e0e-1807-46de-aa3e-d3894f573eec)
+
+### Tasks in progress 
+- Creating a brand new feature, which is similar to the content generator, but for quizzes.
+- Learning about using the Chat GPT AI
+- Fixing Test Case 5, the change password function, which passes when manuel testing, but fails when conducting automated testing.
+
+### Automated test report (the cases that are supposed to fail are marked "should_fail" )
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/bde1c697-ec3a-47f7-a2dd-703fa96a0d22)
+
+### Tasks completed
+- Testing the navigation to the settings page
+- Testing changing account details
+- Implementing flash messages to communicate with the user on the settings page
+- Testing the appearence of the flash messages according to tasks completed by the user
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/5eb92e55-b40d-46c5-85fe-0589d2329835)
+
+
 # Week T2 #3
 ## Date: 21/01/24 - 28/01/24
 ### Vinu Ihalagamage - vinui409
 
+#### Link to the branch with code for Week 1 and Week 2 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0
+
 ### Tasks worked on:
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/872cd379-1e1a-4d63-a156-511ed826b192)
 
-### Tasks in progress
+### Tasks in progress - 
 - Implementing flash messages to communicate with the user on the Settings page.
 - Creating a brand new feature, which is similar to the content generator, but for quizzes. 
 - Figuring out the best user interface for the Gerenate Quiz face

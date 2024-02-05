@@ -133,6 +133,8 @@ Completed the UI section of Design Document (Completed) <br>
 ## Name: Bolu Yomi-Adeyemi
 ## Username: boluya
 
+Link to the branch this week: [  ](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/DashboardHome)
+
 <img width="1071" alt="Screenshot 2024-01-14 at 6 41 09 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/42e560b3-5e91-4764-bf3e-29921804c71e">
 
 ### Tasks:
@@ -146,6 +148,9 @@ My Content Page reorganisation (In Progress) <br>
 
 ## Name: Bolu Yomi-Adeyemi
 ## Username: boluya
+
+Link to the branch this week:[  ](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/DashboardHome)and [
+](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0)
 
 <img width="1102" alt="Screenshot 2024-01-21 at 4 23 23 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/50a85957-8515-4200-8e39-d600bcd17e0b">
 
@@ -162,6 +167,8 @@ Sharing for pop-up when share button is clicked (In Progress) <br>
 ## Name: Bolu Yomi-Adeyemi
 ## Username: boluya
 
+Link to the branch for this week: (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0) and (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-review)
+
 <img width="1116" alt="Screenshot 2024-01-28 at 5 53 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/d26a8332-05d4-416f-a19d-5f5d642fa462">
 
 
@@ -174,6 +181,31 @@ Review feature (In Progress) <br>
 Bug fix for linking content db with users db <br>
 
 <img width="1135" alt="Screenshot 2024-01-28 at 5 58 40 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/4849e5b4-0781-4cb7-978d-166d93f17f13">
+
+# Dates worked on: 28/01/2024 - 04/02/2024
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+Link to the branch for this week: (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0) and (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-review) and (https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-delete)
+
+![Screenshot 2024-02-04 at 2 38 06 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/2114b17c-b682-4888-9c3e-23fc07b874a7)
+
+
+
+
+### Tasks:
+File preview (In Progress) <br>
+My Content Page Reorganisation (Completed) <br>
+Sharing for pop-up when share button is clicked (In Progress) <br>
+Review feature (Completed) <br>
+Design for review feature (In Progress) <br>
+Bug fix for linking content db with users db (Completed) <br>
+Delete feature (Completed) <br>
+
+![Screenshot 2024-02-04 at 2 41 52 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/9a20f6c6-d581-477a-ba3d-b889861bc6ab)
+
+
 
 
 

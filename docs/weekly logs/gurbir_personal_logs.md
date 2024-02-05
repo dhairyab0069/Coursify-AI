@@ -125,5 +125,27 @@ Bug fixes regarding registration and login routes
 Editing Database ER design to incoporate more fields and connecting the generated files with usernames.
 
 
+# T2-W2+W3 Logs
+### Date:
+21/01/2023- 04/02/2023
+
+### Github Username:
+# Gurbir Amrit- gurbirRemy
+
+<img width="1064" alt="Screenshot 2024-02-04 at 10 48 48 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/a89c9009-59e0-4313-8d7f-c06da34a41ee">
+
+<img width="1146" alt="Screenshot 2024-02-04 at 10 50 03 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/0c72525a-2c6b-437a-bf28-b4f7c8741464">
+
+In progress
+generating questionnaire for peer testing 
+selenium testing for login and registration 
+
+Completed
+Email verification with sendgrid
+Login and registration 
+
+Note: I was participating in BCHACKS 5.0 the past week( Won first place) and was down with fever 3 days after that, therefore was not able to complete my features last week as expected. 
+
+
 
 
