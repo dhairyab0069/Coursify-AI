@@ -1,7 +1,7 @@
 # Team 16
 
 ### Date:
-> 21/01/24 - 28/01/24
+> 28/01/24 - 02/04/2024
 
 ### Usernames:
 > Gurbir Amrit - gurbirRemy <br>
@@ -20,8 +20,6 @@ Testing <br>
 Email Verification <br>
 Review Feature <br>
 Language Translation <br>
-
-
 
 ## Tasks
 Dhairya: Worked on testing for content generation (in progress)
