@@ -3,6 +3,7 @@
 ### Vinu Ihalagamage - vinui409
 
 #### Link to the branch with code for Week 4 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-Settings
+#### Last commit to the branch v2.0-Setting : "testing bug fix / report" : 1ecc16066850010d02d67b2a51366d0f39c81766
 
 ### Tasks worked on 
 
