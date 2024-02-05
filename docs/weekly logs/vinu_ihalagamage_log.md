@@ -10,7 +10,7 @@
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/b1ff3e0e-1807-46de-aa3e-d3894f573eec)
 
 ### Tasks in progress 
-- Creating a brand new feature, which is similar to the content generator, but for quizzer.
+- Creating a brand new feature, which is similar to the content generator, but for quizzes.
 - Learning about using the Chat GPT AI
 - Fixing Test Case 5, the change password function, which passes when manuel testing, but fails when conducting automated testing.
 
