@@ -486,7 +486,7 @@ def content(prompt, length):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are a content generation tool. Give as much accurate information as you are supposed to giv e and follow the instruction in the prompt."},
                 {"role": "user", "content": prompt}
             ]
         )
@@ -499,7 +499,7 @@ def call_openai_api(prompt):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are a content generation tool. Give as much accurate information as you are supposed to giv e and follow the instruction in the prompt."},
                 {"role": "user", "content": prompt}
             ]
         )
@@ -671,7 +671,8 @@ def generate_pdf(prompt, length, difficulty):
     # Respond with the URL of the PDF
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
-def generate_slides(prompt, length, difficulty):
+def generate_slides(prompt, length, difficulty,):
+    # Directory where the presentations will be saved
     pptx_directory = os.path.join(os.getcwd(), 'presentations')
     if not os.path.exists(pptx_directory):
         os.makedirs(pptx_directory)
@@ -703,32 +704,42 @@ def generate_slides(prompt, length, difficulty):
     for line in toc.split('\n'):
         p = tf.add_paragraph()
         p.text = line
-        p.level = 0 if line.isupper() else 1  # Main topic or subtopic
+        p.level = 0 if line.isupper() else 1
 
-    # Create slides for each topic
-    # (this part would be similar to how you handled topics in your PDF generation)
-        if line.isupper():  # Check if the line is a main topic
+    # Generate and add content for each section
+    for line in toc.split('\n'):
+        if line.strip():  # Check if line is not empty
+            # Generate content for the section
+            section_content = call_openai_api(f"Explain {line.strip()} in detail.")
+
+            # Add a new slide for the section
             slide = prs.slides.add_slide(slide_layout)
             title = slide.shapes.title
-            title.text = line  # Set the title for the slide
+            title.text = line.strip()
 
-            # Log the creation of the slide
-            print(f"Slide created for topic: {line}")
+            # Add generated content to the slide
+            content_box = slide.placeholders[1]
+            tf = content_box.text_frame
+            tf.text = section_content  # This sets the initial paragraph
+            # For more complex formatting, you can add more paragraphs or format this one
+            print("Topic done")
 
-    # Save the presentation
     pptx_path = os.path.join(pptx_directory, pptx_filename)
     prs.save(pptx_path)
-    
+
+
 
     if current_user.is_authenticated:
         fs = GridFS(db)
         with open(pptx_path, 'rb') as pptx_file:
             fs.put(pptx_file, filename=pptx_filename, user_id=current_user.user_id)
 
+   
+
     # Respond with the URL of the presentation
-    pptx_url = url_for('get_presentation', filename=pptx_filename, _external=True)
-    print(pptx_url)
+    pptx_url = url_for('get_presentation', filename=pptx_filename)
     return jsonify(success=True, pptx_url=pptx_url)
+
 
 
 
