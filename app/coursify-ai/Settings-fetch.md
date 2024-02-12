@@ -94,3 +94,30 @@ email = request.form.get('email')
     2. have the user do email carification.
 
 5. Change password
+
+
+
+######################################################################
+
+#HOMEPAGE_URL = "http://127.0.0.1:5000" put this at the top if needed
+
+#   Logging through the homepage.html
+#def test_homepage(browser):
+#    browser.get(MAIN_PAGE_URL)
+#    chose_login = WebDriverWait(browser,10).until(
+#        EC.element_to_be_clickable((By.LINK_TEXT, "Login"))
+#    )
+     
+#    chose_login.click()
+     
+#    try:
+        # Adjust the selector to match an element present only when logged in
+#        email_present = WebDriverWait(browser, 10).until(
+#            EC.presence_of_element_located((By.ID, "email"))
+#        )
+        # If the above line does not throw an exception, the login is considered successful
+#        assert email_present, "Found the Login option!"
+#    except TimeoutException:
+#        assert False, "Did not find the Login in option"  # For real tests, this could raise an exception or fail the test
+
+#Reusable function to perform the login action

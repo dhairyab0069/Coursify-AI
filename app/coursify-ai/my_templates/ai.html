@@ -20,11 +20,12 @@
       </div>
 
       <nav class="navbar">
-        <a href="{{ url_for('index') }}" id="home">HOME</a>
-        <a href="{{ url_for('content') }}" id="content">MY CONTENT</a>
-        <a href="settings.html" id="settings">SETTINGS</a>
-        <a href="ai.html" id="ai-assistant">AI ASSISTANT</a>
-        <a href="#" id="logout">LOGOUT</a>
+        <a href="{{ url_for('index') }}" id = "home">HOME</a>
+        <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
+        <a href="ai.html" id = "ai">AI ASSISTANT</a>
+        <a href="{{ url_for('reviews') }}">REVIEW</a>
+        <a href="settings.html" id = "settings">SETTINGS</a>
+        <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
       </nav>
       <i class="bx bx-menu"></i>
     </header>
@@ -48,6 +49,7 @@
             placeholder="Type your message here..."
           />
           <button id="send-button">Send</button>
+          <button id="clear-chat-button">Clear</button>
         </div>
       </div>
     </div>
@@ -55,70 +57,100 @@
     <script>
       var botImageUrl = "{{ url_for('static', filename='gpt.jpg') }}";
       var userImageUrl = "{{ url_for('static', filename='user.png') }}";
-
+  
+      function saveChatHistory(message, sender) {
+          let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+          chatHistory.push({ message, sender });
+          localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+      }
+  
+      function loadChatHistory() {
+          let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+          chatHistory.forEach(chat => {
+              displayMessage(chat.message, chat.sender);
+          });
+      }
+  
       function displayMessage(message, sender, isTypingIndicator = false) {
-                        let chatBox = document.getElementById('chat-box');
-                        let messageDiv = document.createElement('div');
-
-                        
-                        messageDiv.classList.add('message', sender === 'bot' ? 'bot-message' : 'user-message');
-                        if (isTypingIndicator) {
-                            messageDiv.classList.add('typing-indicator');
-                        }
-
-                        let imageUrl = sender === 'bot' ? botImageUrl : userImageUrl;
-                        messageDiv.innerHTML = `<img src="${imageUrl}" class="icon"> <p>${message}</p>`;
-                        chatBox.appendChild(messageDiv);
-                        chatBox.scrollTop = chatBox.scrollHeight;
-                    }
-
-      document
-        .getElementById("send-button")
-        .addEventListener("click", function () {
-          let message = document.getElementById("message-input").value;
-          if (message) {
-            displayMessage(message, "user");
-            displayMessage("AI is typing...", 'bot', true);
-
-
-            fetch("/api/chat", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ message: message }),
-            })
-              .then((response) => {
-                let typingIndicator = document.querySelector('.typing-indicator');
-                        if (typingIndicator) {
-                            typingIndicator.remove();
-                        }
-                console.log("Raw response:", response); // Debugging log
-                return response.json();
-              })
-              .then((data) => {
-                console.log("Parsed data:", data); // Debugging log
-                if (data.reply) {
-                  displayMessage(data.reply, "bot");
-                } else {
-                  console.log("No reply received:", data);
-                }
-              })
-              .catch((error) => console.error("Fetch error:", error));
+          let chatBox = document.getElementById('chat-box');
+          let messageDiv = document.createElement('div');
+                          
+          messageDiv.classList.add('message', sender === 'bot' ? 'bot-message' : 'user-message');
+          if (isTypingIndicator) {
+              messageDiv.classList.add('typing-indicator');
           }
-          document.getElementById("message-input").value = "";
-        });
-
-      window.onload = function () {
-        displayMessage("How can I help you today?", "bot");
+  
+          let imageUrl = sender === 'bot' ? botImageUrl : userImageUrl;
+          messageDiv.innerHTML = `<img src="${imageUrl}" class="icon"> <p>${message}</p>`;
+          chatBox.appendChild(messageDiv);
+          chatBox.scrollTop = chatBox.scrollHeight;
+      }
+  
+      window.onload = function() {
+          loadChatHistory();
+          displayMessage("How can I help you today?", 'bot');
       };
-
-      document.getElementById('message-input').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        document.getElementById('send-button').click(); 
-    }
-});
-    </script>
+  
+      document.getElementById('send-button').addEventListener('click', function() {
+          
+      document.getElementById('typing-indicator').style.display = 'none';
+          let message = document.getElementById('message-input').value;
+          if (message) {
+              displayMessage(message, 'user');
+              saveChatHistory(message, 'user');
+              displayMessage("AI is typing...", 'bot', true);
+  
+  
+                  fetch('/api/chat', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ message: message })
+                  })
+                  .then(response => {
+                      let typingIndicator = document.querySelector('.typing-indicator');
+                          if (typingIndicator) {
+                              typingIndicator.remove();
+                          }
+                      console.log("Raw response:", response);  
+                      return response.json();
+                  })
+                  .then(data => {
+                      console.log("Parsed data:", data);  
+                      if (data.reply) {
+                          
+                          displayMessage(data.reply, 'bot');
+                          saveChatHistory(data.reply, 'bot');
+                      } else {
+                          console.log("No reply received:", data);
+                      }
+                  })
+                  .catch(error => console.error('Fetch error:', error));
+              }
+              document.getElementById('message-input').value = '';
+          });
+  
+  
+          document.getElementById('message-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('send-button').click(); 
+      }
+  });
+  
+  
+  function clearChatHistory() {
+      document.getElementById('chat-box').innerHTML = '';
+      localStorage.removeItem('chatHistory');
+      displayMessage("How can I help you today?", 'bot');
+  }
+  
+  document.getElementById('clear-chat-button').addEventListener('click', function() {
+      clearChatHistory();
+  });
+  
+  
+      </script>
   </body>
 </html>

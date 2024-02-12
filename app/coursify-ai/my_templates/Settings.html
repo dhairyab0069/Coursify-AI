@@ -27,9 +27,10 @@
       <div class="link_container">
         <nav class="navbar">
           <a href="{{ url_for('index') }}" id = "home">HOME</a>
-          <a href="{{ url_for('content') }}" id = "content">MY CONTENT</a>
-          <a href="settings.html" id = "settings">SETTINGS</a>
+          <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
           <a href="ai.html" id = "ai">AI ASSISTANT</a>
+          <a href="{{ url_for('reviews') }}">REVIEW</a>
+          <a href="settings.html" id = "settings">SETTINGS</a>
           <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
         </nav>
       </div>
@@ -37,6 +38,17 @@
 
     <section class="settings">
       <h1>Settings</h1>
+
+      <!-- Flash message -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div id="flash">
+            <!-- This will display all messages joined by a space -->
+            {{ messages | join(' ') }}
+          </div>
+        {% endif %}
+      {% endwith %}
+
       <div class="settings-container">
         <!----------------------- LEFT HAND SIDE MENU BAR ------------------------------------------------>
         <!------------------------------------------------------------------------------------------------>
@@ -79,19 +91,19 @@
                 <label for="email">Email :</label>
                 <input type="email" id="email" name="email" value="{{ user.get('email', '') }}">
             </div>
-        
-            <!-- Profile Picture Upload-->
-            <!-- This part might need JavaScript to display an existing picture, if you store the URL/path of the profile picture -->
-            <div class="form-group">
-                <label for="profile-picture">Profile Picture :</label>
-                <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
-                <!-- Frame for the picture -->
-                <div id="image-preview-frame">
-                    <img id="profile-picture-preview" src="{{ user.get('profile_picture_url', '') }}" alt="Profile Picture Preview">
-                    <div id="no-image-text" {% if user.get('profile_picture_url') %}style="display: none;"{% endif %}>No profile picture uploaded</div>
-                </div>
-            </div>
-        
+            
+                              <!-- Profile Picture Upload (might not be needed)-->
+                              <!-- This part might need JavaScript to display an existing picture, if you store the URL/path of the profile picture 
+                              <div class="form-group">
+                                  <label for="profile-picture">Profile Picture :</label>
+                                  <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+                                  
+                                  <div id="image-preview-frame">
+                                      <img id="profile-picture-preview" src="{{ user.get('profile_picture_url', '') }}" alt="Profile Picture Preview">
+                                      <div id="no-image-text" {% if user.get('profile_picture_url') %}style="display: none;"{% endif %}>No profile picture uploaded</div>
+                                  </div>
+                              </div>  -->
+            
             <!-- Save Button --> 
             <div class="form-group">
                 <button type="submit">Save Changes</button>
@@ -131,7 +143,7 @@
 
           <!----------------PREFERENCE SETTINGS FORM----------------------------------------------------------------->
           <!------------------------------------------------------------------------------------------------------->
-          <form id="preferences-settings-form" class="settings-form">
+          <form id="preferences-settings-form" class="settings-form" style="display: none">
             <!-- Save Previous Chats Checkbox -->
             <div class="form-group">
               <label for="save-chats">Save Previous Chats:</label>
@@ -150,12 +162,21 @@
       </div>
     </section>
 
+      
     <!-------------------------------------SCRIPT-------------------------------------------------------------------------------------->
     <!--------------------------------------------------------------------------------------------------------------------------------->
 
     <script>
       //DOMContent - sets up an event listner that waits for the entire HTML document to be fully loaded before running the fucntion
       document.addEventListener("DOMContentLoaded", async function () {
+
+        //Display the flash message
+        const flashMessage = document.getElementById('flash');
+        if (flashMessage) {
+          // make it dissapear
+          setTimeout(() => { flashMessage.style.display = 'none';}, 4000); // 4 seconds
+        }
+      
         //This function first hides all of the forms inside of setting-form class by setting the display to none.
         function showForm(formID) {
           document.querySelectorAll(".settings-form").forEach(function (form) {
@@ -167,41 +188,32 @@
 
         //This function first removes the "selected" class from all links in the 'settings-list'
         function selectedLink(selectedLinkID) {
-          document
-            .querySelectorAll(".settings-list a")
-            .forEach(function (link) {
+          document.querySelectorAll(".settings-list a").forEach(function (link) {
               link.classList.remove("selected");
-            });
+          });
           //Then it adds the 'selected' class to the link with the SelectedLinkID
           document.getElementById(selectedLinkID).classList.add("selected");
         }
         ///// passes the settings id that is cliked to the functions///////////////////////////////////////////
-        document
-          .getElementById("account-settings-link")
-          .addEventListener("click", function () {
-            showForm("account-settings-form");
-            selectedLink("account-settings-link");
-          });
+        document.getElementById("account-settings-link").addEventListener("click", function () {
+          showForm("account-settings-form");
+          selectedLink("account-settings-link");
+        });
 
-        document
-          .getElementById("password-settings-link")
-          .addEventListener("click", function () {
-            showForm("password-settings-form");
-            selectedLink("password-settings-link");
-          });
+        document.getElementById("password-settings-link").addEventListener("click", function () {
+          showForm("password-settings-form");
+          selectedLink("password-settings-link");
+        });
 
-        document
-          .getElementById("preferences-settings-link")
-          .addEventListener("click", function () {
-            showForm("preferences-settings-form");
-            selectedLink("preferences-settings-link");
-          });
+        document.getElementById("preferences-settings-link").addEventListener("click", function () {
+          showForm("preferences-settings-form");
+          selectedLink("preferences-settings-link");
+        });
 
         //selects the HTML element with the ID "profile picture", which is the file input by the user.
         //Event listner looks for a change, then calls the function.
-        document
-          .getElementById("profile-picture")
-          .addEventListener("change", function (event) {
+        
+        document.getElementById("profile-picture").addEventListener("change", function (event) {
             //constant for the file chosen by the user
             const [file] = event.target.files;
             //if the file was selected
@@ -214,42 +226,8 @@
               preview.style.display = "block";
               document.getElementById("no-image-text").style.display = "none";
             }
-          });
+        });
 
-        /* Fetching user data (THIS MAY NOT BE NEEDED)
-        async function fetchUserData() {
-          try {
-            const token = localStorage.getItem("jwt");
-            if (!token) {
-              throw new Error("no JWT found");
-            }
-            const response = await fetch("/api/user/data", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
-          } catch (error) {
-            console.error("Could not fetch user data: ", error);
-          }
-        }
-
-        // Function to populate the settings form with fetched user data
-        function populateSettingsForm(userData) {
-          document.getElementById("firstname").value = userData.firstName || "";
-          document.getElementById("lastname").value = userData.lastName || "";
-          document.getElementById("email").value = userData.email || "";
-        }
-
-        const userData = await fetchUserData();
-        if (userData) {
-          populateSettingsForm(userData);
-        }
-        */
         showForm("account-settings-form"); // show the Account Form by default when the page is open.
       });
     </script>

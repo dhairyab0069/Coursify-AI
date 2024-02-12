@@ -143,6 +143,7 @@ header {
   display: flex;
   padding: 10px;
   border-top: 1px solid #ddd;
+  gap : 10px;
 }
 
 /* Text input styling */
@@ -169,6 +170,22 @@ header {
 #send-button:hover {
   background-color: #666; /* Darker color on hover */
 }
+
+
+#clear-chat-button {
+  padding: 10px 20px;
+  background-color: var(--primary-color); /* Use #808080 for the send button background color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#clear-chat-button:hover {
+  background-color: #666; /* Darker color on hover */
+}
+
+
 
 /* Sidebar Professional Styling */
 .sidebar {

@@ -56,8 +56,10 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 client = MongoClient('mongodb+srv://Remy:1234@cluster0.vgzdbrr.mongodb.net/')
 db = client['new_pdfs']
 db2=client['Login_details']
+db3=client['reviews']
 fs = GridFS(db)
 users_collection=db2.users
+reviews_collection=db3.reviews
 
 app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
 app.config['MAIL_PORT'] = 587
@@ -93,7 +95,7 @@ def home():
     # Otherwise, show the homepage with login and register options
     return render_template('homepage.html')
 
-SENDGRID_API_KEY = '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'  
+#SENDGRID_API_KEY = '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'  
 
    
     # Registration Route
@@ -124,28 +126,28 @@ def register():
         token = serializer.dumps(email, salt='email-confirmation-salt')
 
         # Send verification email
-        confirm_url = url_for('confirm_email', token=token, _external=True)
-        subject = "Please confirm your email"
-        send_email(email, subject, confirm_url)
+       # confirm_url = url_for('confirm_email', token=token, _external=True)
+        #subject = "Please confirm your email"
+        #send_email(email, subject, confirm_url)
 
-        flash('A confirmation email has been sent.', 'success')
-        return redirect(url_for('login'))
+        #flash('A confirmation email has been sent.', 'success')
+        #return redirect(url_for('login'))
     return render_template('register.html')
 # Send Email Function
-def send_email(to_email, subject, confirm_url):
-    html_content = render_template('email_verification.html', confirm_url=confirm_url)
-    message = Mail(
-        from_email='your-email@example.com',  # Replace with your verified sender email
-        to_emails=to_email,
-        subject=subject,
-        html_content=html_content
-    )
-    try:
-        sg = SendGridAPIClient(SENDGRID_API_KEY)
-        response = sg.send(message)
-        print(f"Email sent with status code: {response.status_code}")
-    except Exception as e:
-        print(f"Error sending email: {e}")
+#def send_email(to_email, subject, confirm_url):
+   # html_content = render_template('email_verification.html', confirm_url=confirm_url)
+   # message = Mail(
+       # from_email='',  # Replace with your verified sender email
+       # to_emails=to_email,
+        #subject=subject,
+       # html_content=html_content
+    #)
+    #try:
+        #sg = SendGridAPIClient(SENDGRID_API_KEY)
+        #response = sg.send(message)
+       # print(f"Email sent with status code: {response.status_code}")
+    #except Exception as e:
+     #   print(f"Error sending email: {e}")
 
 # Email Confirmation Route
 @app.route('/confirm/<token>')
@@ -238,15 +240,14 @@ def update_account_settings():
 
         if updates:
             users_collection.update_one({"_id":ObjectId(user_id)}, {"$set":updates})
-            flash('Your account has been updated successfully.')
+            flash('Your account has been updated successfully')
         else:
             flash('No changes were made to your account.')
 
     else:
         flash('User not found.')
         return redirect(url_for('settings_html'))
-    
-    flash('your account is updated')
+
     return redirect(url_for('settings_html'))
 
 @app.route('/change_password', methods=['POST'])
@@ -333,7 +334,7 @@ def my_content():
  if current_user.is_authenticated:
     fs=GridFS(db)
     # Get a list of all files in GridFS
-    files = fs.find().sort("_id",-1)
+    files = fs.find({"user_id": current_user.get_id()}).sort("_id",-1)
 
     # Create a list to store file data
     file_data = []
@@ -346,9 +347,9 @@ def my_content():
     # Render a template and pass the file data to it
     return render_template('content.html', file_data=file_data)
 
-@app.route('/content')
-def content():
-    return render_template('content.html')
+# @app.route('/content')
+# def content():
+#     return render_template('content.html')
 
 
 
@@ -485,7 +486,7 @@ def content(prompt, length):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are a content generation tool. Give as much accurate information as you are supposed to giv e and follow the instruction in the prompt."},
                 {"role": "user", "content": prompt}
             ]
         )
@@ -498,7 +499,7 @@ def call_openai_api(prompt):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are a content generation tool. Give as much accurate information as you are supposed to giv e and follow the instruction in the prompt."},
                 {"role": "user", "content": prompt}
             ]
         )
@@ -670,7 +671,8 @@ def generate_pdf(prompt, length, difficulty):
     # Respond with the URL of the PDF
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
-def generate_slides(prompt, length, difficulty):
+def generate_slides(prompt, length, difficulty,):
+    # Directory where the presentations will be saved
     pptx_directory = os.path.join(os.getcwd(), 'presentations')
     if not os.path.exists(pptx_directory):
         os.makedirs(pptx_directory)
@@ -702,32 +704,42 @@ def generate_slides(prompt, length, difficulty):
     for line in toc.split('\n'):
         p = tf.add_paragraph()
         p.text = line
-        p.level = 0 if line.isupper() else 1  # Main topic or subtopic
+        p.level = 0 if line.isupper() else 1
 
-    # Create slides for each topic
-    # (this part would be similar to how you handled topics in your PDF generation)
-        if line.isupper():  # Check if the line is a main topic
+    # Generate and add content for each section
+    for line in toc.split('\n'):
+        if line.strip():  # Check if line is not empty
+            # Generate content for the section
+            section_content = call_openai_api(f"Explain {line.strip()} in detail.")
+
+            # Add a new slide for the section
             slide = prs.slides.add_slide(slide_layout)
             title = slide.shapes.title
-            title.text = line  # Set the title for the slide
+            title.text = line.strip()
 
-            # Log the creation of the slide
-            print(f"Slide created for topic: {line}")
+            # Add generated content to the slide
+            content_box = slide.placeholders[1]
+            tf = content_box.text_frame
+            tf.text = section_content  # This sets the initial paragraph
+            # For more complex formatting, you can add more paragraphs or format this one
+            print("Topic done")
 
-    # Save the presentation
     pptx_path = os.path.join(pptx_directory, pptx_filename)
     prs.save(pptx_path)
-    
+
+
 
     if current_user.is_authenticated:
         fs = GridFS(db)
         with open(pptx_path, 'rb') as pptx_file:
             fs.put(pptx_file, filename=pptx_filename, user_id=current_user.user_id)
 
+   
+
     # Respond with the URL of the presentation
-    pptx_url = url_for('get_presentation', filename=pptx_filename, _external=True)
-    print(pptx_url)
+    pptx_url = url_for('get_presentation', filename=pptx_filename)
     return jsonify(success=True, pptx_url=pptx_url)
+
 
 
 
@@ -800,6 +812,43 @@ def check_file(filename):
     except:
         return jsonify(success=False, message="File does not exist in the database.")
     
+@app.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review():
+    title = request.form['title']
+    review_text = request.form['review_text']
+    user_id = ObjectId(current_user.get_id())
+    
+    user_details = users_collection.find_one({"_id": user_id})
+    
+    if user_details is not None:
+        first_name = user_details.get('first_name')
+        last_name = user_details.get('last_name')
+
+    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "title": title, "review_text": review_text}
+    reviews_collection.insert_one(review)
+
+    flash('Review submitted successfully.')
+    return 'Review sent'
+    
+@app.route('/reviews')
+@login_required
+def reviews():
+    all_reviews = reviews_collection.find()
+    return render_template('reviews.html', reviews=all_reviews)
+
+@app.route('/delete/<file_id>', methods=['POST'])
+def delete_file(file_id):
+    # Convert the file_id to an ObjectId
+    file_id = ObjectId(file_id)
+
+    # Delete the file from GridFS
+    fs.delete(file_id)
+
+    # Redirect the user to the content page
+    return redirect(url_for('my_content'))
+ 
+   
 
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
