@@ -125,7 +125,7 @@ Bug fixes regarding registration and login routes
 Editing Database ER design to incoporate more fields and connecting the generated files with usernames.
 
 
-# T2-W2+W3 Logs
+# T2-W3+W4 Logs
 ### Date:
 21/01/2023- 04/02/2023
 
@@ -146,6 +146,16 @@ Login and registration
 
 Note: I was participating in BCHACKS 5.0 the past week( Won first place) and was down with fever 3 days after that, therefore was not able to complete my features last week as expected. 
 
+# T2-W5 logs
+### Date:
+04/02/2023 - 11/02/2023
 
+<img width="1104" alt="Screenshot 2024-02-11 at 10 56 57 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/f2c788a2-e2e1-49c1-879f-db39220a9283">
+<img width="1171" alt="Screenshot 2024-02-11 at 11 01 58 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/41585759-3fed-46d1-9a9a-e3b0faeae2e6">
+
+### Branch - v2.0-emailverification and v2.0
+ Tasks done: Added new registration fields( gender and birthdate), updated password validation, improved navigation flow between register, login and index pages. Updated the system to show flash alerts upon  registration and  login. Bug fixes for email verification resolves. 
+ 
+Tasks in progress: Researching ways to increase content accuracy
 
 
