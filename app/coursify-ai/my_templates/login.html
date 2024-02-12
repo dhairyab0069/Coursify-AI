@@ -7,7 +7,11 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-
+    <header class="header">
+        <div class="link_container">
+          <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+    </div>
+    </header>
 
 </head>
 <body id="login" style="background: var(--bg-color);">
@@ -33,17 +37,15 @@
                             <input type="submit" value="Login" class="btn btn-primary btn-block">
                         </div>
                     </form>
+                    <div class="mt-4 text-center">
+                        <a href="{{ url_for('register') }}" class="btn btn-secondary">Go to Registration Page</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-<<<<<<< HEAD
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-=======
-    <!-- Include Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3
->>>>>>> 5672cf5cabc25f541cc11403897cbc98dbf67714

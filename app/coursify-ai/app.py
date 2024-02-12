@@ -32,7 +32,28 @@ from sendgrid.helpers.mail import Mail
 from flask_mail import Mail, Message
 from pptx import Presentation
 from flask import send_file, abort
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField, TextAreaField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+from wtforms.widgets import TextArea
+from datetime import datetime
 
+class RegistrationForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[
+        DataRequired(),
+        Length(min=8, message='Password must be at least 8 characters long.'),
+        EqualTo('confirm_password', message='Passwords must match.')
+    ])
+    confirm_password = PasswordField('Confirm Password')
+    birth_date = SelectField('Birth Date', choices=[(str(i), str(i)) for i in range(1, 32)])
+    birth_month = SelectField('Birth Month', choices=[(str(i), str(i)) for i in range(1, 13)])
+    birth_year = SelectField('Birth Year', choices=[(str(i), str(i)) for i in range(1900, 2022)])
+    gender = RadioField('Gender', choices=[('Male', 'Male'), ('Female', 'Female'), ('Custom', 'Custom')])
+    custom_gender = TextAreaField('Custom Gender')
+    submit = SubmitField('Register')
 
 
 
@@ -95,8 +116,19 @@ def home():
     # Otherwise, show the homepage with login and register options
     return render_template('homepage.html')
 
-#SENDGRID_API_KEY = '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'  
-
+SENDGRID_API_KEY = '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'  
+def validate_password(password):
+    if len(password) < 8:
+        return "Password must be at least 8 characters long."
+    if not re.search("[a-z]", password):
+        return "Password must contain at least one lowercase letter."
+    if not re.search("[A-Z]", password):
+        return "Password must contain at least one uppercase letter."
+    if not re.search("[0-9]", password):
+        return "Password must contain at least one number."
+    if not re.search("[!@#$%^&*]", password):
+        return "Password must contain at least one special character (!@#$%^&*)."
+    return None
    
     # Registration Route
 @app.route('/register', methods=['GET', 'POST'])
@@ -106,46 +138,64 @@ def register():
         last_name = request.form.get('last_name')
         email = request.form.get('email')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
-
-        if password != confirm_password:
-            flash('Passwords do not match!')
+        birth_day = int(request.form.get('birth_day'))
+        birth_month = int(request.form.get('birth_month'))
+        birth_year = int(request.form.get('birth_year'))
+        gender = request.form.get('gender')
+        custom_gender = request.form.get('custom_gender') if 'custom_gender' in request.form else None
+        if gender == 'custom' and custom_gender:
+            gender_value = custom_gender
+        else:
+            gender_value = gender
+        # Validate if user exists
+        user = users_collection.find_one({"email": email})
+        if user:
+            flash('Email already exists.')
             return redirect(url_for('register'))
-
+        
+        password = request.form.get('password')
+        password_error = validate_password(password)
+        if password_error:
+            flash(password_error)
+            return redirect(url_for('register'))
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-        # Save user to MongoDB
+        # Construct birthdate and gender
+        birth_date = datetime(birth_year, birth_month, birth_day)
+        gender = custom_gender if gender == 'Custom' else gender
+     
+        # Insert new user into MongoDB
         user_id = users_collection.insert_one({
             "first_name": first_name,
             "last_name": last_name,
             "email": email,
             "password": hashed_password,
-            "verified": False
+            "birth_date": birth_date,
+            "gender": gender_value,
+            "verified": False  # Assuming you handle email verification separately
         }).inserted_id
-
-        token = serializer.dumps(email, salt='email-confirmation-salt')
-
-        # Send verification email
-       # confirm_url = url_for('confirm_email', token=token, _external=True)
-        #subject = "Please confirm your email"
-        #send_email(email, subject, confirm_url)
-
-        #flash('A confirmation email has been sent.', 'success')
-        #return redirect(url_for('login'))
+        
+        # Auto-login after register
+        user_obj = User(user_id=str(user_id), email=email)
+        login_user(user_obj)
+      
+        flash('Registration successful. Welcome!', 'success')
+        return redirect(url_for('index'))  # Redirect to index page
     return render_template('register.html')
+
 # Send Email Function
-#def send_email(to_email, subject, confirm_url):
-   # html_content = render_template('email_verification.html', confirm_url=confirm_url)
-   # message = Mail(
-       # from_email='',  # Replace with your verified sender email
-       # to_emails=to_email,
-        #subject=subject,
-       # html_content=html_content
-    #)
+def send_email(to_email, subject, confirm_url):
+    html_content = render_template('email_verification.html', confirm_url=confirm_url)
+    message = Mail(
+        from_email='',  # Replace with your verified sender email
+       to_emails=to_email,
+        subject=subject,
+        html_content=html_content
+    )
     #try:
         #sg = SendGridAPIClient(SENDGRID_API_KEY)
-        #response = sg.send(message)
-       # print(f"Email sent with status code: {response.status_code}")
+       # response = sg.send(message)
+       #print(f"Email sent with status code: {response.status_code}")
     #except Exception as e:
      #   print(f"Error sending email: {e}")
 
