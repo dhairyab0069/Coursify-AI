@@ -645,7 +645,7 @@ def generate_pdf(prompt, length, difficulty):
                 c.setFont("Helvetica", 12)
                 c.drawString(left_margin, y_position, line)
                 y_position -= line_height 
-                prompt2 = content("explain in 3 lines about the following topic " +line + "related to " + prompt,length)
+                prompt2 = content("explain in 3 lines about the following topic " +line + "related to " + prompt,"length : " + length/(len(lines)) + " and difficulty level is " + diff )
                 if prompt2 is None:
                     return jsonify(success=False, error="Failed to generate text from OpenAI API")
                 wrapped_text = wrap_text(prompt2, content_width, font_name, 12)
@@ -677,6 +677,14 @@ def generate_slides(prompt, length, difficulty,):
     if not os.path.exists(pptx_directory):
         os.makedirs(pptx_directory)
 
+
+    if difficulty == 1:
+        diff = "basic"
+    elif difficulty == 2:
+        diff = "intermediate"
+    elif difficulty == 3:
+        diff = "advanced"
+
     # Define filename for the presentation
     pptx_basename = sanitize_filename(prompt)
     pptx_basename = pptx_basename if pptx_basename else 'generated_presentation'
@@ -685,7 +693,7 @@ def generate_slides(prompt, length, difficulty,):
     pptx_filename = f"{pptx_basename}_{timestamp}_{unique_suffix}.pptx"
 
     # Generate table of contents
-    toc = call_openai_api("Give Table of contents for topic: " + prompt + "...")
+    toc = call_openai_api("Give Table of contents for topic: " + prompt + "..." + "Difficulty level is " + diff + "..." + "Length of content is " + str(length) + " words.")
     if toc is None:
         return jsonify(success=False, error="Failed to generate text from OpenAI API")
 
