@@ -225,7 +225,7 @@ Tasks in progress: Training Chat bot. Preparing instructions and reading the API
 
 
 # Individual Log Week T2 W4 - Harsimar Singh (Code pushed to branch V2.0-AI)
-## Date: 1/21/24 - 1/28/24
+## Date: 1/28/24 - 2/04/24
 (Code pushed to branch V2.0-AI)
 ### Tasks worked on: 
 ![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/e3dc075f-cb62-4d7f-80c3-48da4babb298)
@@ -241,5 +241,25 @@ Tasks in progress: Training Chat bot. Preparing instructions and reading the API
 
  ![2](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/b09c4900-ce39-46b9-9cb9-e151346a78f7)
 
+
+
+# Individual Log Week T2 W5 - Harsimar Singh (Code pushed to branch V2.0)
+## Date: 2/04/24 - 2/11/24
+(Code pushed to branch V2.0)
+### Tasks worked on: 
+![t5](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/a3b1f974-5ade-44fa-bb68-58f2304a9238)
+
+
+### Tasks in progress
+- Update the UI of the website
+- Work on Peer test reviews
+
+### Tasks Completed
+- Updated the index page UI
+- created Mockup for Review Page
+
+![k5](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/047112f1-e68a-4aae-8070-030dd6d2f973)
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/aa032ff4-5b73-40cd-ada8-0e1e36bf352a)
 
 
