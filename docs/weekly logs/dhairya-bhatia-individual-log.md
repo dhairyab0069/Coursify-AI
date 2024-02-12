@@ -142,7 +142,7 @@ Created an SDLC document with Vinu to describe which Software development method
 ### Tasks Completed
 #### **Worked on V2.0 Branch**
 - updated the index page to include form for choosing form for content generation (Completed)
-- added functionality for slide generation.(Completed)
+- added functionality for slide generation, though not complete.(In Progress)
 - updated javascript handling and flask routes for handling new content generation features(Completed)
 Above worked on V2.0 Branch
 
@@ -152,11 +152,23 @@ Above worked on V2.0 Branch
 
 ## Week 17
 ### Date
-22/01/2024-28/01/2024
+29/01/2024-04/02/2024
 ### Tasks Completed
 #### **Worked on v2.0-content-generation Branch**
 - Worked on testing for content generation(Incoomplete,need to fix test cases)
 
 <img width="1304" alt="Screenshot 2024-02-04 at 10 36 18 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/28a221fb-3c52-44d0-96b8-2f2b30b1a1ab">
+
+<img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
+
+## Week 18
+### Date
+05/02/2024-11/02/2024
+### Tasks Completed
+#### **Worked on v2.0-content-generation Branch**
+- Finished working on content generation for slides(complete)
+- Working on improving formatting and accuracy(in progress)
+
+<img width="1234" alt="Screenshot 2024-02-11 at 10 10 07 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ed71127f-085b-4862-a16b-84e0f8a30edb">
 
 <img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
