@@ -357,6 +357,9 @@ def my_content():
 def ai_html():
     return render_template('ai.html')
 
+@app.route('/preview.html')
+def preview():
+    return render_template('preview.html')
 @app.route('/faq.html')
 def faq():
     return render_template('faq.html')

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Preview</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style2.css') }}"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.min.js"></script>
+    <script>
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.worker.min.js";
+    </script>
+  </head>
+  <body>
+    <section id="my-content" class="content-container">
+      <div class="content-header">
+        <h1 id="title">File Preview</h1>
+      </div>
+      <div class="notes-container">
+        <div class="notes-list">
+          <!-- File Preview Container -->
+          <div class="note-card" id="file-preview-container">
+            <div id="pdf-render-container" style="overflow-y: auto"></div>
+          </div>
+          <div class="note-card" id="file-preview-container">
+            <canvas
+              id="pdfCanvas"
+              style="display: block; width: 100%; border: 1px solid black"
+            ></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to parse query parameters from URL
+        function getQueryParam(param) {
+          var urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
+        }
+
+        // Function to render the PDF onto a canvas
+        function renderPDFOnCanvas(fileUrl) {
+          var loadingTask = pdfjsLib.getDocument(fileUrl);
+          loadingTask.promise.then(
+            function (pdf) {
+              console.log("PDF loaded");
+
+              // Get the container to append canvases
+              var container = document.getElementById("pdf-render-container");
+
+              // Loop through each page and render it
+              for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                pdf.getPage(pageNum).then(function (page) {
+                  var viewport = page.getViewport({ scale: 1.5 });
+                  var canvas = document.createElement("canvas");
+                  canvas.style.display = "block";
+                  canvas.style.width = "100%";
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+
+                  // Append canvas to the container
+                  container.appendChild(canvas);
+
+                  // Render PDF page into canvas context
+                  var renderContext = {
+                    canvasContext: canvas.getContext("2d"),
+                    viewport: viewport,
+                  };
+                  page.render(renderContext).promise.then(function () {
+                    console.log(`Page ${pageNum} rendered`);
+                  });
+                });
+              }
+            },
+            function (error) {
+              console.error("Error during PDF loading: " + error);
+            }
+          );
+        }
+
+        // Extract the filename from the URL query parameter
+        var filename = getQueryParam("filename");
+        if (filename) {
+          // Construct the full URL to the PDF file
+          var fileUrl = "http://127.0.0.1:5000/pdf/" + filename;
+          renderPDFOnCanvas(fileUrl); // Render the PDF
+        }
+      });
+    </script>
+  </body>
+</html>
