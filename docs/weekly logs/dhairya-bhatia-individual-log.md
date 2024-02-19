@@ -107,7 +107,7 @@ Created an SDLC document with Vinu to describe which Software development method
 <img width="422" alt="Screenshot 2023-12-04 at 12 46 49 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/046474af-cf86-43c8-a500-87a90a33e274">
 
 
-## Week 14
+## Term 2 Week 1 (Week 14)
 ### Date 
 08/01/2024-14/01/2024
 ### Tasks Completed
@@ -121,7 +121,7 @@ Created an SDLC document with Vinu to describe which Software development method
 
 <img width="1311" alt="Screenshot 2024-01-14 at 7 41 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/90d685ed-41b6-4486-9aa1-cd844550c399">
 
-## Week 15
+## Term 2 Week 2 (Week 15)
 ### Date 
 15/01/2024-21/01/2024
 
@@ -136,7 +136,7 @@ Created an SDLC document with Vinu to describe which Software development method
 
 <img width="1311" alt="Screenshot 2024-01-14 at 7 41 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/90d685ed-41b6-4486-9aa1-cd844550c399">
 
-## Week 16
+## Term 2 Week 3 (Week 16)
 ### Date
 22/01/2024-28/01/2024
 ### Tasks Completed
@@ -150,7 +150,7 @@ Above worked on V2.0 Branch
 
 <img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
 
-## Week 17
+## Term 2 Week 4 (Week 17)
 ### Date
 29/01/2024-04/02/2024
 ### Tasks Completed
@@ -161,7 +161,7 @@ Above worked on V2.0 Branch
 
 <img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
 
-## Week 18
+## Term 2 Week 5 (Week 18)
 ### Date
 05/02/2024-11/02/2024
 ### Tasks Completed
@@ -173,7 +173,7 @@ Above worked on V2.0 Branch
 
 <img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
 
-## Week 18
+## Term 2 Week 6 (Week 19) 
 ### Date
 05/02/2024-11/02/2024
 ### Tasks Completed
