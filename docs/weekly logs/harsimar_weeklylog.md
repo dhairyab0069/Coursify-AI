@@ -263,3 +263,18 @@ Tasks in progress: Training Chat bot. Preparing instructions and reading the API
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/aa032ff4-5b73-40cd-ada8-0e1e36bf352a)
 
 
+
+# Individual Log Week T2 W6 - Harsimar Singh (Code pushed to branch V2.0)
+## Date: 2/11/24 - 2/18/24
+(Code pushed to branch V2.0 from branch V2.0-Reviewsystem)
+### Tasks worked on: 
+![2](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/e1714617-c7ce-4a16-b609-b28384c49466)
+
+### Tasks completed
+- Created the front end elements for the new review system
+- Updated the CSS of New review System
+
+### Tasks in progress
+- Backend of the Review System
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+
