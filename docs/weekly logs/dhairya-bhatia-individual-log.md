@@ -172,3 +172,17 @@ Above worked on V2.0 Branch
 <img width="1234" alt="Screenshot 2024-02-11 at 10 10 07 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ed71127f-085b-4862-a16b-84e0f8a30edb">
 
 <img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
+
+## Week 18
+### Date
+05/02/2024-11/02/2024
+### Tasks Completed
+#### **Worked on v2.0-content-generation Branch**
+- created a file preview page for pdfs and ppt
+- fixes to app.py prompt for api call
+
+ <img width="1469" alt="Screenshot 2024-02-18 at 11 14 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/fbdbc65f-de1c-4248-bccd-951b7563a06b">
+
+ <img width="1469" alt="Screenshot 2024-02-18 at 11 14 30 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ecf721d7-41ff-4de4-812c-5e9ab602fc16">
+
+
