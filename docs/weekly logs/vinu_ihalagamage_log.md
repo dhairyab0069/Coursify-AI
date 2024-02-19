@@ -1,9 +1,37 @@
+# Week T2 #6
+## Date: 11/02/2024 - 18/02/2024
+### Vinu Ihalagamage - vinui409
+
+#### Link to the branch with code for Week 4 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-Settings
+#### Last commit to the branch v2.0-Setting :c07cf8a2efbd168d8670cf2985b2eaafb3e31758
+
+#### A pull request was made between the branches v2.0(base) and v2.0-Settings(compare) and reviewed by peers before merging.
+
+### Tasks worked on
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/6c12a719-606d-445f-9b5d-3531f59182d8)
+
+### Tasks in progress
+- Changing the UI of all pages after Log-in and Registration for a more appealing user experience
+- Fixing test cases for the Settings page
+
+### Tasks Completed
+- Changed the UI of the Settings page based on inspiration from other websites.
+- Fixed bug fixes in the input fields of the settings page.
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/7bdd0a8a-65ef-433c-87c3-cffd43192995)
+
+### Test report with new UI
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/f2d16a4e-249e-4e13-8094-ef4be66ad557)
+
+
+
 # Week T2 #5
 ## Date: 04/02/2024 - 11/02/2024
 ### Vinu Ihalagamage - vinui409
 
 #### Link to the branch with code for Week 4 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-Settings
-#### Last commit to the branch v2.0-Setting : "testing bug fix / report" : 1ecc16066850010d02d67b2a51366d0f39c81766
+#### Last commit to the branch v2.0-Setting : "improved the UI of the settings page forms" : 1ecc16066850010d02d67b2a51366d0f39c81766
 
 ### Tasks worked on 
 
