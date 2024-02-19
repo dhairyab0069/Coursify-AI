@@ -179,12 +179,110 @@
 document.getElementById('shareButton').addEventListener('click', function() {
   document.getElementById('shareForm').scrollIntoView({behavior: "smooth"});
 });
+//function showDetails(id, filename) {
+  //document.getElementById('detailTitle').textContent = filename;
+  /*document.getElementById('downloadLink').href = "{{ url_for('get_pdf', filename='') }}" + filename;*/
+  //document.getElementById('downloadLink').addEventListener('click', function(event) {
+    // Prevent the default action
+    //event.preventDefault();
+
+    // Create two 'a' elements with the href set to the download URLs
+    //var pdfLink = document.createElement('a');
+    //pdfLink.href = "{{ url_for('get_pdf', filename='') }}" + filename;
+    //pdfLink.download = filename;
+
+    //var presentationLink = document.createElement('a');
+    //presentationLink.href = "{{ url_for('get_presentation', filename='') }}" + filename;
+    //presentationLink.download = filename;
+
+    // Append the 'a' elements to the body
+    //document.body.appendChild(pdfLink);
+    //document.body.appendChild(presentationLink);
+
+    // Programmatically click the 'a' elements to start the download
+    //pdfLink.click();
+    //presentationLink.click();
+
+    // Clean up by removing the 'a' elements from the body
+    //document.body.removeChild(pdfLink);
+    //document.body.removeChild(presentationLink);
+//});
+  // Get the downloadLink button
+  //var downloadLink = document.getElementById('downloadLink');
+
+  // Remove any existing event listeners
+  //var newDownloadLink = downloadLink.cloneNode(true);
+  //downloadLink.parentNode.replaceChild(newDownloadLink, downloadLink);
+
+  //newDownloadLink.addEventListener('click', function(event) {
+    // Prevent the default action
+  //  event.preventDefault();
+
+    // Create two 'a' elements with the href set to the download URLs
+  //  var pdfLink = document.createElement('a');
+  //  pdfLink.href = "{{ url_for('get_pdf', filename='') }}" + filename;
+  //  pdfLink.download = filename;
+
+  //  var presentationLink = document.createElement('a');
+  //  presentationLink.href = "{{ url_for('get_presentation', filename='') }}" + filename;
+  //  presentationLink.download = filename;
+
+    // Append the 'a' elements to the body
+  //  document.body.appendChild(pdfLink);
+  //  document.body.appendChild(presentationLink);
+
+    // Programmatically click the 'a' elements to start the download
+  //  pdfLink.click();
+  //  presentationLink.click();
+
+    // Clean up by removing the 'a' elements from the body
+  //  document.body.removeChild(pdfLink);
+  //  document.body.removeChild(presentationLink);
+ // });
+
+  //document.getElementById('note-details').style.display = 'block';
+  //document.getElementById('deleteForm').action = '/delete/' + id;
+//}
 function showDetails(id, filename) {
   document.getElementById('detailTitle').textContent = filename;
-  document.getElementById('downloadLink').href = "{{ url_for('get_pdf', filename='') }}" + filename;
+
+  // Get the downloadLink button
+  var downloadLink = document.getElementById('downloadLink');
+
+  // Remove any existing event listeners
+  var newDownloadLink = downloadLink.cloneNode(true);
+  downloadLink.parentNode.replaceChild(newDownloadLink, downloadLink);
+
+  newDownloadLink.addEventListener('click', function(event) {
+    // Prevent the default action
+    event.preventDefault();
+
+    // Create two 'a' elements with the href set to the download URLs
+    var pdfLink = document.createElement('a');
+    pdfLink.href = "{{ url_for('get_pdf', filename='') }}" + filename;
+    pdfLink.download = filename;
+
+    var presentationLink = document.createElement('a');
+    presentationLink.href = "{{ url_for('get_presentation', filename='') }}" + filename;
+    presentationLink.download = filename;
+
+    // Append the 'a' elements to the body
+    document.body.appendChild(pdfLink);
+    document.body.appendChild(presentationLink);
+
+    // Programmatically click the 'a' elements to start the download
+    pdfLink.click();
+    presentationLink.click();
+
+    // Clean up by removing the 'a' elements from the body
+    document.body.removeChild(pdfLink);
+    document.body.removeChild(presentationLink);
+  });
+
   document.getElementById('note-details').style.display = 'block';
   document.getElementById('deleteForm').action = '/delete/' + id;
 }
+
 
 function showForm() {
   // Show the form
