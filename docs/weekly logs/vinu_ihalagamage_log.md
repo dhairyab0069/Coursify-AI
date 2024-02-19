@@ -19,7 +19,12 @@
 - Changed the UI of the Settings page based on inspiration from other websites.
 - Fixed bug fixes in the input fields of the settings page.
 
-![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/100a166b-cff4-43cc-a564-e418fc2b3bf5)
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/7bdd0a8a-65ef-433c-87c3-cffd43192995)
+
+### Test report with new UI
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/f2d16a4e-249e-4e13-8094-ef4be66ad557)
+
+
 
 # Week T2 #5
 ## Date: 04/02/2024 - 11/02/2024
