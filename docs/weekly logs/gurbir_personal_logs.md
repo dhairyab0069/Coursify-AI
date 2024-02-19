@@ -159,3 +159,17 @@ Note: I was participating in BCHACKS 5.0 the past week( Won first place) and was
 Tasks in progress: Researching ways to increase content accuracy
 
 
+# Week T2 #6
+## Date: 11/02/2024 - 18/02/2024
+### Gurbir Amrit - gurbirRemy
+
+### Tasks in progress
+-  Discussing implementation of a content accauracy rating by gpt, divide by category of pdf
+-  Created test cases for login and registration page 
+
+### Tasks Completed
+- fixed bugs with content generation 
+  
+<img width="697" alt="Screenshot 2024-02-18 at 10 52 48 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/c62e328a-d710-44da-b323-251a077d87a5">
+<img width="1169" alt="Screenshot 2024-02-18 at 11 42 20 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/a50e9aa0-f942-4f86-addc-7fb95cc0ea6a">
+
