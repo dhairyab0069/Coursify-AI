@@ -696,6 +696,7 @@ def generate_pdf(prompt, length, difficulty):
                 c.drawString(left_margin, y_position, line)
                 y_position -= line_height 
                 prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + " and difficulty level is " + diff)
+
                 if prompt2 is None:
                     return jsonify(success=False, error="Failed to generate text from OpenAI API")
                 wrapped_text = wrap_text(prompt2, content_width, font_name, 12)
