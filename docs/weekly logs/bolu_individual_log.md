@@ -237,7 +237,6 @@ Delete feature (Completed) <br>
 <img width="793" alt="Screenshot 2024-02-18 at 10 40 05 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/f0689135-b2fa-4eb0-ac48-e60ea5f9b838">
 
 ### Tasks:
-File preview (In Progress) <br>
 Sharing for pop-up when share button is clicked (In Progress) <br>
 Review feature (In Progress) <br>
 Working on slides download (Completed) <br>
