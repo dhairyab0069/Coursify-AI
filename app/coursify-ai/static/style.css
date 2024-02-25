@@ -63,6 +63,19 @@ header {
 }
 .left {
 }
+/* Bacck-button is a button that is used to go back to the previous page */
+.back-button {
+  background-color: #555;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 1.5rem;
+}
 .left h1 {
   font-size: 5.6rem;
   font-weight: 700;
@@ -527,4 +540,18 @@ button[type="submit"]:hover {
 
 #shareForm input[type="submit"]:hover {
   background-color: #555555;
+}
+
+button[type="submit"] {
+  /*button for content page, style lik above a href tages for preview and download buttons*/
+  background-color: #555;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  text-align: center;
+  cursor: pointer;
 }

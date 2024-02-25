@@ -19,10 +19,34 @@
     </script>
   </head>
   <body>
-    <section id="my-content" class="content-container">
-      <div class="content-header">
-        <h1 id="title">File Preview</h1>
+    <header class="header">
+      <div class="link_container">
+        <a href="{{ url_for('index') }}"
+          ><img
+            src="{{ url_for('static', filename='cap_logo1.png') }}"
+            id="logo"
+        /></a>
       </div>
+
+      <nav class="navbar">
+        <div id="sidebar">
+          <a href="{{ url_for('index') }}" id = "home">HOME</a>
+          <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
+          <a href="ai.html" id = "ai">AI ASSISTANT</a>
+          <a href="{{ url_for('reviews') }}">REVIEW</a>
+          <a href="settings.html" id = "settings">SETTINGS</a>
+          <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+
+        </div>
+      </nav>
+      <i class="bx bx-menu"></i>
+
+      
+    </header>
+    <div class="content-header">
+      <h1 id="title">File Preview</h1>
+    </div>
+    <i class="bx bx-menu"></i>
       <div class="notes-container">
         <div class="notes-list">
           <!-- File Preview Container -->
@@ -95,6 +119,13 @@
           renderPDFOnCanvas(fileUrl); // Render the PDF
         }
       });
+    </script>
+    <script>
+      document
+        .getElementById("back-button")
+        .addEventListener("click", function () {
+          window.history.back();
+        });
     </script>
   </body>
 </html>
