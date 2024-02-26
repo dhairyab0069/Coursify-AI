@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Coursify.ai</title>
+    <title>Settings - Coursify.ai</title>
 
     <!--icons-->
     <link
@@ -68,6 +68,7 @@
           <!-- ACCOUNT SETTINGS FROM ------------------------------------------------------------------------->
           <!-------------------------------------------------------------------------------------------------->
           <form id="account-settings-form" class="settings-form" action="{{ url_for('update_account_settings') }}" method="post"> <!--  -->
+            <h2 class="form-head">Account Details</h2>
             <!-- First Name -->
             <div class="form-group">
                 <label for="firstname">First Name :</label>
@@ -113,6 +114,7 @@
           <!-- PASSWORD SETTINGS FROM ----------------------------------------------------------------------------->
           <!------------------------------------------------------------------------------------------------------->
           <form id="password-settings-form" class="settings-form" action="{{ url_for('change_password') }}" method="post" style="display: none"> <!-- Add action and method -->
+            <h2 class="form-head">Change Password</h2>
             <!-- Current password -->
             <div class="form-group">
               <label for="current-password">Enter Current Password:</label>
@@ -137,7 +139,7 @@
 
             <!-- Save changes button -->
             <div class="form-group">
-              <button type="submit">Save Changes</button>
+              <button type="submit">Change Password</button>
             </div>
           </form>
 

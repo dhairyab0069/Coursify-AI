@@ -56,33 +56,6 @@ header {
   display: block;
 }
 
-.home {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.left {
-}
-.left h1 {
-  font-size: 5.6rem;
-  font-weight: 700;
-  line-height: 2;
-  align-items: center;
-  display: block;
-}
-.left h2 {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  display: block;
-}
-
-.navbar a:hover {
-  color: black;
-}
-.link_container a {
-}
 .link_container img {
   width: 5rem;
 }
@@ -97,63 +70,6 @@ header {
   max-width: 800px;
 }
 
-.content-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.form-container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  text-align: left;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: bold;
-}
-
-.form-group input[type="number"],
-.form-group input[type="text"],
-.form-group input[type="file"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-inline: 50px;
-}
-
-.form-group input[type="file"] {
-  cursor: pointer;
-}
-
-button[type="submit"] {
-  background-color: #555;
-  color: #fff;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 18px;
-  transition: background-color 0.3s;
-  text-align: center;
-  cursor: pointer;
-}
-
-button[type="submit"]:hover {
-  background-color: #444;
-}
-
 #footer {
   position: relative;
   text-align: center;
@@ -162,32 +78,6 @@ button[type="submit"]:hover {
   color: #fff;
   padding: 20px;
   width: 100%;
-}
-.right h1 {
-  align-items: center;
-  position: sticky;
-}
-.bx-menu {
-  display: none;
-}
-
-@media (max-width: 1200px) {
-  html {
-    font-size: 55%;
-  }
-}
-@media (max-width: 991px) {
-  .header {
-    padding: 2rem 3%;
-  }
-
-  section {
-    padding: 10rem 3% 2rem;
-  }
-
-  .footer {
-    padding: 2rem 3%;
-  }
 }
 
 @media (max-width: 768px) {
@@ -263,6 +153,15 @@ button[type="submit"]:hover {
   padding: 30px;
   background-color: transparent;
   border-radius: 28px;
+  box-shadow:0 0 10px rgba(0, 0, 0, 0.2) ;
+}
+#password-settings-form {
+  max-width: 800px;
+  margin: 0 auto; /* Center the form */
+  padding: 30px;
+  background-color: transparent;
+  border-radius: 28px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 /* text fields on the side of the item name rather than under */
 .form-group {
@@ -272,6 +171,7 @@ button[type="submit"]:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 50px;
+  margin-left: 75px;
 }
 /* alligning the text fields */
 .form-group label {
@@ -279,6 +179,7 @@ button[type="submit"]:hover {
   width: 40%;
   min-width: 100px;
   margin-right: 10px;
+  font-weight:400;
 }
 
 .form-group input[type="text"],
@@ -286,18 +187,19 @@ button[type="submit"]:hover {
 .form-group input[type="password"],
 .form-group textarea,
 .form-group select {
-  flex-grow: 1;
-  padding: 8px;
+  /*flex-grow: 1;*/
+  padding: 7px;
   margin: 0;
-  width: auto;
-  max-width: 50%;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  border-radius: 0;
-  box-sizing: border-box;
-  color: #fff;
+  width: 300px;
+  /*max-width: 50%;*/
+  border-radius: 10px;
+  box-sizing:content-box;
+  background-color: darkgray;
+  color: black;
+  margin-right: 90px;
 }
+
+
 
 /*----------------TO PLACE THE FORM ON THE RIGHT SIDE OF THE SCREEN ------------------------------------------*/
 .settings-container {
@@ -311,15 +213,6 @@ button[type="submit"]:hover {
 #settings-content {
   flex: 2;
 }
-
-/* HOVER EFFECTS    # for div id || . for class */
-
-.selected {
-  color: greenyellow;
-  font-weight: bold;
-  /* Smooth transition */
-}
-
 /* hovering over the menu changes the color*/
 .settings-list li a:hover {
   /*background-color: darkgray; */
@@ -332,38 +225,33 @@ button[type="submit"]:hover {
   font-weight: bold;
 }
 
-
 .settings-container {
   position: relative;
-  /* Other styling as needed */
 }
 
-.settings-form .form-group button[type="submit"] {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
+button[type="submit"] {
+  background-color: #555;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  text-align: center;
+  cursor: pointer;
 }
 
-#image-preview-frame {
-  color: white;
-  font-weight: 300;
+button[type="submit"]:hover {
+  background-color: #444;
+}
 
-  width: 800px;
-  height: 200px;
-  overflow: hidden;
-  border: 1px dashed #000000;
+.form-head{
+  margin-bottom: 50px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  font-size:x-large;
 }
 
-
-#profile-picture-preview{
-  width: 100%;
-  height: 100%;
-  object-fit:fill;
-  display: none;
-}
 
 #flash{
   position:fixed;
