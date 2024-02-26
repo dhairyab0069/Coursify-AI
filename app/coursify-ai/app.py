@@ -329,6 +329,130 @@ def change_password():
     flash('Your password has been updated successfully.')
     return redirect(url_for('settings_html'))
 
+# @app.route('/share_via_email', methods=['POST'])
+# def share_via_email():
+#     # Get the recipient's email address and the file id from the form data
+#     recipient = request.form.get('email')
+#     file_id = request.form.get('file_id')
+
+#     # converts id to objectid
+#     file_id = ObjectId(file_id)
+
+#     # Retrieve the file from GridFS
+#     file = fs.get(file_id)
+
+#     # Create a new email message
+#     msg = Message('Your Shared File',
+#                   sender='coursify@outlook.com',
+#                   recipients=[recipient])
+
+#     # Check the MIME type of the file and attach it
+#     if file.content_type == 'application/pdf':
+#         msg.attach(file.filename, "application/pdf", file.read())
+#     elif file.content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+#         msg.attach(file.filename, "application/vnd.openxmlformats-officedocument.presentationml.presentation", file.read())
+
+#     # Send the email
+#     mail.send(msg)
+
+#     return 'Email sent!'
+# @app.route('/share_via_email', methods=['POST'])
+# def share_via_email():
+#     # Get the recipient's email address and the file id from the form data
+#     recipient = request.form.get('email')
+#     file_id = request.form.get('file_id')
+
+#     # converts id to objectid
+#     file_id = ObjectId(file_id)
+
+#     # Retrieve the file from GridFS
+#     file = fs.get(file_id)
+
+#     # Create a new email message
+#     msg = Message('Your Shared File',
+#                   sender='coursify@outlook.com',
+#                   recipients=[recipient])
+
+#     # Check the MIME type of the file and attach it
+#     if file.content_type == 'application/pdf':
+#         msg.attach(file.filename, "application/pdf", file.read())
+#     elif file.content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+#         msg.attach(file.filename, "application/vnd.openxmlformats-officedocument.presentationml.presentation", file.read())
+
+#     # Send the email
+#     mail.send(msg)
+
+#     return 'Email sent!'
+
+def extract_text_from_pdf(pdf_path):
+    # This function extracts text from a PDF using PdfReader
+    with open(pdf_path, 'rb') as f:
+        reader = PdfReader(f)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text()
+    return text
+
+# @app.route('/share/<file_id>')
+# def share_file(file_id):
+#     # converts id to objectid
+#     file_id = ObjectId(file_id)
+
+#     # Retrieve the file from GridFS
+#     file = fs.get(file_id)
+
+#     # Create a response with the file data
+#     response = make_response(file.read())
+
+#     # Check the MIME type of the file and set the response.mimetype
+#     if file.content_type == 'application/pdf':
+#         response.mimetype = 'application/pdf'
+#     elif file.content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+#         response.mimetype = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+
+#     # Set the Content-Disposition header to make the file downloadable
+#     response.headers.set('Content-Disposition', 'attachment', filename=file.filename)
+
+#     return response
+@app.route('/share/<file_id>')
+def share_file(file_id):
+    # converts id to objectid
+    file_id = ObjectId(file_id)
+
+    # Retrieve the file from GridFS
+    file = fs.get(file_id)
+
+    # Create a response with the file data
+    response = make_response(file.read())
+    response.mimetype = 'application/pdf'
+
+    # Set the Content-Disposition header to make the file downloadable
+    response.headers.set('Content-Disposition', 'attachment', filename=file.filename)
+
+    return response
+
+@app.route('/content')
+def my_content():
+ if current_user.is_authenticated:
+    fs=GridFS(db)
+    # Get a list of all files in GridFS
+    files = fs.find({"user_id": current_user.get_id()}).sort("_id",-1)
+
+    # Create a list to store file data
+    file_data = []
+
+    # Loop through all files
+    for file in files:
+        # Get the file name and the file id (used to retrieve the file later)
+        file_data.append({"filename": file.filename, "_id": str(file._id)})
+
+    # Render a template and pass the file data to it
+    return render_template('content.html', file_data=file_data)
+
+# @app.route('/content')
+# def content():
+#     return render_template('content.html')
+
 @app.route('/share_via_email', methods=['POST'])
 def share_via_email():
     # Get the recipient's email address and the file id from the form data
@@ -352,54 +476,7 @@ def share_via_email():
     return 'Email sent!'
 
         
-@app.route('/share/<file_id>')
-def share_file(file_id):
-    # converts id to objectid
-    file_id = ObjectId(file_id)
 
-    # Retrieve the file from GridFS
-    file = fs.get(file_id)
-
-    # Create a response with the file data
-    response = make_response(file.read())
-    response.mimetype = 'application/pdf'
-
-    # Set the Content-Disposition header to make the file downloadable
-    response.headers.set('Content-Disposition', 'attachment', filename=file.filename)
-
-    return response
-
-
-def extract_text_from_pdf(pdf_path):
-    # This function extracts text from a PDF using PdfReader
-    with open(pdf_path, 'rb') as f:
-        reader = PdfReader(f)
-        text = ""
-        for page in reader.pages:
-            text += page.extract_text()
-    return text
-
-@app.route('/content')
-def my_content():
- if current_user.is_authenticated:
-    fs=GridFS(db)
-    # Get a list of all files in GridFS
-    files = fs.find({"user_id": current_user.get_id()}).sort("_id",-1)
-
-    # Create a list to store file data
-    file_data = []
-
-    # Loop through all files
-    for file in files:
-        # Get the file name and the file id (used to retrieve the file later)
-        file_data.append({"filename": file.filename, "_id": str(file._id)})
-
-    # Render a template and pass the file data to it
-    return render_template('content.html', file_data=file_data)
-
-# @app.route('/content')
-# def content():
-#     return render_template('content.html')
 
 
 
