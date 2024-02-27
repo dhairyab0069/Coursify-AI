@@ -33,50 +33,27 @@
               <a href="settings.html" id = "settings">SETTINGS</a>
               <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
                 
-            </nav>
-           </div>
+
+            </div>
+        </nav>
+        <i class='bx bx-menu'></i>
         
-     </button>    
-   </header>
-
-   <main class="main-content">
-
-<div class="grid-container">
-  <div class="accuracy-score">
-    <h2>User-Based Accuracy Score</h2>
-    <p>This score represents the average user rating based on reviews.</p>
-    <div class="score-visual">3.8 / 5.0</div>
-</div>
-
-<!-- Add Review Section -->
-<form class="add-review">
-    <h3>Add Your Review</h3>
-    <label for="user-review">Write your review:</label>
-    <textarea id="user-review" placeholder="Share your thoughts..."></textarea>
-    <button type="submit" class="submit-review">Submit Review</button>
-</form>
-
-  <!-- Reviews Section -->
-  <div class="reviews-container">
-      <!-- Individual reviews will go here -->
-
-      <!-- Reviews Filter Footer -->
-      <footer class="reviews-footer">
-          <select name="rating" id="rating">
-              <option value="">Filter by rating</option>
-              <option value="5">5 star</option>
-              <option value="4">4 star</option>
-              <option value="3">3 star</option>
-              <option value="2">2 star</option>
-              <option value="1">1 star</option>
-          </select>
-      </footer>
-  </div>
-
-</div>
-
-
-</main>
-
-  </body>
+        </button>    
+        </header>
+        <section id="my-content">
+        <div class="content-header">
+            <h1 id = "title">Review Page</h1>
+          </div>
+        </section>
+        <div id="review_container">
+        <form id="review_form" action="/submit_review" method="post">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" placeholder="Write a Title"><br>
+            <label for="review_text">Review:</label><br>
+            <textarea id="review_text" name="review_text" rows="4" cols="50" placeholder="Write a Review"></textarea><br>
+            <input type="submit" value="Submit Review">
+        </form>
+        </div>
+        
+        <footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
 </html>    

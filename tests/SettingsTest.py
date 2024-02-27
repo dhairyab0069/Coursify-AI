@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # RUN THIS COMMAND TO GET A REPORT
-# pytest SettingsTest.py --html=report.html
+# pytest test_file.py --html=report.html
 
 LOGIN_URL = "http://127.0.0.1:5000/login"
 
@@ -35,14 +35,9 @@ def login(browser, email, password):
 
 # CASE 1 : NAVIGATE TO THE SETTINGS PAGE #==========================================================
 #===================================================================================================
-
-# initial email    : vinu.ubc@gmail.com
-# initial password : yarvp04117
-
-## navigates to log in page and logs in, clicks the settings page, checks for the account settings form.
 def test_navigate_to_settings(browser):
     my_email = "vinu.ubc@gmail.com"
-    my_password = "yarvp04117"
+    my_password = "westbrook00"
 
     login(browser, my_email, my_password)
 
@@ -66,11 +61,9 @@ def test_navigate_to_settings(browser):
 
 # CASE 2 : CHANGE ACCOUNT  FIRST NAME #=============================================================
 #===================================================================================================
-# clicks firstname
-# 
 def test_change_first_name(browser):
     my_email = "vinu.ubc@gmail.com"
-    my_password = "yarvp04117"
+    my_password = "westbrook00"
 
     login(browser, my_email, my_password)
 
@@ -115,7 +108,7 @@ def test_change_first_name(browser):
 #===================================================================================================
 def test_change_last_name(browser):
     my_email = "vinu.ubc@gmail.com"
-    my_password = "yarvp04117"
+    my_password = "westbrook00"
 
     login(browser, my_email, my_password)
 
@@ -160,7 +153,7 @@ def test_change_last_name(browser):
 #===================================================================================================
 def test_change_email(browser):
     my_email = "vinu.ubc@gmail.com"
-    my_password = "yarvp04117"
+    my_password = "westbrook00"
 
     login(browser, my_email, my_password)
 
@@ -203,10 +196,9 @@ def test_change_email(browser):
 
 # CASE 5 : (SHOULD FAIL) CHANGE ACCOUNT DETAILS #===================================================
 #===================================================================================================
-#CHANGE EMAIL###########################################
 def test_shouldFAIL_account_settings(browser):
     my_email = "ubcubc@gmail.com"                                                                                                                          # CHANGE
-    my_password = "yarvp04117"
+    my_password = "westbrook00"
 
     login(browser, my_email, my_password)
 
@@ -251,7 +243,7 @@ def test_shouldFAIL_account_settings(browser):
 #===================================================================================================
 def test_change_password(browser):
     my_email = "ubcubc@gmail.com"                                                                                                                       # CHANGE
-    my_password = "yarvp04117"
+    my_password = "westbrook00"
 
     login(browser, my_email, my_password)
 
@@ -287,7 +279,7 @@ def test_change_password(browser):
         EC.element_to_be_clickable((By.ID, "current-password"))
     )
     current_password_field.clear()  # Clear any pre-filled text
-    current_password_field.send_keys("yarvp04117")  # Replace with the actual current password
+    current_password_field.send_keys("westbrook00")  # Replace with the actual current password
     #
     new_password_field = browser.find_element(By.ID, "new-password")
     new_password_field.clear()  # It's good practice to clear the field before entering text

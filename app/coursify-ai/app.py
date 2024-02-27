@@ -1,8 +1,7 @@
-import io
 import logging
 from mailbox import Message
 from pydoc_data import topics
-from flask import after_this_request, flash, session
+from flask import flash, session
 from datetime import datetime
 import os
 import re
@@ -18,7 +17,7 @@ import openai
 import matplotlib.pyplot as plt
 from io import BytesIO
 from pymongo import MongoClient
-from gridfs import GridFS, NoFile
+from gridfs import GridFS
 from PyPDF2 import PdfReader
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
@@ -38,8 +37,6 @@ from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioF
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from wtforms.widgets import TextArea
 from datetime import datetime
-from docx import Document
-import tempfile
 
 class RegistrationForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
@@ -487,9 +484,6 @@ def share_via_email():
 def ai_html():
     return render_template('ai.html')
 
-@app.route('/preview.html')
-def preview():
-    return render_template('preview.html')
 @app.route('/faq.html')
 def faq():
     return render_template('faq.html')
@@ -778,8 +772,7 @@ def generate_pdf(prompt, length, difficulty):
                 c.setFont("Helvetica", 12)
                 c.drawString(left_margin, y_position, line)
                 y_position -= line_height 
-                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + " and difficulty level is " + diff)
-
+                prompt2 = content("explain in 3 lines about the following topic " +line + "related to " + prompt,"length : " + length/(len(lines)) + " and difficulty level is " + diff )
                 if prompt2 is None:
                     return jsonify(success=False, error="Failed to generate text from OpenAI API")
                 wrapped_text = wrap_text(prompt2, content_width, font_name, 12)
@@ -934,15 +927,6 @@ def get_presentation(filename):
         # Unauthorized access
         abort(401, description="Unauthorized to access this presentation")
 
-@app.route('/get_doc/<file_id>')
-def get_doc(file_id):
-    try:
-        file_id = ObjectId(file_id)  # Ensure file_id is a valid ObjectId
-        grid_out = fs.get(file_id)
-        return send_file(grid_out, attachment_filename=grid_out.filename, as_attachment=True)
-    except NoFile:
-        return jsonify({'error': 'File not found'}), 404
-
 @app.route('/list_pdfs', methods=['GET'])
 def list_pdfs():
     if current_user.is_authenticated:
@@ -1029,96 +1013,8 @@ def load_user(user_id):
         return None
     return User(user_id=user["_id"], email=user["email"])
 
-@app.route('/generate_quiz/<file_id>')
-def generate_quiz(file_id):
-    # Convert string file_id to ObjectId for MongoDB
-    try:
-        file_id = ObjectId(file_id)
-    except:
-        return jsonify({'error': 'Invalid file ID'}), 400
-
-    # Retrieve the file from GridFS
-    try:
-        file = fs.get(file_id)
-    except:
-        return jsonify({'error': 'File not found'}), 404
-
-    # Read the file's contents into a BytesIO stream
-    file_stream = io.BytesIO(file.read())
-
-    # Extract text from the PDF
-    extracted_text = extract_text_from_pdf(file_stream)
-
-    # Generate quiz questions based on the extracted text
-    questions = generate_questions(extracted_text)
-
-    # Create a Word document for the quiz
-    doc = Document()
-    doc.add_heading('Quiz', level=1)
-    for i, question in enumerate(questions, start=1):
-         doc.add_paragraph(f"Q{i}: {question}")  # Corrected line
-
-    # Save the document to a temporary file
-    temp_dir = tempfile.mkdtemp()
-    doc_filename = 'quiz.docx'
-    temp_path = os.path.join(temp_dir, doc_filename)
-    doc.save(temp_path)
-
-    # Upload the document to MongoDB using GridFS
-    with open(temp_path, 'rb') as doc_file:
-        if current_user.is_authenticated:
-            file_id = fs.put(doc_file, filename=doc_filename, user_id=str(current_user.get_id()))
-    
-    # Clean up the temporary file and directory
-    os.remove(temp_path)
-    os.rmdir(temp_dir)
-
-    # Create a URL for accessing the generated quiz document
-    quiz_url = url_for('get_doc', file_id=file_id, _external=True)
-
-    # Respond with the URL of the document
-    return jsonify(success=True, quiz_url=quiz_url)
-
-def get_file_stream(file_id):
-    try:
-        file_id = ObjectId(file_id)
-        fs = GridFS(db)  # Ensure 'db' is your MongoDB database instance
-        file = fs.get(file_id)
-        file_stream = io.BytesIO(file.read())
-        return file_stream
-    except Exception as e:
-        print(f"Error retrieving file: {e}")
-        return None
-
-def extract_text_from_pdf(file_stream):
-    # Ensure the stream position is at the start
-    file_stream.seek(0)
-    reader = PdfReader(file_stream)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text() + "\n"
-    return text
-
-def generate_questions(text):
-    # Construct a prompt for OpenAI API to generate quiz questions
-    prompt = f"Create 5 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
-    
-    # Call the OpenAI API function
-    questions_text = call_openai_api(prompt)
-    
-    if questions_text:
-        # Assuming the response text contains the questions formatted as needed
-        # You might need to further process this text depending on the response format
-        questions = questions_text.strip().split('\n\n')  # Example of simple parsing
-        return questions
-    else:
-        return ["Failed to generate questions."]
-
     
 if __name__ == '__main__':
     app.debug = True
     app.run()
-
-def create_app():
-    app = Flask(__name__)
-    return app
+    
