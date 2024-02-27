@@ -49,10 +49,18 @@
 </div>
 
 <!-- Add Review Section -->
-<form class="add-review">
+<form class="add-review" onsubmit="submitReview(event)">
     <h3>Add Your Review</h3>
+    <div class="stars">
+      <span class="star" onclick="setRating(1)">&#9733;</span>
+      <span class="star" onclick="setRating(2)">&#9733;</span>
+      <span class="star" onclick="setRating(3)">&#9733;</span>
+      <span class="star" onclick="setRating(4)">&#9733;</span>
+      <span class="star" onclick="setRating(5)">&#9733;</span>
+  </div>
     <label for="user-review">Write your review:</label>
     <textarea id="user-review" placeholder="Share your thoughts..."></textarea>
+
     <button type="submit" class="submit-review">Submit Review</button>
 </form>
 
@@ -77,6 +85,23 @@
 
 
 </main>
+<script>
+  var stars = document.querySelectorAll('.star');
+  var rating = 0;
+  
+  function setRating(ratingValue) {
+    rating = ratingValue;
+  
+    for(var i = 0; i < stars.length; i++) {
+      stars[i].classList.remove('active');
+  
+      if(i < rating) {
+        stars[i].classList.add('active');
+      }
+    }
+  }
+  
+  </script>
 
   </body>
 </html>    

@@ -186,6 +186,8 @@ body .main-content {
     width: 100%; /* Make textarea fill the container */
     padding: 0.5rem;
     margin-bottom: 1rem; /* Space between textarea and button */
+    resize: none;
+    overflow: auto;
 }
 
 .add-review button {
@@ -224,6 +226,19 @@ body .main-content {
 .submit-review:hover {
     background-color: #45a049; /* Darker shade of green */
 }
+.star{
+    color: white;
+    font-size: 40px;
+    padding: 0 5px;
+    cursor: pointer;
+}
+.star:hover {
+  color: gold;
+}
+  
+  .star.active {
+    color: gold;
+  }
 
 
 /* Add responsiveness if needed */

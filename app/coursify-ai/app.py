@@ -874,7 +874,7 @@ def check_file(filename):
 @app.route('/submit_review', methods=['POST'])
 @login_required
 def submit_review():
-    title = request.form['title']
+    star_rating = request.form['star_rating']
     review_text = request.form['review_text']
     user_id = ObjectId(current_user.get_id())
     
@@ -884,7 +884,7 @@ def submit_review():
         first_name = user_details.get('first_name')
         last_name = user_details.get('last_name')
 
-    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "title": title, "review_text": review_text}
+    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text}
     reviews_collection.insert_one(review)
 
     flash('Review submitted successfully.')
@@ -895,6 +895,8 @@ def submit_review():
 def reviews():
     all_reviews = reviews_collection.find()
     return render_template('reviews.html', reviews=all_reviews)
+
+
 
 @app.route('/delete/<file_id>', methods=['POST'])
 def delete_file(file_id):
