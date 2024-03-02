@@ -889,7 +889,7 @@ def check_file(filename):
 @app.route('/submit_review', methods=['POST'])
 @login_required
 def submit_review():
-    title = request.form['title']
+    star_rating = request.form['star_rating']
     review_text = request.form['review_text']
     user_id = ObjectId(current_user.get_id())
     
@@ -899,7 +899,7 @@ def submit_review():
         first_name = user_details.get('first_name')
         last_name = user_details.get('last_name')
 
-    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "title": title, "review_text": review_text}
+    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text}
     reviews_collection.insert_one(review)
 
     flash('Review submitted successfully.')
@@ -910,6 +910,8 @@ def submit_review():
 def reviews():
     all_reviews = reviews_collection.find()
     return render_template('reviews.html', reviews=all_reviews)
+
+
 
 @app.route('/delete/<file_id>', methods=['POST'])
 def delete_file(file_id):
@@ -1042,6 +1044,34 @@ if __name__ == '__main__':
     app.debug = True
     app.run()
 
+    
+@app.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review():
+    star_rating = request.form['star_rating']
+    review_text = request.form['review_text']
+    user_id = ObjectId(current_user.get_id())
+   
+    review = {
+        "user_id": current_user.get_id(),
+        "star_rating": star_rating,
+        "review_text": review_text,
+        "timestamp": datetime.utcnow()  # Optional, for sorting purposes
+    }
+    reviews_collection.insert_one(review)
+   
+    flash('Review submitted successfully.')
+    return redirect(url_for('reviews'))
+
+
+@app.route('/reviews')
+@login_required
+def reviews():
+    all_reviews = reviews_collection.find().sort("timestamp", -1)  # Assuming you want the newest first
+    return render_template('reviews.html', reviews=all_reviews)
+
+
 def create_app():
     app = Flask(__name__)
     return app
+
