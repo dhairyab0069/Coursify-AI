@@ -1,107 +1,148 @@
 <!DOCTYPE html>
-<html land="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Reviews</title>
-
-        <!--icons-->
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-        <link rel="stylesheet" href="{{ url_for('static', filename='stylereview.css') }}">
-
-
-    </head>
-    <body>
-        <!--header design-->
-        <header class="header">
-            <div class="link_container">
-              <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews</title>
+    <!--icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylereview.css') }}">
+</head>
+<body>
+    <!--header design-->
+    <header class="header">
+        <div class="link_container">
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
         </div>
-
-
-        <div class="link_container" >
-
-
-            <nav class="navbar" >
-              <div id ="sidebar"></div>
-              <a href="{{ url_for('index') }}" id = "home">HOME</a>
-              <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
-              <a href="ai.html" id = "ai">AI ASSISTANT</a>
-              <a href="{{ url_for('reviews') }}">REVIEW</a>
-              <a href="settings.html" id = "settings">SETTINGS</a>
-              <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
-                
+        <div class="link_container">
+            <nav class="navbar">
+                <div id="sidebar"></div>
+                <a href="{{ url_for('index') }}" id="home">HOME</a>
+                <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+                <a href="ai.html" id="ai">AI ASSISTANT</a>
+                <a href="{{ url_for('reviews') }}">REVIEW</a>
+                <a href="settings.html" id="settings">SETTINGS</a>
+                <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
             </nav>
-           </div>
-        
-     </button>    
-   </header>
+        </div>
+    </header>
 
-   <main class="main-content">
+    <main class="main-content">
+        <div class="grid-container">
+          <div class="accuracy-score">
+            <h2>User-Based Accuracy Score</h2>
+            <p>This score represents the average user rating based on reviews.</p>
+            <div class="score-visual"><span id="calculated-score">0</span> / 5.0</div>
+        </div>
+            <!-- Add Review Section -->
+            <form class="add-review" method="POST" action="/submit_review">
+                <h3>Add Your Review</h3>
+                <div class="stars">
+                    <!-- Clickable stars for rating -->
+                    <i class="bx bxs-star" data-value="1"></i>
+                    <i class="bx bxs-star" data-value="2"></i>
+                    <i class="bx bxs-star" data-value="3"></i>
+                    <i class="bx bxs-star" data-value="4"></i>
+                    <i class="bx bxs-star" data-value="5"></i>
+                </div>
+                <textarea name="review_text" placeholder="Write your review here..."></textarea>
+                <input type="hidden" name="star_rating" id="star_rating" value=""> <!-- Hidden field to store rating -->
+                <button type="submit">Submit Review</button>
+            </form>
 
-<div class="grid-container">
-  <div class="accuracy-score">
-    <h2>User-Based Accuracy Score</h2>
-    <p>This score represents the average user rating based on reviews.</p>
-    <div class="score-visual">3.8 / 5.0</div>
-</div>
+            <!-- Reviews Section -->
+            <div class="reviews-container">
+                <select class="reviews-filter" name="rating" id="rating" onchange="filterReviews()">
+                    <option value="">Filter by rating</option>
+                    <option value="5">5 star</option>
+                    <option value="4">4 star</option>
+                    <option value="3">3 star</option>
+                    <option value="2">2 star</option>
+                    <option value="1">1 star</option>
+                </select>
 
-<!-- Add Review Section -->
-<form class="add-review" onsubmit="submitReview(event)">
-    <h3>Add Your Review</h3>
-    <div class="stars">
-      <span class="star" onclick="setRating(1)">&#9733;</span>
-      <span class="star" onclick="setRating(2)">&#9733;</span>
-      <span class="star" onclick="setRating(3)">&#9733;</span>
-      <span class="star" onclick="setRating(4)">&#9733;</span>
-      <span class="star" onclick="setRating(5)">&#9733;</span>
-  </div>
-    <label for="user-review">Write your review:</label>
-    <textarea id="user-review" placeholder="Share your thoughts..."></textarea>
+                <!-- Individual reviews will go here -->
+                {% for review in reviews %}
+                <div class="review" data-rating="{{ review.star_rating }}">
+                    <div class="review-rating">Rating: {{ review.star_rating }} / 5</div>
+                    <div class="review-text">{{ review.review_text }}</div>
+                </div>
+                {% else %}
+                <div>No reviews yet.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
 
-    <button type="submit" class="submit-review">Submit Review</button>
-</form>
+    <script>
+        function filterReviews() {
+            const selectedRating = document.getElementById('rating').value;
+            const reviews = document.querySelectorAll('.review');
 
-  <!-- Reviews Section -->
-  <div class="reviews-container">
-      <!-- Individual reviews will go here -->
+            reviews.forEach(review => {
+                if (selectedRating === "" || review.getAttribute('data-rating') === selectedRating) {
+                    review.style.display = '';
+                } else {
+                    review.style.display = 'none';
+                }
+            });
+        }
 
-      <!-- Reviews Filter Footer -->
-      <footer class="reviews-footer">
-          <select name="rating" id="rating">
-              <option value="">Filter by rating</option>
-              <option value="5">5 star</option>
-              <option value="4">4 star</option>
-              <option value="3">3 star</option>
-              <option value="2">2 star</option>
-              <option value="1">1 star</option>
-          </select>
-      </footer>
-  </div>
+        document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.bx.bxs-star');
+    const ratingInput = document.getElementById('star_rating');
 
-</div>
+    stars.forEach(star => {
+        star.addEventListener('click', function () {
+            const rating = this.getAttribute('data-value');
+            ratingInput.value = rating; // Update hidden input value
 
+            // Reset all stars to inactive state
+            stars.forEach(s => s.classList.remove('active'));
 
-</main>
-<script>
-  var stars = document.querySelectorAll('.star');
-  var rating = 0;
-  
-  function setRating(ratingValue) {
-    rating = ratingValue;
-  
-    for(var i = 0; i < stars.length; i++) {
-      stars[i].classList.remove('active');
-  
-      if(i < rating) {
-        stars[i].classList.add('active');
-      }
-    }
-  }
-  
-  </script>
+            // Set this star and all previous stars to active
+            this.classList.add('active');
+            for (let i = 0; i < rating; i++) {
+                stars[i].classList.add('active');
+            }
 
-  </body>
-</html>    
+            // Update the accuracy score based on new rating
+            calculateAndDisplayAccuracyScore();
+        });
+    });
+
+    // Initialize filter functionality
+    const ratingSelect = document.getElementById('rating');
+    ratingSelect.addEventListener('change', function() {
+        filterReviews();
+        calculateAndDisplayAccuracyScore();
+    });
+
+    // Calculate and display the initial accuracy score
+    calculateAndDisplayAccuracyScore();
+});
+
+function filterReviews() {
+    const selectedRating = document.getElementById('rating').value;
+    const reviews = document.querySelectorAll('.review');
+
+    reviews.forEach(review => {
+        if (selectedRating === "" || review.getAttribute('data-rating') === selectedRating) {
+            review.style.display = '';
+        } else {
+            review.style.display = 'none';
+        }
+    });
+}
+
+function calculateAndDisplayAccuracyScore() {
+    const visibleReviews = Array.from(document.querySelectorAll('.review')).filter(review => review.style.display !== 'none');
+    const totalRating = visibleReviews.reduce((total, review) => total + parseInt(review.getAttribute('data-rating'), 10), 0);
+    const averageRating = visibleReviews.length > 0 ? (totalRating / visibleReviews.length).toFixed(1) : 0;
+    document.getElementById('calculated-score').textContent = averageRating;
+}
+
+    </script>
+</body>
+</html>

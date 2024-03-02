@@ -148,7 +148,7 @@ body .main-content {
     flex-direction: column;
     align-items: center; /* Keeps content centered */
     text-align: center; /* Ensures text is centered */
-    min-height: 300px;
+    
     /* Add your existing styling rules, ensuring not to overwrite them */
 }
 .accuracy-score h2, .add-review h3 {
@@ -167,12 +167,14 @@ body .main-content {
     font-weight: bold;
     margin-top: 1rem;
     padding: 0.5rem 0;
+  
     /* Add more styling as needed */
 }
 
 .accuracy-score {
     grid-row: 1 / 2; /* Place in the first row */
     grid-column: 1 / 2; /* Place in the first column */
+    min-height: 200px;
 }
 
 .add-review {
@@ -180,10 +182,12 @@ body .main-content {
     grid-column: 1 / 2; /* Place in the first column */
     display: flex;
     flex-direction: column;
+    min-height: 400px;
 }
 
 .add-review textarea {
     width: 100%; /* Make textarea fill the container */
+    height: 60%;
     padding: 0.5rem;
     margin-bottom: 1rem; /* Space between textarea and button */
     resize: none;
@@ -205,7 +209,7 @@ body .main-content {
 
 .reviews-footer {
     margin-top: auto; /* Push footer to the bottom */
-    padding: 1rem 0;
+    padding: 2rem 0;
 }
 
 .reviews-footer select {
@@ -226,20 +230,16 @@ body .main-content {
 .submit-review:hover {
     background-color: #45a049; /* Darker shade of green */
 }
-.star{
-    color: white;
-    font-size: 40px;
-    padding: 0 5px;
+.bx {
     cursor: pointer;
-}
-.star:hover {
-  color: gold;
-}
-  
-  .star.active {
-    color: gold;
+    font-size: 2rem; /* Adjust size as needed */
+    color: var(--text-color); /* Default color for inactive stars */
   }
-
+  
+  .bx:hover,
+  .bx.active {
+    color: gold; /* Color for hovered or active (selected) stars */
+  }
 
 /* Add responsiveness if needed */
 @media (max-width: 768px) {
@@ -253,5 +253,83 @@ body .main-content {
 
     .reviews-container {
         grid-row: 3 / 4; /* Move reviews container to the third row */
+    }
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap');
+
+/* Existing styles remain unchanged */
+
+/* New styles for reviews */
+.review {
+    background-color: #ffffff; /* Light background for each review */
+    color: #000000; /* Dark text for readability */
+    margin-bottom: 2rem; /* Space between reviews */
+    padding: 2rem; /* Padding inside each review box */
+    border-radius: 8px; /* Rounded corners for the review boxes */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start of the review box */
+    width: 90%;
+}
+
+.review-author {
+    font-weight: 500; /* Medium font weight for author name */
+    margin-bottom: 0.5rem; /* Space between author name and review content */
+}
+
+.review-rating {
+    font-size: 1.6rem; /* Slightly larger font size for visibility */
+    color: gold; /* Gold color for the rating to stand out */
+    margin-bottom: 1rem; /* Space between rating and review text */
+}
+
+.review-text {
+    font-size: 1.4rem; /* Comfortable reading size for review text */
+    line-height: 1.6; /* Line height for better readability */
+}
+
+/* Updated styles for .reviews-container for better organization */
+.reviews-container {
+    grid-row: 1 / 3; /* Span both rows */
+    grid-column: 2 / 3; /* Place in the second column */
+    display: flex;
+    flex-direction: column;
+    max-height: 600px; /* Limit height to enforce scrolling */
+    overflow-y: auto; /* Allow scrolling within the container */
+    padding-right: 1rem; /* Prevents scrollbar from overlapping content */
+}
+
+/* Scrollbar styling for reviews container */
+.reviews-container::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.reviews-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track color */
+}
+
+.reviews-container::-webkit-scrollbar-thumb {
+    background: #888; /* Thumb color */
+}
+
+.reviews-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Thumb hover color */
+}
+
+/* Adjustments for mobile responsiveness */
+@media (max-width: 768px) {
+    .reviews-container {
+        grid-row: 3 / 4; /* Move reviews container to the third row on smaller screens */
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr; /* Stack elements in one column on smaller screens */
+    }
+
+    .accuracy-score, .add-review, .reviews-container {
+        grid-column: 1 / 2;
     }
 }
