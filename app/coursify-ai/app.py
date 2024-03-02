@@ -1,7 +1,8 @@
+import io
 import logging
 from mailbox import Message
 from pydoc_data import topics
-from flask import flash, session
+from flask import after_this_request, flash, session
 from datetime import datetime
 import os
 import re
@@ -17,7 +18,7 @@ import openai
 import matplotlib.pyplot as plt
 from io import BytesIO
 from pymongo import MongoClient
-from gridfs import GridFS
+from gridfs import GridFS, NoFile
 from PyPDF2 import PdfReader
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
@@ -37,6 +38,8 @@ from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioF
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from wtforms.widgets import TextArea
 from datetime import datetime
+from docx import Document
+import tempfile
 
 class RegistrationForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
@@ -329,130 +332,6 @@ def change_password():
     flash('Your password has been updated successfully.')
     return redirect(url_for('settings_html'))
 
-# @app.route('/share_via_email', methods=['POST'])
-# def share_via_email():
-#     # Get the recipient's email address and the file id from the form data
-#     recipient = request.form.get('email')
-#     file_id = request.form.get('file_id')
-
-#     # converts id to objectid
-#     file_id = ObjectId(file_id)
-
-#     # Retrieve the file from GridFS
-#     file = fs.get(file_id)
-
-#     # Create a new email message
-#     msg = Message('Your Shared File',
-#                   sender='coursify@outlook.com',
-#                   recipients=[recipient])
-
-#     # Check the MIME type of the file and attach it
-#     if file.content_type == 'application/pdf':
-#         msg.attach(file.filename, "application/pdf", file.read())
-#     elif file.content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-#         msg.attach(file.filename, "application/vnd.openxmlformats-officedocument.presentationml.presentation", file.read())
-
-#     # Send the email
-#     mail.send(msg)
-
-#     return 'Email sent!'
-# @app.route('/share_via_email', methods=['POST'])
-# def share_via_email():
-#     # Get the recipient's email address and the file id from the form data
-#     recipient = request.form.get('email')
-#     file_id = request.form.get('file_id')
-
-#     # converts id to objectid
-#     file_id = ObjectId(file_id)
-
-#     # Retrieve the file from GridFS
-#     file = fs.get(file_id)
-
-#     # Create a new email message
-#     msg = Message('Your Shared File',
-#                   sender='coursify@outlook.com',
-#                   recipients=[recipient])
-
-#     # Check the MIME type of the file and attach it
-#     if file.content_type == 'application/pdf':
-#         msg.attach(file.filename, "application/pdf", file.read())
-#     elif file.content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-#         msg.attach(file.filename, "application/vnd.openxmlformats-officedocument.presentationml.presentation", file.read())
-
-#     # Send the email
-#     mail.send(msg)
-
-#     return 'Email sent!'
-
-def extract_text_from_pdf(pdf_path):
-    # This function extracts text from a PDF using PdfReader
-    with open(pdf_path, 'rb') as f:
-        reader = PdfReader(f)
-        text = ""
-        for page in reader.pages:
-            text += page.extract_text()
-    return text
-
-# @app.route('/share/<file_id>')
-# def share_file(file_id):
-#     # converts id to objectid
-#     file_id = ObjectId(file_id)
-
-#     # Retrieve the file from GridFS
-#     file = fs.get(file_id)
-
-#     # Create a response with the file data
-#     response = make_response(file.read())
-
-#     # Check the MIME type of the file and set the response.mimetype
-#     if file.content_type == 'application/pdf':
-#         response.mimetype = 'application/pdf'
-#     elif file.content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-#         response.mimetype = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-
-#     # Set the Content-Disposition header to make the file downloadable
-#     response.headers.set('Content-Disposition', 'attachment', filename=file.filename)
-
-#     return response
-@app.route('/share/<file_id>')
-def share_file(file_id):
-    # converts id to objectid
-    file_id = ObjectId(file_id)
-
-    # Retrieve the file from GridFS
-    file = fs.get(file_id)
-
-    # Create a response with the file data
-    response = make_response(file.read())
-    response.mimetype = 'application/pdf'
-
-    # Set the Content-Disposition header to make the file downloadable
-    response.headers.set('Content-Disposition', 'attachment', filename=file.filename)
-
-    return response
-
-@app.route('/content')
-def my_content():
- if current_user.is_authenticated:
-    fs=GridFS(db)
-    # Get a list of all files in GridFS
-    files = fs.find({"user_id": current_user.get_id()}).sort("_id",-1)
-
-    # Create a list to store file data
-    file_data = []
-
-    # Loop through all files
-    for file in files:
-        # Get the file name and the file id (used to retrieve the file later)
-        file_data.append({"filename": file.filename, "_id": str(file._id)})
-
-    # Render a template and pass the file data to it
-    return render_template('content.html', file_data=file_data)
-
-# @app.route('/content')
-# def content():
-#     return render_template('content.html')
-
 @app.route('/share_via_email', methods=['POST'])
 def share_via_email():
     # Get the recipient's email address and the file id from the form data
@@ -476,7 +355,54 @@ def share_via_email():
     return 'Email sent!'
 
         
+@app.route('/share/<file_id>')
+def share_file(file_id):
+    # converts id to objectid
+    file_id = ObjectId(file_id)
 
+    # Retrieve the file from GridFS
+    file = fs.get(file_id)
+
+    # Create a response with the file data
+    response = make_response(file.read())
+    response.mimetype = 'application/pdf'
+
+    # Set the Content-Disposition header to make the file downloadable
+    response.headers.set('Content-Disposition', 'attachment', filename=file.filename)
+
+    return response
+
+
+def extract_text_from_pdf(pdf_path):
+    # This function extracts text from a PDF using PdfReader
+    with open(pdf_path, 'rb') as f:
+        reader = PdfReader(f)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text()
+    return text
+
+@app.route('/content')
+def my_content():
+ if current_user.is_authenticated:
+    fs=GridFS(db)
+    # Get a list of all files in GridFS
+    files = fs.find({"user_id": current_user.get_id()}).sort("_id",-1)
+
+    # Create a list to store file data
+    file_data = []
+
+    # Loop through all files
+    for file in files:
+        # Get the file name and the file id (used to retrieve the file later)
+        file_data.append({"filename": file.filename, "_id": str(file._id)})
+
+    # Render a template and pass the file data to it
+    return render_template('content.html', file_data=file_data)
+
+# @app.route('/content')
+# def content():
+#     return render_template('content.html')
 
 
 
@@ -484,6 +410,9 @@ def share_via_email():
 def ai_html():
     return render_template('ai.html')
 
+@app.route('/preview.html')
+def preview():
+    return render_template('preview.html')
 @app.route('/faq.html')
 def faq():
     return render_template('faq.html')
@@ -772,7 +701,8 @@ def generate_pdf(prompt, length, difficulty):
                 c.setFont("Helvetica", 12)
                 c.drawString(left_margin, y_position, line)
                 y_position -= line_height 
-                prompt2 = content("explain in 3 lines about the following topic " +line + "related to " + prompt,"length : " + length/(len(lines)) + " and difficulty level is " + diff )
+                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + " and difficulty level is " + diff)
+
                 if prompt2 is None:
                     return jsonify(success=False, error="Failed to generate text from OpenAI API")
                 wrapped_text = wrap_text(prompt2, content_width, font_name, 12)
@@ -927,6 +857,15 @@ def get_presentation(filename):
         # Unauthorized access
         abort(401, description="Unauthorized to access this presentation")
 
+@app.route('/get_doc/<file_id>')
+def get_doc(file_id):
+    try:
+        file_id = ObjectId(file_id)  # Ensure file_id is a valid ObjectId
+        grid_out = fs.get(file_id)
+        return send_file(grid_out, attachment_filename=grid_out.filename, as_attachment=True)
+    except NoFile:
+        return jsonify({'error': 'File not found'}), 404
+
 @app.route('/list_pdfs', methods=['GET'])
 def list_pdfs():
     if current_user.is_authenticated:
@@ -1013,8 +952,96 @@ def load_user(user_id):
         return None
     return User(user_id=user["_id"], email=user["email"])
 
+@app.route('/generate_quiz/<file_id>')
+def generate_quiz(file_id):
+    # Convert string file_id to ObjectId for MongoDB
+    try:
+        file_id = ObjectId(file_id)
+    except:
+        return jsonify({'error': 'Invalid file ID'}), 400
+
+    # Retrieve the file from GridFS
+    try:
+        file = fs.get(file_id)
+    except:
+        return jsonify({'error': 'File not found'}), 404
+
+    # Read the file's contents into a BytesIO stream
+    file_stream = io.BytesIO(file.read())
+
+    # Extract text from the PDF
+    extracted_text = extract_text_from_pdf(file_stream)
+
+    # Generate quiz questions based on the extracted text
+    questions = generate_questions(extracted_text)
+
+    # Create a Word document for the quiz
+    doc = Document()
+    doc.add_heading('Quiz', level=1)
+    for i, question in enumerate(questions, start=1):
+         doc.add_paragraph(f"Q{i}: {question}")  # Corrected line
+
+    # Save the document to a temporary file
+    temp_dir = tempfile.mkdtemp()
+    doc_filename = 'quiz.docx'
+    temp_path = os.path.join(temp_dir, doc_filename)
+    doc.save(temp_path)
+
+    # Upload the document to MongoDB using GridFS
+    with open(temp_path, 'rb') as doc_file:
+        if current_user.is_authenticated:
+            file_id = fs.put(doc_file, filename=doc_filename, user_id=str(current_user.get_id()))
+    
+    # Clean up the temporary file and directory
+    os.remove(temp_path)
+    os.rmdir(temp_dir)
+
+    # Create a URL for accessing the generated quiz document
+    quiz_url = url_for('get_doc', file_id=file_id, _external=True)
+
+    # Respond with the URL of the document
+    return jsonify(success=True, quiz_url=quiz_url)
+
+def get_file_stream(file_id):
+    try:
+        file_id = ObjectId(file_id)
+        fs = GridFS(db)  # Ensure 'db' is your MongoDB database instance
+        file = fs.get(file_id)
+        file_stream = io.BytesIO(file.read())
+        return file_stream
+    except Exception as e:
+        print(f"Error retrieving file: {e}")
+        return None
+
+def extract_text_from_pdf(file_stream):
+    # Ensure the stream position is at the start
+    file_stream.seek(0)
+    reader = PdfReader(file_stream)
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text() + "\n"
+    return text
+
+def generate_questions(text):
+    # Construct a prompt for OpenAI API to generate quiz questions
+    prompt = f"Create 5 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
+    
+    # Call the OpenAI API function
+    questions_text = call_openai_api(prompt)
+    
+    if questions_text:
+        # Assuming the response text contains the questions formatted as needed
+        # You might need to further process this text depending on the response format
+        questions = questions_text.strip().split('\n\n')  # Example of simple parsing
+        return questions
+    else:
+        return ["Failed to generate questions."]
+
     
 if __name__ == '__main__':
     app.debug = True
     app.run()
-    
+
+def create_app():
+    app = Flask(__name__)
+    return app
