@@ -230,12 +230,17 @@ function showDetails(id, filename) {
 
   document.getElementById('note-details').style.display = 'block';
   document.getElementById('deleteForm').action = '/delete/' + id;
+
+  document.getElementById('shareButton').onclick = function() { showForm(id); };
 }
 
 
-function showForm() {
+function showForm(fileId) {
   // Show the form
   document.getElementById('shareForm').style.display = 'block';
+  
+  // Set the file's ID in the form
+  document.getElementById('fileId').value = fileId;
 }
 function generateQuiz(fileId) {
     fetch(`/generate_quiz/${fileId}`)
