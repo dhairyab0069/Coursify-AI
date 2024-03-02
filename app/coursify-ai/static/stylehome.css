@@ -34,6 +34,7 @@ body, html {
     margin: 0.75rem; /* Increased margin to add more space between buttons */
     border-radius: 0.5rem;
     transition: background-color 0.3s ease;
+    text-decoration: none;
   }
   
   .btn-coursify {
@@ -60,6 +61,7 @@ body, html {
       padding: 0.5rem 1rem;
       font-size: 0.99rem; /* Scaled font size for medium screens */
       margin: 0.75rem; /* Keep increased margin for medium screens */
+      text-decoration: none;
     }
   }
   
@@ -76,6 +78,7 @@ body, html {
       padding: 0.5rem;
       font-size: 0.88rem; /* Scaled font size for small screens */
       margin: 0.75rem; /* Keep increased margin for small screens */
+      text-decoration: none;
     }
   }
   
