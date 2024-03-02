@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap');
-
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,9 +8,10 @@
     outline: none;
     scroll-behavior: smooth;
     font-family: 'Poppins', sans-serif;
+
 }
 
-:root {
+:root{
     --bg-color: #808080;
     --text-color: white;
 }
@@ -23,18 +23,19 @@ html {
     width: 100%;
 }
 
-body {
+body{
     background: var(--bg-color);
     color: var(--text-color);
     height: 100%;
     width: 100%;
 }
 
-section {
-    padding: 10rem 9%;
+section{
+    
+    padding: 10rem 9% ;
 }
 
-header {
+header{
     display: block;
     position: fixed;
     top: 0;
@@ -46,58 +47,99 @@ header {
     justify-content: space-between;
     align-items: center;
     z-index: 100;
+
 }
+
 
 .navbar a {
     font-size: 1.7rem;
     color: var(--text-color);
     margin-left: 4rem;
 }
-
-.navbar {
+.navbar{
     display: block;
 }
 
-.navbar a:hover {
+
+.navbar a:hover{
     color: black;
 }
 
-.link_container img {
+
+
+
+.link_container a{
+    
+}
+.link_container img{
     width: 5rem;
 }
 
-.bx-menu {
+
+button[type="submit"] {
+    background-color: #555;
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    text-align: center;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #444;
+}
+
+#footer {
+    position: relative;
+    text-align: center;
+    bottom: 0;
+    background-color: var(--bg-color);
+    color: #fff;
+    padding: 20px;
+    width: 100%;
+}
+.right h1{
+    align-items: center;
+    position:sticky
+}
+.bx-menu{
     display: none;
 }
 
-@media (max-width: 1200px) {
-    html {
+
+
+@media (max-width: 1200px){
+    html{
         font-size: 55%;
     }
 }
-
-@media (max-width: 991px) {
-    .header {
+@media (max-width: 991px){
+    .header{
         padding: 2rem 3%;
     }
 
-    section {
+    section{
         padding: 10rem 3% 2rem;
     }
 
-    .footer {
+    .footer{
         padding: 2rem 3%;
     }
+
 }
 
-@media (max-width: 768px) {
-    .bx-menu {
+@media (max-width: 768px){
+    .bx-menu{
         display: block;
         font-size: 3.5rem;
         cursor: pointer;
     }
    
-    .navbar {
+    .navbar{
         position: absolute;
         top: 100%;
         left: 0;
@@ -109,7 +151,7 @@ header {
         display: none;
     }
 
-    .navbar.active {
+    .navbar.active{
         display: block;
     }
 
@@ -118,125 +160,73 @@ header {
         font-size: 2rem;
         margin: 3rem 0;
     }
+    .home{
+        display: flex;
+        flex-direction: column;
+    }
 }
+
+
 
 .content-header {
     text-align: center;
     margin-bottom: 2rem;
     color: #fff;
     padding: 10px 0;
-}
+  }
+  
+  .content-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }  
 
-body .main-content {
-    margin-top: 10rem; /* Adjust as needed to move the content down */
-    padding-top: 1rem; /* Additional padding at the top, adjust as needed */
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: auto auto;
-    gap: 3rem; /* Increased gap for more space between boxes */
-    margin-top: 3rem; /* Adjust this if needed for additional space below the header */
-    padding: 1rem;
-}
-.accuracy-score, .add-review, .reviews-container {
-    border: 1px solid #ccc; /* Maintains existing border styling */
-    border-radius: 8px; /* Adds rounded corners */
-    padding: 2rem; /* Ensures padding is sufficient for content */
+#review_form {
+    
     display: flex;
     flex-direction: column;
-    align-items: center; /* Keeps content centered */
-    text-align: center; /* Ensures text is centered */
-    min-height: 300px;
-    /* Add your existing styling rules, ensuring not to overwrite them */
-}
-.accuracy-score h2, .add-review h3 {
-    font-size: 3.5rem; /* Increased font size for h2 */
-    margin: 1rem 0; /* Adjust margin as needed */
-    color: var(--text-color); /* Ensures color consistency */
-}
+    width: 30%;
+    /* margin: 0 auto; */
+    margin-top: -5%;
+    margin-left: 35%;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
 
-.add-review h3 {
-    font-size: 2rem; /* Slightly smaller than h2 for visual hierarchy */
-    /* Your existing h3 styling rules */
-}
+  }
 
-.score-visual {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-top: 1rem;
-    padding: 0.5rem 0;
-    /* Add more styling as needed */
-}
+  #review_form label {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #333; 
+  }
+  
+  #review_form input[type="text"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
 
-.accuracy-score {
-    grid-row: 1 / 2; /* Place in the first row */
-    grid-column: 1 / 2; /* Place in the first column */
-}
-
-.add-review {
-    grid-row: 2 / 3; /* Place in the second row */
-    grid-column: 1 / 2; /* Place in the first column */
-    display: flex;
-    flex-direction: column;
-}
-
-.add-review textarea {
-    width: 100%; /* Make textarea fill the container */
-    padding: 0.5rem;
-    margin-bottom: 1rem; /* Space between textarea and button */
-}
-
-.add-review button {
-    padding: 0.5rem;
-    cursor: pointer;
-    /* Add additional button styling */
-}
-
-.reviews-container {
-    grid-row: 1 / 3; /* Span both rows */
-    grid-column: 2 / 3; /* Place in the second column */
-    display: flex;
-    flex-direction: column;
-}
-
-.reviews-footer {
-    margin-top: auto; /* Push footer to the bottom */
-    padding: 1rem 0;
-}
-
-.reviews-footer select {
-    width: 100%; /* Make the select box fill the footer */
-    padding: 0.5rem;
-}
-
-.submit-review {
-    background-color: #64c667; /* Green background */
-    color: white;
-    font-size: 1.6rem;
-    padding: 1rem 2rem;
+  #review_form textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    resize: none;
+    overflow: auto;
+  }
+  
+  #review_form input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.submit-review:hover {
-    background-color: #45a049; /* Darker shade of green */
-}
-
-
-/* Add responsiveness if needed */
-@media (max-width: 768px) {
-    .grid-container {
-        grid-template-columns: 1fr; /* Stack elements in one column on smaller screens */
-    }
-
-    .accuracy-score, .add-review, .reviews-container {
-        grid-column: 1 / 2;
-    }
-
-    .reviews-container {
-        grid-row: 3 / 4; /* Move reviews container to the third row */
-    }
-}
+    transition: background-color 0.3s;
+  }
+  
+  #review_form input[type="submit"]:hover {
+    background-color: #555555;
+  }
