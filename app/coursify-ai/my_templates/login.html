@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Coursify.ai</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">   
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styleLogin.css') }}">
     <header class="header">
         <div class="link_container">
-          <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
-    </div>
+          <!-- <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a> -->
+        </div>
     </header>
 
 </head>
 <body id="login" style="background: var(--bg-color);">
     <div class="container">
-        <div class="row justify-content-center align-items-center vh-100">
+        <!-- <div class="row justify-content-center align-items-center vh-100">-->
             <div class="col-md-6">
-                <div class="form-container bg-white p-4 rounded shadow-sm">
-                    <h2 class="mb-4 text-center">Login</h2>
+                <!--<div class="form-container bg-white p-4 rounded shadow-sm">-->
+                    <h2 class="text-center-L">LOGIN</h2>
                     <form id="login-form" method="POST" action="/login">
                         <div class="form-group">
                             <label for="email">Email:</label>
@@ -38,11 +38,12 @@
                         </div>
                     </form>
                     <div class="mt-4 text-center">
-                        <a href="{{ url_for('register') }}" class="btn btn-secondary">Go to Registration Page</a>
+                        <p>Not a member?</p>
+                        <a href="{{ url_for('register') }}" class="btn btn-secondary">Sign Up</a>
                     </div>
-                </div>
+                <!--</div>-->
             </div>
-        </div>
+        <!--</div> -->
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

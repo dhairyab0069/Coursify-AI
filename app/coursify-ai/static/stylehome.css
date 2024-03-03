@@ -22,6 +22,7 @@ body, html {
     max-width: 500px; /* Set a max-width for the content if needed */
   }
   
+  
   h1 {
     color: #fff; /* White text */
     font-size: 2.2rem; /* Increased font size by 10% */
@@ -46,7 +47,6 @@ body, html {
   .btn-coursify:hover {
     background-color: #003d82; /* Darker shade of blue for hover effect */
   }
-  
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .container {
@@ -62,7 +62,7 @@ body, html {
       font-size: 0.99rem; /* Scaled font size for medium screens */
       margin: 0.75rem; /* Keep increased margin for medium screens */
       text-decoration: none;
-    }
+    }   
   }
   
   @media (max-width: 480px) {
