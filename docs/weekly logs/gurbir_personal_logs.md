@@ -165,11 +165,22 @@ Tasks in progress: Researching ways to increase content accuracy
 
 ### Tasks in progress
 -  Discussing implementation of a content accauracy rating by gpt, divide by category of pdf
--  Created test cases for login and registration page 
+
 
 ### Tasks Completed
 - fixed bugs with content generation 
   
 <img width="697" alt="Screenshot 2024-02-18 at 10 52 48 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/c62e328a-d710-44da-b323-251a077d87a5">
 <img width="1169" alt="Screenshot 2024-02-18 at 11 42 20 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/a50e9aa0-f942-4f86-addc-7fb95cc0ea6a">
+
+# T2 Week 7-8
+## Date: 25/02/2024 - 03/03/2024
+### Gurbir Amrit - gurbirRemy
+- Testing for login, registration, logout routes successfully conducted with 5 passed and 1 failed
+- edited database schema and updated atlas collections in the cluster
+
+  <img width="1270" alt="Screenshot 2024-03-03 at 11 24 38 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/62c8eae0-5230-48b7-90a8-28fe3d70f106">
+  <img width="1173" alt="Screenshot 2024-03-03 at 11 26 19 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/3dfc934b-0cba-40a9-998f-09e6d59ebcf1">
+
+<img width="1116" alt="Screenshot 2024-03-03 at 11 28 47 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/f66d9879-2fbe-4146-9e08-8c2d2c27c4cd">
 

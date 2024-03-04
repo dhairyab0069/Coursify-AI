@@ -1,3 +1,23 @@
+# Week T2 #8
+## Date: 18/02/2024 - 03/03/2024
+### Vinu Ihalagamage - vinui409
+
+#### Link to the branch with code for Week 4 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-UI
+
+### Tasks worked on 
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/8333eefb-97c2-4485-9965-b9f561793ce9)
+
+### Tasks in Progress
+- Enhancing the UI of the website, background images and appearence changes.
+- Creating test cases for the UI
+
+### Tasks Completed
+- Changed the UI of the Landing, Login, Registration Page. 
+- Test cases for the new UI for landing page, login. registration
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/584a0456-808e-4605-91d3-9f68b8af7462)
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/77bae449-7ba5-4b7e-bebe-5575fc2e3335)
+
 # Week T2 #6
 ## Date: 11/02/2024 - 18/02/2024
 ### Vinu Ihalagamage - vinui409
