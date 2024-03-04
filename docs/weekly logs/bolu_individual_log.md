@@ -248,6 +248,27 @@ Delete feature (Completed) <br>
 
 <img width="1426" alt="Screenshot 2024-02-18 at 10 42 46 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/52dd8e0c-ba3f-4421-9b93-7f0ece84631a">
 
+# Dates worked on: 25/02/2024 - 03/03/2024
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+<img width="1070" alt="Screenshot 2024-03-03 at 11 10 25 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/456b335e-564c-437e-8306-01b5c5bc8f74">
+
+
+### Tasks:
+Sharing for pop-up when share button is clicked (In Progress) <br>
+Review feature (In Progress) <br>
+Working on slides download (Completed) <br>
+Working on the backend of the review system (Completed) <br>
+Working on sharing feature (Completed) <br>
+Design for review feature (In Progress) <br>
+Bug fix for linking content db with users db (Completed) <br>
+Delete feature (Completed) <br>
+
+<img width="1424" alt="Screenshot 2024-03-03 at 11 12 33 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/1fb4b2c7-0e81-4af2-887d-4c140ce90bcb">
+
+
 
 
 
