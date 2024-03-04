@@ -46,7 +46,7 @@
                     <i class="bx bxs-star" data-value="4"></i>
                     <i class="bx bxs-star" data-value="5"></i>
                 </div>
-                <select name="subject" id="subject" placeholder="Subject">
+                <select name="subject" id="subject_list" placeholder="Subject">
                     <option value="choose">Choose Subject</option> <!-- Dropdown list for subject -->
                     <option value="Math">Math</option>
                     <option value="Geography">Geography</option>
@@ -106,25 +106,26 @@
     </main>
 
     <script>
-        function filterReviews() {
-            const selectedRating = document.getElementById('rating').value;
-            const selectedSubject = document.getElementById('subject').value;
-            const reviews = document.querySelectorAll('.review');
+       // function filterReviews() {
+       //     const selectedRating = document.getElementById('rating').value;
+       //     const selectedSubject = document.getElementById('subject').value;
+       //     const reviews = document.querySelectorAll('.review');
         
-            reviews.forEach(review => {
-                if ((selectedRating === "" || review.getAttribute('data-rating') === selectedRating) &&
-                    (selectedSubject === "" || review.getAttribute('data-subject') === selectedSubject)) {
-                    review.style.display = '';
-                } else {
-                    review.style.display = 'none';
-                }
-            });
-        }
+       //     reviews.forEach(review => {
+       //         if ((selectedRating === "" || review.getAttribute('data-rating') === selectedRating) &&
+       //             (selectedSubject === "" || review.getAttribute('data-subject') === selectedSubject)) {
+       //             review.style.display = '';
+       //         } else {
+       //             review.style.display = 'none';
+       //         }
+       //     });
+       // }
         
 
         document.addEventListener('DOMContentLoaded', function () {
     const stars = document.querySelectorAll('.bx.bxs-star');
     const ratingInput = document.getElementById('star_rating');
+    const subjectInput = document.getElementById('subject');
 
 
     stars.forEach(star => {
@@ -153,8 +154,7 @@
         calculateAndDisplayAccuracyScore();
     });
 
-    const subjectSelect = document.getElementById('subject');
-    subjetSelect.addEventListener('change', function() {
+    subjectInput.addEventListener('change', function() {
         filterReviews();
         calculateAndDisplayAccuracyScore();
     });
@@ -166,16 +166,23 @@
 
 function filterReviews() {
     const selectedRating = document.getElementById('rating').value;
+    const selectedSubject = document.getElementById('subject').value;
     const reviews = document.querySelectorAll('.review');
 
     reviews.forEach(review => {
-        if (selectedRating === "" || review.getAttribute('data-rating') === selectedRating) {
+        const reviewRating = Number(review.getAttribute('data-rating'));
+        const reviewSubject = String(review.getAttribute('data-subject'));
+
+        if ((selectedRating === "" || reviewRating === Number(selectedRating)) &&
+            (selectedSubject === "" || reviewSubject === selectedSubject)) {
             review.style.display = '';
         } else {
             review.style.display = 'none';
         }
     });
 }
+
+
 
 
 function calculateAndDisplayAccuracyScore() {
