@@ -48,17 +48,17 @@
                 </div>
                 <select name="subject" id="subject" placeholder="Subject">
                     <option value="choose">Choose Subject</option> <!-- Dropdown list for subject -->
-                    <option value="math">Math</option>
-                    <option value="geography">Geography</option>
-                    <option value="history">History</option>
-                    <option value="biology">Biology</option>
-                    <option value="chemistry">Chemistry</option>
-                    <option value="physics">Physics</option>
-                    <option value="english">English</option>
-                    <option value="economics">Economics</option>
-                    <option value="compsci">Computer Science</option>
-                    <option value="business">Business</option>
-                    <option value="other">Other</option>
+                    <option value="Math">Math</option>
+                    <option value="Geography">Geography</option>
+                    <option value="History">History</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Physics">Physics</option>
+                    <option value="English">English</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Business">Business</option>
+                    <option value="Other">Other</option>
                 </select>
                 <textarea name="review_text" placeholder="Write your review here..."></textarea>
                 <input type="hidden" name="star_rating" id="star_rating" value=""> <!-- Hidden field to store rating -->
@@ -67,45 +67,65 @@
 
             <!-- Reviews Section -->
             <div class="reviews-container">
-                <select class="reviews-filter" name="rating" id="rating" onchange="filterReviews()">
-                    <option value="">Filter by rating</option>
-                    <option value="5">5 star</option>
-                    <option value="4">4 star</option>
-                    <option value="3">3 star</option>
-                    <option value="2">2 star</option>
-                    <option value="1">1 star</option>
-                </select>
-
+                <div class="reviews-filter-container">
+                    <select class="reviews-filter" name="rating" id="rating" onchange="filterReviews()">
+                        <option value="">Filter by rating</option>
+                        <option value="5">5 star</option>
+                        <option value="4">4 star</option>
+                        <option value="3">3 star</option>
+                        <option value="2">2 star</option>
+                        <option value="1">1 star</option>
+                    </select>
+                    <select class="reviews-filter" name="subject" id="subject" onchange="filterReviews()">
+                        <option value="">Filter by subject</option>
+                        <option value="Math">Math</option>
+                        <option value="Geography">Geography</option>
+                        <option value="History">History</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Physics">Physics</option>
+                        <option value="English">English</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Business">Business</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            
                 <!-- Individual reviews will go here -->
                 {% for review in reviews %}
-                <div class="review" data-rating="{{ review.star_rating }}">
+                <div class="review" data-rating="{{ review.star_rating }}" data-subject="{{ review.subject }}">
                     <div class="review-rating">Rating: {{ review.star_rating }} / 5</div>
+                    <div class="review-subject">Subject: {{ review.subject }}</div>
                     <div class="review-text">{{ review.review_text }}</div>
                 </div>
                 {% else %}
                 <div>No reviews yet.</div>
                 {% endfor %}
             </div>
-        </div>
     </main>
 
     <script>
         function filterReviews() {
             const selectedRating = document.getElementById('rating').value;
+            const selectedSubject = document.getElementById('subject').value;
             const reviews = document.querySelectorAll('.review');
-
+        
             reviews.forEach(review => {
-                if (selectedRating === "" || review.getAttribute('data-rating') === selectedRating) {
+                if ((selectedRating === "" || review.getAttribute('data-rating') === selectedRating) &&
+                    (selectedSubject === "" || review.getAttribute('data-subject') === selectedSubject)) {
                     review.style.display = '';
                 } else {
                     review.style.display = 'none';
                 }
             });
         }
+        
 
         document.addEventListener('DOMContentLoaded', function () {
     const stars = document.querySelectorAll('.bx.bxs-star');
     const ratingInput = document.getElementById('star_rating');
+
 
     stars.forEach(star => {
         star.addEventListener('click', function () {
@@ -133,6 +153,13 @@
         calculateAndDisplayAccuracyScore();
     });
 
+    const subjectSelect = document.getElementById('subject');
+    subjetSelect.addEventListener('change', function() {
+        filterReviews();
+        calculateAndDisplayAccuracyScore();
+    });
+
+
     // Calculate and display the initial accuracy score
     calculateAndDisplayAccuracyScore();
 });
@@ -149,6 +176,7 @@ function filterReviews() {
         }
     });
 }
+
 
 function calculateAndDisplayAccuracyScore() {
     const visibleReviews = Array.from(document.querySelectorAll('.review')).filter(review => review.style.display !== 'none');
