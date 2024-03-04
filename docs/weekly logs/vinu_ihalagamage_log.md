@@ -2,8 +2,7 @@
 ## Date: 18/02/2024 - 03/03/2024
 ### Vinu Ihalagamage - vinui409
 
-#### Link to the branch with code for Week 4 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-Settings
-#### Last commit to the branch v2.0-Setting :c07cf8a2efbd168d8670cf2985b2eaafb3e31758
+#### Link to the branch with code for Week 4 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-UI
 
 ### Tasks worked on 
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/8333eefb-97c2-4485-9965-b9f561793ce9)
