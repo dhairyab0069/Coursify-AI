@@ -181,7 +181,7 @@ def register():
         # Auto-login after register
         user_obj = User(user_id=str(user_id), email=email)
         login_user(user_obj)
-      
+        print(current_user.is_authenticated)
         flash('Registration successful. Welcome!', 'success')
         return redirect(url_for('index'))  # Redirect to index page
     return render_template('register.html')
@@ -1045,7 +1045,7 @@ if __name__ == '__main__':
     app.run()
 
     
-@app.route('/submit_review', methods=['POST'])
+@app.route('/submit_review', methods=['POST'], endpoint='submit_review1')
 @login_required
 def submit_review():
     star_rating = request.form['star_rating']
@@ -1064,7 +1064,7 @@ def submit_review():
     return redirect(url_for('reviews'))
 
 
-@app.route('/reviews')
+@app.route('/reviews', endpoint='reviews1')
 @login_required
 def reviews():
     all_reviews = reviews_collection.find().sort("timestamp", -1)  # Assuming you want the newest first
