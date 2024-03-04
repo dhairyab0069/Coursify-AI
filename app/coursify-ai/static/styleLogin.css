@@ -1,7 +1,7 @@
 body,html {
     height: 100%;
     margin: 0;
-    background-image: url('Coursify.ai.png');
+    background-image: url('robotwithlogo.png');
     background-size: cover;
     background-position: center right;
     background-repeat: no-repeat;
@@ -25,6 +25,7 @@ body,html {
 .text-center-L{
     font-size:2em;
     margin-bottom: 1em;
+    font-family: cursive;
 }
 .container {
     position: absolute;
@@ -58,6 +59,7 @@ body,html {
 .text-center-R {
     font-size: 2em;
     margin-bottom: 0.5em;
+    font-family: cursive;
 }
 #register-form label {
     padding-bottom: 5px;
@@ -82,3 +84,46 @@ body,html {
     margin-left: 265px;
     margin-top: 400px;
 } 
+
+ /* Responsive adjustments */
+ @media (max-width: 768px) {
+     .container {
+         right: 20%;
+         /* Adjusted for medium screens */
+     }
+
+     h1 {
+         font-size: 1.925rem;
+         /* Scaled font size for medium screens */
+     }
+
+     .btn {
+         padding: 0.5rem 1rem;
+         font-size: 0.99rem;
+         /* Scaled font size for medium screens */
+         margin: 0.75rem;
+         /* Keep increased margin for medium screens */
+         text-decoration: none;
+     }
+ }
+
+ @media (max-width: 480px) {
+     .container {
+         right: 25%;
+         /* Adjusted for small screens */
+     }
+
+     h1 {
+         font-size: 1.65rem;
+         /* Scaled font size for small screens */
+     }
+
+     .btn {
+         padding: 0.5rem;
+         font-size: 0.88rem;
+         /* Scaled font size for small screens */
+         margin: 0.75rem;
+         /* Keep increased margin for small screens */
+         text-decoration: none;
+     }
+ }
