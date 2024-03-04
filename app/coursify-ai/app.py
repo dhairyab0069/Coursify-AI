@@ -1,7 +1,9 @@
+import glob
 import io
 import logging
 from mailbox import Message
 from pydoc_data import topics
+import subprocess
 from flask import after_this_request, flash, session
 from datetime import datetime
 import os
@@ -40,8 +42,14 @@ from wtforms.widgets import TextArea
 from datetime import datetime
 from docx import Document
 import tempfile
+import subprocess
+import os
+import base64
+from PIL import Image
+
 
 class RegistrationForm(FlaskForm):
+    '''Registration form class. Inherits from FlaskForm. '''
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -97,6 +105,7 @@ mail = Mail(app)
 
 # User model
 class User(UserMixin):
+    '''User class for Flask-Login.'''
     def __init__(self, user_id, email):
         self.user_id = str(user_id)
         self.email = email
@@ -107,12 +116,15 @@ class User(UserMixin):
 # User Loader
 @login_manager.user_loader
 def load_user(user_id):
+    '''Function to load a user from the database.'''
     user = users_collection.find_one({"_id": ObjectId(user_id)})
     if not user:
         return None
     return User(user_id=user["_id"], email=user["email"])
 @app.route('/')
 def home():
+    '''Function to render the homepage.'''
+
     # If the user is authenticated, redirect to the dashboard
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -121,6 +133,7 @@ def home():
 
 SENDGRID_API_KEY = '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'  
 def validate_password(password):
+    '''Validation of password'''
     if len(password) < 8:
         return "Password must be at least 8 characters long."
     if not re.search("[a-z]", password):
@@ -136,6 +149,7 @@ def validate_password(password):
     # Registration Route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    '''Function to register a new user.'''
     if request.method == 'POST':
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
@@ -188,6 +202,7 @@ def register():
 
 # Send Email Function
 def send_email(to_email, subject, confirm_url):
+    '''Function to send an email to the user.'''
     html_content = render_template('email_verification.html', confirm_url=confirm_url)
     message = Mail(
         from_email='',  # Replace with your verified sender email
@@ -205,6 +220,7 @@ def send_email(to_email, subject, confirm_url):
 # Email Confirmation Route
 @app.route('/confirm/<token>')
 def confirm_email(token):
+    '''Function to confirm the user's email address.'''
     try:
         email = serializer.loads(
             token, 
@@ -227,6 +243,7 @@ def confirm_email(token):
 # Updated Login Route with "Remember Me"
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    '''Function to log in the user.'''
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -246,11 +263,13 @@ def login():
 @app.route('/index')
 @login_required
 def index():
+    '''Function to render the dashboard page after successful login.'''
     # Dashboard page after successful login
     return render_template('index.html')
 
 @app.route('/logout')
 def logout():
+    '''Function to log out the user.'''
     logout_user()
     return redirect(url_for('home'))
 
@@ -259,6 +278,7 @@ def logout():
 @app.route('/settings.html')
 @login_required  # Ensure that the user is logged in
 def settings_html():
+    '''Function to render the settings page.'''
     user_id = current_user.get_id()
     user = users_collection.find_one({"_id": ObjectId(user_id)})
     if user:
@@ -272,6 +292,7 @@ def settings_html():
 @app.route('/update_account_settings', methods=['POST'])
 @login_required
 def update_account_settings():
+    '''Function to update the user's account settings.'''
     first_name = request.form.get('firstname')
     last_name = request.form.get('lastname')
     email = request.form.get('email')
@@ -306,6 +327,7 @@ def update_account_settings():
 @app.route('/change_password', methods=['POST'])
 @login_required
 def change_password():
+    '''Function to change the user's password.'''
     current_password = request.form.get('current-password')
     new_password = request.form.get('new-password')
     confirm_new_password = request.form.get('confirm-new-password')
@@ -334,6 +356,7 @@ def change_password():
 
 @app.route('/share_via_email', methods=['POST'])
 def share_via_email():
+    '''Function to share a file via email.'''
     # Get the recipient's email address and the file id from the form data
     recipient = request.form.get('email')
     file_id = request.form.get('file_id')
@@ -357,6 +380,7 @@ def share_via_email():
         
 @app.route('/share/<file_id>')
 def share_file(file_id):
+    '''Function to share a file with a unique URL.'''
     # converts id to objectid
     file_id = ObjectId(file_id)
 
@@ -374,6 +398,7 @@ def share_file(file_id):
 
 
 def extract_text_from_pdf(pdf_path):
+    '''Extract text from a PDF using PdfReader.'''
     # This function extracts text from a PDF using PdfReader
     with open(pdf_path, 'rb') as f:
         reader = PdfReader(f)
@@ -384,6 +409,7 @@ def extract_text_from_pdf(pdf_path):
 
 @app.route('/content')
 def my_content():
+ '''Function to display the content page.'''
  if current_user.is_authenticated:
     fs=GridFS(db)
     # Get a list of all files in GridFS
@@ -419,6 +445,7 @@ def faq():
 @app.route('/api/chat', methods=['POST'])
 @app.route('/api/chat', methods=['POST'])
 def chat():
+    '''Function for the chatbot API endpoint.'''
     try:
         user_input = request.json['message']
         print("User input received:", user_input)  # Debugging log
@@ -492,10 +519,12 @@ Password. Click the Register button to create your new account."},
         return jsonify({'error': str(e)}), 500
 
 def is_latex(text):
+    '''Check if a string contains LaTeX content.'''
 
     return bool(re.search(r"\$.*\$", text))
 
 def render_latex(formula, fontsize=12, dpi=150):
+    '''Render a LaTeX formula to an image and return the image as a BytesIO buffer.'''
 
     # Configure Matplotlib to use LaTeX for rendering
     plt.rcParams['text.usetex'] = True
@@ -518,6 +547,7 @@ def render_latex(formula, fontsize=12, dpi=150):
 
 
 def sanitize_filename(text):
+    '''Sanitize a string to be used as a filename.'''
     # Remove invalid filename characters
     valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
     sanitized = ''.join(c for c in text if c in valid_chars)
@@ -526,6 +556,7 @@ def sanitize_filename(text):
 
 
 def wrap_text(text, max_width, font_name, font_size):
+    '''Wrap text to fit within a given width.'''
     # Function to wrap text
     wrapped_text = []
     words = text.split()
@@ -538,6 +569,7 @@ def wrap_text(text, max_width, font_name, font_size):
 
     return wrapped_text
 def content(prompt, length):
+    '''Calls the OpenAI API to generate content based on the user's input.'''
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -551,6 +583,7 @@ def content(prompt, length):
         print(f"Error calling OpenAI API: {e}")
         return None
 def call_openai_api(prompt):
+    ''' Calls the OpenAI API to generate content based on the user's input.'''
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -581,6 +614,7 @@ def generate_content():
         return jsonify(success=False, error="Invalid format selected")
 
 def generate_pdf(prompt, length, difficulty):
+    '''Generate a PDF based on the user's input.'''
     # Create a subdirectory for PDFs if it doesn't exist
     pdf_directory = os.path.join(os.getcwd(), 'pdfs')
     if not os.path.exists(pdf_directory):
@@ -729,6 +763,7 @@ def generate_pdf(prompt, length, difficulty):
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
 def generate_slides(prompt, length, difficulty,):
+    '''Generate a presentation based on the user's input.'''
     # Directory where the presentations will be saved
     pptx_directory = os.path.join(os.getcwd(), 'presentations')
     if not os.path.exists(pptx_directory):
@@ -810,6 +845,7 @@ def generate_slides(prompt, length, difficulty,):
 
 @app.route('/get_user_pdfs', methods=['GET'])
 def get_user_pdfs():
+    '''Get all PDFs uploaded by the currently logged in user.'''
     if current_user.is_authenticated:
         fs = GridFS(db)
         user_pdfs = fs.find({'user_id': current_user.user_id})
@@ -818,6 +854,7 @@ def get_user_pdfs():
 
 @app.route('/pdf/<filename>')
 def get_pdf(filename):
+       '''Download a PDF from GridFS based on its filename.'''
     #  directory = os.path.join(os.getcwd(), 'pdfs')   
     #  file_path = os.path.join(directory, filename)
     #  if os.path.exists(file_path):
@@ -838,6 +875,7 @@ def get_pdf(filename):
         return "Unauthorized", 401
 @app.route('/presentation/<filename>')
 def get_presentation(filename):
+    '''Download a presentation from GridFS based on its filename.'''
     if current_user.is_authenticated:
         fs = GridFS(db)  # Assuming 'db' is your MongoDB database instance
         grid_out = fs.find_one({'filename': filename, 'user_id': current_user.user_id})
@@ -859,6 +897,7 @@ def get_presentation(filename):
 
 @app.route('/get_doc/<file_id>')
 def get_doc(file_id):
+    '''Download a file from GridFS based on its file_id.'''
     try:
         file_id = ObjectId(file_id)  # Ensure file_id is a valid ObjectId
         grid_out = fs.get(file_id)
@@ -868,6 +907,7 @@ def get_doc(file_id):
 
 @app.route('/list_pdfs', methods=['GET'])
 def list_pdfs():
+    '''List all PDFs in the database.'''
     if current_user.is_authenticated:
         fs = GridFS(db)
         user_pdfs = fs.find({'user_id': current_user.user_id})
@@ -879,6 +919,7 @@ def list_pdfs():
   #can be used to check if file is in database  
 @app.route('/check_file/<filename>', methods=['GET'])
 def check_file(filename):
+    '''Check if a file exists in the database.'''
     try:
         file = fs.get_last_version(filename=filename)
         if file:
@@ -889,6 +930,7 @@ def check_file(filename):
 @app.route('/submit_review', methods=['POST'])
 @login_required
 def submit_review():
+    '''Submit a review for a file.'''
     star_rating = request.form['star_rating']
     review_text = request.form['review_text']
     user_id = ObjectId(current_user.get_id())
@@ -908,6 +950,7 @@ def submit_review():
 @app.route('/reviews')
 @login_required
 def reviews():
+    '''Display all reviews in the database.'''
     all_reviews = reviews_collection.find()
     return render_template('reviews.html', reviews=all_reviews)
 
@@ -915,6 +958,7 @@ def reviews():
 
 @app.route('/delete/<file_id>', methods=['POST'])
 def delete_file(file_id):
+    '''Delete a file from GridFS based on its file_id.'''
     # Convert the file_id to an ObjectId
     file_id = ObjectId(file_id)
 
@@ -928,6 +972,7 @@ def delete_file(file_id):
 
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
+    '''Chatbot route to handle user messages and generate responses.'''
     # Get the message from the POST request
     message = request.json.get("message")
 
@@ -949,6 +994,7 @@ def chatbot():
    # User Loader
 @login_manager.user_loader
 def load_user(user_id):
+    '''Load a user from the database using the user_id.'''
     user = users_collection.find_one({"_id": ObjectId(user_id)})
     if not user:
         return None
@@ -956,6 +1002,7 @@ def load_user(user_id):
 
 @app.route('/generate_quiz/<file_id>')
 def generate_quiz(file_id):
+    '''Generate a quiz based on the text extracted from a PDF file.'''
     # Convert string file_id to ObjectId for MongoDB
     try:
         file_id = ObjectId(file_id)
@@ -1005,6 +1052,7 @@ def generate_quiz(file_id):
     return jsonify(success=True, quiz_url=quiz_url)
 
 def get_file_stream(file_id):
+    '''Retrieve a file from GridFS and return it as a stream.'''
     try:
         file_id = ObjectId(file_id)
         fs = GridFS(db)  # Ensure 'db' is your MongoDB database instance
@@ -1016,6 +1064,7 @@ def get_file_stream(file_id):
         return None
 
 def extract_text_from_pdf(file_stream):
+    '''Extract text from a PDF file stream.'''
     # Ensure the stream position is at the start
     file_stream.seek(0)
     reader = PdfReader(file_stream)
@@ -1025,6 +1074,7 @@ def extract_text_from_pdf(file_stream):
     return text
 
 def generate_questions(text):
+    '''Generate quiz questions based on the given text.'''
     # Construct a prompt for OpenAI API to generate quiz questions
     prompt = f"Create 5 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
     
@@ -1069,6 +1119,40 @@ def submit_review():
 def reviews():
     all_reviews = reviews_collection.find().sort("timestamp", -1)  # Assuming you want the newest first
     return render_template('reviews.html', reviews=all_reviews)
+# function for converting pptx to images
+
+
+@app.route('/presentation/<filename>')
+def pptx_images(filename):
+    pptx_path = os.path.join('presentations', filename)  # Assuming PPTX files are saved in 'presentations' directory
+    images_dir = os.path.join('static', 'images', filename)  # Path where images will be saved
+
+    # if the images directory doesn't exist, create it
+    if not os.path.exists(images_dir):
+        os.makedirs(images_dir)
+
+    # Convert PPTX to images using LibreOffice
+    try:
+        subprocess.run([
+            'libreoffice', '--headless', '--convert-to', 'png',
+            '--outdir', images_dir, pptx_path
+        ], check=True)
+    except subprocess.CalledProcessError as e:
+        print("Failed to convert PPTX to images:", e)
+        return []
+
+    # Assuming conversion is successful, return list of base64 encoded image strings
+    image_filenames = [f for f in glob.glob(os.path.join(images_dir, '*.png'))]
+    base64_images = []
+    for image_filename in image_filenames:
+        with open(image_filename, 'rb') as image_file:
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+            base64_images.append(encoded_image)
+
+    return jsonify(images=base64_images)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 def create_app():
