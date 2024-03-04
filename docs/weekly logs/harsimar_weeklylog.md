@@ -278,3 +278,23 @@ Tasks in progress: Training Chat bot. Preparing instructions and reading the API
 - Backend of the Review System
 ![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
 
+
+
+# Individual Log Week T2 W7 and W8 - Harsimar Singh (Worked in branch V2.0-Review System)
+## Date: 2/18/24- 3/3/2024
+
+### Tasks worked on: 
+![Screenshot (184)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/e9816af4-f3db-44f1-b0f6-de2c3e6327fe)
+
+
+### Tasks completed
+reviewsystem Backend Star system
+- Implemented ability to read and write user reviews from the database
+- Function to Filter the reviews based on user ratings
+- Function for Average accuracy score calculation based on ratings
+
+### Tasks in progress
+- Backend of the Review System
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+
+
