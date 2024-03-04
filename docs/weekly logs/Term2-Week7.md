@@ -32,3 +32,5 @@ Updates for preview page and rendering pptx
 
 
 ## Trello Board:
+<img width="1197" alt="Screenshot_2024-03-03_at_11 41 42_PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/0ac22345-e197-4456-b894-ab3414e0f55c">
+
