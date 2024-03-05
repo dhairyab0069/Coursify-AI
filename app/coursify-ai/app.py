@@ -903,7 +903,7 @@ def submit_review():
     review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text, "subject": subject, "timestamp": datetime.utcnow()}
     reviews_collection.insert_one(review)
 
-    # flash('Review submitted successfully.')
+    flash('Review submitted successfully.')
     return 'Review sent'
     
 @app.route('/reviews')

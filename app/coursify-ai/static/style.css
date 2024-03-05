@@ -577,3 +577,30 @@ button[type="submit"] {
 .generate-quiz-link:hover {
   background-color: #0056b3;
 }
+.info-button {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px; 
+  width: 20px; 
+  height: 20px; 
+  line-height: 20px; 
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50%; 
+  position: relative;
+  top: -5px; 
+}
+
+
+.info-text {
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 5px;
+}
+
