@@ -909,7 +909,7 @@ def submit_review():
 @app.route('/reviews')
 @login_required
 def reviews():
-    all_reviews = reviews_collection.find()
+    all_reviews = reviews_collection.find().sort("timestamp", -1)
     return render_template('reviews.html', reviews=all_reviews)
 
 
