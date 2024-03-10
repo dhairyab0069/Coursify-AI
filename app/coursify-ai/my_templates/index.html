@@ -9,7 +9,7 @@
         <!--icons-->
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styleIndex.css') }}">
 
 
     </head>
@@ -45,14 +45,18 @@
         <section class="home" id="home">
             <div class="left">
                 <h1 id ="head">Welcome to Coursify.ai</h1>
-                <h2>As an educator, you are forced to make slides you dont want to.<br />
-                  Don't worry, we will make them for you.</h2>
+                <!-- <h2>As an educator, you are forced to make slides you dont want to.<br />
+                  Don't worry, we will make them for you.</h2> -->
+                <h2>We understand the challenges of preparing educational materials.<br />
+                  Let us take the burden off your shoulders by crafting
+                  engaging slides for you.</h2>
+                
             </div>
             <div class="right">
                 <div id="content">
                     <div id="title-box">
                       <div class="content-container">
-                        <h1>Generate Content</h1>
+                        <h1 id="gencon">Generate Content</h1>
                         <div class="form-container">
                           <form id="content-form" action="#" method="post"  enctype="multipart/form-data">
                             <div class="form-group">
