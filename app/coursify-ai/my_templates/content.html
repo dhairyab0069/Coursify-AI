@@ -8,18 +8,16 @@
 
     <!-- Icons -->
     <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 
     <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
 
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleMyCon.css') }}" />
+  
   </head>
   <body>
     <!-- Header -->
@@ -33,7 +31,7 @@
       <nav class="navbar">
         <div id="sidebar">
           <a href="{{ url_for('index') }}" id = "home">HOME</a>
-          <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
+          <a href="{{ url_for('my_content') }}" id = "contentnav">MY CONTENT</a>
           <a href="ai.html" id = "ai">AI ASSISTANT</a>
           <a href="{{ url_for('reviews') }}">REVIEW</a>
           <a href="settings.html" id = "settings">SETTINGS</a>

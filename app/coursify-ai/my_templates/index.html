@@ -10,36 +10,30 @@
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
         <link rel="stylesheet" href="{{ url_for('static', filename='styleIndex.css') }}">
-
-
     </head>
     <body>
         <!--header design-->
         <header class="header">
-            <div class="link_container">
-              <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
-        </div>
-
-
-        <div class="link_container" >
-
-
-            <nav class="navbar" >
-              <div id ="sidebar"></div>
-              <a href="{{ url_for('index') }}" id = "home">HOME</a>
-              <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
-              <a href="ai.html" id = "ai">AI ASSISTANT</a>
-              <a href="{{ url_for('reviews') }}">REVIEW</a>
-              <a href="settings.html" id = "settings">SETTINGS</a>
-              <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
-                
-
-            </div>
-        </nav>
-        <i class='bx bx-menu'></i>
+          <div class="link_container">
+            <a href="{{ url_for('index') }}">
+              <img src="{{ url_for('static', filename='cap_logo1.png') }}" alt="Logo" id="logo">
+            </a>
+          </div>
         
-        </button>    
+          <div class="link_container">
+            <nav class="navbar">
+              <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+              <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+              <a href="ai.html" id="ai">AI ASSISTANT</a>
+              <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+              <a href="settings.html" id="settings">SETTINGS</a>
+              <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+            </nav>
+          </div>
+        
+          <i class='bx bx-menu'></i>
         </header>
+
 
         <!--home section-->
         <section class="home" id="home">
