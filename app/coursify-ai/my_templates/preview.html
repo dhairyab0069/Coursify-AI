@@ -56,12 +56,13 @@
           loadingIndicator.style.display = "block"; // Show loading indicator
 
           //get filename from url
-          const filename = fileUrl.split("/").pop();
+          let filename = fileUrl.split("/").pop();
+          let encodedFilename = encodeURIComponent(filename);
           let urlPath;
           if (fileType === "pdf") {
-            urlPath = `pdf/${fileUrl}`;
+            urlPath = `pdf/${encodedFilename}`;
           } else if (fileType === "pptx") {
-            urlPath = `presentation/${fileUrl}`; // Adjusted to fetch from presentations directory
+            urlPath = `presentation/${encodedFilename}`; // Adjusted to fetch from presentations directory
           }
           const fullUrl = `http://127.0.0.1:5000/${urlPath}`;
           if (fileType === "pdf") {
@@ -112,47 +113,20 @@
           );
         }
 
-        function renderPPTXAsImages(pptxUrl) {
-          const loadingIndicator = document.getElementById("loadingIndicator");
-          const renderContainer = document.getElementById("render-container");
-
-          loadingIndicator.style.display = "block"; // Show loading indicator
-
-          fetch(pptxUrl)
-            .then((response) => response.blob())
-            .then(JSZip.loadAsync)
-            .then((zip) => {
-              const imagePromises = []; // Array to store promises for individual images
-
-              zip.folder("ppt/media").forEach((relativePath) => {
-                // Iterate through media folder
-                if (relativePath.endsWith(".png")) {
-                  const imagePromise = zip.file(relativePath).async("blob");
-                  imagePromises.push(imagePromise);
-                }
+        function renderPPTXAsImages(presentationImagesEndpoint) {
+          fetch(presentationImagesEndpoint)
+            .then((response) => response.json())
+            .then((data) => {
+              const imageUrls = data.urls;
+              imageUrls.forEach((encodedUrl) => {
+                // Decode the base64 URL
+                const imageUrl = atob(decodeURIComponent(encodedUrl));
+                const img = document.createElement("img");
+                img.src = imageUrl;
+                document.body.appendChild(img);
               });
-
-              return Promise.all(imagePromises); // Wait for all image promises to resolve
             })
-            .then((imageBlobs) => {
-              imageBlobs.forEach((imageBlob, index) => {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                  const dataUri = event.target.result;
-                  const img = createImageElement(dataUri); // Enhanced image creation
-                  img.alt = `Slide ${index + 1}`; // Set descriptive alt text with slide number
-                  renderContainer.appendChild(img);
-                };
-                reader.readAsDataURL(imageBlob);
-              });
-              loadingIndicator.style.display = "none"; // Hide loading indicator
-            })
-            .catch((error) => {
-              console.error("Error loading PPTX images:", error);
-              loadingIndicator.style.display = "none";
-              renderContainer.innerHTML =
-                "<p>Error loading PPTX preview. Please try again later.</p>";
-            });
+            .catch((error) => console.error("Error:", error));
         }
 
         // Enhanced image creation function
@@ -173,21 +147,6 @@
           const filename = getQueryParam("filename");
           const fileType = filename.split(".").pop();
           const fileUrl = `/presentation/${filename}`;
-
-          if (fileType === "pptx") {
-            fetch(fileUrl)
-              .then((response) => response.json())
-              .then((data) => {
-                const renderContainer =
-                  document.getElementById("render-container");
-                data.images.forEach((encodedImage) => {
-                  const img = document.createElement("img");
-                  img.src = `data:image/png;base64,${encodedImage}`;
-                  renderContainer.appendChild(img);
-                });
-              })
-              .catch((error) => console.error("Error:", error));
-          }
         });
 
         function getQueryParam(param) {

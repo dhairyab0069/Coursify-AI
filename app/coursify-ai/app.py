@@ -1,9 +1,11 @@
+import base64
 import glob
 import io
 import logging
 from mailbox import Message
 from pydoc_data import topics
 import subprocess
+from urllib.parse import unquote_to_bytes
 from flask import after_this_request, flash, session
 from datetime import datetime
 import os
@@ -38,14 +40,15 @@ from flask import send_file, abort
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-from wtforms.widgets import TextArea
 from datetime import datetime
 from docx import Document
 import tempfile
 import subprocess
 import os
-import base64
 from PIL import Image
+from urllib.parse import quote
+import shutil
+from pathlib import Path
 
 
 class RegistrationForm(FlaskForm):
@@ -1121,35 +1124,37 @@ def reviews():
     return render_template('reviews.html', reviews=all_reviews)
 # function for converting pptx to images
 
-
 @app.route('/presentation/<filename>')
 def pptx_images(filename):
-    pptx_path = os.path.join('presentations', filename)  # Assuming PPTX files are saved in 'presentations' directory
-    images_dir = os.path.join('static', 'images', filename)  # Path where images will be saved
 
-    # if the images directory doesn't exist, create it
-    if not os.path.exists(images_dir):
-        os.makedirs(images_dir)
+    filename = quote(filename)
+    # Create a new directory for the images
+    images_dir = Path('pptx_images')
+    if images_dir.exists():
+        shutil.rmtree(images_dir)  # Remove the directory if it exists
+    images_dir.mkdir()  # Create the directory
 
-    # Convert PPTX to images using LibreOffice
-    try:
-        subprocess.run([
-            'libreoffice', '--headless', '--convert-to', 'png',
-            '--outdir', images_dir, pptx_path
-        ], check=True)
-    except subprocess.CalledProcessError as e:
-        print("Failed to convert PPTX to images:", e)
-        return []
+    # Convert the pptx to images and save them in the new directory
+    presentation = Presentation(os.path.join('ppts', filename))
+    for i, slide in enumerate(presentation.slides):
+        slide.export(str(images_dir / f'{filename}_{i}.png'))
 
-    # Assuming conversion is successful, return list of base64 encoded image strings
-    image_filenames = [f for f in glob.glob(os.path.join(images_dir, '*.png'))]
-    base64_images = []
-    for image_filename in image_filenames:
-        with open(image_filename, 'rb') as image_file:
-            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-            base64_images.append(encoded_image)
+    # Generate the URLs for the images
+    image_urls = [f'/static/pptx_images/{filename}_{i}.png' for i in range(len(presentation.slides))]
 
-    return jsonify(images=base64_images)
+    # Convert the URLs to base64 and URL-encode them
+    encoded_urls = [quote(base64.b64encode(url.encode('utf-8')).decode('utf-8')) for url in image_urls]
+
+    return {"urls": encoded_urls}
+
+def pptx_to_images(pptx_file):
+    presentation = Presentation(pptx_file)
+    images = []
+    for i, slide in enumerate(presentation.slides):
+        slide_image = slide.export(io.BytesIO())
+        images.append(Image.open(slide_image))
+    return images
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
