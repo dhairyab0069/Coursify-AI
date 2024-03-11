@@ -106,23 +106,8 @@
     </main>
 
     <script>
-       // function filterReviews() {
-       //     const selectedRating = document.getElementById('rating').value;
-       //     const selectedSubject = document.getElementById('subject').value;
-       //     const reviews = document.querySelectorAll('.review');
-        
-       //     reviews.forEach(review => {
-       //         if ((selectedRating === "" || review.getAttribute('data-rating') === selectedRating) &&
-       //             (selectedSubject === "" || review.getAttribute('data-subject') === selectedSubject)) {
-       //             review.style.display = '';
-       //         } else {
-       //             review.style.display = 'none';
-       //         }
-       //     });
-       // }
-        
 
-        document.addEventListener('DOMContentLoaded', function () {
+ document.addEventListener('DOMContentLoaded', function () {
     const stars = document.querySelectorAll('.bx.bxs-star');
     const ratingInput = document.getElementById('star_rating');
     const subjectInput = document.getElementById('subject');
@@ -159,10 +144,43 @@
         calculateAndDisplayAccuracyScore();
     });
 
+    const reviewForm = document.querySelector('.add-review');
+const reviewTextarea = document.querySelector('textarea[name="review_text"]');
+const subjectSelect = document.getElementById('subject_list');
 
+reviewForm.addEventListener('submit', function(event) {
+    let isValid = true;
+    const selectedRating = ratingInput.value;
+    const selectedSubject = subjectSelect.value;
+    const reviewText = reviewTextarea.value.trim();
+
+    if (!selectedRating) {
+        alert('Please select a rating.');
+        isValid = false;
+    }
+
+    if (selectedSubject === 'choose') {
+        alert('Please select a subject.');
+        isValid = false;
+    }
+
+    if (!reviewText) {
+        alert('Please enter your review.');
+        isValid = false;
+    }
+
+    if (!isValid) {
+        event.preventDefault(); // Prevent form submission if validation fails
+    }
+});
     // Calculate and display the initial accuracy score
     calculateAndDisplayAccuracyScore();
+    filterReviews();
 });
+
+
+
+
 
 function filterReviews() {
     const selectedRating = document.getElementById('rating').value;
@@ -172,9 +190,12 @@ function filterReviews() {
     reviews.forEach(review => {
         const reviewRating = Number(review.getAttribute('data-rating'));
         const reviewSubject = String(review.getAttribute('data-subject'));
+        const reviewText = review.querySelector('.review-text').textContent.trim(); // Get the review text and trim whitespace
 
+        // Check if the review text is not empty in addition to existing conditions
         if ((selectedRating === "" || reviewRating === Number(selectedRating)) &&
-            (selectedSubject === "" || reviewSubject === selectedSubject)) {
+            (selectedSubject === "" || reviewSubject === selectedSubject) &&
+            reviewText !== "") { // Add this line
             review.style.display = '';
         } else {
             review.style.display = 'none';
