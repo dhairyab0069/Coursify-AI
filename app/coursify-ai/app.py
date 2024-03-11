@@ -198,7 +198,7 @@ def register():
         # Auto-login after register
         user_obj = User(user_id=str(user_id), email=email)
         login_user(user_obj)
-      
+        print(current_user.is_authenticated)
         flash('Registration successful. Welcome!', 'success')
         return redirect(url_for('index'))  # Redirect to index page
     return render_template('register.html')
@@ -937,6 +937,7 @@ def submit_review():
     star_rating = request.form['star_rating']
     review_text = request.form['review_text']
     user_id = ObjectId(current_user.get_id())
+    subject = request.form['subject']
     
     user_details = users_collection.find_one({"_id": user_id})
     
@@ -944,7 +945,7 @@ def submit_review():
         first_name = user_details.get('first_name')
         last_name = user_details.get('last_name')
 
-    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text}
+    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text, "subject": subject, "timestamp": datetime.utcnow()}
     reviews_collection.insert_one(review)
 
     flash('Review submitted successfully.')
@@ -953,8 +954,8 @@ def submit_review():
 @app.route('/reviews')
 @login_required
 def reviews():
-    '''Display all reviews in the database.'''
-    all_reviews = reviews_collection.find()
+
+    all_reviews = reviews_collection.find().sort("timestamp", -1)
     return render_template('reviews.html', reviews=all_reviews)
 
 
@@ -1098,17 +1099,19 @@ if __name__ == '__main__':
     app.run()
 
     
-@app.route('/submit_review', methods=['POST'])
+@app.route('/submit_review', methods=['POST'], endpoint='submit_review1')
 @login_required
 def submit_review():
     star_rating = request.form['star_rating']
     review_text = request.form['review_text']
     user_id = ObjectId(current_user.get_id())
+    subject = request.form['subject']
    
     review = {
         "user_id": current_user.get_id(),
         "star_rating": star_rating,
         "review_text": review_text,
+        "subject": subject,
         "timestamp": datetime.utcnow()  # Optional, for sorting purposes
     }
     reviews_collection.insert_one(review)
@@ -1117,7 +1120,7 @@ def submit_review():
     return redirect(url_for('reviews'))
 
 
-@app.route('/reviews')
+@app.route('/reviews', endpoint='reviews1')
 @login_required
 def reviews():
     all_reviews = reviews_collection.find().sort("timestamp", -1)  # Assuming you want the newest first

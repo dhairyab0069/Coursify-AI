@@ -56,7 +56,9 @@
                         <div class="form-container">
                           <form id="content-form" action="#" method="post"  enctype="multipart/form-data">
                             <div class="form-group">
-                              <label for="length">Length of Content:</label>
+                              <label for="length">Length of Content:
+                                <span class="info-button" onclick="showInfo('length')">i</span>
+                              </label>
                               <input
                                 type="number"
                                 id="length"
@@ -64,14 +66,24 @@
                                 placeholder="Enter length (e.g., 1000 words)"
                                 required
                               />
+                              <p id="length-info" class="info-text" style="display: none;">
+                                Enter the desired length of the content in words.
+                              </p>
                             </div>
                             <div class="form-group">
-                              <label for="difficulty">Difficulty (0-3):</label>
+                              <label for="difficulty">Difficulty (1-3):
+                                <span class="info-button" onclick="showInfo('difficulty')">i</span>
+                              </label>
                               <input type="number" id="difficulty" name ="difficulty" min="0"
                               max="3" required>
+                              <p id="difficulty-info" class="info-text" style="display: none;">
+                                Enter the difficulty level of the content in numbers. 1 is Basic, 2 is Intermediate, 3 is Advanced.
+                              </p>
                             </div>
                             <div class="form-group">
-                              <label for="topics">Main Topics  :</label>
+                              <label for="topics">Main Topics:
+                                <span class="info-button" onclick="showInfo('topics')">i</span>
+                              </label>
                               <input
                                 type="text"
                                 id="topics"
@@ -79,9 +91,14 @@
                                 placeholder="Enter main topics"
                                 required
                               />
+                              <p id="topics-info" class="info-text" style="display: none;">
+                                Enter the desired topic you wish to be generated.
+                              </p>
                             </div>
                             <div class="form-group">
-                              <label for="format">Choose your format  :</label>
+                              <label for="format">Choose your format:
+                                <span class="info-button" onclick="showInfo('format')">i</span>
+                              </label>
                               <label>
                                   <input type="radio" name="format" value="pdf" id="pdf"> PDF
                               </label>
@@ -89,6 +106,9 @@
                               <label>
                                 <input type="radio" name="format" value="slides" id="slides"> Slides
                             </label>
+                            <p id="format-info" class="info-text" style="display: none;">
+                              Enter the desired format you want it generated in.
+                            </p>
                           </div>
                             <div class="form-group">
                               <label for="pdf-upload">Upload PDF: (Optional)</label>
@@ -108,6 +128,15 @@
                   </div>
                   
                   <script>
+                    function showInfo(id) {
+                      var infoText = document.getElementById(id + "-info");
+                      if (infoText.style.display === "none") {
+                        infoText.style.display = "block";
+                      } else {
+                        infoText.style.display = "none";
+                      }
+                    }
+                    
                     document.addEventListener("DOMContentLoaded", function () {
                       var form = document.getElementById("content-form");
                       var generateButton = document.getElementById("generate-button");

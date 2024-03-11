@@ -291,6 +291,11 @@ body .main-content {
     line-height: 1.6; /* Line height for better readability */
 }
 
+.review-subject {
+    font-size: 1.2rem;
+
+}
+
 /* Updated styles for .reviews-container for better organization */
 .reviews-container {
     grid-row: 1 / 3; /* Span both rows */

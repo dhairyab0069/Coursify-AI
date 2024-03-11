@@ -1,7 +1,7 @@
 body, html {
     height: 100%;
     margin: 0;
-    background-image: url('Coursify.ai.png');
+    background-image: url('robotwithlogo.png');
     background-size: cover;
     background-position: center right; /* Align the background to the right */
     background-repeat: no-repeat;
@@ -22,10 +22,19 @@ body, html {
     max-width: 500px; /* Set a max-width for the content if needed */
   }
   
+  
   h1 {
     color: #fff; /* White text */
     font-size: 2.2rem; /* Increased font size by 10% */
-    margin-bottom: 3rem; /* Increased distance between text and buttons */
+    /*margin-bottom: 1em;  Increased distance between text and buttons */
+    font-family: cursive;
+  }
+  p {
+    margin-top: none;
+    font-size: 1.2rem;
+    margin-bottom: 3em;
+    color: white;
+    font-family: cursive;
   }
   
   .btn {
@@ -34,6 +43,8 @@ body, html {
     margin: 0.75rem; /* Increased margin to add more space between buttons */
     border-radius: 0.5rem;
     transition: background-color 0.3s ease;
+    text-decoration: none;
+    
   }
   
   .btn-coursify {
@@ -45,7 +56,10 @@ body, html {
   .btn-coursify:hover {
     background-color: #003d82; /* Darker shade of blue for hover effect */
   }
-  
+
+  .text-center{
+
+  }
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .container {
@@ -60,7 +74,8 @@ body, html {
       padding: 0.5rem 1rem;
       font-size: 0.99rem; /* Scaled font size for medium screens */
       margin: 0.75rem; /* Keep increased margin for medium screens */
-    }
+      text-decoration: none;
+    }   
   }
   
   @media (max-width: 480px) {
@@ -76,6 +91,7 @@ body, html {
       padding: 0.5rem;
       font-size: 0.88rem; /* Scaled font size for small screens */
       margin: 0.75rem; /* Keep increased margin for small screens */
+      text-decoration: none;
     }
   }
   
