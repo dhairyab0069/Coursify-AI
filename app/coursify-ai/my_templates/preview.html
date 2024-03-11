@@ -10,13 +10,14 @@
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style2.css') }}"
+      href="{{ url_for('static', filename='style.css') }}"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.min.js"></script>
     <script>
       pdfjsLib.GlobalWorkerOptions.workerSrc =
         "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.worker.min.js";
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
   </head>
   <body>
     <header class="header">
@@ -27,99 +28,140 @@
             id="logo"
         /></a>
       </div>
-
       <nav class="navbar">
         <div id="sidebar">
-          <a href="{{ url_for('index') }}" id = "home">HOME</a>
-          <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
-          <a href="ai.html" id = "ai">AI ASSISTANT</a>
+          <a href="{{ url_for('index') }}" id="home">HOME</a>
+          <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+          <a href="ai.html" id="ai">AI ASSISTANT</a>
           <a href="{{ url_for('reviews') }}">REVIEW</a>
-          <a href="settings.html" id = "settings">SETTINGS</a>
+          <a href="settings.html" id="settings">SETTINGS</a>
           <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
-
         </div>
       </nav>
       <i class="bx bx-menu"></i>
-
-      
     </header>
     <div class="content-header">
       <h1 id="title">File Preview</h1>
+      <button id="back-button">Back</button>
     </div>
-    <i class="bx bx-menu"></i>
-      <div class="notes-container">
-        <div class="notes-list">
-          <!-- File Preview Container -->
-          <div class="note-card" id="file-preview-container">
-            <div id="pdf-render-container" style="overflow-y: auto"></div>
-          </div>
-          <div class="note-card" id="file-preview-container">
-            <canvas
-              id="pdfCanvas"
-              style="display: block; width: 100%; border: 1px solid black"
-            ></canvas>
-          </div>
-        </div>
-      </div>
-    </section>
+
+    <div id="loadingIndicator" style="display: none">Loading...</div>
+    <div id="render-container" style="overflow-y: auto"></div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Function to parse query parameters from URL
-        function getQueryParam(param) {
-          var urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get(param);
+        function renderFile(fileUrl, fileType) {
+          const renderContainer = document.getElementById("render-container");
+          const loadingIndicator = document.getElementById("loadingIndicator");
+          loadingIndicator.style.display = "block"; // Show loading indicator
+
+          //get filename from url
+          let filename = fileUrl.split("/").pop();
+          let encodedFilename = encodeURIComponent(filename);
+          let urlPath;
+          if (fileType === "pdf") {
+            urlPath = `pdf/${encodedFilename}`;
+          } else if (fileType === "pptx") {
+            urlPath = `presentation/${encodedFilename}`; // Adjusted to fetch from presentations directory
+          }
+          const fullUrl = `http://127.0.0.1:5000/${urlPath}`;
+          if (fileType === "pdf") {
+            renderPDFOnCanvas(fullUrl);
+          } else if (fileType === "pptx") {
+            renderPPTXAsImages(fullUrl);
+          }
         }
 
-        // Function to render the PDF onto a canvas
-        function renderPDFOnCanvas(fileUrl) {
-          var loadingTask = pdfjsLib.getDocument(fileUrl);
-          loadingTask.promise.then(
-            function (pdf) {
-              console.log("PDF loaded");
+        function renderPDFOnCanvas(pdfUrl) {
+          const loadingIndicator = document.getElementById("loadingIndicator");
+          loadingIndicator.style.display = "block"; // Show loading indicator
 
-              // Get the container to append canvases
-              var container = document.getElementById("pdf-render-container");
+          const renderContainer = document.getElementById("render-container");
+          renderContainer.innerHTML = ""; // Clear previous content
 
-              // Loop through each page and render it
-              for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                pdf.getPage(pageNum).then(function (page) {
+          pdfjsLib.getDocument(pdfUrl).promise.then(
+            function (pdfDoc) {
+              console.log(`PDF Document loaded. Pages: ${pdfDoc.numPages}`);
+
+              for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                pdfDoc.getPage(pageNum).then(function (page) {
                   var viewport = page.getViewport({ scale: 1.5 });
                   var canvas = document.createElement("canvas");
-                  canvas.style.display = "block";
-                  canvas.style.width = "100%";
+                  renderContainer.appendChild(canvas);
+
                   canvas.height = viewport.height;
                   canvas.width = viewport.width;
+                  var context = canvas.getContext("2d");
 
-                  // Append canvas to the container
-                  container.appendChild(canvas);
-
-                  // Render PDF page into canvas context
                   var renderContext = {
-                    canvasContext: canvas.getContext("2d"),
+                    canvasContext: context,
                     viewport: viewport,
                   };
                   page.render(renderContext).promise.then(function () {
                     console.log(`Page ${pageNum} rendered`);
+                    if (pageNum === pdfDoc.numPages) {
+                      loadingIndicator.style.display = "none"; // Hide loading indicator once all pages are rendered
+                    }
                   });
                 });
               }
             },
             function (error) {
-              console.error("Error during PDF loading: " + error);
+              console.error("Error loading PDF:", error);
+              loadingIndicator.style.display = "none"; // Hide loading indicator on error
             }
           );
         }
 
-        // Extract the filename from the URL query parameter
-        var filename = getQueryParam("filename");
+        function renderPPTXAsImages(presentationImagesEndpoint) {
+          fetch(presentationImagesEndpoint)
+            .then((response) => response.json())
+            .then((data) => {
+              const imageUrls = data.urls;
+              imageUrls.forEach((encodedUrl) => {
+                // Decode the base64 URL
+                const imageUrl = atob(decodeURIComponent(encodedUrl));
+                const img = document.createElement("img");
+                img.src = imageUrl;
+                document.body.appendChild(img);
+              });
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+
+        // Enhanced image creation function
+        function createImageElement(src) {
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = "PPTX slide"; // Set descriptive alt text
+          img.classList.add("pptx-slide"); // Apply a CSS class for styling
+          return img;
+        }
+
+        const filename = getQueryParam("filename");
         if (filename) {
-          // Construct the full URL to the PDF file
-          var fileUrl = "http://127.0.0.1:5000/pdf/" + filename;
-          renderPDFOnCanvas(fileUrl); // Render the PDF
+          const fileType = filename.split(".").pop();
+          renderFile(filename, fileType); // Pass just the filename and fileType
+        }
+        window.addEventListener("DOMContentLoaded", (event) => {
+          const filename = getQueryParam("filename");
+          const fileType = filename.split(".").pop();
+          const fileUrl = `/presentation/${filename}`;
+        });
+
+        function getQueryParam(param) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
         }
       });
+
+      document
+        .getElementById("back-button")
+        .addEventListener("click", function () {
+          window.history.back();
+        });
     </script>
+
     <script>
       document
         .getElementById("back-button")
