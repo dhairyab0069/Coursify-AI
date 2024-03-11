@@ -77,23 +77,23 @@ header {
 }
 .left h1 {
   font-size: 5.6rem;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 2;
   align-items: center;
   display: block;
 }
 .left h2 {
+  font-size: 1.75rem;
+  font-weight: 500;
   display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;
   display: block;
 }
-
 .navbar a:hover {
   color: black;
 }
-
 .link_container img {
   width: 5rem;
 }
@@ -107,7 +107,6 @@ header {
   margin: 30px auto;
   max-width: 800px;
 }
-
 .content-container {
   display: flex;
   flex-direction: column;
@@ -115,7 +114,7 @@ header {
 }
 
 .form-container {
-  background-color: #fff;
+  background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
