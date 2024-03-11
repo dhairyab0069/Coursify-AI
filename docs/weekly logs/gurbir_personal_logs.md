@@ -184,3 +184,14 @@ Tasks in progress: Researching ways to increase content accuracy
 
 <img width="1116" alt="Screenshot 2024-03-03 at 11 28 47 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/f66d9879-2fbe-4146-9e08-8c2d2c27c4cd">
 
+# T2 Week 9
+## Date:  03/03/2024 - 10/03/2024
+### Gurbir Amrit - gurbirRemy
+- Conducted testing for additional registration routes 
+- Created pop-up modal for sharing generated content via email
+
+<img width="1127" alt="Screenshot 2024-03-10 at 11 51 42 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/75eb1e62-ae93-4c83-8525-440d9fe82764">
+
+<img width="1284" alt="Screenshot 2024-03-10 at 11 49 23 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/5131a090-c0af-4e0a-a38b-6f5bdf7e4bb4">
+
+

@@ -298,3 +298,20 @@ reviewsystem Backend Star system
 ![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
 
 
+
+# Individual Log Week W9 - Harsimar Singh (Worked in branch V2.0-BugFix)
+## Date: 3/3/24- 3/10/2024
+
+### Tasks worked on: 
+![Screenshot (186)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/c8fc8a3e-ae3a-4bd2-8867-cebf03e4a51b)
+
+### Tasks completed
+
+- reviewsystem frontend update
+- form validation
+- bug fixes in review system
+
+### Tasks in progress
+- implement a Average star view on the review page (Just like google reviews)
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+

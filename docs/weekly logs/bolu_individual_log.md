@@ -268,6 +268,30 @@ Delete feature (Completed) <br>
 
 <img width="1424" alt="Screenshot 2024-03-03 at 11 12 33 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/1fb4b2c7-0e81-4af2-887d-4c140ce90bcb">
 
+# Dates worked on: 03/03/2024 - 10/03/2024
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+![Screenshot 2024-03-10 at 7 45 29 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/3a89fc75-fd71-4789-9ac4-52ea951b6997)
+
+I worked directly on the v2.0 branch because it was on the index page and it was more a design feature sort of (the Information buttons on the Generate Content form)
+
+
+### Tasks:
+Sharing for pop-up when share button is clicked (In Progress) <br>
+Review feature (In Progress) <br>
+Working on slides download (Completed) <br>
+Working on the backend of the review system (Completed) <br>
+Working on sharing feature (Completed) <br>
+Design for review feature (In Progress) <br>
+Bug fix for linking content db with users db (Completed) <br>
+Delete feature (Completed) <br>
+Information button feature (Completed) <br>
+
+![Screenshot 2024-03-10 at 7 59 29 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/7b1bda7f-6eca-47be-bf2b-4bf2136c69ac)
+
+
 
 
 

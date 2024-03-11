@@ -1,3 +1,22 @@
+# Week T2 #9
+## Date: 03/03/2024 - 10/03/2024
+### Vinu Ihalagamage - vinui409
+
+#### Link to the branch with code for Week 9 -- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-UImain
+- I have made many code changes in this branch for this week and a PR has also been created and approved into the v2.0 branch.
+  
+### Tasks worked on
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/9b63a9fd-1c26-4fda-8f0f-2c2fa6431c25)
+
+### Tasks in Progress
+- Fixing HTML, CSS, JS for the Ai Assistance, Review, and Settings page.
+- Creating test cases for the UI
+
+### Tasks Completed
+- Fixing HTML, CSS, JS for the Home Page, and My Content page
+
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/15ab6892-2f33-48cd-8ab6-268a93426e69)
+
 # Week T2 #8
 ## Date: 18/02/2024 - 03/03/2024
 ### Vinu Ihalagamage - vinui409
