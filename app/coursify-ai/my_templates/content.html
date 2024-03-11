@@ -44,7 +44,7 @@
 
 <section id="my-content">
   <div class="content-header">
-    <h1 id = "title">My Notes</h1>
+    <h1 id = "title">My Generated Content</h1>
   </div>
   <div class="notes-container">
     <div class="notes-list">
@@ -55,10 +55,19 @@
       </div>
       {% endfor %}
     </div>
-    <div id="note-details" style="display:none;">
-      <div class="note-content">
+    <div id="note-details" > 
+      <div id="preview-instructions" style="display: block;">
+        <h1> Select a File to</h1>
+        <ul>
+          <li>Preview</li>
+          <li>Download</li>
+          <li>Share</li>
+          <li>Generate Quiz</li>
+          <li>Delete</li>
+        </ul>
+      </div>
+      <div id="note-content" class="note-content" style="display:none;">
         <div class="note-title" id="detailTitle"></div>
-        <div class="note-summary">Click download to view the PDF...</div>
         <a href="" id="downloadLink" class="download-btn">Download</a>
         <a href="" id="PreviewLink" class="preview-btn">Preview</a>
         
@@ -226,7 +235,9 @@ function showDetails(id, filename) {
   });
 
 
-  document.getElementById('note-details').style.display = 'block';
+  document.getElementById('note-content').style.display = 'block';
+  document.getElementById('preview-instructions').style.display = 'none';
+  document.getElementById('note-details').style.border = 'none';
   document.getElementById('deleteForm').action = '/delete/' + id;
 
   document.getElementById('shareButton').onclick = function() { showForm(id); };

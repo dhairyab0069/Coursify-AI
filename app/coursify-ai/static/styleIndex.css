@@ -184,7 +184,7 @@ button[type="submit"]:hover {
 }
 /* CHANGE try to fix on different screens */
 #footer {
-    position: relative;
+    position: absolute;
     text-align: center;
     bottom: 0;
     background-color: var(--bg-color);
