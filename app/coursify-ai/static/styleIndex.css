@@ -52,6 +52,15 @@ header {
     transition: all 0.3s ease-in-out;
     border-radius: 4px;
 }
+/* CHANGE */
+.navbar a:hover,
+.navbar.active {
+    background-color: #3e3f3f;
+    margin-left: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 5px solid #1abc9c;
+}
 .home {
     display: flex;
     justify-content: space-between;
@@ -84,14 +93,6 @@ header {
     text-align: center;
     justify-content: center;
     display: block;
-}
-/* CHANGE */
-.navbar a:hover,.navbar.active {
-    background-color: #3e3f3f;
-    margin-left: 50px;
-    padding-left: 20px;
-    padding-right:20px;
-    border-bottom: 5px solid #1abc9c;
 }
 #homenav{
     
