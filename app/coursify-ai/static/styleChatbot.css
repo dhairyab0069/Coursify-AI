@@ -183,14 +183,15 @@ header {
     width: 60%;
     max-width: 800px;
     margin-left: 40%;
-    height: 600px;
+    height: 700px;
     display: flex;
     flex-direction: column;
-    border: 1px solid #000000;
+    border: 1px solid #1abc9c;
     border-radius: 10px;
     overflow: hidden;
     background-color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);*/
+    box-shadow: 0 2px 10px #1abc9c;
     /* Add shadow */
     margin-top: 100px;
     /* Adjusted margin-top to create space for navigation bar */
@@ -208,7 +209,7 @@ header {
     background-color: #808080;
     color: white;
     padding-left: 150px;
-    padding-top: 50px;
+    padding-top: 30px;
     height: calc(100vh - 60px);
     /* Full height minus header */
     position: fixed;
@@ -216,7 +217,8 @@ header {
     overflow-y: auto;
     /* Scrollable content */
     z-index: 2;
-    /* Ensures sidebar is above other content */
+    /* Ensures sidebar is above other content 
+    background-color: yellow;*/
 }
 .sidebar a {
     display: block;
@@ -239,8 +241,66 @@ header {
     font-size: 30px;
     font-weight:500;
     color:white;
-    margin-bottom:50px;
+    margin-bottom:30px;
 }
+
+#cbdesc {
+    color:white;
+    border: 1px solid #1abc9c;
+    border-radius: 1em;
+    padding: 1.5em;
+    margin-top: 3em;
+}
+#cbdesc h3{
+    font-weight: 300;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+#cbdesc p{
+    font-weight: 300;
+    font-size: 1.25em;
+    margin-bottom: 1em;
+}
+#cbdesc ul{
+    margin-left:1em ;
+    font-weight: 300;
+    font-size: 1.25em;
+    margin-bottom: 1em;
+}
+#cbdesc ul strong{
+    font-weight: 500;
+}
+
+#cbdesc ul li{
+    margin-bottom: 0.5em;
+}
+#cbdesc h4 {
+    font-weight: 300;
+    font-size: 1.75em;
+    margin-bottom: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #ai-assistant{
     margin-left: -15px;
     /* Offset to the left */
