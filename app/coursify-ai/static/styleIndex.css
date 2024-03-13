@@ -16,7 +16,7 @@
 }
 html {
     font-size: 62.5%;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     height: 100%;
     width: 100%;
 }
@@ -79,11 +79,12 @@ header {
     font-size: 1.5rem;
 }
 .left h1 {
-    font-size: 5.6rem;
+    font-size: 5.6em;
     font-weight: 700;
     line-height: 2;
     align-items: center;
     display: block;
+    /* background-color: #1abc9c; */
 }
 .left h2 {
     font-size: 1.75rem;
@@ -202,6 +203,7 @@ button[type="submit"]:hover {
     display: none;
 }
 
+/*
 @media (max-width: 1200px) {
     html {
         font-size: 40%;
@@ -260,4 +262,29 @@ button[type="submit"]:hover {
         flex-direction: column;
     }
 }
-
+*/
+@media only screen and (max-width: 2560px) {
+    /* Your CSS rules for 13-inch MacBook screen go here */
+    html {
+        font-size: 60%;
+    }
+    #footer {
+        position: absolute;
+        text-align: center;
+        bottom:0;
+        background-color: var(--bg-color);
+        color: #fff;
+        padding: 0px;
+        width: 100%;
+        margin-top: 0px;
+    }
+    .left{
+        /* background-color: red; */
+        margin-right: 0;
+        margin-left: 0;
+    }
+    section{
+        padding-bottom: 0;
+        padding-top: 7.5em;
+    }
+}
