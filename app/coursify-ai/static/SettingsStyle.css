@@ -30,7 +30,10 @@ body {
 }
 
 section {
-  padding: 10rem 9%;
+  padding-left: 10em;
+  padding-top: 8em;
+  padding-right: 10em;
+  padding-bottom:0;
 }
 
 header {
@@ -269,5 +272,19 @@ button[type="submit"]:hover {
   font-size: 15px;
   z-index: 1000; 
   border-radius: 5px;
+}
+@media only screen and (max-width: 2560px) {
+  /* Your CSS rules for 13-inch MacBook screen go here */
+  #footer {
+      position: absolute;
+      text-align: center;
+      bottom:0;
+      background-color: var(--bg-color);
+      color: #fff;
+      padding: 0px;
+      width: 100%;
+      margin-top: 0px;
+  }
+
 }
 

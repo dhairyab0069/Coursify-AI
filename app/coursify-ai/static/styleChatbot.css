@@ -96,67 +96,6 @@ header {
 .bx-menu {
     display: none;
 }
-
-@media (max-width: 1200px) {
-    html {
-        font-size: 40%;
-    }
-
-    .left h1 {
-        font-size: 5em;
-    }
-
-}
-
-@media (max-width: 991px) {
-    .header {
-        padding: 2rem 3%;
-    }
-
-    section {
-        padding: 10rem 3% 2rem;
-    }
-
-    .footer {
-        padding: 2rem 3%;
-    }
-}
-
-@media (max-width: 768px) {
-    .bx-menu {
-        display: block;
-        font-size: 3.5rem;
-        cursor: pointer;
-    }
-
-    .navbar {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        padding: 1rem 3%;
-        background: var(--bg-color);
-        border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-        display: none;
-    }
-
-    .navbar.active {
-        display: block;
-    }
-
-    .navbar a {
-        display: block;
-        font-size: 2rem;
-        margin: 3rem 0;
-    }
-
-    .home {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
 #ainav {
     margin-left: 50px;
     padding-left: 20px;
@@ -282,23 +221,6 @@ header {
     justify-content: center;
     align-items: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #ai-assistant{
@@ -474,6 +396,65 @@ header {
     color: gray;
 }
 
+@media (max-width: 1200px) {
+    html {
+        font-size: 40%;
+    }
+
+    .left h1 {
+        font-size: 5em;
+    }
+
+}
+
+@media (max-width: 991px) {
+    .header {
+        padding: 2rem 3%;
+    }
+
+    section {
+        padding: 10rem 3% 2rem;
+    }
+
+    .footer {
+        padding: 2rem 3%;
+    }
+}
+
+@media (max-width: 768px) {
+    .bx-menu {
+        display: block;
+        font-size: 3.5rem;
+        cursor: pointer;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 1rem 3%;
+        background: var(--bg-color);
+        border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        display: none;
+    }
+
+    .navbar.active {
+        display: block;
+    }
+
+    .navbar a {
+        display: block;
+        font-size: 2rem;
+        margin: 3rem 0;
+    }
+
+    .home {
+        display: flex;
+        flex-direction: column;
+    }
+}
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;
@@ -490,5 +471,56 @@ header {
     #chat-container {
         padding-left: 20px;
         /* Reset padding for mobile view */
+    }
+}
+@media only screen and (max-width: 2560px) {
+    /* Your CSS rules for 13-inch MacBook screen go here */
+    html {
+        font-size: 60%;
+    }
+    #footer {
+        position: fixed;
+        text-align: center;
+        bottom:0;
+        background-color: var(--bg-color);
+        color: #fff;
+        padding: 0px;
+        width: 100%;
+        margin-top: 0px;
+    }
+    .sidebar {
+        margin-top: 0px;
+        width: 27.5%;
+        background-color: #808080;
+        color: white;
+        padding-left: 10em;
+        padding-top: 30px;
+        height: calc(100vh - 60px);
+        /* Full height minus header */
+        position: fixed;
+        /* Fixed position */
+        overflow-y: auto;
+        /* Scrollable content */
+        z-index: 2;
+        /* Ensures sidebar is above other content 
+        background-color: yellow;*/
+    }
+    #chat-container {
+        width: 60%;
+        max-width: 800px;
+        margin-left: 40%;
+        height: 68em;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #1abc9c;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: white;
+        /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);*/
+        box-shadow: 0 2px 10px #1abc9c;
+        /* Add shadow */
+        /* margin-top: 100px; */
+        margin-top:5em;
+        /* Adjusted margin-top to create space for navigation bar */
     }
 }

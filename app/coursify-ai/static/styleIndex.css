@@ -203,7 +203,7 @@ button[type="submit"]:hover {
     display: none;
 }
 
-/*
+
 @media (max-width: 1200px) {
     html {
         font-size: 40%;
@@ -262,7 +262,7 @@ button[type="submit"]:hover {
         flex-direction: column;
     }
 }
-*/
+
 @media only screen and (max-width: 2560px) {
     /* Your CSS rules for 13-inch MacBook screen go here */
     html {
