@@ -5,6 +5,7 @@ import logging
 from mailbox import Message
 from pydoc_data import topics
 import subprocess
+import time
 from urllib.parse import unquote_to_bytes
 from flask import after_this_request, flash, session
 from datetime import datetime
@@ -1036,7 +1037,11 @@ def generate_quiz(file_id):
 
     # Save the document to a temporary file
     temp_dir = tempfile.mkdtemp()
-    doc_filename = 'quiz.docx'
+
+    timestamp = str(int(time.time()))
+    random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+    doc_filename = f'quiz_{timestamp}_{random_string}.docx'
+    
     temp_path = os.path.join(temp_dir, doc_filename)
     doc.save(temp_path)
 
