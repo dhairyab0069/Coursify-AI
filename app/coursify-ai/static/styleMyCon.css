@@ -96,84 +96,9 @@ header {
 .link_container img {
     width: 5rem;
 }
-
-
-
-/* CHANGE try to fix on different screens */
-#footer {
-    position: relative;
-    text-align: center;
-    bottom: 0;
-    background-color: var(--bg-color);
-    color: #fff;
-    padding: 0px;
-    width: 100%;
-    margin-top: 0px;
-}
 .bx-menu {
     display: none;
 }
-
-@media (max-width: 1200px) {
-    html {
-        font-size: 40%;
-    }
-
-    .left h1 {
-        font-size: 5em;
-    }
-
-}
-
-@media (max-width: 991px) {
-    .header {
-        padding: 2rem 3%;
-    }
-
-    section {
-        padding: 10rem 3% 2rem;
-    }
-
-    .footer {
-        padding: 2rem 3%;
-    }
-}
-
-@media (max-width: 768px) {
-    .bx-menu {
-        display: block;
-        font-size: 3.5rem;
-        cursor: pointer;
-    }
-
-    .navbar {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        padding: 1rem 3%;
-        background: var(--bg-color);
-        border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-        display: none;
-    }
-
-    .navbar.active {
-        display: block;
-    }
-
-    .navbar a {
-        display: block;
-        font-size: 2rem;
-        margin: 3rem 0;
-    }
-
-    .home {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
 #contentnav {
     margin-left: 50px;
     padding-left: 20px;
@@ -203,18 +128,11 @@ header {
     }
 }
 
-/* .notes-container {
-    border: 2px solid #ddd;
-    padding: 1rem;
-    margin: 1rem auto;
-    max-width: 800px;
-    background-color: #f8f8f8;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+
 
 .note-card {
     background-color: rgb(255, 255, 255);
-    border: 1px solid #000000;
+    /* border: 1px solid #000000; */
     margin-bottom: 1rem;
     padding: 1rem;
     border-radius: 5px;
@@ -261,9 +179,6 @@ header {
     transition: background-color 0.3s;
 }
 
-.download-btn:hover {
-    background-color: #45a049;
-} */
 
 .notes-container {
     display: flex;
@@ -295,6 +210,7 @@ header {
 
 .note-card.clicked {
     background-color: #7d7a7a;
+    border: 1px solid #1abc9c;
     border-right: 5px solid #1abc9c;
 }
 
@@ -492,9 +408,6 @@ button[type="submit"] {
 #shareForm input[type="submit"]:hover {
     background-color: #555555;
 }
-
-
-
 .info-button {
     background-color: #ddd;
     border: none;
@@ -532,3 +445,98 @@ button[type="submit"] {
     width: 100%;
     margin-top: 0px;
 }
+@media only screen and (max-width: 1200px) {
+    html {
+        font-size: 40%;
+    }
+
+    .left h1 {
+        font-size: 5em;
+    }
+
+}
+
+@media only screen and (max-width: 991px) {
+    .header {
+        padding: 2rem 3%;
+    }
+
+    section {
+        padding: 10rem 3% 2rem;
+    }
+
+    .footer {
+        padding: 2rem 3%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .bx-menu {
+        display: block;
+        font-size: 3.5rem;
+        cursor: pointer;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 1rem 3%;
+        background: var(--bg-color);
+        border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        display: none;
+    }
+
+    .navbar.active {
+        display: block;
+    }
+
+    .navbar a {
+        display: block;
+        font-size: 2rem;
+        margin: 3rem 0;
+    }
+
+    .home {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 2560px) {
+    /* Your CSS rules for 13-inch MacBook screen go here */
+    html {
+        font-size: 60%;
+    }
+    #footer {
+        position: absolute;
+        text-align: center;
+        bottom:0;
+        background-color: var(--bg-color);
+        color: #fff;
+        padding: 0px;
+        width: 100%;
+        margin-top: 0px;
+    }
+    .notes-container{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 1.5rem;
+        margin: 1rem auto;
+        width: 100%;
+        /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+    }
+
+    .notes-list {
+        flex-basis: 25%;
+        overflow-y: auto;
+        height: 500px;
+        /* direction: rtl; */
+        scrollbar-color: #353434 #808080;
+        /* thumb and track color */
+        scrollbar-width:1em;
+    }
+}
+

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQs</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleChatbot.css') }}">
 </head>
 <body>
 
@@ -17,17 +17,35 @@
         <nav class="navbar">
             <a href="{{ url_for('index') }}" id="home">HOME</a>
             <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+            <a href="{{ url_for('ai_html') }}" id="ainav">AI ASSISTANT</a>
+            <a href="{{ url_for('reviews') }}">REVIEW</a>
             <a href="settings.html" id="settings">SETTINGS</a>
-            <a href="ai.html" id="ai-assistant">AI ASSISTANT</a>
-            <a href="#" id="logout">LOGOUT</a>
-          </nav>
+            <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+        </nav>
         <i class='bx bx-menu'></i>
     </header>
 
     <div class="container">
         <div class="sidebar">
-            <a href="ai.html" id="ai-assistant">AI ASSISTANT</a>
-            <a href="{{ url_for('faq') }}">FAQs</a>
+            <h1> AI Chatbot</h1>
+            <a href="ai.html" >AI ASSISTANT</a>
+            <a href="{{ url_for('faq') }}"id="ai-faq">FAQs</a>
+            <div id="cbdesc">
+                <h3> Welcome to the Coursify Chatbot!</h3>
+                <p id="cbpara">This virtual assistant is here to help you navigate our website and make the most of your Courisify.ai experience.</p>
+                <p id="cblist">Here's how I can assist you:</p>
+                <ul>
+                    <li><strong>Generating Custom Content:</strong><br> Get step-by-step guidance on creating content tailored to
+                        your needs.
+                    </li>
+                    <li><strong>Account Management:</strong><br> Learn how to update your profile, change your password, and more.
+                    </li>
+                    <li><strong>Troubleshooting:</strong><br> Receive help with any issues or challenges you face on the website.
+                    </li>
+                    <li><strong>FAQs:</strong><br> Access frequently asked questions for quick answers to common queries.</li>
+                </ul>
+                <h4> Ask me something &#x263a </h5>
+            </div>
         </div>
         <div id="chat-container">
             <div class="faq-section">
