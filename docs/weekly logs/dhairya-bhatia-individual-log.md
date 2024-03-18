@@ -196,7 +196,7 @@ I did extra work for the reading break, so I feel i should receive extra grade a
 
 ## Term 2 Week 7 (Week 20) 
 ### Date
-26/02/2024-03/03/2024
+26/02/2024-02/03/2024
 ### Tasks Completed
 #### **Worked on v2.0-pptx-preview Branch**
 - Updates for preview page and rendering pptx
@@ -207,7 +207,7 @@ I did extra work for the reading break, so I feel i should receive extra grade a
 
  ## Term 2 Week 8 (Week 21) 
 ### Date
-03/03/2024-10/03/2024
+04/03/2024-10/03/2024
 ### Tasks Completed
 #### **Worked on v2.0-pptx-preview Branch**
 - Updates for rendering pptx(almost functional)
@@ -215,3 +215,17 @@ I did extra work for the reading break, so I feel i should receive extra grade a
  <img width="1469" alt="Screenshot 2024-02-18 at 11 14 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/fbdbc65f-de1c-4248-bccd-951b7563a06b">
 
  <img width="1469" alt="Screenshot 2024-02-18 at 11 14 30 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ecf721d7-41ff-4de4-812c-5e9ab602fc16">
+
+  ## Term 2 Week 9 (Week 22) 
+### Date
+11/03/2024-17/03/2024
+### Tasks Completed
+#### **Worked on v2.0-pptx-quiz Branch**
+- Updates for rendering pptx(changed so it converts ppt indo pdf instead of images when rendering(In progress)
+- Changing nomenclature for quizes related to topic generated from(Completed)
+- Small bug fixes(completed)
+
+ <img width="1469" alt="Screenshot 2024-02-18 at 11 14 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/fbdbc65f-de1c-4248-bccd-951b7563a06b">
+
+ <img width="1469" alt="Screenshot 2024-02-18 at 11 14 30 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ecf721d7-41ff-4de4-812c-5e9ab602fc16">
+
