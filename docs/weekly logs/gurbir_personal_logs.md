@@ -93,7 +93,7 @@ Email verification feature in progress, generated sendgrid API key for SMTP and 
 Made a new integrated Login and registration using Flask. Created all routes necessary for Registering users and logging in. Successfully integrated the settings page and the chatbot with the existing repo.
 
 ### Date:
-08/01/2023-014/01/2023
+08/01/2023-014/12/2023
 
 ### Github Username:
 # Gurbir Amrit- gurbirRemy
@@ -110,88 +110,7 @@ Working on email verification for the new login and registration page and creati
 Creating a team meeting schedule for the coming weeks and project planning 
      
 
-### Date:
-14/01/2023- 21/01/2023
-
-### Github Username:
-# Gurbir Amrit- gurbirRemy
-<img width="1140" alt="Screenshot 2024-01-21 at 7 45 14 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/fa76e8ad-a017-4179-a133-586782c930ba">
-
-<img width="1129" alt="Screenshot 2024-01-21 at 7 49 01 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/e7f952d7-7124-4418-a575-1e7969e6ec7c">
-
-registering domain for email verification and creating secure sendgrid api keys
-working on integrating google api key to allow signup with google option 
-Bug fixes regarding registration and login routes
-Editing Database ER design to incoporate more fields and connecting the generated files with usernames.
 
 
-# T2-W3+W4 Logs
-### Date:
-21/01/2023- 04/02/2023
-
-### Github Username:
-# Gurbir Amrit- gurbirRemy
-
-<img width="1064" alt="Screenshot 2024-02-04 at 10 48 48 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/a89c9009-59e0-4313-8d7f-c06da34a41ee">
-
-<img width="1146" alt="Screenshot 2024-02-04 at 10 50 03 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/0c72525a-2c6b-437a-bf28-b4f7c8741464">
-
-In progress
-generating questionnaire for peer testing 
-selenium testing for login and registration 
-
-Completed
-Email verification with sendgrid
-Login and registration 
-
-Note: I was participating in BCHACKS 5.0 the past week( Won first place) and was down with fever 3 days after that, therefore was not able to complete my features last week as expected. 
-
-# T2-W5 logs
-### Date:
-04/02/2023 - 11/02/2023
-
-<img width="1104" alt="Screenshot 2024-02-11 at 10 56 57 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/f2c788a2-e2e1-49c1-879f-db39220a9283">
-<img width="1171" alt="Screenshot 2024-02-11 at 11 01 58 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/41585759-3fed-46d1-9a9a-e3b0faeae2e6">
-
-### Branch - v2.0-emailverification and v2.0
- Tasks done: Added new registration fields( gender and birthdate), updated password validation, improved navigation flow between register, login and index pages. Updated the system to show flash alerts upon  registration and  login. Bug fixes for email verification resolves. 
- 
-Tasks in progress: Researching ways to increase content accuracy
-
-
-# Week T2 #6
-## Date: 11/02/2024 - 18/02/2024
-### Gurbir Amrit - gurbirRemy
-
-### Tasks in progress
--  Discussing implementation of a content accauracy rating by gpt, divide by category of pdf
-
-
-### Tasks Completed
-- fixed bugs with content generation 
-  
-<img width="697" alt="Screenshot 2024-02-18 at 10 52 48 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/c62e328a-d710-44da-b323-251a077d87a5">
-<img width="1169" alt="Screenshot 2024-02-18 at 11 42 20 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/a50e9aa0-f942-4f86-addc-7fb95cc0ea6a">
-
-# T2 Week 7-8
-## Date: 25/02/2024 - 03/03/2024
-### Gurbir Amrit - gurbirRemy
-- Testing for login, registration, logout routes successfully conducted with 5 passed and 1 failed
-- edited database schema and updated atlas collections in the cluster
-
-  <img width="1270" alt="Screenshot 2024-03-03 at 11 24 38 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/62c8eae0-5230-48b7-90a8-28fe3d70f106">
-  <img width="1173" alt="Screenshot 2024-03-03 at 11 26 19 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/3dfc934b-0cba-40a9-998f-09e6d59ebcf1">
-
-<img width="1116" alt="Screenshot 2024-03-03 at 11 28 47 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/f66d9879-2fbe-4146-9e08-8c2d2c27c4cd">
-
-# T2 Week 9
-## Date:  03/03/2024 - 10/03/2024
-### Gurbir Amrit - gurbirRemy
-- Conducted testing for additional registration routes 
-- Created pop-up modal for sharing generated content via email
-
-<img width="1127" alt="Screenshot 2024-03-10 at 11 51 42 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/75eb1e62-ae93-4c83-8525-440d9fe82764">
-
-<img width="1284" alt="Screenshot 2024-03-10 at 11 49 23 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/5131a090-c0af-4e0a-a38b-6f5bdf7e4bb4">
 
 

@@ -107,7 +107,7 @@ Created an SDLC document with Vinu to describe which Software development method
 <img width="422" alt="Screenshot 2023-12-04 at 12 46 49 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/046474af-cf86-43c8-a500-87a90a33e274">
 
 
-## Term 2 Week 1 (Week 14)
+## Week 14
 ### Date 
 08/01/2024-14/01/2024
 ### Tasks Completed
@@ -121,97 +121,3 @@ Created an SDLC document with Vinu to describe which Software development method
 
 <img width="1311" alt="Screenshot 2024-01-14 at 7 41 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/90d685ed-41b6-4486-9aa1-cd844550c399">
 
-## Term 2 Week 2 (Week 15)
-### Date 
-15/01/2024-21/01/2024
-
-### Tasks Completed
- #### **Worked on V2.0 Branch**
-
- - Code cleanup
- - Bug fixes
- - Working on formatting of pdf generation
-
-<img width="1413" alt="Screenshot 2024-01-21 at 6 52 42 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/14836d08-a4ea-49fa-9caf-bec893806686">
-
-<img width="1311" alt="Screenshot 2024-01-14 at 7 41 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/90d685ed-41b6-4486-9aa1-cd844550c399">
-
-## Term 2 Week 3 (Week 16)
-### Date
-22/01/2024-28/01/2024
-### Tasks Completed
-#### **Worked on V2.0 Branch**
-- updated the index page to include form for choosing form for content generation (Completed)
-- added functionality for slide generation, though not complete.(In Progress)
-- updated javascript handling and flask routes for handling new content generation features(Completed)
-Above worked on V2.0 Branch
-
-<img width="1413" alt="Screenshot 2024-01-28 at 11 33 00 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/b00f8ba5-0041-4298-ab15-71e92af8e677">
-
-<img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
-
-## Term 2 Week 4 (Week 17)
-### Date
-29/01/2024-04/02/2024
-### Tasks Completed
-#### **Worked on v2.0-content-generation Branch**
-- Worked on testing for content generation(Incoomplete,need to fix test cases)
-
-<img width="1304" alt="Screenshot 2024-02-04 at 10 36 18 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/28a221fb-3c52-44d0-96b8-2f2b30b1a1ab">
-
-<img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
-
-## Term 2 Week 5 (Week 18)
-### Date
-05/02/2024-11/02/2024
-### Tasks Completed
-#### **Worked on v2.0-content-generation Branch**
-- Finished working on content generation for slides(complete)
-- Working on improving formatting and accuracy(in progress)
-
-<img width="1234" alt="Screenshot 2024-02-11 at 10 10 07 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ed71127f-085b-4862-a16b-84e0f8a30edb">
-
-<img width="1413" alt="Screenshot 2024-01-28 at 11 35 02 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/53cb7921-5938-4639-a29c-f97c556f2211">
-
-## Term 2 Week 6 (Week 19) 
-### Date
-12/02/2024-18/02/2024
-### Tasks Completed
-#### **Worked on v2.0-content-generation Branch**
-- created a file preview page for pdfs and ppt
-- fixes to app.py prompt for api call
-
- <img width="1469" alt="Screenshot 2024-02-18 at 11 14 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/fbdbc65f-de1c-4248-bccd-951b7563a06b">
-
- <img width="1469" alt="Screenshot 2024-02-18 at 11 14 30 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ecf721d7-41ff-4de4-812c-5e9ab602fc16">
-
-## Term 2 Reading Week  (Bonus Week) 
-### Date
-12/02/2024-25/02/2024
-### Tasks Completed
-#### **Worked on v2.0-content-preview Branch**
-- Worked on Quiz Generation for the above
-
-I did extra work for the reading break, so I feel i should receive extra grade as conversated with the TA.
-
-## Term 2 Week 7 (Week 20) 
-### Date
-26/02/2024-03/03/2024
-### Tasks Completed
-#### **Worked on v2.0-pptx-preview Branch**
-- Updates for preview page and rendering pptx
-
- <img width="1469" alt="Screenshot 2024-02-18 at 11 14 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/fbdbc65f-de1c-4248-bccd-951b7563a06b">
-
- <img width="1469" alt="Screenshot 2024-02-18 at 11 14 30 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ecf721d7-41ff-4de4-812c-5e9ab602fc16">
-
- ## Term 2 Week 8 (Week 21) 
-### Date
-03/03/2024-10/03/2024
-### Tasks Completed
-#### **Worked on v2.0-pptx-preview Branch**
-- Updates for rendering pptx(almost functional)
-
- <img width="1469" alt="Screenshot 2024-02-18 at 11 14 06 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/fbdbc65f-de1c-4248-bccd-951b7563a06b">
-
- <img width="1469" alt="Screenshot 2024-02-18 at 11 14 30 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/72479713/ecf721d7-41ff-4de4-812c-5e9ab602fc16">

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Content - Coursify.ai</title>
+
+    <!-- Icons -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
+      rel="stylesheet" />
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleMyCon.css') }}" />
+  
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="link_container">
+        <a href="{{ url_for('index') }}"
+          ><img src="{{ url_for('static', filename='cap_logo1.png') }}" alt="Coursify.ai Logo" id="logo"
+        /></a>
+      </div>
+
+      <nav class="navbar">
+        <div id="sidebar">
+          <a href="{{ url_for('index') }}" id = "home">HOME</a>
+          <a href="{{ url_for('my_content') }}" id = "contentnav">MY CONTENT</a>
+          <a href="ai.html" id = "ai">AI ASSISTANT</a>
+          <a href="{{ url_for('reviews') }}">REVIEW</a>
+          <a href="settings.html" id = "settings">SETTINGS</a>
+          <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+
+        </div>
+      </nav>
+      <i class="bx bx-menu"></i>
+    </header>
+
+<section id="my-content">
+  <div class="content-header">
+    <h1 id = "title">My Generated Content</h1>
+  </div>
+  <div class="notes-container">
+    <div class="notes-list">
+      <!-- Note Cards -->
+      {% for file in file_data %}
+      <div class="note-card" onclick="showDetails('{{ file._id }}', '{{ file.filename }}')">
+        <div class="note-title">{{ file.filename }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div id="note-details" > 
+      <div id="preview-instructions" style="display: block;">
+        <h1> Select a File to</h1>
+        <ul>
+          <li>Preview</li>
+          <li>Download</li>
+          <li>Share</li>
+          <li>Generate Quiz</li>
+          <li>Delete</li>
+        </ul>
+      </div>
+      <div id="note-content" class="note-content" style="display:none;">
+        <div class="note-title" id="detailTitle"></div>
+        <a href="" id="downloadLink" class="download-btn">Download</a>
+        <a href="" id="PreviewLink" class="preview-btn">Preview</a>
+        
+        <button onclick="showForm()" id="shareButton" class="share-btn">Share</button>
+        <form action="" method="post" id="deleteForm" onsubmit="return confirm('Are you sure you want to delete this file ?');">
+          <button type="submit" class="delete-btn">Delete</button>
+        </form>  
+        <br>
+        <div id="quizButtonContainer"></div>
+      </div>
+        <!-- <button onclick="showReviewForm(document.getElementById('reviewFileId').value, document.getElementById('reviewFilename').value)" id="reviewButton" class="review-btn">Review</button> -->
+      </div> 
+    </div>
+  </div>
+</section>
+<!-- Share Form -->
+<div id="shareForm" style="display: none;">
+  <form action="{{ url_for('share_via_email') }}" method="post">
+    <input type="hidden" id="fileId" name="file_id">
+    <label for="email">Recipient's Email:</label>
+    <input type="email" id="email" name="email" required>
+    <input type="submit" value="Share">
+    
+  </form>
+</div>
+
+<!--review form-->
+<!-- <div id="reviewForm" style="display: none;">
+  <form action="{{ url_for('submit_review') }}" method="post">
+    <input type="hidden" id="reviewFileId" name="file_id">
+    <input type="hidden" id="reviewFilename" name="filename">
+    <label for="reviewText">Your Review:</label>
+    <textarea id="reviewText" name="review_text" required></textarea>
+    <input type="submit" value="Submit Review">
+  </form>
+</div> -->
+
+
+<script>
+document.getElementById('shareButton').addEventListener('click', function() {
+  document.getElementById('shareForm').scrollIntoView({behavior: "smooth"});
+});
+//function showDetails(id, filename) {
+  //document.getElementById('detailTitle').textContent = filename;
+  /*document.getElementById('downloadLink').href = "{{ url_for('get_pdf', filename='') }}" + filename;*/
+  //document.getElementById('downloadLink').addEventListener('click', function(event) {
+    // Prevent the default action
+    //event.preventDefault();
+
+    // Create two 'a' elements with the href set to the download URLs
+    //var pdfLink = document.createElement('a');
+    //pdfLink.href = "{{ url_for('get_pdf', filename='') }}" + filename;
+    //pdfLink.download = filename;
+
+    //var presentationLink = document.createElement('a');
+    //presentationLink.href = "{{ url_for('get_presentation', filename='') }}" + filename;
+    //presentationLink.download = filename;
+
+    // Append the 'a' elements to the body
+    //document.body.appendChild(pdfLink);
+    //document.body.appendChild(presentationLink);
+
+    // Programmatically click the 'a' elements to start the download
+    //pdfLink.click();
+    //presentationLink.click();
+
+    // Clean up by removing the 'a' elements from the body
+    //document.body.removeChild(pdfLink);
+    //document.body.removeChild(presentationLink);
+//});
+  // Get the downloadLink button
+  //var downloadLink = document.getElementById('downloadLink');
+
+  // Remove any existing event listeners
+  //var newDownloadLink = downloadLink.cloneNode(true);
+  //downloadLink.parentNode.replaceChild(newDownloadLink, downloadLink);
+
+  //newDownloadLink.addEventListener('click', function(event) {
+    // Prevent the default action
+  //  event.preventDefault();
+
+    // Create two 'a' elements with the href set to the download URLs
+  //  var pdfLink = document.createElement('a');
+  //  pdfLink.href = "{{ url_for('get_pdf', filename='') }}" + filename;
+  //  pdfLink.download = filename;
+
+  //  var presentationLink = document.createElement('a');
+  //  presentationLink.href = "{{ url_for('get_presentation', filename='') }}" + filename;
+  //  presentationLink.download = filename;
+
+    // Append the 'a' elements to the body
+  //  document.body.appendChild(pdfLink);
+  //  document.body.appendChild(presentationLink);
+
+    // Programmatically click the 'a' elements to start the download
+  //  pdfLink.click();
+  //  presentationLink.click();
+
+    // Clean up by removing the 'a' elements from the body
+  //  document.body.removeChild(pdfLink);
+  //  document.body.removeChild(presentationLink);
+ // });
+
+  //document.getElementById('note-details').style.display = 'block';
+  //document.getElementById('deleteForm').action = '/delete/' + id;
+//}
+function showDetails(id, filename) {
+  document.getElementById('detailTitle').textContent = filename;
+
+  document.getElementById('downloadLink').href = "{{ url_for('get_pdf', filename='') }}" + filename;
+  document.getElementById('PreviewLink').href = "{{ url_for('preview', filename='') }}" + filename;
+
+  var quizButtonContainer = document.getElementById('quizButtonContainer'); // Ensure this is the correct ID for your container
+
+    // Check if the "Generate Quiz" button already exists
+    var existingQuizLink = document.querySelector('.generate-quiz-link');
+    if (existingQuizLink) {
+        // If the button exists, update its onclick event with the new file ID
+        existingQuizLink.onclick = function() {
+            generateQuiz(id); // Use `id` to generate quiz for the current file
+        };
+    } else {
+        // If the button doesn't exist, create it
+        var generateQuizLink = document.createElement('a');
+        generateQuizLink.textContent = 'Generate Quiz';
+        generateQuizLink.href = "javascript:void(0);"; // Prevent the link from navigating
+        generateQuizLink.className = 'generate-quiz-link';
+        generateQuizLink.onclick = function() {
+            generateQuiz(id); // Use `id` to generate quiz for the current file
+        };
+        quizButtonContainer.appendChild(generateQuizLink); // Append the new link to the container
+    }
+
+  // Get the downloadLink button
+  var downloadLink = document.getElementById('downloadLink');
+
+  // Remove any existing event listeners
+  var newDownloadLink = downloadLink.cloneNode(true);
+  downloadLink.parentNode.replaceChild(newDownloadLink, downloadLink);
+
+  newDownloadLink.addEventListener('click', function(event) {
+    // Prevent the default action
+    event.preventDefault();
+
+    // Create two 'a' elements with the href set to the download URLs
+    var pdfLink = document.createElement('a');
+    pdfLink.href = "{{ url_for('get_pdf', filename='') }}" + filename;
+    pdfLink.download = filename;
+
+    var presentationLink = document.createElement('a');
+    presentationLink.href = "{{ url_for('get_presentation', filename='') }}" + filename;
+    presentationLink.download = filename;
+
+    // Append the 'a' elements to the body
+    document.body.appendChild(pdfLink);
+    document.body.appendChild(presentationLink);
+
+    // Programmatically click the 'a' elements to start the download
+    pdfLink.click();
+    presentationLink.click();
+
+    // Clean up by removing the 'a' elements from the body
+    document.body.removeChild(pdfLink);
+    document.body.removeChild(presentationLink);
+  });
+
+
+  document.getElementById('note-content').style.display = 'block';
+  document.getElementById('preview-instructions').style.display = 'none';
+  document.getElementById('note-details').style.border = 'none';
+  document.getElementById('deleteForm').action = '/delete/' + id;
+
+  document.getElementById('shareButton').onclick = function() { showForm(id); };
+}
+
+
+function showForm(fileId) {
+  // Show the form
+  document.getElementById('shareForm').style.display = 'block';
+  
+  // Set the file's ID in the form
+  document.getElementById('fileId').value = fileId;
+}
+function generateQuiz(fileId) {
+    fetch(`/generate_quiz/${fileId}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert("Failed to generate quiz: " + data.error);
+        } else {
+
+            alert("Quiz generated successfully");
+            // Display questions to the user
+            console.log(data.questions);  // For demonstration purposes
+            // Here, you might update the DOM to show the questions or navigate to a new page
+        }
+    })
+    .catch(error => console.error('Error generating quiz:', error));
+}
+window.onload = function() {
+  var noteCards = document.getElementsByClassName('note-card');
+
+// Add click event listener to each note card
+for (var i = 0; i < noteCards.length; i++) {
+    noteCards[i].addEventListener('click', function() {
+        // Remove 'clicked' class from all note cards
+        for (var j = 0; j < noteCards.length; j++) {
+            noteCards[j].classList.remove('clicked');
+        }
+        // Add 'clicked' class to the clicked note card
+        this.classList.add('clicked');
+});
+}}
+//function showReviewForm(id, filename) {
+  // Set the file id and filename in the form
+  //document.getElementById('reviewFileId').value = fileId;
+  //document.getElementById('reviewFilename').value = filename;
+
+  // Show the form
+  //document.getElementById('reviewForm').style.display = 'block';
+//}
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Assuming 'showDetails' function is updated to include generating and attaching 'Generate Quiz' button as discussed earlier.
+  
+  // Function to handle Quiz Generation
+  function handleQuizGeneration(fileId) {
+    var generateQuizButton = document.querySelector('.generate-quiz-link'); // Assuming this class is used for the button
+    if (generateQuizButton) {
+      generateQuizButton.textContent = "Generating Quiz...";
+      generateQuizButton.style.color = "#FFA500"; // Orange color for generating state
+      generateQuizButton.disabled = true;
+
+      fetch(`/generate_quiz/${fileId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to generate quiz');
+          }
+          return response.blob(); // Assuming the response is a blob for a downloadable file
+        })
+        .then(blob => {
+          const downloadUrl = URL.createObjectURL(blob);
+          generateQuizButton.textContent = "Download Quiz";
+          generateQuizButton.style.color = "green";
+          generateQuizButton.onclick = function() {
+            window.location.href = downloadUrl; // URL of the generated quiz file
+            generateQuizButton.textContent = "Generate Quiz"; // Reset button text after download
+            generateQuizButton.style.color = ""; // Reset button color
+            generateQuizButton.disabled = false; // Enable button again for future use
+          };
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          generateQuizButton.textContent = "Failed to Generate";
+          generateQuizButton.style.color = "red"; // Red color for error state
+          generateQuizButton.disabled = false;
+        });
+    }
+  }
+  
+  // Example of how you might call handleQuizGeneration from within showDetails or another appropriate place
+  // showDetails function or similar needs to setup 'generateQuizButton.onclick' to call 'handleQuizGeneration' with the correct fileId
+});
+</script>
+
+    <footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
+  </body>
+</html>

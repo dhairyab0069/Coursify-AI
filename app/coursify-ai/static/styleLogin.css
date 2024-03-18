@@ -1,0 +1,129 @@
+body,html {
+    height: 100%;
+    margin: 0;
+    background-image: url('robotwithlogo.png');
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+}
+
+#login-form{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px;
+    background-color: transparent;
+    border-radius: 28px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+}
+ #login-form input {
+     text-align: center;
+     border-radius: 28px;
+ }
+#login-form label {
+    padding-bottom: 10px;
+}
+.text-center-L{
+    font-size:2em;
+    margin-bottom: 1em;
+    font-family: cursive;
+}
+.container {
+    position: absolute;
+    top: 50%;   
+    right: 10%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    text-align: center;
+}
+.btn-secondary{
+    border: 1px solid black;
+}
+/*-------------------------------------------------------------------------------*/
+#register-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top:20px;
+    padding-bottom:20px;
+    background-color: transparent;
+    border-radius: 28px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+}
+#register-form input {
+    text-align: center;
+    border-radius: 28px;
+}
+.text-center-R {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    font-family: cursive;
+}
+#register-form label {
+    padding-bottom: 5px;
+}
+
+#regbtn{
+    margin-top:40px;
+}
+#passwordHelp{
+    padding-top:15px;
+    color: black;
+}
+.input-message{
+    display:none;
+    color:#333;
+    margin-left:10px;
+}
+
+
+#logo{
+    width: 75px;
+    margin-left: 265px;
+    margin-top: 400px;
+} 
+
+ /* Responsive adjustments */
+ @media (max-width: 768px) {
+     .container {
+         right: 20%;
+         /* Adjusted for medium screens */
+     }
+
+     h1 {
+         font-size: 1.925rem;
+         /* Scaled font size for medium screens */
+     }
+
+     .btn {
+         padding: 0.5rem 1rem;
+         font-size: 0.99rem;
+         /* Scaled font size for medium screens */
+         margin: 0.75rem;
+         /* Keep increased margin for medium screens */
+         text-decoration: none;
+     }
+ }
+
+ @media (max-width: 480px) {
+     .container {
+         right: 25%;
+         /* Adjusted for small screens */
+     }
+
+     h1 {
+         font-size: 1.65rem;
+         /* Scaled font size for small screens */
+     }
+
+     .btn {
+         padding: 0.5rem;
+         font-size: 0.88rem;
+         /* Scaled font size for small screens */
+         margin: 0.75rem;
+         /* Keep increased margin for small screens */
+         text-decoration: none;
+     }
+ }

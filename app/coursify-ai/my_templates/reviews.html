@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews</title>
+    <!--icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylereview.css') }}">
+</head>
+<body>
+    <!--header design-->
+    <header class="header">
+        <div class="link_container">
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+        </div>
+        <div class="link_container">
+            <nav class="navbar">
+                <div id="sidebar"></div>
+                <a href="{{ url_for('index') }}" id="home">HOME</a>
+                <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+                <a href="ai.html" id="ai">AI ASSISTANT</a>
+                <a href="{{ url_for('reviews') }}">REVIEW</a>
+                <a href="settings.html" id="settings">SETTINGS</a>
+                <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="grid-container">
+          <div class="accuracy-score">
+            <h2>User-Based Accuracy Score</h2>
+            <p>This score represents the average user rating based on reviews.</p>
+            <div class="score-visual"><span id="calculated-score">0</span> / 5.0</div>
+        </div>
+            <!-- Add Review Section -->
+            <form class="add-review" method="POST" action="/submit_review">
+                <h3>Add Your Review</h3>
+                <div class="stars">
+                    <!-- Clickable stars for rating -->
+                    <i class="bx bxs-star" data-value="1"></i>
+                    <i class="bx bxs-star" data-value="2"></i>
+                    <i class="bx bxs-star" data-value="3"></i>
+                    <i class="bx bxs-star" data-value="4"></i>
+                    <i class="bx bxs-star" data-value="5"></i>
+                </div>
+                <select name="subject" id="subject_list" placeholder="Subject">
+                    <option value="choose">Choose Subject</option> <!-- Dropdown list for subject -->
+                    <option value="Math">Math</option>
+                    <option value="Geography">Geography</option>
+                    <option value="History">History</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Physics">Physics</option>
+                    <option value="English">English</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Business">Business</option>
+                    <option value="Other">Other</option>
+                </select>
+                <textarea name="review_text" placeholder="Write your review here..."></textarea>
+                <input type="hidden" name="star_rating" id="star_rating" value=""> <!-- Hidden field to store rating -->
+                <button type="submit">Submit Review</button>
+            </form>
+
+            <!-- Reviews Section -->
+            <div class="reviews-container">
+                <div class="reviews-filter-container">
+                    <select class="reviews-filter" name="rating" id="rating" onchange="filterReviews()">
+                        <option value="">Filter by rating</option>
+                        <option value="5">5 star</option>
+                        <option value="4">4 star</option>
+                        <option value="3">3 star</option>
+                        <option value="2">2 star</option>
+                        <option value="1">1 star</option>
+                    </select>
+                    <select class="reviews-filter" name="subject" id="subject" onchange="filterReviews()">
+                        <option value="">Filter by subject</option>
+                        <option value="Math">Math</option>
+                        <option value="Geography">Geography</option>
+                        <option value="History">History</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Physics">Physics</option>
+                        <option value="English">English</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Business">Business</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            
+                <!-- Individual reviews will go here -->
+                {% for review in reviews %}
+                <div class="review" data-rating="{{ review.star_rating }}" data-subject="{{ review.subject }}">
+                    <div class="review-rating">Rating: {{ review.star_rating }} / 5</div>
+                    <div class="review-subject">Subject: {{ review.subject }}</div>
+                    <div class="review-text">{{ review.review_text }}</div>
+                </div>
+                {% else %}
+                <div>No reviews yet.</div>
+                {% endfor %}
+            </div>
+    </main>
+
+    <script>
+
+ document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.bx.bxs-star');
+    const ratingInput = document.getElementById('star_rating');
+    const subjectInput = document.getElementById('subject');
+
+
+    stars.forEach(star => {
+        star.addEventListener('click', function () {
+            const rating = this.getAttribute('data-value');
+            ratingInput.value = rating; // Update hidden input value
+
+            // Reset all stars to inactive state
+            stars.forEach(s => s.classList.remove('active'));
+
+            // Set this star and all previous stars to active
+            this.classList.add('active');
+            for (let i = 0; i < rating; i++) {
+                stars[i].classList.add('active');
+            }
+
+            // Update the accuracy score based on new rating
+            calculateAndDisplayAccuracyScore();
+        });
+    });
+
+    // Initialize filter functionality
+    const ratingSelect = document.getElementById('rating');
+    ratingSelect.addEventListener('change', function() {
+        filterReviews();
+        calculateAndDisplayAccuracyScore();
+    });
+
+    subjectInput.addEventListener('change', function() {
+        filterReviews();
+        calculateAndDisplayAccuracyScore();
+    });
+
+    const reviewForm = document.querySelector('.add-review');
+const reviewTextarea = document.querySelector('textarea[name="review_text"]');
+const subjectSelect = document.getElementById('subject_list');
+
+reviewForm.addEventListener('submit', function(event) {
+    let isValid = true;
+    const selectedRating = ratingInput.value;
+    const selectedSubject = subjectSelect.value;
+    const reviewText = reviewTextarea.value.trim();
+
+    if (!selectedRating) {
+        alert('Please select a rating.');
+        isValid = false;
+    }
+
+    if (selectedSubject === 'choose') {
+        alert('Please select a subject.');
+        isValid = false;
+    }
+
+    if (!reviewText) {
+        alert('Please enter your review.');
+        isValid = false;
+    }
+
+    if (!isValid) {
+        event.preventDefault(); // Prevent form submission if validation fails
+    }
+});
+    // Calculate and display the initial accuracy score
+    calculateAndDisplayAccuracyScore();
+    filterReviews();
+});
+
+
+
+
+
+function filterReviews() {
+    const selectedRating = document.getElementById('rating').value;
+    const selectedSubject = document.getElementById('subject').value;
+    const reviews = document.querySelectorAll('.review');
+
+    reviews.forEach(review => {
+        const reviewRating = Number(review.getAttribute('data-rating'));
+        const reviewSubject = String(review.getAttribute('data-subject'));
+        const reviewText = review.querySelector('.review-text').textContent.trim(); // Get the review text and trim whitespace
+
+        // Check if the review text is not empty in addition to existing conditions
+        if ((selectedRating === "" || reviewRating === Number(selectedRating)) &&
+            (selectedSubject === "" || reviewSubject === selectedSubject) &&
+            reviewText !== "") { // Add this line
+            review.style.display = '';
+        } else {
+            review.style.display = 'none';
+        }
+    });
+}
+
+
+
+
+function calculateAndDisplayAccuracyScore() {
+    const visibleReviews = Array.from(document.querySelectorAll('.review')).filter(review => review.style.display !== 'none');
+    const totalRating = visibleReviews.reduce((total, review) => total + parseInt(review.getAttribute('data-rating'), 10), 0);
+    const averageRating = visibleReviews.length > 0 ? (totalRating / visibleReviews.length).toFixed(1) : 0;
+    document.getElementById('calculated-score').textContent = averageRating;
+}
+
+    </script>
+</body>
+</html>
