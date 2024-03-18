@@ -51,6 +51,10 @@ from urllib.parse import quote
 import shutil
 from pathlib import Path
 
+import subprocess
+
+
+
 
 class RegistrationForm(FlaskForm):
     '''Registration form class. Inherits from FlaskForm. '''
@@ -753,8 +757,13 @@ def generate_pdf(prompt, length, difficulty):
                     y_position = top_margin
                 c.drawString(left_margin, y_position, text_line)
                 y_position -= line_height 
-    
+
+    # Save the PDF
     c.save()
+    print("PDF saved to", pdf_path)
+
+
+
     if current_user.is_authenticated:
         fs = GridFS(db)
         with open(pdf_path, 'rb') as pdf_file:
@@ -1007,7 +1016,9 @@ def load_user(user_id):
 
 @app.route('/generate_quiz/<file_id>')
 def generate_quiz(file_id):
-    '''Generate a quiz based on the text extracted from a PDF file.'''
+
+    '''Generate a quiz based on the text extracted from a PDF or PPTX file.'''
+
     # Convert string file_id to ObjectId for MongoDB
     try:
         file_id = ObjectId(file_id)
@@ -1020,11 +1031,22 @@ def generate_quiz(file_id):
     except:
         return jsonify({'error': 'File not found'}), 404
 
+
+    #Get Name of the file to be used to save the quiz
+    file_name = file.filename
+    
     # Read the file's contents into a BytesIO stream
     file_stream = io.BytesIO(file.read())
 
-    # Extract text from the PDF
-    extracted_text = extract_text_from_pdf(file_stream)
+    # Extract text from the PDF or pptx
+    file_extension = os.path.splitext(file.filename)[1]
+    if file_extension == '.pdf':
+        extracted_text = extract_text_from_pdf(file_stream)
+    elif file_extension == '.pptx':
+        extracted_text = extract_text_from_pptx(file_stream)
+    else:
+        return jsonify({'error': 'Unsupported file format'}), 400
+
 
     # Generate quiz questions based on the extracted text
     questions = generate_questions(extracted_text)
@@ -1040,7 +1062,9 @@ def generate_quiz(file_id):
 
     timestamp = str(int(time.time()))
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
-    doc_filename = f'quiz_{timestamp}_{random_string}.docx'
+
+    doc_filename = f'quiz_{file_name}.docx'
+
     
     temp_path = os.path.join(temp_dir, doc_filename)
     doc.save(temp_path)
@@ -1081,6 +1105,20 @@ def extract_text_from_pdf(file_stream):
     for page in reader.pages:
         text += page.extract_text() + "\n"
     return text
+def extract_text_from_pptx(file_stream):
+    '''Extract text from a PPTX file stream. It generates questions from table of content which is in first slide of pptx'''
+    # Ensure the stream position is at the start
+    file_stream.seek(0)
+    presentation = Presentation(file_stream)
+    text = ""
+    # Extracting text from the first slide only
+    first_slide = presentation.slides[0]
+    for shape in first_slide.shapes:
+        if hasattr(shape, "text"):
+            text += shape.text + "\n"
+            break  # Only extract text from the first question
+    return text
+
 
 def generate_questions(text):
     '''Generate quiz questions based on the given text.'''
@@ -1133,27 +1171,66 @@ def reviews():
 # function for converting pptx to images
 
 @app.route('/presentation/<filename>')
-def pptx_images(filename):
 
-    filename = quote(filename)
-    # Create a new directory for the images
-    images_dir = Path('pptx_images')
-    if images_dir.exists():
-        shutil.rmtree(images_dir)  # Remove the directory if it exists
-    images_dir.mkdir()  # Create the directory
+def pptx_images(pptx_filename):
+    '''Converts a PowerPoint (PPTX) file to a PDF and stores it in the pdfs directory.'''
 
-    # Convert the pptx to images and save them in the new directory
-    presentation = Presentation(os.path.join('ppts', filename))
-    for i, slide in enumerate(presentation.slides):
-        slide.export(str(images_dir / f'{filename}_{i}.png'))
+    # Create a subdirectory for PDFs if it doesn't exist
+    pdf_directory = os.path.join(os.getcwd(), 'pdfs')
+    if not os.path.exists(pdf_directory):
+        os.makedirs(pdf_directory)
 
-    # Generate the URLs for the images
-    image_urls = [f'/static/pptx_images/{filename}_{i}.png' for i in range(len(presentation.slides))]
+    # Ensure the filename is safe and generate a unique PDF filename
+    base_filename = os.path.splitext(os.path.basename(pptx_filename))[0]
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+    pdf_filename = f"{base_filename}_{timestamp}_{unique_suffix}.pdf"
 
-    # Convert the URLs to base64 and URL-encode them
-    encoded_urls = [quote(base64.b64encode(url.encode('utf-8')).decode('utf-8')) for url in image_urls]
+    # Load the PowerPoint file
+    pptx_path = os.path.join(os.getcwd(), pptx_filename)
+    presentation = Presentation(pptx_path)
 
-    return {"urls": encoded_urls}
+    # Generate PDF
+    pdf_path = os.path.join(pdf_directory, pdf_filename)
+    c = canvas.Canvas(pdf_path, pagesize=letter)
+
+    # Define basic parameters for the PDF
+    font_name = "Helvetica"
+    font_size = 12
+    left_margin = 72
+    top_margin = 750  # Start near the top of the page
+    line_height = 14
+
+    c.setFont(font_name, font_size)
+    y_position = top_margin
+
+    # Iterate through each slide and then each content in the slide
+    for slide_number, slide in enumerate(presentation.slides):
+        y_position -= line_height  # Space before new slide content
+        c.drawString(left_margin, y_position, f"Slide {slide_number + 1}")
+        y_position -= line_height
+        for shape in slide.shapes:
+            if not shape.has_text_frame:
+                continue
+            for paragraph in shape.text_frame.paragraphs:
+                for run in paragraph.runs:
+                    text = run.text
+                    # Simple method to avoid text going beyond the page length
+                    if y_position <= 100:  # Near the bottom of the page
+                        c.showPage()
+                        y_position = top_margin
+                        c.setFont(font_name, font_size)
+                    c.drawString(left_margin, y_position, text)
+                    y_position -= line_height
+
+    # Save the PDF
+    c.save()
+    print(f"PDF saved to {pdf_path}")
+
+    # Return the path of the generated PDF
+    return pdf_path
+
+
 
 def pptx_to_images(pptx_file):
     presentation = Presentation(pptx_file)

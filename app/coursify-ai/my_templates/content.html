@@ -258,6 +258,10 @@ function generateQuiz(fileId) {
         if (data.error) {
             alert("Failed to generate quiz: " + data.error);
         } else {
+
+
+            alert("Quiz generated successfully");
+
             // Display questions to the user
             console.log(data.questions);  // For demonstration purposes
             // Here, you might update the DOM to show the questions or navigate to a new page
