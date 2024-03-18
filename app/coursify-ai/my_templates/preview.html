@@ -12,6 +12,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
+
     <script>
       pdfjsLib.GlobalWorkerOptions.workerSrc =
         "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.worker.min.js";
@@ -19,6 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
     // Add the missing import statement for pdfjsLib
+
   </head>
   <body>
     <header class="header">
@@ -69,12 +71,16 @@
           if (fileType === "pdf") {
             renderPDFOnCanvas(fullUrl);
           } else if (fileType === "pptx") {
+
             renderPPTXAsPDF(fullUrl);
+
           }
         }
 
         function renderPDFOnCanvas(pdfUrl) {
+
           console.log(pdfUrl);
+
           const loadingIndicator = document.getElementById("loadingIndicator");
           loadingIndicator.style.display = "block"; // Show loading indicator
 
@@ -114,6 +120,7 @@
             }
           );
         }
+
 
         function renderPPTXAsPDF(fileUrl) {
           console.log(`Requesting PDF for: ${fileUrl}`);
@@ -169,6 +176,7 @@
                 }
               );
             });
+
         }
 
         const filename = getQueryParam("filename");

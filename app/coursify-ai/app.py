@@ -50,7 +50,9 @@ from PIL import Image
 from urllib.parse import quote
 import shutil
 from pathlib import Path
+
 import subprocess
+
 
 
 
@@ -755,10 +757,12 @@ def generate_pdf(prompt, length, difficulty):
                     y_position = top_margin
                 c.drawString(left_margin, y_position, text_line)
                 y_position -= line_height 
+
     # Save the PDF
     c.save()
     print("PDF saved to", pdf_path)
-    # Save the PDF to GridFS
+
+
 
     if current_user.is_authenticated:
         fs = GridFS(db)
@@ -1012,7 +1016,9 @@ def load_user(user_id):
 
 @app.route('/generate_quiz/<file_id>')
 def generate_quiz(file_id):
+
     '''Generate a quiz based on the text extracted from a PDF or PPTX file.'''
+
     # Convert string file_id to ObjectId for MongoDB
     try:
         file_id = ObjectId(file_id)
@@ -1024,6 +1030,7 @@ def generate_quiz(file_id):
         file = fs.get(file_id)
     except:
         return jsonify({'error': 'File not found'}), 404
+
 
     #Get Name of the file to be used to save the quiz
     file_name = file.filename
@@ -1040,6 +1047,7 @@ def generate_quiz(file_id):
     else:
         return jsonify({'error': 'Unsupported file format'}), 400
 
+
     # Generate quiz questions based on the extracted text
     questions = generate_questions(extracted_text)
 
@@ -1054,7 +1062,9 @@ def generate_quiz(file_id):
 
     timestamp = str(int(time.time()))
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+
     doc_filename = f'quiz_{file_name}.docx'
+
     
     temp_path = os.path.join(temp_dir, doc_filename)
     doc.save(temp_path)
@@ -1109,6 +1119,7 @@ def extract_text_from_pptx(file_stream):
             break  # Only extract text from the first question
     return text
 
+
 def generate_questions(text):
     '''Generate quiz questions based on the given text.'''
     # Construct a prompt for OpenAI API to generate quiz questions
@@ -1160,6 +1171,7 @@ def reviews():
 # function for converting pptx to images
 
 @app.route('/presentation/<filename>')
+
 def pptx_images(pptx_filename):
     '''Converts a PowerPoint (PPTX) file to a PDF and stores it in the pdfs directory.'''
 
@@ -1217,6 +1229,7 @@ def pptx_images(pptx_filename):
 
     # Return the path of the generated PDF
     return pdf_path
+
 
 
 def pptx_to_images(pptx_file):
