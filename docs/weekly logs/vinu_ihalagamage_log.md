@@ -6,14 +6,16 @@
 - I have made many code changes in this branch for this week and a PR has also been created and approved into the v2.0 branch.
   
 ### Tasks worked on
-- Team formation screenshot
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/a88beaa1-05a5-4038-8fbc-a7ff8f8c8ad9)
 
 ### Tasks in Progress
 - Bug fixing, enhancing UI and adding media queries for the Review and settings page.
 - Creating test cases for the UI
+- Creating the Forget password function
 
 ### Tasks Completed
 - I have bug fixed, enhanced the UI, and added media queries for the AI assitance, My content, and the Home page. 
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/5ff7faf3-c00c-488f-be40-8de0f43b7ce6)
 
 # Week T2 #9
 ## Date: 03/03/2024 - 10/03/2024
