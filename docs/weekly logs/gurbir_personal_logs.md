@@ -194,4 +194,20 @@ Tasks in progress: Researching ways to increase content accuracy
 
 <img width="1284" alt="Screenshot 2024-03-10 at 11 49 23 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/5131a090-c0af-4e0a-a38b-6f5bdf7e4bb4">
 
+# Week T2 #10
+## Date: 10/03/2024 - 17/03/2024
+### Gurbir Amrit - gurbirRemy
+
+#### Note: code will be pushed for past two weeks on Tuesday, i was occupied with midterms since I am taking 6 courses. Request consideration
+### Tasks in Progress
+- Bug fixing, enhancing UI and adding media queries for the Review and settings page.
+- creating database for quizzes 
+- updating the review feature UI
+
+### Tasks Completed
+- Completed testing for multiple app routes and bug fixes for password validation . 
+<img width="969" alt="Screenshot 2024-03-17 at 11 42 16 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/d284b208-6c6c-47df-990a-a05441307e64">
+<img width="1166" alt="Screenshot 2024-03-17 at 11 39 28 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/b0f62d2a-50f5-4aee-a72a-6460238804f2">
+
+
 
