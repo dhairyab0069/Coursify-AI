@@ -315,3 +315,21 @@ reviewsystem Backend Star system
 - implement a Average star view on the review page (Just like google reviews)
 ![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
 
+
+
+
+# Individual Log Week W10 - Harsimar Singh (Worked in branch review-system-bugs)
+## Date: 3/10/24- 3/17/2024
+
+### Tasks worked on: 
+![Screenshot (188)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/7f30e778-6d18-4643-bcff-451c91b5540d)
+
+
+### Tasks completed
+
+- Minor changes to the css to ensure UI is consistent
+- bug fixes in review system (The average accuracy score is not getting picked from the database)
+
+### Tasks in progress
+- implement a Average star view on the review page (Just like google reviews)
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
