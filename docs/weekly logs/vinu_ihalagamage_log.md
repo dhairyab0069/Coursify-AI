@@ -1,3 +1,23 @@
+# Week T2 #11
+## Date: 17/03/2024 - 24/03/2024
+### Vinu Ihalagamage - vinui409
+
+#### Link to the branch with code for Week 11-- https://github.com/COSC-499-W2023/year-long-project-team-16/tree/v2.0-Forgotpw
+- I have made many code changes in this branch for this week and a PR has also been created and approved into the v2.0 branch.
+  
+### Tasks worked on
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/51959937-becc-4dca-8681-9b3c472b046c)
+
+
+### Tasks in Progress
+- Bug fixing, enhancing UI and adding media queries for the Review and settings page.
+- Creating test cases for the UI
+- Bug fixing the Forget password function
+
+### Tasks Completed
+- I have bug fixed, enhanced the UI, and added media queries for the AI assitance, My content, and the Home page. 
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/5ff7faf3-c00c-488f-be40-8de0f43b7ce6)
+
 # Week T2 #10
 ## Date: 10/03/2024 - 17/03/2024
 ### Vinu Ihalagamage - vinui409
