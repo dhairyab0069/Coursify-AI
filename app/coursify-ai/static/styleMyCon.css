@@ -602,3 +602,11 @@ body,
   scrollbar-width: none; /* For Firefox */
   -ms-overflow-style: none; /* For Internet Explorer and Edge */
 }
+.folder-label:hover {
+  color: #1abc9c;
+  background-color: #777777;
+}
+.folder-label:active {
+  color: #1abc9c;
+  background-color: #777777;
+}
