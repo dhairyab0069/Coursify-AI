@@ -209,5 +209,19 @@ Tasks in progress: Researching ways to increase content accuracy
 <img width="969" alt="Screenshot 2024-03-17 at 11 42 16 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/d284b208-6c6c-47df-990a-a05441307e64">
 <img width="1166" alt="Screenshot 2024-03-17 at 11 39 28 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/b0f62d2a-50f5-4aee-a72a-6460238804f2">
 
+# Week T2 #11
+## Date: 17/03/2024 - 24/03/2024
+### Gurbir Amrit - gurbirRemy
+
+### Tasks in Progress
+- popup for share email feature.
+- Implementing UI fixes
+
+### Tasks Completed
+- Bug fixes related to scrollling and footer of pages.
+- Generating test reports for login and registration after implemented changes
+<img width="1079" alt="Screenshot 2024-03-24 at 10 46 39 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/4a2be4fc-4d45-430d-94e2-977a74715a12">
+<img width="1001" alt="Screenshot 2024-03-24 at 10 23 08 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/69e429af-4b1f-4263-afda-1c35417dd510">
+
 
 
