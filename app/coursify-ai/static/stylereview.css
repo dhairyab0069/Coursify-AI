@@ -154,16 +154,8 @@ body .main-content {
     /* Add your existing styling rules, ensuring not to overwrite them */
 }
 
-.accuracy-score
-{
-    padding: 2rem; /* Ensures padding is sufficient for content */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Keeps content centered */
-    text-align: center; /* Ensures text is centered */
-    /* Add your existing styling rules, ensuring not to overwrite them */
-}
-.accuracy-score h2, .add-review h3 {
+
+ .add-review h3 {
     font-size: 3.5rem; /* Increased font size for h2 */
     margin: 1rem 0; /* Adjust margin as needed */
     color: var(--text-color); /* Ensures color consistency */
@@ -174,20 +166,7 @@ body .main-content {
     /* Your existing h3 styling rules */
 }
 
-.score-visual {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-top: 1rem;
-    padding: 0.5rem 0;
-  
-    /* Add more styling as needed */
-}
 
-.accuracy-score {
-    grid-row: 1 / 2; /* Place in the first row */
-    grid-column: 1 / 2; /* Place in the first column */
-    min-height: 200px;
-}
 
 .add-review {
     grid-row: 2 / 3; /* Place in the second row */
@@ -231,7 +210,7 @@ body .main-content {
     border-radius: 10px; /* Rounded corners for a softer look */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
     overflow-y: auto; /* Allows scrolling within the container */
-    min-height: 650px; /* Adjust based on your preference */
+    min-height: 700px; /* Adjust based on your preference */
 }
 
 .reviews-footer {
@@ -332,7 +311,7 @@ body .main-content {
     grid-column: 2 / 3; /* Place in the second column */
     display: flex;
     flex-direction: column;
-    max-height: 600px; /* Limit height to enforce scrolling */
+    max-height: 650px; /* Limit height to enforce scrolling */
     overflow-y: auto; /* Allow scrolling within the container */
     padding-right: 1rem; /* Prevents scrollbar from overlapping content */
 }
@@ -420,5 +399,79 @@ body .main-content {
 
     .reviews-filter-container select {
         width: auto; /* Allow dropdowns to adjust width on smaller screens */
+    }
+}
+
+
+
+
+
+
+.user-based-accuracy-score {
+    padding: 2rem; /* Adjust padding to match previous design */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content */
+    background-color: #dadada; /* Match previous background color */
+    border-radius: 8px; /* Rounded corners */
+    text-align: center; /* Centered text */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    max-height: 300px;
+}
+
+.user-based-accuracy-score h2 {
+    font-size: 1.5rem; /* Increased font size for h2 */
+    margin: 1rem 0; /* Adjust margin as needed */
+    color: var(--text-color); /* Consistent color */
+}
+
+.average-score {
+    font-size: 2rem; /* Large size for the average score */
+    font-weight: bold;
+    margin-top: 1rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.average-score .score-value {
+    margin-right: 1rem;
+}
+
+.average-score .out-of {
+    font-size: 1.8rem;
+}
+
+.ratings-bars .bar-container {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.ratings-bars .bar {
+    height: 1rem;
+    background: #ccc;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+    margin-left: 1rem;
+}
+
+.total-ratings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.6rem;
+    margin-top: 1rem;
+}
+
+.total-ratings .see-all {
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 1.6rem;
+}
+
+@media (max-width: 768px) {
+    .user-based-accuracy-score {
+        padding: 1rem; /* Adjust padding for smaller screens */
     }
 }

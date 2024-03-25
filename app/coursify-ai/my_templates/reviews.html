@@ -30,11 +30,40 @@
 
     <main class="main-content">
         <div class="grid-container">
-          <div class="accuracy-score">
-            <h2>User-Based Accuracy Score</h2>
-            <p>This score represents the average user rating based on reviews.</p>
-            <div class="score-visual"><span id="calculated-score">0</span> / 5.0</div>
-        </div>
+            <div class="user-based-accuracy-score">
+                <h2>Ratings & Reviews</h2>
+                <div class="average-score">
+                    <span class="score-value">4.9</span>
+                    <span class="out-of">out of 5</span>
+                </div>
+                <div class="ratings-bars">
+                    <div class="bar-container">
+                        <span class="star-label">5 stars</span>
+                        <div class="bar five-star"></div>
+                    </div>
+                    <div class="bar-container">
+                        <span class="star-label">4 stars</span>
+                        <div class="bar four-star"></div>
+                    </div>
+                    <div class="bar-container">
+                        <span class="star-label">3 stars</span>
+                        <div class="bar three-star"></div>
+                    </div>
+                    <div class="bar-container">
+                        <span class="star-label">2 stars</span>
+                        <div class="bar two-star"></div>
+                    </div>
+                    <div class="bar-container">
+                        <span class="star-label">1 star</span>
+                        <div class="bar one-star"></div>
+                    </div>
+                </div>
+                <div class="total-ratings">
+                    <span>9,167,770 Ratings</span>
+                    <a href="#" class="see-all">See All</a>
+                </div>
+            </div>
+            
             <!-- Add Review Section -->
             <form class="add-review" method="POST" action="/submit_review">
                 <h3>Add Your Review</h3>
@@ -174,8 +203,9 @@ reviewForm.addEventListener('submit', function(event) {
     }
 });
     // Calculate and display the initial accuracy score
-    calculateAndDisplayAccuracyScore();
+    
     filterReviews();
+    
 });
 
 
@@ -206,12 +236,7 @@ function filterReviews() {
 
 
 
-function calculateAndDisplayAccuracyScore() {
-    const visibleReviews = Array.from(document.querySelectorAll('.review')).filter(review => review.style.display !== 'none');
-    const totalRating = visibleReviews.reduce((total, review) => total + parseInt(review.getAttribute('data-rating'), 10), 0);
-    const averageRating = visibleReviews.length > 0 ? (totalRating / visibleReviews.length).toFixed(1) : 0;
-    document.getElementById('calculated-score').textContent = averageRating;
-}
+
 
     </script>
 </body>
