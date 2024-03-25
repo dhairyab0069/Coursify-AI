@@ -337,7 +337,7 @@ reviewsystem Backend Star system
 
 
 # Individual Log Week W11 - Harsimar Singh (Worked in branch v2.0-review_finishing)
-## Date: 3/10/24- 3/17/2024
+## Date: 3/17/24- 3/24/2024
 
 ### Tasks worked on: 
 ![Screenshot (190)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/ca5227c7-dfd4-4c6c-a9c5-9c45b1e4fb66)
