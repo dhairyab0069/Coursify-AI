@@ -287,7 +287,6 @@ button[type="submit"]:hover {
 .note-card img {
   max-width: 100%;
   height: auto;
-  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -425,7 +424,7 @@ button[type="submit"]:hover {
     font-size: 60%;
   }
   #footer {
-    position: absolute;
+    position: fixed;
     text-align: center;
     bottom: 0;
     background-color: var(--bg-color);
