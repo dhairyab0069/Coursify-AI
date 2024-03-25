@@ -1249,3 +1249,30 @@ if __name__ == '__main__':
 def create_app():
     app = Flask(__name__)
     return app
+
+
+def calculate_ratings():
+    '''Calculate the star ratings and average rating based on all reviews.'''
+    all_reviews = list(reviews_collection.find())
+    star_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
+    total_rating = 0
+    total_count = 0
+
+    for review in all_reviews:
+        rating = review.get('star_rating')
+        if rating is not None and rating != '' and rating != 0 and rating != []:  # Ignore reviews with no rating or falsy rating
+            rating = int(rating)  # Convert rating to integer
+            star_counts[rating] += 1
+            total_rating += rating
+            total_count += 1
+
+    average_rating = total_rating / total_count if total_count else 0
+
+    return star_counts, average_rating
+
+@app.route('/ratings')
+@login_required
+def ratings():
+    '''Display the star ratings and average rating based on all reviews.'''
+    star_counts, average_rating = calculate_ratings()
+    return jsonify({'star_counts': star_counts, 'average_rating': average_rating})

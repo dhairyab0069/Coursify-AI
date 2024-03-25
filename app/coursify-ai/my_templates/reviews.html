@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -38,23 +38,23 @@
                 </div>
                 <div class="ratings-bars">
                     <div class="bar-container">
-                        <span class="star-label">5 stars</span>
+                        <span class="star-label">5 stars: <span class="star-count" id="star-5-count"></span></span>
                         <div class="bar five-star"></div>
                     </div>
                     <div class="bar-container">
-                        <span class="star-label">4 stars</span>
+                        <span class="star-label">4 stars : <span class="star-count" id="star-4-count"></span></span>
                         <div class="bar four-star"></div>
                     </div>
                     <div class="bar-container">
-                        <span class="star-label">3 stars</span>
+                        <span class="star-label">3 stars : <span class="star-count" id="star-3-count"></span></span>
                         <div class="bar three-star"></div>
                     </div>
                     <div class="bar-container">
-                        <span class="star-label">2 stars</span>
+                        <span class="star-label">2 stars : <span class="star-count" id="star-2-count"></span></span>
                         <div class="bar two-star"></div>
                     </div>
                     <div class="bar-container">
-                        <span class="star-label">1 star</span>
+                        <span class="star-label">1 star : <span class="star-count" id="star-1-count"></span></span>
                         <div class="bar one-star"></div>
                     </div>
                 </div>
@@ -140,6 +140,30 @@
     const stars = document.querySelectorAll('.bx.bxs-star');
     const ratingInput = document.getElementById('star_rating');
     const subjectInput = document.getElementById('subject');
+
+
+    window.onload = function() {
+    fetch('/ratings')
+        .then(response => response.json())
+        .then(data => {
+            // Update average rating
+            document.querySelector('.average-score .score-value').textContent = data.average_rating.toFixed(1);
+
+            // Update star counts
+            const starClasses = ['one', 'two', 'three', 'four', 'five'];
+            for (let i = 1; i <= 5; i++) {
+                let bar = document.querySelector('.bar.' + starClasses[i-1] + '-star');
+                let percentage = (data.star_counts[i] / data.total_count) * 100;
+                bar.style.width = percentage + '%';
+
+                // Update individual star counts
+                document.getElementById('star-' + i + '-count').textContent = data.star_counts[i];
+            }
+
+            // Update total ratings
+            document.querySelector('.total-ratings span').textContent = data.total_count + ' Ratings';
+        });
+};
 
 
     stars.forEach(star => {
