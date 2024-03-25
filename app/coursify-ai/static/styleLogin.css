@@ -83,7 +83,15 @@ body,html {
     width: 75px;
     margin-left: 265px;
     margin-top: 400px;
-} 
+}
+#fpw {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+#fpw:hover{
+    color: blue !important;
+}
 
  /* Responsive adjustments */
  @media (max-width: 768px) {
