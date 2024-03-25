@@ -357,6 +357,75 @@ def change_password():
     flash('Your password has been updated successfully.')
     return redirect(url_for('settings_html'))
 
+#FORGOT PASSWORD FUNCTION
+# THIS IS ONLY FOR CREATING AND SENDING AN EMAIL
+def send_pw_reset_email(recipient_email, reset_url):
+    subject = "Password Reset Request"
+    sender_email = 'coursify@outlook.com'  # Replace with your sender email
+    recipients = [recipient_email]
+    
+    # Create the email message
+    msg = Message(subject,
+                  sender=sender_email,
+                  recipients=recipients)
+   
+    msg.html = f"<p>Please click on the following link to reset your password:</p><a href='{reset_url}'>{reset_url}</a>"
+
+    # Send the email
+    mail.send(msg)
+
+# Password Reset Request Route
+@app.route('/forgot_password', methods=['GET','POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = users_collection.find_one({"email": email}) 
+        if user:
+            # time-limited token 
+            token = serializer.dumps(email, salt='password-reset-salt')
+            reset_url = url_for('reset_forgot_password', token=token, _external=True)
+
+            # create and send email
+            send_pw_reset_email(email, reset_url)
+
+            flash('An email has been sent with instructions to reset your password.')
+        else :
+            flash('Email address not found.')
+
+    return render_template('forgot_password.html')
+
+@app.route('/reset_forgot_password/<token>', methods=['GET', 'POST'])
+def reset_forgot_password(token):
+    try:
+        email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
+    except SignatureExpired:
+        flash('The password reset link has expired.', 'danger')
+        return redirect(url_for('forgot_password'))
+    except BadSignature:
+        flash('The password reset link is invalid.', 'danger')
+        return redirect(url_for('forgot_password'))
+
+    if request.method == 'POST':
+        new_password = request.form.get('new-password')
+        confirm_new_password = request.form.get('confirm-new-password')
+
+        if new_password != confirm_new_password:
+            flash('New passwords do not match.')
+            return redirect(url_for('reset_forgot_password', token=token))
+
+        password_error = validate_password(new_password)
+        if password_error:
+            flash(password_error)
+            return redirect(url_for('reset_forgot_password', token=token))
+
+        hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        users_collection.update_one({"email": email}, {"$set": {"password": hashed_new_password}})
+
+        flash('Your password has been reset successfully.')
+        return redirect(url_for('login'))
+
+    return render_template('reset_password.html', token=token)
+    
 @app.route('/share_via_email', methods=['POST'])
 def share_via_email():
     '''Function to share a file via email.'''
