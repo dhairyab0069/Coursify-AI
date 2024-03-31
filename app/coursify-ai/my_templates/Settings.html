@@ -174,9 +174,22 @@
 
         //Display the flash message
         const flashMessage = document.getElementById('flash');
-        if (flashMessage) {
-          // make it dissapear
-          setTimeout(() => { flashMessage.style.display = 'none';}, 4000); // 4 seconds
+        // if (flashMessage) {
+        //     // make it dissapear
+        //     setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
+        // }
+        if (flashMessage.textContent.includes("Your account has been updated successfully")) {
+          setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
+        } else if (flashMessage.textContent.includes("No changes were made to your account.")) {
+          setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        } else if (flashMessage.textContent.includes("Current password is incorrect.")) {
+          setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        } else if (flashMessage.textContent.includes("New passwords do not match.")) {
+          setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        } else if (flashMessage.textContent.includes("Your password has been updated successfully.")) {
+          setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        }else {
+          flashMessage.style.display = 'none';
         }
       
         //This function first hides all of the forms inside of setting-form class by setting the display to none.
