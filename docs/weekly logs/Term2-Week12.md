@@ -50,5 +50,23 @@ Gurbir:
 ## Burnup Chart:
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/5b7bcb2f-f231-4b97-a746-d930b3186c2d)
 
+## Burnup Chart:
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/f82f340b-78a7-4635-ae01-b18bf1588f09)
+
+
+
+
+<br><br>
+
+
+
+# Test Reports:
+
+<img width="1001" alt="Screenshot_2024-03-24_at_10 23 08_PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/f1820ade-85d7-401d-9780-d5f009811af6">
+
+- Forgot password function
+![test_forgot_password_report](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/eaf8fff8-6b86-435d-ae8e-2634da7790bd)
+![test_reset_password_report](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/27222868-c989-424c-9e44-da4c22144b2d)
+
 
 
