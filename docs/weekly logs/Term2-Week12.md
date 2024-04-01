@@ -36,11 +36,8 @@ Harsimar:
 - Implementing a bar chart view representing the count of reviews for all start values (In progress)
 
 Gurbir:
-- Pop up model for sharing generated files via email (in progress)
-- Bug fixes related to scrolling and footer of pages (Completed)
-- Generating test reports for login and registration (Completed)
-- Implementing UI fixes (in progress)
-
+- In web-app pdf editing using pdftron , allowing annotation of pdfs before and after downloading( In progress)
+- Versioning system for edited pdf's ( in progress)
 ## Trello Board:
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/aa738f4e-5071-4801-a6c6-c2cda6bff755)
 
