@@ -58,7 +58,7 @@
             <a href="#" id="account-settings-link" class="selected">Account</a>
           </li>
           <li><a href="#" id="password-settings-link">Password</a></li>
-          <li><a href="#" id="preferences-settings-link">AI Assistant</a></li>
+          <!-- <li><a href="#" id="preferences-settings-link">AI Assistant</a></li> -->
         </ul>
 
         <!--------------------------- Div WHERE THE FORMS WILL DISPLAY ------------------------------------->
@@ -175,9 +175,22 @@
         //Display the flash message
         const flashMessage = document.getElementById('flash');
         if (flashMessage) {
-          // make it dissapear
-          setTimeout(() => { flashMessage.style.display = 'none';}, 4000); // 4 seconds
+            // make it dissapear
+            setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
         }
+        // if (flashMessage.textContent.includes("Your account has been updated successfully")) {
+        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
+        // } else if (flashMessage.textContent.includes("No changes were made to your account.")) {
+        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        // } else if (flashMessage.textContent.includes("Current password is incorrect.")) {
+        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        // } else if (flashMessage.textContent.includes("New passwords do not match.")) {
+        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        // } else if (flashMessage.textContent.includes("Your password has been updated successfully.")) {
+        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        // }else {
+        //   flashMessage.style.display = 'none';
+        // }
       
         //This function first hides all of the forms inside of setting-form class by setting the display to none.
         function showForm(formID) {
@@ -207,10 +220,10 @@
           selectedLink("password-settings-link");
         });
 
-        document.getElementById("preferences-settings-link").addEventListener("click", function () {
-          showForm("preferences-settings-form");
-          selectedLink("preferences-settings-link");
-        });
+        // document.getElementById("preferences-settings-link").addEventListener("click", function () {
+        //   showForm("preferences-settings-form");
+        //   selectedLink("preferences-settings-link");
+        // });
 
         //selects the HTML element with the ID "profile picture", which is the file input by the user.
         //Event listner looks for a change, then calls the function.

@@ -350,20 +350,20 @@ def change_password():
     #function provided by flask, checks if a plain text password matches a hash password
     #user['password'] is the hashed PW fro DB, current password is what the user enters
     if not bcrypt.check_password_hash(user['password'], current_password): 
-        flash('Current password is incorrect.')
+        flash('Current password is incorrect.','settings_page')
         return redirect(url_for('settings_html'))
 
     if new_password != confirm_new_password:
-        flash('New passwords do not match.')
+        flash('New passwords do not match.','settings_page')
         return redirect(url_for('settings_html'))
 
     hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
     users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": {"password": hashed_new_password}})
 
-    flash('Your password has been updated successfully.')
+    flash('Your password has been updated successfully.','settings_page')
     return redirect(url_for('settings_html'))
 
-#FORGOT PASSWORD FUNCTION
+#FORGOT PASSWORD FUNCTION ###########################################################################
 # THIS IS ONLY FOR CREATING AND SENDING AN EMAIL
 def send_pw_reset_email(recipient_email, reset_url):
     subject = "Password Reset Request"
@@ -380,7 +380,8 @@ def send_pw_reset_email(recipient_email, reset_url):
     # Send the email
     mail.send(msg)
 
-# Password Reset Request Route
+# Password Reset Request Route  ##########################################################
+#creates a token and sends an email
 @app.route('/forgot_password', methods=['GET','POST'])
 def forgot_password():
     if request.method == 'POST':
@@ -394,29 +395,30 @@ def forgot_password():
             # create and send email
             send_pw_reset_email(email, reset_url)
 
-            flash('An email has been sent with instructions to reset your password.')
+            flash('An email has been sent with instructions to reset your password.', 'reset_password_sent')
         else :
-            flash('Email address not found.')
+            flash('User does not exist. Please check the email address.', 'reset_password_sent')
 
     return render_template('forgot_password.html')
 
+# this resets the pw after the url ( reset_password.html page is loaded)
 @app.route('/reset_forgot_password/<token>', methods=['GET', 'POST'])
 def reset_forgot_password(token):
     try:
         email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
     except SignatureExpired:
-        flash('The password reset link has expired.', 'danger')
+        flash('The password reset link has expired.', 'reset_password_page')
         return redirect(url_for('forgot_password'))
     except BadSignature:
-        flash('The password reset link is invalid.', 'danger')
+        flash('The password reset link is invalid.', 'reset_password_page')
         return redirect(url_for('forgot_password'))
 
     if request.method == 'POST':
-        new_password = request.form.get('new-password')
-        confirm_new_password = request.form.get('confirm-new-password')
+        new_password = request.form.get('new_password')
+        confirm_new_password = request.form.get('confirm_new_password')
 
         if new_password != confirm_new_password:
-            flash('New passwords do not match.')
+            flash('New passwords do not match.', 'reset_password_page')
             return redirect(url_for('reset_forgot_password', token=token))
 
         password_error = validate_password(new_password)
@@ -427,11 +429,11 @@ def reset_forgot_password(token):
         hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
         users_collection.update_one({"email": email}, {"$set": {"password": hashed_new_password}})
 
-        flash('Your password has been reset successfully.')
+        flash('Your password has been reset successfully.', 'login_page')
         return redirect(url_for('login'))
 
     return render_template('reset_password.html', token=token)
-    
+ ################################################################################   
 @app.route('/share_via_email', methods=['POST'])
 def share_via_email():
     '''Function to share a file via email.'''

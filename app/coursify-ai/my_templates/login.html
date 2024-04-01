@@ -15,6 +15,14 @@
 
 </head>
 <body id="login" style="background: var(--bg-color);">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="flash">
+                <!-- This will display all messages joined by a space -->
+                {{ messages | join(' ') }}
+            </div>
+        {% endif %}
+    {% endwith %}
     <div class="container">
         <!-- <div class="row justify-content-center align-items-center vh-100">-->
             <div class="col-md-6">
@@ -38,7 +46,7 @@
                         </div>
                         <div id="fpw">
                             <!-- <a href="">Forgot your password ?</a> -->
-                            <a id="fpw" href="{{ url_for('forgot_password') }}" style="color: black !important; text-decoration: none !important;">Forgot password?</a>
+                            <a id="fpwlink" href="{{ url_for('forgot_password') }}" style="color: black !important; text-decoration: none !important;">Forgot password?</a>
                         </div>
                     </form>
                     <div class="mt-4 text-center">
@@ -49,6 +57,20 @@
             </div>
         <!--</div> -->
     </div>
+    <script>
+        //Display the flash message
+        const flashMessage = document.getElementById('flash');
+            // if (flashMessage) {
+            //     // make it dissapear
+            //     setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
+            // }
+
+        if (flashMessage.textContent.includes("Your password has been reset successfully.")) {
+            setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
+        } else {
+            flashMessage.style.display = 'none';
+        };
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
