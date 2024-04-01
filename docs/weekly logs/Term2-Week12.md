@@ -46,10 +46,6 @@ Gurbir:
 
 
 <br><br>
-
-## Burnup Chart:
-![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/5b7bcb2f-f231-4b97-a746-d930b3186c2d)
-
 ## Burnup Chart:
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/f82f340b-78a7-4635-ae01-b18bf1588f09)
 
