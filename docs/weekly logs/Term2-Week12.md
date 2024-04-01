@@ -32,8 +32,9 @@ Bolu:
 - working on linking each review to a slide (in progress)
 
 Harsimar: 
-- Completing the review system (in progress)
-- Implementing a bar chart view representing the count of reviews for all start values (In progress)
+- Updated AI chatbot queries according to our new features.
+- Implemented a Average star view on the review page (Just like google reviews)
+- Final Changes for Revieww system
 
 Gurbir:
 - In web-app pdf editing using pdftron , allowing annotation of pdfs before and after downloading( In progress)
