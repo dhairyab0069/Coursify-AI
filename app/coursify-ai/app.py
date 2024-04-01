@@ -1297,6 +1297,15 @@ def pptx_images(pptx_filename):
     c.save()
     print(f"PDF saved to {pdf_path}")
 
+    #save the pdf to the database when retriieing and then delete the file after sending it to the user
+    if current_user.is_authenticated:
+        fs = GridFS(db)
+        with open(pdf_path, 'rb') as pdf_file:
+            fs.put(pdf_file, filename=pdf_filename, user_id=current_user.user_id)
+    # Respond with the URL of the PDF
+    pdf_url = url_for('get_pdf', filename=pdf_filename)
+    
+
     # Return the path of the generated PDF
     return pdf_path
 
