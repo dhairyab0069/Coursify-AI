@@ -895,15 +895,19 @@ def generate_slides(prompt, length, difficulty,):
             # Generate content for the section
             section_content = call_openai_api(f"Explain {line.strip()} in detail.")
 
-            # Add a new slide for the section
+            # Split the content into chunks that fit on a slide
+            content_chunks = split_content_into_chunks(section_content)
+
+        # Add a new slide for each chunk
+        for chunk in content_chunks:
             slide = prs.slides.add_slide(slide_layout)
             title = slide.shapes.title
             title.text = line.strip()
 
-            # Add generated content to the slide
+            # Add chunk to the slide
             content_box = slide.placeholders[1]
             tf = content_box.text_frame
-            tf.text = section_content  # This sets the initial paragraph
+            tf.text = chunk  # This sets the initial paragraph
             # For more complex formatting, you can add more paragraphs or format this one
             print("Topic done")
 
@@ -923,6 +927,20 @@ def generate_slides(prompt, length, difficulty,):
     pptx_url = url_for('get_presentation', filename=pptx_filename)
     return jsonify(success=True, pptx_url=pptx_url)
 
+def split_content_into_chunks(content):
+    '''Split content into chunks that fit on a slide.'''
+    # Split the content into chunks that fit on a slide
+    max_chars_per_chunk = 800
+    content_chunks = []
+    current_chunk = ''
+    for line in content.split('\n'):
+        if len(current_chunk) + len(line) <= max_chars_per_chunk:
+            current_chunk += line + '\n'
+        else:
+            content_chunks.append(current_chunk)
+            current_chunk = line + '\n'
+    content_chunks.append(current_chunk)
+    return content_chunks
 
 
 
