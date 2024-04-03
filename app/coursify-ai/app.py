@@ -140,7 +140,7 @@ def home():
     # Otherwise, show the homepage with login and register options
     return render_template('homepage.html')
 
-SENDGRID_API_KEY = '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'  
+ 
 def validate_password(password):
     '''Validation of password'''
     if len(password) < 8:
@@ -169,28 +169,30 @@ def register():
         birth_year = int(request.form.get('birth_year'))
         gender = request.form.get('gender')
         custom_gender = request.form.get('custom_gender') if 'custom_gender' in request.form else None
+        
         if gender == 'custom' and custom_gender:
             gender_value = custom_gender
         else:
             gender_value = gender
+        
         # Validate if user exists
         user = users_collection.find_one({"email": email})
         if user:
             flash('Email already exists.')
             return redirect(url_for('register'))
         
-        password = request.form.get('password')
+        # Validate the password
         password_error = validate_password(password)
         if password_error:
             flash(password_error)
             return redirect(url_for('register'))
+        
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-
+        
         # Construct birthdate and gender
         birth_date = datetime(birth_year, birth_month, birth_day)
-        gender = custom_gender if gender == 'Custom' else gender
-     
-        # Insert new user into MongoDB
+        
+        # Insert new user into MongoDB with 'verified' set to False initially
         user_id = users_collection.insert_one({
             "first_name": first_name,
             "last_name": last_name,
@@ -198,73 +200,76 @@ def register():
             "password": hashed_password,
             "birth_date": birth_date,
             "gender": gender_value,
-            "verified": False  # Assuming you handle email verification separately
+            "verified": False
         }).inserted_id
         
-        # Auto-login after register
-        user_obj = User(user_id=str(user_id), email=email)
-        login_user(user_obj)
-        print(current_user.is_authenticated)
-        flash('Registration successful. Welcome!', 'success')
-        return redirect(url_for('index'))  # Redirect to index page
+        # Generate a token for email verification
+        token = serializer.dumps(email, salt='email-confirm')
+        
+        # Construct the URL for email verification
+        confirm_url = url_for('confirm_email', token=token, _external=True)
+        
+        # Prepare the verification email content
+        html_content = render_template('email_verification.html', confirm_url=confirm_url)
+        subject = "Please confirm your email"
+        
+        # Use the existing function to send the email
+        send_email(email, subject, html_content)  # Reuse your existing email sending function with appropriate adjustments for subject and content
+
+        flash('A confirmation email has been sent. Please check your inbox.', 'info')
+        return redirect(url_for('login'))
+    
     return render_template('register.html')
 
-# Send Email Function
-def send_email(to_email, subject, confirm_url):
-    '''Function to send an email to the user.'''
-    html_content = render_template('email_verification.html', confirm_url=confirm_url)
-    message = Mail(
-        from_email='',  # Replace with your verified sender email
-       to_emails=to_email,
-        subject=subject,
-        html_content=html_content
-    )
-    #try:
-        #sg = SendGridAPIClient(SENDGRID_API_KEY)
-       # response = sg.send(message)
-       #print(f"Email sent with status code: {response.status_code}")
-    #except Exception as e:
-     #   print(f"Error sending email: {e}")
+def send_email(to_email, subject, html_content):
+    '''Function to send an email to the user for verification.'''
+    msg = Message(subject,
+                  sender=app.config['MAIL_USERNAME'],
+                  recipients=[to_email],
+                  html=html_content)
+    print(html_content)
+    mail.send(msg)
+
+
 
 # Email Confirmation Route
-@app.route('/confirm/<token>')
+@app.route('/confirm_email/<token>')
 def confirm_email(token):
-    '''Function to confirm the user's email address.'''
     try:
-        email = serializer.loads(
-            token, 
-            salt='email-confirmation-salt', 
-            max_age=3600  # Token expires after 1 hour
-        )
+        email = serializer.loads(token, salt='email-confirm', max_age=3600)  # 1 hour to verify
     except (SignatureExpired, BadSignature):
-        flash('The confirmation link is invalid or has expired.', 'danger')
-        return redirect(url_for('index'))
+        return 'The confirmation link is invalid or has expired.', 400
 
     user = users_collection.find_one({"email": email})
-    if user and not user['verified']:
-        users_collection.update_one({"_id": user['_id']}, {"$set": {"verified": True}})
-        flash('Your account has been activated!', 'success')
+    if user and not user.get('verified'):
+        users_collection.update_one({'_id': user['_id']}, {'$set': {'verified': True}})
+        flash('Your email has been verified!', 'success')
     else:
-        flash('Account already activated or not found.', 'success')
+        flash('Your email is already verified or the user does not exist.', 'warning')
     return redirect(url_for('login'))
+
 
 # Login Route
 # Updated Login Route with "Remember Me"
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    '''Function to log in the user.'''
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        remember = 'remember' in request.form  # Check if 'Remember Me' is checked
 
         user = users_collection.find_one({"email": email})
         if user and bcrypt.check_password_hash(user['password'], password):
-            user_obj = User(user_id=user["_id"], email=email)
-            login_user(user_obj, remember=remember)
-            return redirect(url_for('index'))
+            if not user.get('verified', False):
+                # User found but not verified
+                flash('Please verify your email address before logging in.', 'warning')
+                return redirect(url_for('login'))
 
-        flash('Invalid credentials. Please try again.')
+            # User is verified, proceed to login
+            user_obj = User(user_id=str(user["_id"]), email=email)
+            login_user(user_obj, remember='remember' in request.form)
+            return redirect(url_for('index'))
+        else:
+            flash('Invalid credentials. Please try again.', 'danger')
 
     return render_template('login.html')
 
@@ -367,7 +372,7 @@ def change_password():
 # THIS IS ONLY FOR CREATING AND SENDING AN EMAIL
 def send_pw_reset_email(recipient_email, reset_url):
     subject = "Password Reset Request"
-    sender_email = 'coursify@outlook.com'  # Replace with your sender email
+    sender_email = 'coursify@outlook.com'  
     recipients = [recipient_email]
     
     # Create the email message
