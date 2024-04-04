@@ -881,6 +881,17 @@ def generate_slides(prompt, length, difficulty,):
     title = slide.shapes.title
     title.text = "Table of Contents"
 
+    # Split the table of contents into chunks that fit on a slide
+    toc_chunks = split_content_into_chunks(toc)
+
+    # Add content for each chunk on a new slide
+    for chunk in toc_chunks:
+        slide = prs.slides.add_slide(slide_layout)
+        content = slide.placeholders[1]
+        tf = content.text_frame
+        tf.text = chunk
+
+
     content = slide.placeholders[1]
     tf = content.text_frame
 
@@ -930,7 +941,7 @@ def generate_slides(prompt, length, difficulty,):
 def split_content_into_chunks(content):
     '''Split content into chunks that fit on a slide.'''
     # Split the content into chunks that fit on a slide
-    max_chars_per_chunk = 800
+    max_chars_per_chunk = 400
     content_chunks = []
     current_chunk = ''
     for line in content.split('\n'):
