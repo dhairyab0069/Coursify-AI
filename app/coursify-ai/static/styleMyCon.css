@@ -593,7 +593,6 @@ button[type="submit"] {
 }
 .folder.active {
   background-color: #7d7a7a;
-  border-left: 5px solid #1abc9c;
 }
 
 html,

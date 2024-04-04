@@ -888,6 +888,17 @@ def generate_slides(prompt, length, difficulty,):
     title = slide.shapes.title
     title.text = "Table of Contents"
 
+    # Split the table of contents into chunks that fit on a slide
+    toc_chunks = split_content_into_chunks(toc)
+
+    # Add content for each chunk on a new slide
+    for chunk in toc_chunks:
+        slide = prs.slides.add_slide(slide_layout)
+        content = slide.placeholders[1]
+        tf = content.text_frame
+        tf.text = chunk
+
+
     content = slide.placeholders[1]
     tf = content.text_frame
 
@@ -902,15 +913,19 @@ def generate_slides(prompt, length, difficulty,):
             # Generate content for the section
             section_content = call_openai_api(f"Explain {line.strip()} in detail.")
 
-            # Add a new slide for the section
+            # Split the content into chunks that fit on a slide
+            content_chunks = split_content_into_chunks(section_content)
+
+        # Add a new slide for each chunk
+        for chunk in content_chunks:
             slide = prs.slides.add_slide(slide_layout)
             title = slide.shapes.title
             title.text = line.strip()
 
-            # Add generated content to the slide
+            # Add chunk to the slide
             content_box = slide.placeholders[1]
             tf = content_box.text_frame
-            tf.text = section_content  # This sets the initial paragraph
+            tf.text = chunk  # This sets the initial paragraph
             # For more complex formatting, you can add more paragraphs or format this one
             print("Topic done")
 
@@ -930,6 +945,20 @@ def generate_slides(prompt, length, difficulty,):
     pptx_url = url_for('get_presentation', filename=pptx_filename)
     return jsonify(success=True, pptx_url=pptx_url)
 
+def split_content_into_chunks(content):
+    '''Split content into chunks that fit on a slide.'''
+    # Split the content into chunks that fit on a slide
+    max_chars_per_chunk = 400
+    content_chunks = []
+    current_chunk = ''
+    for line in content.split('\n'):
+        if len(current_chunk) + len(line) <= max_chars_per_chunk:
+            current_chunk += line + '\n'
+        else:
+            content_chunks.append(current_chunk)
+            current_chunk = line + '\n'
+    content_chunks.append(current_chunk)
+    return content_chunks
 
 
 
@@ -1303,6 +1332,15 @@ def pptx_images(pptx_filename):
     # Save the PDF
     c.save()
     print(f"PDF saved to {pdf_path}")
+
+    #save the pdf to the database when retriieing and then delete the file after sending it to the user
+    if current_user.is_authenticated:
+        fs = GridFS(db)
+        with open(pdf_path, 'rb') as pdf_file:
+            fs.put(pdf_file, filename=pdf_filename, user_id=current_user.user_id)
+    # Respond with the URL of the PDF
+    pdf_url = url_for('get_pdf', filename=pdf_filename)
+    
 
     # Return the path of the generated PDF
     return pdf_path
