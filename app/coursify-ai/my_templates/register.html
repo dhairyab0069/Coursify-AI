@@ -40,8 +40,8 @@
                         <div class="form-group">
                             <label for="password">Password:</label>
                             <input type="password" id="password" name="password" class="form-control" required>
-                            <!-- <small id="passwordHelp" class="form-text text-muted">Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.</small> -->
-                            <span class="input-message" id="pwMessage" style="display: none;">Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.</span>
+                             <small id="passwordHelp" class="form-text">Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.</small> 
+                           <!---- <span class="input-message" id="pwMessage" style="display: none;">Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.</span>-->
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password:</label>
@@ -109,74 +109,74 @@
         <!--</div>-->
     </div>
     <script>
-        // Show custom gender input field when 'Custom' is selected
-        $('input[type=radio][name=gender]').change(function() {
-            if (this.value == 'custom') {
-                $('#customGender').show();
-            } else {
-                $('#customGender').hide();
-            }
-        });
+        $(document).ready(function() {
+            // Password validation
+            $("#password").on("input", function() {
+                var password = $(this).val();
+                var errors = [];
+                var passwordStrength = 0;
+                
+                if (password.length < 8 || password.length > 20) {
+                    errors.push("Your password must be 8-20 characters long.");
+                } else {
+                    passwordStrength++;
+                }
+                if (password.match(/[A-Za-z]/)) {
+                    passwordStrength++;
+                }
+                if (password.match(/[0-9]/)) {
+                    passwordStrength++;
+                }
+                if (!password.match(/[\s]/)) {
+                    passwordStrength++;
+                }
+                if (password.match(/[\!\@\#\$\%\^\&\*\(\)\_\+\!]/)) {
+                    passwordStrength++;
+                }
+                
+                if (passwordStrength < 3) {
+                    errors.push("Your password is weak. Please include a combination of letters, numbers, and special characters.");
+                    $("#passwordHelp").html("Weak password").css("color", "red");
+                } else if (passwordStrength < 5) {
+                    $("#passwordHelp").html("Medium password strength").css("color", "orange");
+                } else {
+                    $("#passwordHelp").html("Strong password").css("color", "green");
+                }
+        
+                if (errors.length > 0) {
+                    $("#passwordHelp").append("<br>" + errors.join("<br>")).css("color", "red");
+                }
+            });
     
-        // Password validation
-        $("#password").on("input", function() {
-            var password = $(this).val();
-            var errors = [];
-            
-            if (password.length < 8) {
-                errors.push("Password must be at least 8 characters long.");
-            }
-            if (!password.match(/[A-Z]/)) {
-                errors.push("Password must contain at least one uppercase letter.");
-            }
-            if (!password.match(/[a-z]/)) {
-                errors.push("Password must contain at least one lowercase letter.");
-            }
-            if (!password.match(/[0-9]/)) {
-                errors.push("Password must contain at least one number.");
-            }
-            if (!password.match(/[\!\@\#\$\%\^\&\*\(\)\_\+\!]/)) {
-                errors.push("Password must contain at least one special character (e.g., !@#$%^&*).");
-            }
+            // Confirm Password validation
+            $("#confirmPassword").on("input", function() {
+                var confirmPassword = $(this).val();
+                var password = $("#password").val();
+                if (confirmPassword !== password) {
+                    $("#passwordHelp").html("Password and confirm password do not match.").css("color", "blue");
+                } else {
+                    // Only update if there are no other errors
+                    if ($("#passwordHelp").css("color") != "blue") { // Check if color is red
+                        $("#passwordHelp").html("Your password meets all requirements.").css("color", "green");
+                    }
+                }
+            });
     
-            if (errors.length > 0) {
-                $("#passwordHelp").html(errors.join("<br>")).css("color", "red");
-            } else {
-                $("#passwordHelp").text("Password strength: strong").css("color", "green");
-            }
-        });
-        document.addEventListener('DOMContentLoaded', function () {
             // Function to show a message
             function showMessage(inputId, messageId) {
-                var input = document.getElementById(inputId);
-                var message = document.getElementById(messageId);
-                input.addEventListener('focus', function () {
-                    message.style.display = 'inline'; // Show message
+                var input = $("#" + inputId);
+                var message = $("#" + messageId);
+                input.focus(function() {
+                    message.show(); // Show message
                 });
-                input.addEventListener('blur', function () {
-                    message.style.display = 'none'; // Hide message
+                input.blur(function() {
+                    message.hide(); // Hide message
                 });
-                }
-                // Example usage for the firstName field
-                showMessage('email', 'emailMessage');
-                // Add similar lines for other input fields as needed
+            }
+            
+            // Example usage for the email field
+            showMessage('email', 'emailMessage');
         });
-        document.addEventListener('DOMContentLoaded', function () {
-                // Function to show a message
-            function showMessage(inputId, messageId) {
-                var input = document.getElementById(inputId);
-                var message = document.getElementById(messageId);
-                input.addEventListener('focus', function () {
-                    message.style.display = 'inline'; // Show message
-                });
-                input.addEventListener('blur', function () {
-                    message.style.display = 'none'; // Hide message
-                });
-                }
-                // Example usage for the firstName field
-                showMessage('password', 'pwMessage');
-                // Add similar lines for other input fields as needed
-            });
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
