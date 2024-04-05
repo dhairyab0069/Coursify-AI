@@ -352,3 +352,25 @@ reviewsystem Backend Star system
 ### Tasks in progress
 - implement a Average star view on the review page (Just like google reviews)
 ![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+
+
+
+
+# Individual Log Week W12 - Harsimar Singh (Worked in branch v2.0-review_finishing)
+## Date: 3/24/24- 3/31/2024
+
+### Tasks worked on: 
+![Screenshot (191)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/aefb7704-5fc0-4d6e-8532-a7542cdd5451)
+
+
+
+### Tasks completed
+
+- Update AI chatbot queries according to our new features.
+- implemented a Average star view on the review page (Just like google reviews)
+
+### Tasks in progress
+- Final Changes for Revieww system
+  
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+

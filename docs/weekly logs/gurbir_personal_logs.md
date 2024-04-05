@@ -223,5 +223,19 @@ Tasks in progress: Researching ways to increase content accuracy
 <img width="1079" alt="Screenshot 2024-03-24 at 10 46 39 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/4a2be4fc-4d45-430d-94e2-977a74715a12">
 <img width="1001" alt="Screenshot 2024-03-24 at 10 23 08 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/69e429af-4b1f-4263-afda-1c35417dd510">
 
+# Week T2 #12
+## Date: 24/03/2024 - 31/03/2024
+### Gurbir Amrit - gurbirRemy
 
+### Tasks in Progress
+- In web-app pdf editing using pdftron , allowing annotation of pdfs before and after downloading( In progress)
+- Versioning system for edited pdf's ( in progress
+
+### Tasks Completed
+- Generating test reports for login and registration after implemented changes
+
+
+<img width="1001" alt="Screenshot 2024-03-24 at 10 23 08 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/69e429af-4b1f-4263-afda-1c35417dd510">
+)
+<img width="1087" alt="Screenshot 2024-03-31 at 10 56 34 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/bdf90f04-c62a-4561-86d2-e4ace8634629">
 
