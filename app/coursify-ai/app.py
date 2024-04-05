@@ -647,7 +647,8 @@ def wrap_text(text, max_width, font_name, font_size):
 
     return wrapped_text
 def content(prompt, length):
-    '''Calls the OpenAI API to generate content based on the user's input.'''
+    '''Calls the OpenAI API to generate content based on the user's input.
+    It takes the prompt and length as input and returns the generated content.'''
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -678,6 +679,9 @@ def call_openai_api(prompt):
 
 @app.route('/generate_content', methods=['POST'])
 def generate_content():
+    '''Function to generate content based on the user's input
+    It  checks if the format is PDF or slides and calls the appropriate function.
+    After calling the function, it returns a JSON response with the success status and the URL of the generated content.'''
     # Common form data processing
     length = request.form.get('length', type=int, default=100)
     prompt = request.form.get('topics', default='')
@@ -846,7 +850,8 @@ def generate_pdf(prompt, length, difficulty):
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
 def generate_slides(prompt, length, difficulty,):
-    '''Generate a presentation based on the user's input.'''
+    '''Generate a presentation based on the user's input.
+    It takes the prompt, length, and difficulty level as input and returns a presentation in PPTX format.'''
     # Directory where the presentations will be saved
     pptx_directory = os.path.join(os.getcwd(), 'presentations')
     if not os.path.exists(pptx_directory):
@@ -892,9 +897,11 @@ def generate_slides(prompt, length, difficulty,):
         tf.text = chunk
 
 
+    # Add a new slide for each section
     content = slide.placeholders[1]
     tf = content.text_frame
 
+    # Add content for each section 
     for line in toc.split('\n'):
         p = tf.add_paragraph()
         p.text = line
