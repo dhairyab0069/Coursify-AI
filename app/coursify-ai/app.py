@@ -18,6 +18,7 @@ from flask import Flask, jsonify, render_template, request, send_from_directory,
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
+
 from flask_cors import CORS
 import openai 
 import matplotlib.pyplot as plt
@@ -1064,7 +1065,7 @@ def submit_review():
     review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text, "subject": subject, "timestamp": datetime.utcnow()}
     reviews_collection.insert_one(review)
 
-    flash('Review submitted successfully.')
+    
     return 'Review sent'
     
 @app.route('/reviews')
@@ -1265,7 +1266,6 @@ def submit_review():
     }
     reviews_collection.insert_one(review)
    
-    flash('Review submitted successfully.')
     return redirect(url_for('reviews'))
 
 
