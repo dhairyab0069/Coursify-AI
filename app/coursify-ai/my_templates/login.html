@@ -24,9 +24,7 @@
         {% endif %}
     {% endwith %}
     <div class="container">
-        <!-- <div class="row justify-content-center align-items-center vh-100">-->
             <div class="col-md-6">
-                <!--<div class="form-container bg-white p-4 rounded shadow-sm">-->
                     <h2 class="text-center-L">LOGIN</h2>
                     <form id="login-form" method="POST" action="/login">
                         <div class="form-group">
@@ -53,20 +51,16 @@
                         <p>Not a member?</p>
                         <a href="{{ url_for('register') }}" class="btn btn-secondary">Sign Up</a>
                     </div>
-                <!--</div>-->
             </div>
-        <!--</div> -->
     </div>
     <script>
         //Display the flash message
         const flashMessage = document.getElementById('flash');
-            // if (flashMessage) {
-            //     // make it dissapear
-            //     setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
-            // }
-
         if (flashMessage.textContent.includes("Your password has been reset successfully.")) {
             setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
+
+        } else if (flashMessage.textContent.includes("Invalid credentials. Please try again.")) {
+            setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
         } else {
             flashMessage.style.display = 'none';
         };
