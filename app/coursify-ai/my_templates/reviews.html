@@ -1,4 +1,5 @@
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,29 +46,28 @@
                 </div>
                 <div class="ratings-bars">
                     <div class="bar-container">
-                        <span class="star-label">5 stars: <span class="star-count" id="star-5-count"></span></span>
+                        <span class="star-label">5 stars: <span class="star-count" id="star-5-count" data-rating="5"></span></span>
                         <div class="bar five-star"></div>
                     </div>
                     <div class="bar-container">
-                        <span class="star-label">4 stars : <span class="star-count" id="star-4-count"></span></span>
+                        <span class="star-label">4 stars : <span class="star-count" id="star-4-count" data-rating="4"></span></span>
                         <div class="bar four-star"></div>
                     </div>
                     <div class="bar-container">
-                        <span class="star-label">3 stars : <span class="star-count" id="star-3-count"></span></span>
+                        <span class="star-label">3 stars : <span class="star-count" id="star-3-count" data-rating="3"></span></span>
                         <div class="bar three-star"></div>
                     </div>
                     <div class="bar-container">
-                        <span class="star-label">2 stars : <span class="star-count" id="star-2-count"></span></span>
+                        <span class="star-label">2 stars : <span class="star-count" id="star-2-count" data-rating="2"></span></span>
                         <div class="bar two-star"></div>
                     </div>
                     <div class="bar-container">
-                        <span class="star-label">1 star : <span class="star-count" id="star-1-count"></span></span>
+                        <span class="star-label">1 star : <span class="star-count" id="star-1-count" data-rating="1"></span></span>
                         <div class="bar one-star"></div>
                     </div>
                 </div>
                 <div class="total-ratings">
-                    <span>9,167,770 Ratings</span>
-                    <a href="#" class="see-all">See All</a>
+                   
                 </div>
             </div>
             
@@ -140,135 +140,108 @@
                 {% endfor %}
             </div>
     </main>
-
     <script>
-
- document.addEventListener('DOMContentLoaded', function () {
-    const stars = document.querySelectorAll('.bx.bxs-star');
-    const ratingInput = document.getElementById('star_rating');
-    const subjectInput = document.getElementById('subject');
-
-
-    window.onload = function() {
-    fetch('/ratings')
-        .then(response => response.json())
-        .then(data => {
-            // Update average rating
-            document.querySelector('.average-score .score-value').textContent = data.average_rating.toFixed(1);
-
-            // Update star counts
-            const starClasses = ['one', 'two', 'three', 'four', 'five'];
-            for (let i = 1; i <= 5; i++) {
-                let bar = document.querySelector('.bar.' + starClasses[i-1] + '-star');
-                let percentage = (data.star_counts[i] / data.total_count) * 100;
-                bar.style.width = percentage + '%';
-
-                // Update individual star counts
-                document.getElementById('star-' + i + '-count').textContent = data.star_counts[i];
-            }
-
-            // Update total ratings
-            document.querySelector('.total-ratings span').textContent = data.total_count + ' Ratings';
-        });
-};
-
-
-    stars.forEach(star => {
-        star.addEventListener('click', function () {
-            const rating = this.getAttribute('data-value');
-            ratingInput.value = rating; // Update hidden input value
-
-            // Reset all stars to inactive state
-            stars.forEach(s => s.classList.remove('active'));
-
-            // Set this star and all previous stars to active
-            this.classList.add('active');
-            for (let i = 0; i < rating; i++) {
-                stars[i].classList.add('active');
-            }
-
-            // Update the accuracy score based on new rating
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.bx.bxs-star');
+            const ratingInput = document.getElementById('star_rating');
+            const subjectInput = document.getElementById('subject');
+            const ratingSelect = document.getElementById('rating');
+            const subjectSelect = document.getElementById('subject_list');
+            const reviewForm = document.querySelector('.add-review');
+            const reviewTextarea = document.querySelector('textarea[name="review_text"]');
+            
+            initializeStarRating();
+            initializeFormEvents();
             calculateAndDisplayAccuracyScore();
+            
+            function calculateAndDisplayAccuracyScore() {
+                const reviews = document.querySelectorAll('.review');
+                let totalRatings = 0;
+                const starCounts = [0, 0, 0, 0, 0]; // This will hold the counts for 1 to 5 stars
+        
+                reviews.forEach(review => {
+                    const rating = parseInt(review.getAttribute('data-rating'), 10);
+                    starCounts[rating - 1]++; // Adjust index to correctly count each star rating
+                    totalRatings++;
+                });
+        
+                const averageRating = starCounts.reduce((acc, cur, i) => acc + ((i + 1) * cur), 0) / totalRatings; // Adjusted calculation for average rating
+                document.querySelector('.score-value').textContent = averageRating.toFixed(1);
+        
+                // Calculate and set bar widths
+                // starCounts.forEach((count, index) => {
+                //     const starIndex = index + 1; // Adjust index to correctly display the count
+                //     const percentage = totalRatings > 0 ? (count / totalRatings) * 100 : 0;
+                //     document.querySelector(`.star-count#star-${starIndex}-count`).textContent = count; // Display the count
+                //     document.querySelector(`.bar-container:nth-child(${starIndex}) .bar`).style.width = `${percentage}%`;
+                    
+                // });
+                starCounts.forEach((count, index) => {
+  const starIndex = starCounts.length - index; // Adjust index to start from the highest rating (5-star)
+  const percentage = totalRatings > 0 ? (count / totalRatings) * 100 : 0;
+  document.querySelector(`.bar-container:nth-child(${starIndex}) .star-count`).textContent = count; // Update count text
+  document.querySelector(`.bar-container:nth-child(${starIndex}) .bar`).style.width = `${percentage}%`;
+});
+                // Update the total number of reviews in the UI
+                document.querySelector('.total-ratings').textContent = `Total Reviews: ${totalRatings}`;
+               
+
+            }
+        
+            function initializeStarRating() {
+                stars.forEach(star => {
+                    star.addEventListener('click', function () {
+                        const rating = parseInt(this.getAttribute('data-value'), 10);
+                        ratingInput.value = rating; // Update hidden input value
+                        stars.forEach(s => s.classList.toggle('active', parseInt(s.getAttribute('data-value'), 10) <= rating));
+                        calculateAndDisplayAccuracyScore();
+                    });
+                });
+            }
+        
+            function filterReviews() {
+                const selectedRating = ratingSelect.value;
+                const selectedSubject = subjectInput.value;
+                const reviews = document.querySelectorAll('.review');
+        
+                reviews.forEach(review => {
+                    const reviewRating = review.getAttribute('data-rating');
+                    const reviewSubject = review.getAttribute('data-subject');
+                    const reviewText = review.querySelector('.review-text').textContent.trim();
+        
+                    review.style.display = (
+                        (selectedRating === "" || reviewRating === selectedRating) &&
+                        (selectedSubject === "" || reviewSubject === selectedSubject) &&
+                        reviewText !== ""
+                    ) ? '' : 'none';
+                });
+            }
+        
+            function initializeFormEvents() {
+                reviewForm.addEventListener('submit', function(event) {
+                    let isValid = true;
+                    const selectedRating = ratingInput.value;
+                    const selectedSubject = subjectSelect.value;
+                    const reviewText = reviewTextarea.value.trim();
+        
+                    if (!selectedRating || selectedSubject === 'choose' || !reviewText) {
+                        alert('Please complete all fields.');
+                        event.preventDefault(); // Prevent form submission if validation fails
+                    }
+                });
+        
+                [ratingSelect, subjectInput].forEach(element => {
+                    element.addEventListener('change', function() {
+                        filterReviews();
+                        calculateAndDisplayAccuracyScore();
+                    });
+                });
+            }
         });
-    });
-
-    // Initialize filter functionality
-    const ratingSelect = document.getElementById('rating');
-    ratingSelect.addEventListener('change', function() {
-        filterReviews();
-        calculateAndDisplayAccuracyScore();
-    });
-
-    subjectInput.addEventListener('change', function() {
-        filterReviews();
-        calculateAndDisplayAccuracyScore();
-    });
-
-    const reviewForm = document.querySelector('.add-review');
-const reviewTextarea = document.querySelector('textarea[name="review_text"]');
-const subjectSelect = document.getElementById('subject_list');
-
-reviewForm.addEventListener('submit', function(event) {
-    let isValid = true;
-    const selectedRating = ratingInput.value;
-    const selectedSubject = subjectSelect.value;
-    const reviewText = reviewTextarea.value.trim();
-
-    if (!selectedRating) {
-        alert('Please select a rating.');
-        isValid = false;
-    }
-
-    if (selectedSubject === 'choose') {
-        alert('Please select a subject.');
-        isValid = false;
-    }
-
-    if (!reviewText) {
-        alert('Please enter your review.');
-        isValid = false;
-    }
-
-    if (!isValid) {
-        event.preventDefault(); // Prevent form submission if validation fails
-    }
-});
-    // Calculate and display the initial accuracy score
-    
-    filterReviews();
-    
-});
+        </script>
+        
+        
 
 
-
-
-
-function filterReviews() {
-    const selectedRating = document.getElementById('rating').value;
-    const selectedSubject = document.getElementById('subject').value;
-    const reviews = document.querySelectorAll('.review');
-
-    reviews.forEach(review => {
-        const reviewRating = Number(review.getAttribute('data-rating'));
-        const reviewSubject = String(review.getAttribute('data-subject'));
-        const reviewText = review.querySelector('.review-text').textContent.trim(); // Get the review text and trim whitespace
-
-        // Check if the review text is not empty in addition to existing conditions
-        if ((selectedRating === "" || reviewRating === Number(selectedRating)) &&
-            (selectedSubject === "" || reviewSubject === selectedSubject) &&
-            reviewText !== "") { // Add this line
-            review.style.display = '';
-        } else {
-            review.style.display = 'none';
-        }
-    });
-}
-
-
-
-
-
-
-    </script>
 </body>
 </html>
