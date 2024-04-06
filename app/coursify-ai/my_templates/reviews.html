@@ -26,15 +26,7 @@
                 <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
             </nav>
         </div>
-    </header>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <div id="flash">
-        {{ messages[0] }}
-      </div>
-    {% endif %}
-  {% endwith %}  
-
+    </header> 
     <main class="main-content">
         <div class="grid-container">
             <div class="user-based-accuracy-score">    

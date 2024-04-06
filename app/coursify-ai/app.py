@@ -1069,8 +1069,7 @@ def submit_review():
     reviews_collection.insert_one(review)
 
     flash('Review submitted successfully.')
-    
-    return redirect(url_for('reviews'))
+    return 'Review sent'
     
 @app.route('/reviews')
 @login_required
