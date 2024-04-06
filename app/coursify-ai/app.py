@@ -1169,7 +1169,8 @@ def generate_quiz(file_id):
     timestamp = str(int(time.time()))
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
 
-    doc_filename = f'quiz_{file_name}.docx'
+    #sanitize filename to remove extension before saving as a docx file
+    doc_filename = file_name.split('.')[0] + '_quiz_' + timestamp + '_' + random_string + '.docx'
 
     
     temp_path = os.path.join(temp_dir, doc_filename)
@@ -1228,19 +1229,30 @@ def extract_text_from_pptx(file_stream):
 
 def generate_questions(text):
     '''Generate quiz questions based on the given text.'''
-    # Construct a prompt for OpenAI API to generate quiz questions
-    prompt = f"Create 5 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
-    
-    # Call the OpenAI API function
-    questions_text = call_openai_api(prompt)
-    
-    if questions_text:
-        # Assuming the response text contains the questions formatted as needed
-        # You might need to further process this text depending on the response format
-        questions = questions_text.strip().split('\n\n')  # Example of simple parsing
-        return questions
-    else:
-        return ["Failed to generate questions."]
+    # Construct prompts for OpenAI API to generate different types of questions
+    mcq_prompt = f"Create 20 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
+    short_ans_prompt = f"Create 5 short answer questions based on the following text: \n{text}"
+    long_ans_prompt = f"Create 2 long answer questions based on the following text: \n{text}"
+    application_prompt = f"Create 1 application question based on the following text: \n{text}"
+
+    # Call the OpenAI API function for each type of question
+    mcq_text = call_openai_api(mcq_prompt)
+    short_ans_text = call_openai_api(short_ans_prompt)
+    long_ans_text = call_openai_api(long_ans_prompt)
+    application_text = call_openai_api(application_prompt)
+
+    # Parse and combine the questions
+    questions = []
+    if mcq_text:
+        questions.extend(mcq_text.strip().split('\n\n'))  # Example of simple parsing
+    if short_ans_text:
+        questions.extend(short_ans_text.strip().split('\n\n'))
+    if long_ans_text:
+        questions.extend(long_ans_text.strip().split('\n\n'))
+    if application_text:
+        questions.extend(application_text.strip().split('\n\n'))
+
+    return questions if questions else ["Failed to generate questions."]
 
     
 if __name__ == '__main__':
