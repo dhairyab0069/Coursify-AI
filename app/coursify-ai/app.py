@@ -461,7 +461,11 @@ def share_via_email():
     # Send the email
     mail.send(msg)
 
-    return 'Email sent!'
+
+    flash('Email sent!')
+
+    # Redirect the user back to the previous page
+    return redirect(url_for('my_content'))
 
         
 @app.route('/share/<file_id>')
@@ -1065,7 +1069,8 @@ def submit_review():
     review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text, "subject": subject, "timestamp": datetime.utcnow()}
     reviews_collection.insert_one(review)
 
-    
+
+    flash('Review submitted successfully.')
     return 'Review sent'
     
 @app.route('/reviews')
