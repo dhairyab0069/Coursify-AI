@@ -20,7 +20,7 @@ Follow these steps to get your development environment set up:
    Open a terminal and run the following command to clone the repository:
 
    ```bash
-   git clone [<your-repository-url>](https://github.com/COSC-499-W2023/year-long-project-team-16.git)
+   git clone https://github.com/COSC-499-W2023/year-long-project-team-16.git
    ```
 
 
