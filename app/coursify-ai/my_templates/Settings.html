@@ -50,23 +50,17 @@
       {% endwith %}
 
       <div class="settings-container">
-        <!----------------------- LEFT HAND SIDE MENU BAR ------------------------------------------------>
-        <!------------------------------------------------------------------------------------------------>
-
+        <!-- List of settings -->
         <ul class="settings-list">
-          <li>
-            <a href="#" id="account-settings-link" class="selected">Account</a>
-          </li>
+          <li><a href="#" id="account-settings-link" class="selected">Account</a></li>
           <li><a href="#" id="password-settings-link">Password</a></li>
-          <!-- <li><a href="#" id="preferences-settings-link">AI Assistant</a></li> -->
         </ul>
 
         <!--------------------------- Div WHERE THE FORMS WILL DISPLAY ------------------------------------->
         <!-------------------- THE ACCOUNT SETTINGS PAGE IS DISPLAYED BY DEFAULT --------------------------->
 
         <div id="settings-content">
-          <!-- ACCOUNT SETTINGS FROM ------------------------------------------------------------------------->
-          <!-------------------------------------------------------------------------------------------------->
+          <!-- ACCOUNT SETTINGS FROM -->
           <form id="account-settings-form" class="settings-form" action="{{ url_for('update_account_settings') }}" method="post"> <!--  -->
             <h2 class="form-head">Account Details</h2>
             <!-- First Name -->
@@ -92,27 +86,14 @@
                 <label for="email">Email :</label>
                 <input type="email" id="email" name="email" value="{{ user.get('email', '') }}">
             </div>
-            
-                              <!-- Profile Picture Upload (might not be needed)-->
-                              <!-- This part might need JavaScript to display an existing picture, if you store the URL/path of the profile picture 
-                              <div class="form-group">
-                                  <label for="profile-picture">Profile Picture :</label>
-                                  <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
-                                  
-                                  <div id="image-preview-frame">
-                                      <img id="profile-picture-preview" src="{{ user.get('profile_picture_url', '') }}" alt="Profile Picture Preview">
-                                      <div id="no-image-text" {% if user.get('profile_picture_url') %}style="display: none;"{% endif %}>No profile picture uploaded</div>
-                                  </div>
-                              </div>  -->
-            
+      
             <!-- Save Button --> 
             <div class="form-group">
                 <button type="submit">Save Changes</button>
             </div>
           </form>
 
-          <!-- PASSWORD SETTINGS FROM ----------------------------------------------------------------------------->
-          <!------------------------------------------------------------------------------------------------------->
+          <!-- PASSWORD SETTINGS FROM -->
           <form id="password-settings-form" class="settings-form" action="{{ url_for('change_password') }}" method="post" style="display: none"> <!-- Add action and method -->
             <h2 class="form-head">Change Password</h2>
             <!-- Current password -->
@@ -142,22 +123,6 @@
               <button type="submit">Change Password</button>
             </div>
           </form>
-
-          <!----------------PREFERENCE SETTINGS FORM----------------------------------------------------------------->
-          <!------------------------------------------------------------------------------------------------------->
-          <form id="preferences-settings-form" class="settings-form" style="display: none">
-            <!-- Save Previous Chats Checkbox -->
-            <div class="form-group">
-              <label for="save-chats">Save Previous Chats:</label>
-              <input type="checkbox" id="save-chats" name="save-chats" />
-            </div>
-
-            <!-- Submit Button -->
-            <div class="form-group">
-              <button type="submit">Save Preferences</button>
-            </div>
-          </form>
-
           <!--------------------- END OF FORMS -------------------------------------------------------------------->
           <!------------------------------------------------------------------------------------------------------->
         </div>
@@ -169,7 +134,6 @@
     <!--------------------------------------------------------------------------------------------------------------------------------->
 
     <script>
-      //DOMContent - sets up an event listner that waits for the entire HTML document to be fully loaded before running the fucntion
       document.addEventListener("DOMContentLoaded", async function () {
 
         //Display the flash message
@@ -178,20 +142,6 @@
             // make it dissapear
             setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
         }
-        // if (flashMessage.textContent.includes("Your account has been updated successfully")) {
-        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
-        // } else if (flashMessage.textContent.includes("No changes were made to your account.")) {
-        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
-        // } else if (flashMessage.textContent.includes("Current password is incorrect.")) {
-        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
-        // } else if (flashMessage.textContent.includes("New passwords do not match.")) {
-        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
-        // } else if (flashMessage.textContent.includes("Your password has been updated successfully.")) {
-        //   setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
-        // }else {
-        //   flashMessage.style.display = 'none';
-        // }
-      
         //This function first hides all of the forms inside of setting-form class by setting the display to none.
         function showForm(formID) {
           document.querySelectorAll(".settings-form").forEach(function (form) {
@@ -218,16 +168,7 @@
         document.getElementById("password-settings-link").addEventListener("click", function () {
           showForm("password-settings-form");
           selectedLink("password-settings-link");
-        });
-
-        // document.getElementById("preferences-settings-link").addEventListener("click", function () {
-        //   showForm("preferences-settings-form");
-        //   selectedLink("preferences-settings-link");
-        // });
-
-        //selects the HTML element with the ID "profile picture", which is the file input by the user.
-        //Event listner looks for a change, then calls the function.
-        
+        });   
         document.getElementById("profile-picture").addEventListener("change", function (event) {
             //constant for the file chosen by the user
             const [file] = event.target.files;
