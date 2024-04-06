@@ -53,6 +53,13 @@
       <div class="content-header">
         <h1 id="title">My Generated Content</h1>
       </div>
+      {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div id="flash">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
       <div class="notes-container">
         <div class="notes-list">
             <!-- Note Cards -->

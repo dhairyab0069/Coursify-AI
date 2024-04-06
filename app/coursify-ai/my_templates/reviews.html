@@ -27,10 +27,17 @@
             </nav>
         </div>
     </header>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div id="flash">
+        {{ messages[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}  
 
     <main class="main-content">
         <div class="grid-container">
-            <div class="user-based-accuracy-score">
+            <div class="user-based-accuracy-score">    
                 <h2>Ratings & Reviews</h2>
                 <div class="average-score">
                     <span class="score-value">4.9</span>

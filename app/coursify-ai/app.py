@@ -460,7 +460,11 @@ def share_via_email():
     # Send the email
     mail.send(msg)
 
-    return 'Email sent!'
+
+    flash('Email sent!')
+
+    # Redirect the user back to the previous page
+    return redirect(url_for('my_content'))
 
         
 @app.route('/share/<file_id>')
@@ -1065,7 +1069,8 @@ def submit_review():
     reviews_collection.insert_one(review)
 
     flash('Review submitted successfully.')
-    return 'Review sent'
+    
+    return redirect(url_for('reviews'))
     
 @app.route('/reviews')
 @login_required
