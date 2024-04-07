@@ -539,7 +539,6 @@ button[type="submit"] {
 /* Folder Appearance */
 .folder {
   background-color: #555555;
-  border-radius: 15px;
   padding: 1.5em;
   margin-bottom: 1em;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
@@ -558,22 +557,37 @@ button[type="submit"] {
 /* Folder Label */
 .folder-label {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #ffffff;
   margin-bottom: 0.5rem;
-  display: block; /* Makes it easier to handle click events */
+  display: block;
   cursor: pointer;
-}
+  background-color: #666;
+  padding: 10px 20px;
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+} 
 
 /* Collapsible Content */
 .collapsible-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease-out;
-  background-color: #333;
+  background-color: #808080;
   margin: 0.5em 0;
   padding: 0;
+ 
 }
+
+/* You might want to adjust the text color inside the collapsible content for better contrast */
+.collapsible-content .note-card {
+  color: #333; /* Darker text for better readability on light background */
+}
+
+.folder-label.selected {
+  color: #1ABC9C; /* Change text color when selected */
+  background-color: #555; /* Darker background for selected state */
+}
+
 
 /* Styles for when the folder is clicked and content is shown */
 .folder.active .collapsible-content {
@@ -591,8 +605,9 @@ button[type="submit"] {
   max-height: 1000px; /* Set a max-height that will accommodate the content size */
   overflow: auto;
 }
-.folder.active {
-  background-color: #7d7a7a;
+.folder-label:active {
+  background-color: #555; /* Slightly darker on click */
+  transform: translateY(1px); /* Push effect */
 }
 
 html,

@@ -91,7 +91,7 @@
                 </select>
                 <textarea name="review_text" placeholder="Write your review here..."></textarea>
                 <input type="hidden" name="star_rating" id="star_rating" value=""> <!-- Hidden field to store rating -->
-                <button type="submit">Submit Review</button>
+               
             </form>
 
             <!-- Reviews Section -->
@@ -119,11 +119,13 @@
                         <option value="Business">Business</option>
                         <option value="Other">Other</option>
                     </select>
+                  
                 </div>
             
                 <!-- Individual reviews will go here -->
                 {% for review in reviews %}
-                <div class="review" data-rating="{{ review.star_rating }}" data-subject="{{ review.subject }}">
+                <div class="review" data-rating="{{ review.star_rating }}" data-subject="{{ review.subject }}" >
+                    <div class="review-author">Author: {{ review.first_name }} {{ review.last_name }}</div>
                     <div class="review-rating">Rating: {{ review.star_rating }} / 5</div>
                     <div class="review-subject">Subject: {{ review.subject }}</div>
                     <div class="review-text">{{ review.review_text }}</div>
@@ -131,9 +133,11 @@
                 {% else %}
                 <div>No reviews yet.</div>
                 {% endfor %}
+                
             </div>
     </main>
     <script>
+
         document.addEventListener('DOMContentLoaded', function () {
             const stars = document.querySelectorAll('.bx.bxs-star');
             const ratingInput = document.getElementById('star_rating');
@@ -147,6 +151,8 @@
             initializeFormEvents();
             calculateAndDisplayAccuracyScore();
             
+           
+
             function calculateAndDisplayAccuracyScore() {
                 const reviews = document.querySelectorAll('.review');
                 let totalRatings = 0;
@@ -161,14 +167,7 @@
                 const averageRating = starCounts.reduce((acc, cur, i) => acc + ((i + 1) * cur), 0) / totalRatings; // Adjusted calculation for average rating
                 document.querySelector('.score-value').textContent = averageRating.toFixed(1);
         
-                // Calculate and set bar widths
-                // starCounts.forEach((count, index) => {
-                //     const starIndex = index + 1; // Adjust index to correctly display the count
-                //     const percentage = totalRatings > 0 ? (count / totalRatings) * 100 : 0;
-                //     document.querySelector(`.star-count#star-${starIndex}-count`).textContent = count; // Display the count
-                //     document.querySelector(`.bar-container:nth-child(${starIndex}) .bar`).style.width = `${percentage}%`;
-                    
-                // });
+            
                 starCounts.forEach((count, index) => {
   const starIndex = starCounts.length - index; // Adjust index to start from the highest rating (5-star)
   const percentage = totalRatings > 0 ? (count / totalRatings) * 100 : 0;
@@ -231,6 +230,10 @@
                 });
             }
         });
+
+       
+
+
         </script>
         
         
