@@ -63,7 +63,7 @@
       <div class="notes-container">
         <div class="notes-list">
             <!-- Note Cards -->
-            <div class="folder-label" data-target="#presentations">Presentations</div>
+            <div class="folder-label" data-target="#presentations"><i class="bx bxs-presentation"></i> Presentations</div>
   <div id="presentations" class="folder collapsible-content">
     {% for file in file_data %} 
       {% if file.filename.endswith('.pptx') %}
@@ -74,7 +74,7 @@
     {% endfor %}
   </div>
 
-  <div class="folder-label" data-target="#quizzes">Quizzes</div>
+  <div class="folder-label" data-target="#quizzes">  <i class="bx bx-list-check"></i> Quizzes</div>
   <div id="quizzes" class="folder collapsible-content">
     {% for file in file_data %} 
       {% if file.filename.endswith('.docx') %}
@@ -85,7 +85,7 @@
     {% endfor %}
   </div>
 
-  <div class="folder-label" data-target="#pdfs">PDFs</div>
+  <div class="folder-label" data-target="#pdfs"><i class="bx bxs-file-pdf"></i> PDFs</div>
   <div id="pdfs" class="folder collapsible-content">
     {% for file in file_data %} 
       {% if file.filename.endswith('.pdf') %}
@@ -126,7 +126,7 @@
               <br />
               <div id="quizButtonContainer"></div>
             </div>
-            <!-- <button onclick="showReviewForm(document.getElementById('reviewFileId').value, document.getElementById('reviewFilename').value)" id="reviewButton" class="review-btn">Review</button> -->
+          
           </div>
         </div>
       </div>
@@ -144,19 +144,7 @@
         <input type="submit" value="Share" />
       </form>
     </div>
-
-
-    <!--review form-->
-    <!-- <div id="reviewForm" style="display: none;">
-  <form action="{{ url_for('submit_review') }}" method="post">
-    <input type="hidden" id="reviewFileId" name="file_id">
-    <input type="hidden" id="reviewFilename" name="filename">
-    <label for="reviewText">Your Review:</label>
-    <textarea id="reviewText" name="review_text" required></textarea>
-    <input type="submit" value="Submit Review">
-  </form>
-</div> -->
-
+  
     <script>
       document.getElementById("shareButton").addEventListener("click", function() {
         document.getElementById("shareForm").style.display = "block"; // Show the popup form
@@ -296,39 +284,42 @@
           });
         }
       };
-      //function showReviewForm(id, filename) {
-      // Set the file id and filename in the form
-      //document.getElementById('reviewFileId').value = fileId;
-      //document.getElementById('reviewFilename').value = filename;
 
-      // Show the form
-      //document.getElementById('reviewForm').style.display = 'block';
-      //}
+      document.addEventListener('DOMContentLoaded', function() {
+    const folderLabels = document.querySelectorAll('.folder-label');
 
-      document.addEventListener("DOMContentLoaded", function () {
+    folderLabels.forEach(label => {
+        label.addEventListener('click', function() {
+            // Remove 'selected' class from all labels
+            folderLabels.forEach(label => {
+                label.classList.remove('selected');
+            });
 
-        const folderLabels = document.querySelectorAll('.folder-label');
+            // Add 'selected' class to the clicked label
+            this.classList.add('selected');
 
-  // Add a click event listener to each folder label
-        folderLabels.forEach(function(label) {
+            // Optional: Collapse all other collapsible content
+            const allCollapsibles = document.querySelectorAll('.collapsible-content');
+            allCollapsibles.forEach(collapsible => {
+                if (collapsible !== document.querySelector(this.getAttribute('data-target'))) {
+                    collapsible.style.maxHeight = null;
+                    collapsible.classList.remove('active');
+                }
+            });
 
-          label.addEventListener('click', function() {
-          // Get the target content from data-target attribute
-          const contentId = label.getAttribute('data-target');
-          const content = document.querySelector(contentId);
-      
-          // Toggle the visibility of the folder content
-          content.classList.toggle('active');
-
-          });
-
-
-
-       });
+            // Expand the targeted collapsible content
+            const contentId = this.getAttribute('data-target');
+            const content = document.querySelector(contentId);
+            content.classList.toggle('active');
+            if (content.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+        });
+    });
+});
         
-        // Assuming 'showDetails' function is updated to include generating and attaching 'Generate Quiz' button as discussed earlier.
-
-        // Function to handle Quiz Generation
         /**
          *  Generate a quiz for the specified file ID
          * @param {string} fileId - The ID of the file to generate a quiz for
@@ -368,7 +359,6 @@
               });
           }
         }
-
         // Example of how you might call handleQuizGeneration from within showDetails or another appropriate place
         // showDetails function or similar needs to setup 'generateQuizButton.onclick' to call 'handleQuizGeneration' with the correct fileId
       });
@@ -376,6 +366,7 @@
         document.getElementById("shareForm").style.display = "none";
         document.querySelector(".overlay").style.display = "none";
       });
+
       
     </script>
 
