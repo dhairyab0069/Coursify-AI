@@ -131,8 +131,12 @@
         </div>
       </div>
     </section>
+
+    <div class="overlay"></div>
+
     <!-- Share Form -->
     <div id="shareForm" style="display: none">
+      <i class='bx bx-arrow-back' id="closeForm"></i>
       <form action="{{ url_for('share_via_email') }}" method="post">
         <input type="hidden" id="fileId" name="file_id" />
         <label for="email">Recipient's Email:</label>
@@ -140,6 +144,7 @@
         <input type="submit" value="Share" />
       </form>
     </div>
+
 
     <!--review form-->
     <!-- <div id="reviewForm" style="display: none;">
@@ -153,14 +158,17 @@
 </div> -->
 
     <script>
-      document
-        .getElementById("shareButton")
-        .addEventListener("click", function () {
-
-          document
-            .getElementById("shareForm")
-            .scrollIntoView({ behavior: "smooth" });
-        });
+      document.getElementById("shareButton").addEventListener("click", function() {
+        document.getElementById("shareForm").style.display = "block"; // Show the popup form
+        document.querySelector(".overlay").style.display = "block"; // Show the overlay
+      });
+      
+      // Close the popup form when clicking on the overlay
+      document.querySelector(".overlay").addEventListener("click", function() {
+        document.getElementById("shareForm").style.display = "none"; // Hide the form
+        this.style.display = "none"; // Hide the overlay
+      });
+      
 
       function showDetails(id, filename) {
         document.getElementById("detailTitle").textContent = filename;
@@ -364,6 +372,11 @@
         // Example of how you might call handleQuizGeneration from within showDetails or another appropriate place
         // showDetails function or similar needs to setup 'generateQuizButton.onclick' to call 'handleQuizGeneration' with the correct fileId
       });
+      document.getElementById("closeForm").addEventListener("click", function() {
+        document.getElementById("shareForm").style.display = "none";
+        document.querySelector(".overlay").style.display = "none";
+      });
+      
     </script>
 
     <footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
