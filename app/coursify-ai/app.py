@@ -51,6 +51,7 @@ from PIL import Image
 from urllib.parse import quote
 import shutil
 from pathlib import Path
+from pptx.util import Pt
 
 import subprocess
 from collections import defaultdict
@@ -659,7 +660,8 @@ def wrap_text(text, max_width, font_name, font_size):
 
     return wrapped_text
 def content(prompt, length):
-    '''Calls the OpenAI API to generate content based on the user's input.'''
+    '''Calls the OpenAI API to generate content based on the user's input.
+    It takes the prompt and length as input and returns the generated content.'''
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -690,6 +692,9 @@ def call_openai_api(prompt):
 
 @app.route('/generate_content', methods=['POST'])
 def generate_content():
+    '''Function to generate content based on the user's input
+    It  checks if the format is PDF or slides and calls the appropriate function.
+    After calling the function, it returns a JSON response with the success status and the URL of the generated content.'''
     # Common form data processing
     length = request.form.get('length', type=int, default=100)
     prompt = request.form.get('topics', default='')
@@ -825,7 +830,7 @@ def generate_pdf(prompt, length, difficulty):
                 c.setFont("Helvetica", 12)
                 c.drawString(left_margin, y_position, line)
                 y_position -= line_height 
-                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + " and difficulty level is " + diff)
+                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + "words and difficulty level is " + diff)
 
                 if prompt2 is None:
                     return jsonify(success=False, error="Failed to generate text from OpenAI API")
@@ -858,7 +863,8 @@ def generate_pdf(prompt, length, difficulty):
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
 def generate_slides(prompt, length, difficulty,):
-    '''Generate a presentation based on the user's input.'''
+    '''Generate a presentation based on the user's input.
+    It takes the prompt, length, and difficulty level as input and returns a presentation in PPTX format.'''
     # Directory where the presentations will be saved
     pptx_directory = os.path.join(os.getcwd(), 'presentations')
     if not os.path.exists(pptx_directory):
@@ -902,21 +908,28 @@ def generate_slides(prompt, length, difficulty,):
         content = slide.placeholders[1]
         tf = content.text_frame
         tf.text = chunk
+        for paragraph in tf.paragraphs:
+            for run in paragraph.runs:
+                run.font.size = Pt(15)  # Set content font size to 15
 
 
+
+    # Add a new slide for each section
     content = slide.placeholders[1]
     tf = content.text_frame
 
+    # Add content for each section 
     for line in toc.split('\n'):
         p = tf.add_paragraph()
         p.text = line
         p.level = 0 if line.isupper() else 1
 
     # Generate and add content for each section
+        length = length // len(toc.split('\n'))
     for line in toc.split('\n'):
         if line.strip():  # Check if line is not empty
             # Generate content for the section
-            section_content = call_openai_api(f"Explain {line.strip()} in detail.")
+            section_content = call_openai_api(f"Explain {line.strip()} in detail. Difficulty: " + diff + "..." + "Length of content is " + str(length) + " words.")
 
             # Split the content into chunks that fit on a slide
             content_chunks = split_content_into_chunks(section_content)
@@ -1175,7 +1188,8 @@ def generate_quiz(file_id):
     timestamp = str(int(time.time()))
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
 
-    doc_filename = f'quiz_{file_name}.docx'
+    #sanitize filename to remove extension before saving as a docx file
+    doc_filename = file_name.split('.')[0] + '_quiz_' + timestamp + '_' + random_string + '.docx'
 
     
     temp_path = os.path.join(temp_dir, doc_filename)
@@ -1234,19 +1248,30 @@ def extract_text_from_pptx(file_stream):
 
 def generate_questions(text):
     '''Generate quiz questions based on the given text.'''
-    # Construct a prompt for OpenAI API to generate quiz questions
-    prompt = f"Create 5 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
-    
-    # Call the OpenAI API function
-    questions_text = call_openai_api(prompt)
-    
-    if questions_text:
-        # Assuming the response text contains the questions formatted as needed
-        # You might need to further process this text depending on the response format
-        questions = questions_text.strip().split('\n\n')  # Example of simple parsing
-        return questions
-    else:
-        return ["Failed to generate questions."]
+    # Construct prompts for OpenAI API to generate different types of questions
+    mcq_prompt = f"Create 20 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
+    short_ans_prompt = f"Create 5 short answer questions based on the following text: \n{text}"
+    long_ans_prompt = f"Create 2 long answer questions based on the following text: \n{text}"
+    application_prompt = f"Create 1 application question based on the following text: \n{text}"
+
+    # Call the OpenAI API function for each type of question
+    mcq_text = call_openai_api(mcq_prompt)
+    short_ans_text = call_openai_api(short_ans_prompt)
+    long_ans_text = call_openai_api(long_ans_prompt)
+    application_text = call_openai_api(application_prompt)
+
+    # Parse and combine the questions
+    questions = []
+    if mcq_text:
+        questions.extend(mcq_text.strip().split('\n\n'))  # Example of simple parsing
+    if short_ans_text:
+        questions.extend(short_ans_text.strip().split('\n\n'))
+    if long_ans_text:
+        questions.extend(long_ans_text.strip().split('\n\n'))
+    if application_text:
+        questions.extend(application_text.strip().split('\n\n'))
+
+    return questions if questions else ["Failed to generate questions."]
 
     
 if __name__ == '__main__':
