@@ -5,7 +5,7 @@ import random
 import string
 
 from click import wrap_text
-from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, Response, send_file, make_response, redirect
+from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, Response, send_file, make_response, redirect, flash
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
@@ -427,29 +427,28 @@ def reset_forgot_password(token):
  ################################################################################   
 @app.route('/share_via_email', methods=['POST'])
 def share_via_email():
-    '''Function to share a file via email.'''
-    # Get the recipient's email address and the file id from the form data
+    '''Function to share a file via email as an attachment.'''
     recipient = request.form.get('email')
     file_id = request.form.get('file_id')
 
-    # Generate the shareable URL
-    share_url = url_for('share_file', file_id=file_id, _external=True)
+    # Retrieve the file from GridFS or your storage
+    file_obj = fs.get(ObjectId(file_id))  # Assuming fs is your GridFS object
+    file_data = file_obj.read()  # Read the file data into memory
+    file_name = file_obj.filename  # Get the file name for the attachment
 
-    # Create a new email message
+    # Prepare the email message
     msg = Message('Your Shared File',
                   sender='coursify@outlook.com',
                   recipients=[recipient])
+    msg.body = 'Please find the attached file.'
 
-    # Add the shareable URL to the email body
-    msg.body = f'Here is the file you requested: {share_url}'
+    # Attach the file
+    msg.attach(file_name, "application/octet-stream", file_data)
 
     # Send the email
     mail.send(msg)
 
-
-    flash('Email sent!')
-
-    # Redirect the user back to the previous page
+    flash('Email sent with the file attached!')
     return redirect(url_for('my_content'))
 
         
