@@ -50,6 +50,7 @@ from PIL import Image
 from urllib.parse import quote
 import shutil
 from pathlib import Path
+from pptx.util import Pt
 
 import subprocess
 from collections import defaultdict
@@ -817,7 +818,7 @@ def generate_pdf(prompt, length, difficulty):
                 c.setFont("Helvetica", 12)
                 c.drawString(left_margin, y_position, line)
                 y_position -= line_height 
-                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + " and difficulty level is " + diff)
+                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + "words and difficulty level is " + diff)
 
                 if prompt2 is None:
                     return jsonify(success=False, error="Failed to generate text from OpenAI API")
@@ -895,6 +896,10 @@ def generate_slides(prompt, length, difficulty,):
         content = slide.placeholders[1]
         tf = content.text_frame
         tf.text = chunk
+        for paragraph in tf.paragraphs:
+            for run in paragraph.runs:
+                run.font.size = Pt(15)  # Set content font size to 15
+
 
 
     # Add a new slide for each section
@@ -908,10 +913,11 @@ def generate_slides(prompt, length, difficulty,):
         p.level = 0 if line.isupper() else 1
 
     # Generate and add content for each section
+        length = length // len(toc.split('\n'))
     for line in toc.split('\n'):
         if line.strip():  # Check if line is not empty
             # Generate content for the section
-            section_content = call_openai_api(f"Explain {line.strip()} in detail.")
+            section_content = call_openai_api(f"Explain {line.strip()} in detail. Difficulty: " + diff + "..." + "Length of content is " + str(length) + " words.")
 
             # Split the content into chunks that fit on a slide
             content_chunks = split_content_into_chunks(section_content)
