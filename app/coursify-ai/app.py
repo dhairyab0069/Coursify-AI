@@ -3,7 +3,13 @@ import os
 import re
 import random
 import string
-from flask import Flask, flash, jsonify, render_template, request, redirect, url_for, send_file
+
+from click import wrap_text
+from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, Response, send_file, make_response, redirect
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfbase.pdfmetrics import stringWidth
+
 from flask_cors import CORS
 import openai
 from pymongo import MongoClient
@@ -20,6 +26,21 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from docx import Document
+
+import tempfile
+import subprocess
+import os
+from PIL import Image
+from urllib.parse import quote
+import shutil
+from pathlib import Path
+from pptx.util import Pt
+
+import subprocess
+from collections import defaultdict
+from collections import Counter
+
+
 
 
 class RegistrationForm(FlaskForm):
@@ -425,7 +446,11 @@ def share_via_email():
     # Send the email
     mail.send(msg)
 
-    return 'Email sent!'
+
+    flash('Email sent!')
+
+    # Redirect the user back to the previous page
+    return redirect(url_for('my_content'))
 
         
 @app.route('/share/<file_id>')
@@ -619,7 +644,8 @@ def wrap_text(text, max_width, font_name, font_size):
 
     return wrapped_text
 def content(prompt, length):
-    '''Calls the OpenAI API to generate content based on the user's input.'''
+    '''Calls the OpenAI API to generate content based on the user's input.
+    It takes the prompt and length as input and returns the generated content.'''
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -650,6 +676,9 @@ def call_openai_api(prompt):
 
 @app.route('/generate_content', methods=['POST'])
 def generate_content():
+    '''Function to generate content based on the user's input
+    It  checks if the format is PDF or slides and calls the appropriate function.
+    After calling the function, it returns a JSON response with the success status and the URL of the generated content.'''
     # Common form data processing
     length = request.form.get('length', type=int, default=100)
     prompt = request.form.get('topics', default='')
@@ -785,7 +814,7 @@ def generate_pdf(prompt, length, difficulty):
                 c.setFont("Helvetica", 12)
                 c.drawString(left_margin, y_position, line)
                 y_position -= line_height 
-                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + " and difficulty level is " + diff)
+                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + "words and difficulty level is " + diff)
 
                 if prompt2 is None:
                     return jsonify(success=False, error="Failed to generate text from OpenAI API")
@@ -818,7 +847,8 @@ def generate_pdf(prompt, length, difficulty):
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
 def generate_slides(prompt, length, difficulty,):
-    '''Generate a presentation based on the user's input.'''
+    '''Generate a presentation based on the user's input.
+    It takes the prompt, length, and difficulty level as input and returns a presentation in PPTX format.'''
     # Directory where the presentations will be saved
     pptx_directory = os.path.join(os.getcwd(), 'presentations')
     if not os.path.exists(pptx_directory):
@@ -853,29 +883,51 @@ def generate_slides(prompt, length, difficulty,):
     title = slide.shapes.title
     title.text = "Table of Contents"
 
+    # Split the table of contents into chunks that fit on a slide
+    toc_chunks = split_content_into_chunks(toc)
+
+    # Add content for each chunk on a new slide
+    for chunk in toc_chunks:
+        slide = prs.slides.add_slide(slide_layout)
+        content = slide.placeholders[1]
+        tf = content.text_frame
+        tf.text = chunk
+        for paragraph in tf.paragraphs:
+            for run in paragraph.runs:
+                run.font.size = Pt(15)  # Set content font size to 15
+
+
+
+    # Add a new slide for each section
     content = slide.placeholders[1]
     tf = content.text_frame
 
+    # Add content for each section 
     for line in toc.split('\n'):
         p = tf.add_paragraph()
         p.text = line
         p.level = 0 if line.isupper() else 1
 
     # Generate and add content for each section
+        length = length // len(toc.split('\n'))
     for line in toc.split('\n'):
         if line.strip():  # Check if line is not empty
             # Generate content for the section
-            section_content = call_openai_api(f"Explain {line.strip()} in detail.")
+            section_content = call_openai_api(f"Explain {line.strip()} in detail. Difficulty: " + diff + "..." + "Length of content is " + str(length) + " words.")
 
-            # Add a new slide for the section
+            # Split the content into chunks that fit on a slide
+            content_chunks = split_content_into_chunks(section_content)
+
+        # Add a new slide for each chunk
+        for chunk in content_chunks:
             slide = prs.slides.add_slide(slide_layout)
             title = slide.shapes.title
             title.text = line.strip()
 
-            # Add generated content to the slide
+            # Add chunk to the slide
             content_box = slide.placeholders[1]
             tf = content_box.text_frame
-            tf.text = section_content  # This sets the initial paragraph
+            tf.text = chunk  # This sets the initial paragraph
             # For more complex formatting, you can add more paragraphs or format this one
             print("Topic done")
 
@@ -895,6 +947,20 @@ def generate_slides(prompt, length, difficulty,):
     pptx_url = url_for('get_presentation', filename=pptx_filename)
     return jsonify(success=True, pptx_url=pptx_url)
 
+def split_content_into_chunks(content):
+    '''Split content into chunks that fit on a slide.'''
+    # Split the content into chunks that fit on a slide
+    max_chars_per_chunk = 400
+    content_chunks = []
+    current_chunk = ''
+    for line in content.split('\n'):
+        if len(current_chunk) + len(line) <= max_chars_per_chunk:
+            current_chunk += line + '\n'
+        else:
+            content_chunks.append(current_chunk)
+            current_chunk = line + '\n'
+    content_chunks.append(current_chunk)
+    return content_chunks
 
 
 
@@ -999,6 +1065,7 @@ def submit_review():
 
     review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text, "subject": subject, "timestamp": datetime.utcnow()}
     reviews_collection.insert_one(review)
+
 
     flash('Review submitted successfully.')
     return 'Review sent'
@@ -1105,7 +1172,8 @@ def generate_quiz(file_id):
     timestamp = str(int(time.time()))
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
 
-    doc_filename = f'quiz_{file_name}.docx'
+    #sanitize filename to remove extension before saving as a docx file
+    doc_filename = file_name.split('.')[0] + '_quiz_' + timestamp + '_' + random_string + '.docx'
 
     
     temp_path = os.path.join(temp_dir, doc_filename)
@@ -1164,19 +1232,30 @@ def extract_text_from_pptx(file_stream):
 
 def generate_questions(text):
     '''Generate quiz questions based on the given text.'''
-    # Construct a prompt for OpenAI API to generate quiz questions
-    prompt = f"Create 5 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
-    
-    # Call the OpenAI API function
-    questions_text = call_openai_api(prompt)
-    
-    if questions_text:
-        # Assuming the response text contains the questions formatted as needed
-        # You might need to further process this text depending on the response format
-        questions = questions_text.strip().split('\n\n')  # Example of simple parsing
-        return questions
-    else:
-        return ["Failed to generate questions."]
+    # Construct prompts for OpenAI API to generate different types of questions
+    mcq_prompt = f"Create 20 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
+    short_ans_prompt = f"Create 5 short answer questions based on the following text: \n{text}"
+    long_ans_prompt = f"Create 2 long answer questions based on the following text: \n{text}"
+    application_prompt = f"Create 1 application question based on the following text: \n{text}"
+
+    # Call the OpenAI API function for each type of question
+    mcq_text = call_openai_api(mcq_prompt)
+    short_ans_text = call_openai_api(short_ans_prompt)
+    long_ans_text = call_openai_api(long_ans_prompt)
+    application_text = call_openai_api(application_prompt)
+
+    # Parse and combine the questions
+    questions = []
+    if mcq_text:
+        questions.extend(mcq_text.strip().split('\n\n'))  # Example of simple parsing
+    if short_ans_text:
+        questions.extend(short_ans_text.strip().split('\n\n'))
+    if long_ans_text:
+        questions.extend(long_ans_text.strip().split('\n\n'))
+    if application_text:
+        questions.extend(application_text.strip().split('\n\n'))
+
+    return questions if questions else ["Failed to generate questions."]
 
     
 if __name__ == '__main__':
@@ -1201,7 +1280,6 @@ def submit_review():
     }
     reviews_collection.insert_one(review)
    
-    flash('Review submitted successfully.')
     return redirect(url_for('reviews'))
 
 
@@ -1268,6 +1346,15 @@ def pptx_images(pptx_filename):
     # Save the PDF
     c.save()
     print(f"PDF saved to {pdf_path}")
+
+    #save the pdf to the database when retriieing and then delete the file after sending it to the user
+    if current_user.is_authenticated:
+        fs = GridFS(db)
+        with open(pdf_path, 'rb') as pdf_file:
+            fs.put(pdf_file, filename=pdf_filename, user_id=current_user.user_id)
+    # Respond with the URL of the PDF
+    pdf_url = url_for('get_pdf', filename=pdf_filename)
+    
 
     # Return the path of the generated PDF
     return pdf_path

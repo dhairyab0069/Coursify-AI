@@ -53,6 +53,13 @@
       <div class="content-header">
         <h1 id="title">My Generated Content</h1>
       </div>
+      {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div id="flash">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
       <div class="notes-container">
         <div class="notes-list">
             <!-- Note Cards -->
@@ -230,6 +237,10 @@
         };
       }
 
+      /**
+       * Show the share form with the specified file ID
+       * @param {string} fileId - The ID of the file to share
+       */
       function showForm(fileId) {
         // Show the form
         document.getElementById("shareForm").style.display = "block";
@@ -237,6 +248,10 @@
         // Set the file's ID in the form
         document.getElementById("fileId").value = fileId;
       }
+      /**
+       * Generate a quiz for the specified file ID
+       * @param {string} fileId - The ID of the file to generate a quiz for
+       */
       function generateQuiz(fileId) {
         fetch(`/generate_quiz/${fileId}`)
           .then((response) => response.json())
@@ -253,6 +268,11 @@
           })
           .catch((error) => console.error("Error generating quiz:", error));
       }
+ 
+       /**
+        * 
+        * @param {string} fileId - The ID of the file to generate a quiz for
+        */
       window.onload = function () {
         var noteCards = document.getElementsByClassName("note-card");
 
@@ -301,6 +321,10 @@
         // Assuming 'showDetails' function is updated to include generating and attaching 'Generate Quiz' button as discussed earlier.
 
         // Function to handle Quiz Generation
+        /**
+         *  Generate a quiz for the specified file ID
+         * @param {string} fileId - The ID of the file to generate a quiz for
+         */
         function handleQuizGeneration(fileId) {
           var generateQuizButton = document.querySelector(
             ".generate-quiz-link"

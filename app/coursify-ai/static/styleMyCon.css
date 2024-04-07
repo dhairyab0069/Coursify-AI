@@ -593,7 +593,6 @@ button[type="submit"] {
 }
 .folder.active {
   background-color: #7d7a7a;
-  border-left: 5px solid #1abc9c;
 }
 
 html,
@@ -609,4 +608,21 @@ body,
 .folder-label:active {
   color: #1abc9c;
   background-color: #777777;
+}
+#flash{
+  position:fixed;
+  /*bottom: 0; */
+  /*right:0; */
+  top: 120px;
+  right : -5px;
+  /*width: 100%;*/
+  text-align: center;
+  padding: 10px 20px;
+  /*background-color: rgba(65, 61, 61, 0.7); */
+  background-color: #666363;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  z-index: 1000; 
+  border-radius: 5px;
 }
