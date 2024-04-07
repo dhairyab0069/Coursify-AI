@@ -1,9 +1,18 @@
+import base64
+import glob
+import io
+import logging
+from mailbox import Message
+from pydoc_data import topics
+import subprocess
+import time
+from urllib.parse import unquote_to_bytes
+from flask import after_this_request, flash, session
 from datetime import datetime
 import os
 import re
 import random
 import string
-
 from click import wrap_text
 from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, Response, send_file, make_response, redirect
 from reportlab.pdfgen import canvas
@@ -11,22 +20,30 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
 from flask_cors import CORS
-import openai
+import openai 
+import matplotlib.pyplot as plt
+from io import BytesIO
 from pymongo import MongoClient
-from gridfs import GridFS
+from gridfs import GridFS, NoFile
 from PyPDF2 import PdfReader
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
 
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from pymongo import MongoClient
+from bson.objectid import ObjectId
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from flask_mail import Mail, Message
+from pptx import Presentation
+from flask import send_file, abort
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+from datetime import datetime
 from docx import Document
-
 import tempfile
 import subprocess
 import os
@@ -39,7 +56,6 @@ from pptx.util import Pt
 import subprocess
 from collections import defaultdict
 from collections import Counter
-
 
 
 
@@ -708,16 +724,36 @@ def generate_pdf(prompt, length, difficulty):
     pdf_basename = pdf_basename if pdf_basename else 'generated_file'
 
     # Add a timestamp or random string to the filename to ensure uniqueness
-    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    timestamp = datetime.now().strftime('%Y-%m-%d')
     unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-    pdf_filename = f"{pdf_basename}_{timestamp}_{unique_suffix}.pdf"
+    pdf_filename = f"{pdf_basename}_{timestamp}.pdf"
 
+    # New mapping of difficulty to grade levels
     if difficulty == 1:
-        diff = "basic"
+      diff = "Grade 1 - Introduction to fundamental concepts"
     elif difficulty == 2:
-        diff = "intermediate"
+        diff = "Grade 2 - Building on basic skills and knowledge"
     elif difficulty == 3:
-        diff = "advanced"
+        diff = "Grade 3 - Expanding core understanding"
+    elif difficulty == 4:
+        diff = "Grade 4 - Deepening comprehension of key topics"
+    elif difficulty == 5:
+     diff = "Grade 5 - Preparing for intermediate challenges"
+    elif difficulty == 6:
+     diff = "Grade 6 - Transitioning to more complex subjects"
+    elif difficulty == 7:
+        diff = "Grade 7 - Enhancing critical thinking and application"
+    elif difficulty == 8:
+     diff = "Grade 8 - Solidifying foundational knowledge"
+    elif difficulty == 9:
+        diff = "Grade 9 - High school introductory concepts"
+    elif difficulty == 10:
+     diff = "Grade 10 - Sophomore explorations and depth"
+    elif difficulty == 11:
+     diff = "Grade 11 - Junior year, college prep, and advanced topics"
+    elif difficulty == 12:
+     diff = "Grade 12 - Senior year, culmination, and readiness for next steps"
+
 
     
     toc = call_openai_api("Give Table of contents for topic: " +prompt+"(such that there are max 5 topics and each topic has two sub topics. Topics should be upper Case and subtopics otherwise. Dont Start with heading : Table of contents, just show contents with difficulty " + diff)
@@ -856,18 +892,37 @@ def generate_slides(prompt, length, difficulty,):
 
 
     if difficulty == 1:
-        diff = "basic"
+      diff = "Grade 1 - Introduction to fundamental concepts"
     elif difficulty == 2:
-        diff = "intermediate"
+        diff = "Grade 2 - Building on basic skills and knowledge"
     elif difficulty == 3:
-        diff = "advanced"
+        diff = "Grade 3 - Expanding core understanding"
+    elif difficulty == 4:
+        diff = "Grade 4 - Deepening comprehension of key topics"
+    elif difficulty == 5:
+     diff = "Grade 5 - Preparing for intermediate challenges"
+    elif difficulty == 6:
+     diff = "Grade 6 - Transitioning to more complex subjects"
+    elif difficulty == 7:
+        diff = "Grade 7 - Enhancing critical thinking and application"
+    elif difficulty == 8:
+     diff = "Grade 8 - Solidifying foundational knowledge"
+    elif difficulty == 9:
+        diff = "Grade 9 - High school introductory concepts"
+    elif difficulty == 10:
+     diff = "Grade 10 - Sophomore explorations and depth"
+    elif difficulty == 11:
+     diff = "Grade 11 - Junior year, college prep, and advanced topics"
+    elif difficulty == 12:
+     diff = "Grade 12 - Senior year, culmination, and readiness for next steps"
+
 
     # Define filename for the presentation
     pptx_basename = sanitize_filename(prompt)
     pptx_basename = pptx_basename if pptx_basename else 'generated_presentation'
-    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    timestamp = datetime.now().strftime('%Y-%m-%d')
     unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-    pptx_filename = f"{pptx_basename}_{timestamp}_{unique_suffix}.pptx"
+    pptx_filename = f"{pptx_basename}_{timestamp}.pptx"
 
     # Generate table of contents
     toc = call_openai_api("Give Table of contents for topic: " + prompt + "..." + "Difficulty level is " + diff + "..." + "Length of content is " + str(length) + " words.")
@@ -1173,7 +1228,7 @@ def generate_quiz(file_id):
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
 
     #sanitize filename to remove extension before saving as a docx file
-    doc_filename = file_name.split('.')[0] + '_quiz_' + timestamp + '_' + random_string + '.docx'
+    doc_filename = file_name.split('.')[0] + '_quiz_' + file.filename+timestamp + '_' + random_string 
 
     
     temp_path = os.path.join(temp_dir, doc_filename)
@@ -1302,9 +1357,9 @@ def pptx_images(pptx_filename):
 
     # Ensure the filename is safe and generate a unique PDF filename
     base_filename = os.path.splitext(os.path.basename(pptx_filename))[0]
-    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    timestamp = datetime.now().strftime('%Y-%m-%d')
     unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-    pdf_filename = f"{base_filename}_{timestamp}_{unique_suffix}.pdf"
+    pdf_filename = f"{base_filename}_{timestamp}.pdf"
 
     # Load the PowerPoint file
     pptx_path = os.path.join(os.getcwd(), pptx_filename)

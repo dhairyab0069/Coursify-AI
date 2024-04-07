@@ -69,13 +69,12 @@
                               </p>
                             </div>
                             <div class="form-group">
-                              <label for="difficulty">Difficulty (1-3):
+                              <label for="difficulty">Grade Level (1-12):
                                 <span class="info-button" onclick="showInfo('difficulty')">i</span>
                               </label>
-                              <input type="number" id="difficulty" name ="difficulty" min="0"
-                              max="3" required>
+                              <input type="number" id="difficulty" name="difficulty" min="1" max="12" required>
                               <p id="difficulty-info" class="info-text" style="display: none;">
-                                Enter the difficulty level of the content in numbers. 1 is Basic, 2 is Intermediate, 3 is Advanced.
+                                Enter the grade level for which the content is being created. Grade levels range from 1 to 12, with 1 being the entry-level for primary education and 12 corresponding to the final year of secondary education.
                               </p>
                             </div>
                             <div class="form-group">
@@ -108,16 +107,7 @@
                               Enter the desired format you want it generated in.
                             </p>
                           </div>
-                            <div class="form-group">
-                              <label for="pdf-upload">Upload PDF: (Optional)</label>
-                              <input
-                                type="file"
-                                id="pdf-upload"
-                                name="pdf-upload"
-                                accept=".pdf"
-                              
-                              />
-                            </div>
+                            
                             <button type="submit" id="generate-button">Generate</button>
                           </form>
                         </div>
