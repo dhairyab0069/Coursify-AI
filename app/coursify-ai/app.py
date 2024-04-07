@@ -1073,10 +1073,10 @@ def submit_review():
 @app.route('/reviews')
 @login_required
 def reviews():
-
+    user_id = current_user.get_id()  
+    my_reviews = reviews_collection.find({"user_id": user_id}).sort("timestamp", -1)
     all_reviews = reviews_collection.find().sort("timestamp", -1)
     return render_template('reviews.html', reviews=all_reviews)
-
 
 
 @app.route('/delete/<file_id>', methods=['POST'])
@@ -1262,33 +1262,6 @@ if __name__ == '__main__':
     app.debug = True
     app.run()
 
-    
-@app.route('/submit_review', methods=['POST'], endpoint='submit_review1')
-@login_required
-def submit_review():
-    star_rating = request.form['star_rating']
-    review_text = request.form['review_text']
-    user_id = ObjectId(current_user.get_id())
-    subject = request.form['subject']
-   
-    review = {
-        "user_id": current_user.get_id(),
-        "star_rating": star_rating,
-        "review_text": review_text,
-        "subject": subject,
-        "timestamp": datetime.utcnow()  # Optional, for sorting purposes
-    }
-    reviews_collection.insert_one(review)
-   
-    return redirect(url_for('reviews'))
-
-
-@app.route('/reviews', endpoint='reviews1')
-@login_required
-def reviews():
-    all_reviews = reviews_collection.find().sort("timestamp", -1)  # Assuming you want the newest first
-    return render_template('reviews.html', reviews=all_reviews)
-# function for converting pptx to images
 
 @app.route('/presentation/<filename>')
 
