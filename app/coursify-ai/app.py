@@ -1,18 +1,9 @@
-import base64
-import glob
-import io
-import logging
-from mailbox import Message
-from pydoc_data import topics
-import subprocess
-import time
-from urllib.parse import unquote_to_bytes
-from flask import after_this_request, flash, session
 from datetime import datetime
 import os
 import re
 import random
 import string
+
 from click import wrap_text
 from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, Response, send_file, make_response, redirect
 from reportlab.pdfgen import canvas
@@ -20,30 +11,22 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
 from flask_cors import CORS
-import openai 
-import matplotlib.pyplot as plt
-from io import BytesIO
+import openai
 from pymongo import MongoClient
-from gridfs import GridFS, NoFile
+from gridfs import GridFS
 from PyPDF2 import PdfReader
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
 
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from pymongo import MongoClient
-from bson.objectid import ObjectId
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 from flask_mail import Mail, Message
-from pptx import Presentation
-from flask import send_file, abort
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-from datetime import datetime
 from docx import Document
+
 import tempfile
 import subprocess
 import os
@@ -56,6 +39,7 @@ from pptx.util import Pt
 import subprocess
 from collections import defaultdict
 from collections import Counter
+
 
 
 
