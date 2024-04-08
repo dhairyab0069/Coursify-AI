@@ -772,7 +772,7 @@ body,
 
 .review-modal button[type="submit"]:hover {
   opacity: 0.9;
-
+}
 #flash{
   position:fixed;
   /*bottom: 0; */
