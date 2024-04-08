@@ -14,11 +14,10 @@ import re
 import random
 import string
 from click import wrap_text
-from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, Response, send_file, make_response, redirect, flash
+from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, Response, send_file, make_response, redirect
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
-
 from flask_cors import CORS
 import openai 
 import matplotlib.pyplot as plt
@@ -142,7 +141,7 @@ def home():
     # Otherwise, show the homepage with login and register options
     return render_template('homepage.html')
 
- 
+SENDGRID_API_KEY = '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'  
 def validate_password(password):
     '''Validation of password'''
     if len(password) < 8:
@@ -223,6 +222,7 @@ def register():
     
     return render_template('register.html')
 
+# Send Email Function
 def send_email(to_email, subject, html_content):
     '''Function to send an email to the user for verification.'''
     msg = Message(subject,
@@ -233,9 +233,8 @@ def send_email(to_email, subject, html_content):
     mail.send(msg)
 
 
-
 # Email Confirmation Route
-@app.route('/confirm_email/<token>')
+@app.route('/confirm/<token>')
 def confirm_email(token):
     try:
         email = serializer.loads(token, salt='email-confirm', max_age=3600)  # 1 hour to verify
@@ -249,7 +248,6 @@ def confirm_email(token):
     else:
         flash('Your email is already verified or the user does not exist.', 'warning')
     return redirect(url_for('login'))
-
 
 # Login Route
 # Updated Login Route with "Remember Me"
@@ -288,6 +286,11 @@ def logout():
     '''Function to log out the user.'''
     logout_user()
     return redirect(url_for('home'))
+
+@app.route('/quiz_generate')
+def quiz_generate():
+    '''Function to render the quiz generation page.'''
+    return render_template('quiz.html')
 
 
 # SETINGS PAGE
@@ -370,11 +373,11 @@ def change_password():
     flash('Your password has been updated successfully.','settings_page')
     return redirect(url_for('settings_html'))
 
-#FORGOT PASSWORD FUNCTION ###########################################################################
+#FORGOT PASSWORD FUNCTION
 # THIS IS ONLY FOR CREATING AND SENDING AN EMAIL
 def send_pw_reset_email(recipient_email, reset_url):
     subject = "Password Reset Request"
-    sender_email = 'coursify@outlook.com'  
+    sender_email = 'coursify@outlook.com'  # Replace with your sender email
     recipients = [recipient_email]
     
     # Create the email message
@@ -387,8 +390,97 @@ def send_pw_reset_email(recipient_email, reset_url):
     # Send the email
     mail.send(msg)
 
-# Password Reset Request Route  ##########################################################
-#creates a token and sends an email
+#function to create quiz for the quiz.html page
+@app.route('/quiz-generator-page', methods=['POST'])
+def quiz_generator_page():
+    '''Function to generate a quiz based on the user's input. This is separate from the quiz_generate function which is used for generating quiz for a particular file.'''
+    topic = request.form.get('topic')
+    subject = request.form.get('subject')
+    mcqs = request.form.get('mcqs')
+    true_false = request.form.get('true-false')
+    short_questions = request.form.get('short-questions')
+    long_questions = request.form.get('long-questions')
+
+    # Generate the quiz content
+    quiz_content = quiz_page_generate(topic, subject, mcqs, true_false, short_questions, long_questions)
+
+    #store the quiz content in a docx file
+    doc = Document()
+    doc.add_heading(f"Quiz on {topic} - {subject}", level=1)
+    doc.add_paragraph(quiz_content)
+    #save the quiz as the topic_subject_quiz.docx
+    quiz_filename = f"{topic}_{subject}_quiz.docx"
+    # if quiz path does not exist, create it
+    if not os.path.exists('quiz_files'):
+        print("Creating directory at:", os.path.abspath('quiz_files'))
+        os.makedirs('quiz_files')
+    quiz_path = os.path.join('quiz_files', quiz_filename)
+    doc.save(quiz_path)
+
+    #store the quiz in the database
+    with open(quiz_path, 'rb') as f:
+        file_id = fs.put(f, filename=quiz_filename, user_id=current_user.get_id())
+
+    #respond with url of the quiz from the database
+    quiz_url = url_for('get_doc', file_id=str(file_id), _external=True)
+    return jsonify(success=True, quiz_url=quiz_url)
+    
+    
+
+
+def quiz_page_generate(topic, subject, mcqs, true_false, short_questions, long_questions):
+    '''Function to generate a quiz based on the user's input.'''
+    # Generate the quiz content
+    mcqs = int(mcqs)
+    true_false = int(true_false)
+    short_questions = int(short_questions)
+    long_questions = int(long_questions)
+
+    quiz_content = f"Quiz on {topic} - {subject}\n\n"
+
+    # Generate MCQs(call the open ai api)
+    quiz_content += "Multiple Choice Questions:\n"
+    for i in range(1, mcqs + 1):
+        prompt = f"Generate a multiple choice question related to {topic} and {subject}."
+        mcq = call_openai_api(prompt)
+        if mcq is None:
+            return jsonify(success=False, error="Failed to generate text from OpenAI API")
+        quiz_content += f"{i}. {mcq}\n\n"
+
+    # Generate True/False questions
+    quiz_content += "True/False Questions:\n"
+    for i in range(1, true_false + 1):
+        prompt = f"Generate a true or false question related to {topic} and {subject}."
+        true_false_question = call_openai_api(prompt)
+        if true_false_question is None:
+            return jsonify(success=False, error="Failed to generate text from OpenAI API")
+        quiz_content += f"{i}. {true_false_question}\n\n"
+
+    # Generate Short Answer questions
+    quiz_content += "Short Answer Questions:\n"
+    for i in range(1, short_questions + 1):
+        prompt = f"Generate a short answer question related to {topic} and {subject}."
+        short_question = call_openai_api(prompt)
+        if short_question is None:
+            return jsonify(success=False, error="Failed to generate text from OpenAI API")
+        quiz_content += f"{i}. {short_question}\n\n"
+
+    # Generate Long Answer questions
+    quiz_content += "Long Answer Questions:\n"
+    for i in range(1, long_questions + 1):
+        prompt = f"Generate a long answer question related to {topic} and {subject}."
+        long_question = call_openai_api(prompt)
+        if long_question is None:
+            return jsonify(success=False, error="Failed to generate text from OpenAI API")
+        quiz_content += f"{i}. {long_question}\n\n"
+
+    
+
+    return quiz_content
+    
+    
+
+# Password Reset Request Route
 @app.route('/forgot_password', methods=['GET','POST'])
 def forgot_password():
     if request.method == 'POST':
@@ -408,7 +500,6 @@ def forgot_password():
 
     return render_template('forgot_password.html')
 
-# this resets the pw after the url ( reset_password.html page is loaded)
 @app.route('/reset_forgot_password/<token>', methods=['GET', 'POST'])
 def reset_forgot_password(token):
     try:
@@ -440,7 +531,7 @@ def reset_forgot_password(token):
         return redirect(url_for('login'))
 
     return render_template('reset_password.html', token=token)
- ################################################################################   
+ ################################################################################ 
 @app.route('/share_via_email', methods=['POST'])
 def share_via_email():
     '''Function to share a file via email as an attachment.'''
@@ -881,6 +972,7 @@ def generate_pdf(prompt, length, difficulty):
     # Respond with the URL of the PDF
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
+
 def generate_slides(prompt, length, difficulty,):
     '''Generate a presentation based on the user's input.
     It takes the prompt, length, and difficulty level as input and returns a presentation in PPTX format.'''
@@ -1070,13 +1162,14 @@ def get_presentation(filename):
         # Unauthorized access
         abort(401, description="Unauthorized to access this presentation")
 
+
 @app.route('/get_doc/<file_id>')
 def get_doc(file_id):
     '''Download a file from GridFS based on its file_id.'''
     try:
         file_id = ObjectId(file_id)  # Ensure file_id is a valid ObjectId
         grid_out = fs.get(file_id)
-        return send_file(grid_out, attachment_filename=grid_out.filename, as_attachment=True)
+        return send_file(grid_out, download_name=grid_out.filename, as_attachment=True)
     except NoFile:
         return jsonify({'error': 'File not found'}), 404
 
@@ -1227,7 +1320,7 @@ def generate_quiz(file_id):
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
 
     #sanitize filename to remove extension before saving as a docx file
-    doc_filename = file_name.split('.')[0] + '_quiz_' + file.filename+timestamp + '_' + random_string 
+    doc_filename = file_name.split('.')[0] + '_quiz_' + timestamp + '_' + random_string + '.docx'
 
     
     temp_path = os.path.join(temp_dir, doc_filename)
@@ -1316,6 +1409,34 @@ if __name__ == '__main__':
     app.debug = True
     app.run()
 
+    
+@app.route('/submit_review', methods=['POST'], endpoint='submit_review1')
+@login_required
+def submit_review():
+    star_rating = request.form['star_rating']
+    review_text = request.form['review_text']
+    user_id = ObjectId(current_user.get_id())
+    subject = request.form['subject']
+   
+    review = {
+        "user_id": current_user.get_id(),
+        "star_rating": star_rating,
+        "review_text": review_text,
+        "subject": subject,
+        "timestamp": datetime.utcnow()  # Optional, for sorting purposes
+    }
+    reviews_collection.insert_one(review)
+   
+    flash('Review submitted successfully.')
+    return redirect(url_for('reviews'))
+
+
+@app.route('/reviews', endpoint='reviews1')
+@login_required
+def reviews():
+    all_reviews = reviews_collection.find().sort("timestamp", -1)  # Assuming you want the newest first
+    return render_template('reviews.html', reviews=all_reviews)
+# function for converting pptx to images
 
 @app.route('/presentation/<filename>')
 
