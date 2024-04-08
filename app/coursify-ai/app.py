@@ -636,7 +636,7 @@ def chat():
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "AI, your role is to assist users in navigating and utilizing the features of Courisify.ai \
+                {"role": "system", "content": "AI, your role is to assist users in navigating and utilizing the features of Coursify.ai \
 effectively. You will only answer questions related to this website. When a user inquires \
 about generating content, guide them through entering the desired content length, difficulty, \
 and topics. If they need to manage their notes, direct them to the 'My Content' section. \
@@ -652,7 +652,7 @@ Remember, your goal is to help users feel confident in using the website, ensuri
 access and utilize all features without difficulty. Keep your instructions simple, and your tone \
 friendly, and be ready to answer a range of questions with patience and expertise. \
 Here are step-by-step instructions for navigating the website, designed to assist users in \
-finding and utilizing the various features offered by Courisify.ai: \
+finding and utilizing the various features offered by Coursify.ai: \
 Homepage Navigation: \
 Upon landing on the homepage, you will find a navigation bar at the top with the following \
 options: HOME, MY CONTENT, SETTINGS, and AI ASSISTANT. There's also a LOGOUT \
