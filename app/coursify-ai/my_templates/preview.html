@@ -13,10 +13,6 @@
       href="{{ url_for('static', filename='styleIndex.css') }}"
     />
 
-    <script>
-      pdfjsLib.GlobalWorkerOptions.workerSrc =
-        "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.worker.min.js";
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
     // Add the missing import statement for pdfjsLib
@@ -33,12 +29,15 @@
       </div>
       <nav class="navbar">
         <div id="sidebar">
-          <a href="{{ url_for('index') }}" id="home">HOME</a>
-          <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
-          <a href="ai.html" id="ai">AI ASSISTANT</a>
-          <a href="{{ url_for('reviews') }}">REVIEW</a>
-          <a href="settings.html" id="settings">SETTINGS</a>
-          <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+          
+            <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+            <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+            <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+            <a href="ai.html" id="ai">AI ASSISTANT</a>
+            <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+            <a href="settings.html" id="settings">SETTINGS</a>
+            <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+         
         </div>
       </nav>
       <i class="bx bx-menu"></i>

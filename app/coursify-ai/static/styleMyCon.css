@@ -390,12 +390,30 @@ button[type="submit"] {
 .share-btn:hover {
   border-bottom: 5px solid #1abc9c;
 }
+.overlay {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.4); 
+  backdrop-filter: blur(10px);
+}
 #shareForm {
-  background-color: #fff;
-  padding: 20px;
+  background-color: #ffffff;
+  display: none; 
+  position: fixed; 
+  z-index: 1500; 
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
   border-radius: 5px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  padding: 20px;
   margin: 0 auto;
 }
 
@@ -430,6 +448,18 @@ button[type="submit"] {
 
 #shareForm input[type="submit"]:hover {
   background-color: #555555;
+}
+#closeForm {
+  position: absolute;
+  top: 4px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  font-size: 19px; /* Adjust size as needed */
+  color: #333; /* Adjust color as needed */
+}
+
+
+#closeForm:hover {
+  color: #666; 
 }
 .info-button {
   background-color: #ddd;
@@ -649,6 +679,7 @@ body,
   color: #1abc9c;
   background-color: #777777;
 }
+
 /* Overlay background */
 .review-modal {
   display: none; /* Hidden by default */
@@ -741,4 +772,22 @@ body,
 
 .review-modal button[type="submit"]:hover {
   opacity: 0.9;
+
+#flash{
+  position:fixed;
+  /*bottom: 0; */
+  /*right:0; */
+  top: 120px;
+  right : -5px;
+  /*width: 100%;*/
+  text-align: center;
+  padding: 10px 20px;
+  /*background-color: rgba(65, 61, 61, 0.7); */
+  background-color: #666363;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  z-index: 1000; 
+  border-radius: 5px;
+
 }

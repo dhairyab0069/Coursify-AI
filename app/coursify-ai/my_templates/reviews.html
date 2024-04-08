@@ -18,20 +18,19 @@
         </div>
         <div class="link_container">
             <nav class="navbar">
-                <div id="sidebar"></div>
-                <a href="{{ url_for('index') }}" id="home">HOME</a>
+                <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+                <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
                 <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
                 <a href="ai.html" id="ai">AI ASSISTANT</a>
-                <a href="{{ url_for('reviews') }}">REVIEW</a>
+                <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
                 <a href="settings.html" id="settings">SETTINGS</a>
                 <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
-            </nav>
+              </nav>
         </div>
-    </header>
-
+    </header> 
     <main class="main-content">
         <div class="grid-container">
-            <div class="user-based-accuracy-score">
+            <div class="user-based-accuracy-score">    
                 <h2>Ratings & Reviews</h2>
                 <div class="average-score">
                     <span class="score-value">4.9</span>
