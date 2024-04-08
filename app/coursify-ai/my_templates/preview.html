@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Preview</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styleIndex.css') }}"
+    />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
+    // Add the missing import statement for pdfjsLib
+
+  </head>
+  <body>
+    <header class="header">
+      <div class="link_container">
+        <a href="{{ url_for('index') }}"
+          ><img
+            src="{{ url_for('static', filename='cap_logo1.png') }}"
+            id="logo"
+        /></a>
+      </div>
+      <nav class="navbar">
+        <div id="sidebar">
+          
+            <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+            <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+            <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+            <a href="ai.html" id="ai">AI ASSISTANT</a>
+            <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+            <a href="settings.html" id="settings">SETTINGS</a>
+            <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+         
+        </div>
+      </nav>
+      <i class="bx bx-menu"></i>
+    </header>
+    <div class="content-header">
+      <h1 id="title">File Preview</h1>
+      <button id="back-button">Back</button>
+    </div>
+
+    <div id="loadingIndicator" style="display: none">Loading...</div>
+    <div id="render-container" style="overflow-y: auto"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        function renderFile(fileUrl, fileType) {
+          const renderContainer = document.getElementById("render-container");
+          const loadingIndicator = document.getElementById("loadingIndicator");
+          loadingIndicator.style.display = "block"; // Show loading indicator
+
+          //get filename from url
+          let filename = fileUrl.split("/").pop();
+          let encodedFilename = encodeURIComponent(filename);
+          let urlPath;
+          if (fileType === "pdf") {
+            urlPath = `pdf/${encodedFilename}`;
+          } else if (fileType === "pptx") {
+            urlPath = `presentation/${encodedFilename}`; // Adjusted to fetch from presentations directory
+          }
+          const fullUrl = `http://127.0.0.1:5000/${urlPath}`;
+          if (fileType === "pdf") {
+            renderPDFOnCanvas(fullUrl);
+          } else if (fileType === "pptx") {
+
+            renderPPTXAsPDF(fullUrl);
+
+          }
+        }
+
+        function renderPDFOnCanvas(pdfUrl) {
+
+          console.log(pdfUrl);
+
+          const loadingIndicator = document.getElementById("loadingIndicator");
+          loadingIndicator.style.display = "block"; // Show loading indicator
+
+          const renderContainer = document.getElementById("render-container");
+          renderContainer.innerHTML = ""; // Clear previous content
+
+          pdfjsLib.getDocument(pdfUrl).promise.then(
+            function (pdfDoc) {
+              console.log(`PDF Document loaded. Pages: ${pdfDoc.numPages}`);
+
+              for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                pdfDoc.getPage(pageNum).then(function (page) {
+                  var viewport = page.getViewport({ scale: 1.5 });
+                  var canvas = document.createElement("canvas");
+                  renderContainer.appendChild(canvas);
+
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+                  var context = canvas.getContext("2d");
+
+                  var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport,
+                  };
+                  page.render(renderContext).promise.then(function () {
+                    console.log(`Page ${pageNum} rendered`);
+                    if (pageNum === pdfDoc.numPages) {
+                      loadingIndicator.style.display = "none"; // Hide loading indicator once all pages are rendered
+                    }
+                  });
+                });
+              }
+            },
+            function (error) {
+              console.error("Error loading PDF:", error);
+              loadingIndicator.style.display = "none"; // Hide loading indicator on error
+            }
+          );
+        }
+
+
+        function renderPPTXAsPDF(fileUrl) {
+          console.log(`Requesting PDF for: ${fileUrl}`);
+          const loadingIndicator = document.getElementById("loadingIndicator");
+          loadingIndicator.style.display = "block"; // Show loading indicator
+
+          const renderContainer = document.getElementById("render-container");
+          renderContainer.innerHTML = ""; // Clear previous content
+
+          // get pdf filename from the url
+          let pdfUrl = fileUrl.replace("pptx", "pdf");
+          pdfUrl = pdfUrl.replace("presentation", "pdf");
+          console.log(`PDF URL: ${pdfUrl}`);
+
+          // Fetch the URL of the converted PDF from the Flask server
+          fetch(pdfUrl)
+            .then((response) => response.text())
+            .then((data) => {
+              const pdfFileUrl = data;
+              // Use PDF.js to load and render the PDF
+              pdfjsLib.getDocument(pdfFileUrl).promise.then(
+                function (pdfDoc) {
+                  console.log(`PDF Document loaded. Pages: ${pdfDoc.numPages}`);
+
+                  // Render each page in the PDF
+                  for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                    pdfDoc.getPage(pageNum).then(function (page) {
+                      var viewport = page.getViewport({ scale: 1.5 });
+                      var canvas = document.createElement("canvas");
+                      renderContainer.appendChild(canvas);
+
+                      canvas.height = viewport.height;
+                      canvas.width = viewport.width;
+                      var context = canvas.getContext("2d");
+
+                      var renderContext = {
+                        canvasContext: context,
+                        viewport: viewport,
+                      };
+                      page.render(renderContext).promise.then(function () {
+                        console.log(`Page ${pageNum} rendered`);
+                        if (pageNum === pdfDoc.numPages) {
+                          loadingIndicator.style.display = "none"; // Hide loading indicator once all pages are rendered
+                        }
+                      });
+                    });
+                  }
+                },
+                function (error) {
+                  console.error("Error loading PDF:", error);
+                  loadingIndicator.style.display = "none"; // Hide loading indicator on error
+                  // Optionally, add user feedback here (e.g., display an error message)
+                }
+              );
+            });
+
+        }
+
+        const filename = getQueryParam("filename");
+        if (filename) {
+          const fileType = filename.split(".").pop();
+          renderFile(filename, fileType); // Pass just the filename and fileType
+        }
+        window.addEventListener("DOMContentLoaded", (event) => {
+          const filename = getQueryParam("filename");
+          const fileType = filename.split(".").pop();
+          const fileUrl = `/presentation/${filename}`;
+        });
+
+        function getQueryParam(param) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
+        }
+      });
+
+      document
+        .getElementById("back-button")
+        .addEventListener("click", function () {
+          window.history.back();
+        });
+    </script>
+
+    <script>
+      document
+        .getElementById("back-button")
+        .addEventListener("click", function () {
+          window.history.back();
+        });
+    </script>
+  </body>
+</html>

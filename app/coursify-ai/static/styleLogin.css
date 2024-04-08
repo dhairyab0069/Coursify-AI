@@ -1,0 +1,161 @@
+body,html {
+    height: 100%;
+    margin: 0;
+    background-image: url('robotwithlogo.png');
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+}
+
+#login-form{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px;
+    background-color: transparent;
+    border-radius: 28px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+}
+ #login-form input {
+     text-align: center;
+     border-radius: 28px;
+ }
+#login-form label {
+    padding-bottom: 10px;
+}
+.text-center-L{
+    font-size:2em;
+    margin-bottom: 1em;
+    font-family: cursive;
+}
+.container {
+    position: absolute;
+    top: 50%;   
+    right: 10%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    text-align: center;
+}
+.btn-secondary{
+    border: 1px solid black;
+}
+#flash {
+    position: fixed;
+    /*bottom: 0; */
+    /*right:0; */
+    top: 120px;
+    right: -5px;
+    /*width: 100%;*/
+    text-align: center;
+    padding: 10px 20px;
+    /*background-color: rgba(65, 61, 61, 0.7); */
+    background-color: #666363;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    z-index: 1000;
+    border-radius: 5px;
+}
+/*-------------------------------------------------------------------------------*/
+#register-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top:20px;
+    padding-bottom:20px;
+    background-color: transparent;
+    border-radius: 28px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+}
+#register-form input {
+    text-align: center;
+    border-radius: 28px;
+}
+.text-center-R {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    font-family: cursive;
+}
+#register-form label {
+    padding-bottom: 5px;
+}
+
+#regbtn{
+    margin-top:40px;
+}
+#passwordHelp {
+    padding: 10px; /* Adjust padding to match inputs */
+    margin-top: 5px; /* Add some space between the input and the help text */
+    font-size: 0.875em; /* Match the font size to your form input's font size if necessary */
+    color: #495057; /* A dark gray color that matches the form inputs */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white, similar to the inputs */
+    border-radius: 5px; /* Rounded borders to match the inputs */
+    display: block; /* Make sure it's a block element to fill the width */
+    text-align: left; /* Align text to the left to match the label alignment */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* Optional: adds a slight inset shadow for depth */
+}
+.input-message{
+    display:none;
+    color:#333;
+    margin-left:10px;
+}
+
+
+#logo{
+    width: 75px;
+    margin-left: 265px;
+    margin-top: 400px;
+}
+#fpw {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+#fpw:hover{
+    color: blue !important;
+}
+
+ /* Responsive adjustments */
+ @media (max-width: 768px) {
+     .container {
+         right: 20%;
+         /* Adjusted for medium screens */
+     }
+
+     h1 {
+         font-size: 1.925rem;
+         /* Scaled font size for medium screens */
+     }
+
+     .btn {
+         padding: 0.5rem 1rem;
+         font-size: 0.99rem;
+         /* Scaled font size for medium screens */
+         margin: 0.75rem;
+         /* Keep increased margin for medium screens */
+         text-decoration: none;
+     }
+ }
+
+ @media (max-width: 480px) {
+     .container {
+         right: 25%;
+         /* Adjusted for small screens */
+     }
+
+     h1 {
+         font-size: 1.65rem;
+         /* Scaled font size for small screens */
+     }
+
+     .btn {
+         padding: 0.5rem;
+         font-size: 0.88rem;
+         /* Scaled font size for small screens */
+         margin: 0.75rem;
+         /* Keep increased margin for small screens */
+         text-decoration: none;
+     }
+ }

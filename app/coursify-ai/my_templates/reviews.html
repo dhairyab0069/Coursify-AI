@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews</title>
+    <!--icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylereview.css') }}">
+</head>
+<body>
+    <!--header design-->
+    <header class="header">
+        <div class="link_container">
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+        </div>
+        <div class="link_container">
+            <nav class="navbar">
+                <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+                <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+                <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+                <a href="ai.html" id="ai">AI ASSISTANT</a>
+                <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+                <a href="settings.html" id="settings">SETTINGS</a>
+                <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+              </nav>
+        </div>
+    </header> 
+    <main class="main-content">
+        <div class="grid-container">
+            <div class="user-based-accuracy-score">    
+                <h2>Ratings & Reviews</h2>
+                <div class="average-score">
+                    <span class="score-value">4.9</span>
+                    <span class="out-of">out of 5</span>
+                </div>
+                <div class="ratings-bars">
+                    <div class="bar-container">
+                        <span class="star-label">5 stars: <span class="star-count" id="star-5-count" data-rating="5"></span></span>
+                        <div class="bar five-star"></div>
+                    </div>
+                    <div class="bar-container">
+                        <span class="star-label">4 stars : <span class="star-count" id="star-4-count" data-rating="4"></span></span>
+                        <div class="bar four-star"></div>
+                    </div>
+                    <div class="bar-container">
+                        <span class="star-label">3 stars : <span class="star-count" id="star-3-count" data-rating="3"></span></span>
+                        <div class="bar three-star"></div>
+                    </div>
+                    <div class="bar-container">
+                        <span class="star-label">2 stars : <span class="star-count" id="star-2-count" data-rating="2"></span></span>
+                        <div class="bar two-star"></div>
+                    </div>
+                    <div class="bar-container">
+                        <span class="star-label">1 star : <span class="star-count" id="star-1-count" data-rating="1"></span></span>
+                        <div class="bar one-star"></div>
+                    </div>
+                </div>
+                <div class="total-ratings">
+                   
+                </div>
+            </div>
+            
+            <!-- Add Review Section -->
+            <form class="add-review" method="POST" action="/submit_review">
+                <div id="cbdesc">
+                    <h3> Welcome to the Coursify Review System!</h3>
+                    <p id="cbpara">This Review System is here to help you get an accuracy score for the content being generated on our website.</p>
+          
+                    <p id="cblist">Here's how you can submit a review:</p>
+                    <ul>
+                      <li><strong>Navigate to my content page:</strong><br> 
+                      </li>
+                      <li><strong>Choose a file you want to review(One for each file)</strong><br> </li>
+                      <li><strong>Click on the file and find the add review button</strong><br> </li>
+                      <li><strong>Now fill the pop-up form and submit the Review</strong><br> </li>
+                    </ul>
+                    <h4> Ask our chatbot for more information </h5>
+                  </div>
+                
+               
+            </form>
+
+            <!-- Reviews Section -->
+            <div class="reviews-container">
+                <div class="reviews-filter-container">
+                    <select class="reviews-filter" name="rating" id="rating" onchange="filterReviews()">
+                        <option value="">Filter by rating</option>
+                        <option value="5">5 star</option>
+                        <option value="4">4 star</option>
+                        <option value="3">3 star</option>
+                        <option value="2">2 star</option>
+                        <option value="1">1 star</option>
+                    </select>
+                    <select class="reviews-filter" name="subject" id="subject" onchange="filterReviews()">
+                        <option value="">Filter by subject</option>
+                        <option value="Math">Math</option>
+                        <option value="Geography">Geography</option>
+                        <option value="History">History</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Physics">Physics</option>
+                        <option value="English">English</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Business">Business</option>
+                        <option value="Other">Other</option>
+                    </select>
+                  
+                </div>
+            
+                <!-- Individual reviews will go here -->
+                {% for review in reviews %}
+                <div class="review" data-rating="{{ review.star_rating }}" data-subject="{{ review.subject }}" >
+                    <div class="review-author">Author: {{ review.first_name }} {{ review.last_name }}</div>
+                    <div class="review-rating">Rating: {{ review.star_rating }} / 5</div>
+                    <div class="review-subject">Subject: {{ review.subject }}</div>
+                    <div class="review-text">{{ review.review_text }}</div>
+                </div>
+                {% else %}
+                <div>No reviews yet.</div>
+                {% endfor %}
+                
+            </div>
+    </main>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.bx.bxs-star');
+            const ratingInput = document.getElementById('star_rating');
+            const subjectInput = document.getElementById('subject');
+            const ratingSelect = document.getElementById('rating');
+            const subjectSelect = document.getElementById('subject_list');
+            const reviewForm = document.querySelector('.add-review');
+            const reviewTextarea = document.querySelector('textarea[name="review_text"]');
+            
+            initializeStarRating();
+            initializeFormEvents();
+            calculateAndDisplayAccuracyScore();
+            
+           
+
+            function calculateAndDisplayAccuracyScore() {
+                const reviews = document.querySelectorAll('.review');
+                let totalRatings = 0;
+                const starCounts = [0, 0, 0, 0, 0]; // This will hold the counts for 1 to 5 stars
+        
+                reviews.forEach(review => {
+                    const rating = parseInt(review.getAttribute('data-rating'), 10);
+                    starCounts[rating - 1]++; // Adjust index to correctly count each star rating
+                    totalRatings++;
+                });
+        
+                const averageRating = starCounts.reduce((acc, cur, i) => acc + ((i + 1) * cur), 0) / totalRatings; // Adjusted calculation for average rating
+                document.querySelector('.score-value').textContent = averageRating.toFixed(1);
+        
+            
+                starCounts.forEach((count, index) => {
+  const starIndex = starCounts.length - index; // Adjust index to start from the highest rating (5-star)
+  const percentage = totalRatings > 0 ? (count / totalRatings) * 100 : 0;
+  document.querySelector(`.bar-container:nth-child(${starIndex}) .star-count`).textContent = count; // Update count text
+  document.querySelector(`.bar-container:nth-child(${starIndex}) .bar`).style.width = `${percentage}%`;
+});
+                // Update the total number of reviews in the UI
+                document.querySelector('.total-ratings').textContent = `Total Reviews: ${totalRatings}`;
+               
+
+            }
+        
+            function initializeStarRating() {
+                stars.forEach(star => {
+                    star.addEventListener('click', function () {
+                        const rating = parseInt(this.getAttribute('data-value'), 10);
+                        ratingInput.value = rating; // Update hidden input value
+                        stars.forEach(s => s.classList.toggle('active', parseInt(s.getAttribute('data-value'), 10) <= rating));
+                        calculateAndDisplayAccuracyScore();
+                    });
+                });
+            }
+        
+            function filterReviews() {
+                const selectedRating = ratingSelect.value;
+                const selectedSubject = subjectInput.value;
+                const reviews = document.querySelectorAll('.review');
+        
+                reviews.forEach(review => {
+                    const reviewRating = review.getAttribute('data-rating');
+                    const reviewSubject = review.getAttribute('data-subject');
+                    const reviewText = review.querySelector('.review-text').textContent.trim();
+        
+                    review.style.display = (
+                        (selectedRating === "" || reviewRating === selectedRating) &&
+                        (selectedSubject === "" || reviewSubject === selectedSubject) &&
+                        reviewText !== ""
+                    ) ? '' : 'none';
+                });
+            }
+        
+            function initializeFormEvents() {
+                reviewForm.addEventListener('submit', function(event) {
+                    let isValid = true;
+                    const selectedRating = ratingInput.value;
+                    const selectedSubject = subjectSelect.value;
+                    const reviewText = reviewTextarea.value.trim();
+        
+                    if (!selectedRating || selectedSubject === 'choose' || !reviewText) {
+                        alert('Please complete all fields.');
+                        event.preventDefault(); // Prevent form submission if validation fails
+                    }
+                });
+        
+                [ratingSelect, subjectInput].forEach(element => {
+                    element.addEventListener('change', function() {
+                        filterReviews();
+                        calculateAndDisplayAccuracyScore();
+                    });
+                });
+            }
+        });
+
+       
+
+
+        </script>
+        
+        
+
+
+</body>
+</html>

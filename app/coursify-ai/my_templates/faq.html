@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleChatbot.css') }}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="link_container">
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+
+        </div>
+
+        <nav class="navbar">
+            <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+            <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+            <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+            <a href="ai.html" id="ai">AI ASSISTANT</a>
+            <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+            <a href="settings.html" id="settings">SETTINGS</a>
+            <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+          </nav>
+        <i class='bx bx-menu'></i>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+            <h1> AI Chatbot</h1>
+            <a href="ai.html" >AI ASSISTANT</a>
+            <a href="{{ url_for('faq') }}"id="ai-faq">FAQs</a>
+            <div id="cbdesc">
+                <h3> Welcome to the Coursify Chatbot!</h3>
+                <p id="cbpara">This virtual assistant is here to help you navigate our website and make the most of your Courisify.ai experience.</p>
+                <p id="cblist">Here's how I can assist you:</p>
+                <ul>
+                    <li><strong>Generating Custom Content:</strong><br> Get step-by-step guidance on creating content tailored to
+                        your needs.
+                    </li>
+                    <li><strong>Account Management:</strong><br> Learn how to update your profile, change your password, and more.
+                    </li>
+                    <li><strong>Troubleshooting:</strong><br> Receive help with any issues or challenges you face on the website.
+                    </li>
+                    <li><strong>FAQs:</strong><br> Access frequently asked questions for quick answers to common queries.</li>
+                </ul>
+                <h4> Ask me something &#x263a </h5>
+            </div>
+        </div>
+        <div id="chat-container">
+            <div class="faq-section">
+                <h2>FAQs</h2>
+               
+                <div class="faq-item">
+                    <button class="faq-question">How do I navigate the homepage?</button>
+                    <div class="faq-answer">
+                        <p>On the homepage, you'll find a navigation bar with options: HOME, MY CONTENT, SETTINGS, and AI ASSISTANT. There's also a LOGOUT button for signing out.</p>
+                    </div>
+                </div>
+   
+                <div class="faq-item">
+                    <button class="faq-question">How do I generate content on the website?</button>
+                    <div class="faq-answer">
+                        <p>Go to the "Generate Content" section on the homepage. Input the desired Length of Content in words, select the Difficulty level (from 0 to 3), and enter the Main Topics for your content. Optionally, upload a PDF file for additional material or reference, then click "Generate."</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">How can I update my account details?</button>
+                    <div class="faq-answer">
+                        <p>To update your account details, click on the "SETTINGS" tab. Here, you can update your First Name, Last Name, Password, and Email. You can also upload or change your profile picture under "Profile Picture."</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">How can I get assistance with features or encounter issues?</button>
+                    <div class="faq-answer">
+                        <p> For assistance, click on "AI ASSISTANT" in the navigation bar. A chat window will open for you to type your message and receive a response from the AI support system.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Can I upload additional materials for content generation?</button>
+                    <div class="faq-answer">
+                        <p>Yes, you can upload a PDF file by clicking "Choose File" in the Generate Content section to provide additional material or reference for your content generation.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Where can I manage my content and notes?</button>
+                    <div class="faq-answer">
+                        <p>Click on "MY CONTENT" in the navigation bar to view, review, or download all the content and notes you have created or uploaded.</p>
+                    </div>
+                </div>
+                
+                
+        </div>
+    </div>
+
+    <script>
+    
+    document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+        const faqAnswer = button.nextElementSibling;
+        faqAnswer.classList.toggle('active');
+    
+    });
+});
+
+    </script>
+    
+</body>
+</html>
+

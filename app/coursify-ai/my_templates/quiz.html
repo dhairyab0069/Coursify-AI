@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html land="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Coursify.ai</title>
+
+        <!--icons-->
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='styleQuiz.css') }}">
+    </head>
+    <body>
+        <!--header design-->
+        <header class="header">
+          <div class="link_container">
+            <a href="{{ url_for('index') }}">
+              <img src="{{ url_for('static', filename='cap_logo1.png') }}" alt="Logo" id="logo">
+            </a>
+          </div>
+        
+          <div class="link_container">
+            <nav class="navbar">
+              <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+              <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+              <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+              <a href="ai.html" id="ai">AI ASSISTANT</a>
+              <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+              <a href="settings.html" id="settings">SETTINGS</a>
+              <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+            </nav>
+          </div>
+        
+          <i class='bx bx-menu'></i>
+        </header>
+
+
+        <!--home section-->
+        <section class="home" id="home">
+            <div class="left">
+                <h1 id ="head">Automated Quiz Generation</h1>
+                <!-- <h2>As an educator, you are forced to make slides you dont want to.<br />
+                  Don't worry, we will make them for you.</h2> -->
+                <!-- <h2>We understand the challenges of preparing educational materials.<br />
+                  Let us take the burden off your shoulders by crafting
+                  engaging slides for you.</h2> -->
+                
+            </div>
+            <div class="right">
+                <div id="content">
+                    <div id="title-box">
+                      <div class="content-container">
+                        <h1 id="gencon">Generate Quiz</h1>
+                        <div class="form-container">
+                          <form id="content-form" action="#" method="post"  enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="topic">Topic:</label>
+                                <input type="text" id="topic" name="topic" placeholder="Enter topic" required />
+                              </div>
+                              <div class="form-group">
+                                <label for="subject">Subject:</label>
+                                <input type="text" id="subject" name="subject" placeholder="Enter subject" required />
+                              </div>
+                              <div class="form-group">
+                                <label for="mcqs">Number of MCQs:</label>
+                                <input type="number" id="mcqs" name="mcqs" placeholder="Enter number of MCQs" required />
+                              </div>
+                              <div class="form-group">
+                                <label for="true-false">Number of True/False questions:</label>
+                                <input type="number" id="true-false" name="true-false" placeholder="Enter number of True/False questions" required />
+                              </div>
+                              <div class="form-group">
+                                <label for="short-questions">Number of Short questions:</label>
+                                <input type="number" id="short-questions" name="short-questions" placeholder="Enter number of Short questions" required />
+                              </div>
+                              <div class="form-group">
+                                <label for="long-questions">Number of Long questions:</label>
+                                <input type="number" id="long-questions" name="long-questions" placeholder="Enter number of Long questions" required />
+                              </div>
+                              
+                            <button type="submit" id="generate-button">Generate</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <script>
+                    function showInfo(id) {
+                        var infoText = document.getElementById(id + "-info");
+                        if (infoText.style.display === "none") {
+                            infoText.style.display = "block";
+                        } else {
+                            infoText.style.display = "none";
+                        }
+                    }
+                
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var form = document.getElementById("content-form");
+                        var generateButton = document.getElementById("generate-button");
+                
+                        form.addEventListener("submit", function (e) {
+                            e.preventDefault();
+                            generateButton.innerHTML = "Generating...";
+                            generateButton.disabled = true;
+                
+                            var formData = new FormData(form);
+                            fetch('/quiz-generator-page', {  // Updated endpoint
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                generateButton.disabled = false;
+                                if(data.success){
+                                    // Display a message with a link to the quiz
+                                    generateButton.innerHTML = `<a href="${data.quiz_url}" style="color: green;">Download Quiz</a>`;
+                                }
+                                else{
+                                    generateButton.innerHTML = "<span style='color: red;'>Error in generating quiz</span>";
+                                }
+                            })
+                            .catch(error => {
+                                generateButton.disabled = false;
+                                generateButton.innerHTML = "<span style='color: red;'>Error in generating quiz</span>";
+                            });
+                        });
+                    });
+                </script>
+                    
+                    
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+                    
+ 
+            </div>
+            </div>
+        </section>
+        <div id="footer">&copy; 2023 CoursifyAI. All rights reserved.</div>   
+    </body>
+</html>
+

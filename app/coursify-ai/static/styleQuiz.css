@@ -1,0 +1,445 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+:root {
+  --bg-color: #808080;
+  --text-color: white;
+}
+html {
+  font-size: 62.5%;
+  /* overflow-x: hidden; */
+  height: 100%;
+  width: 100%;
+}
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  height: 100%;
+  width: 100%;
+}
+section {
+  padding: 10rem 9%;
+}
+header {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 9%;
+  background: var(--bg-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+.navbar {
+  display: block;
+}
+.navbar a {
+  font-size: 1.7rem;
+  color: var(--text-color);
+  margin-left: 5rem;
+  transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+}
+/* CHANGE */
+.navbar a:hover,
+.navbar.active {
+  background-color: #3e3f3f;
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 5px solid #1abc9c;
+}
+.home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.back-button {
+  background-color: #555;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 1.5rem;
+}
+.left h1 {
+  font-size: 5.6em;
+  font-weight: 700;
+  line-height: 2;
+  align-items: center;
+  display: block;
+  /* background-color: #1abc9c; */
+}
+.left h2 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  display: block;
+}
+#quiz {
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 5px solid #1abc9c;
+}
+.link_container img {
+  width: 5rem;
+}
+/* CHANGE */
+#title-box {
+  text-align: center;
+  background-color: #3e3f3f;
+  padding: 1.5em;
+  border-radius: 20px;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin: 30px auto;
+  max-width: 800px;
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+/* CHANGE */
+#gencon {
+  font-size: 2em;
+  color: white;
+  font-weight: 500;
+}
+/* CHANGE */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* CHANGE */
+.form-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 15px;
+  width: 100%;
+  color: #000000;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-weight: bold;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+/* CHANGE */
+.form-group input[type="number"],
+.form-group input[type="text"],
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+/* CHANGE - the pointer is not on the button */
+.form-group input[type="file"] {
+  cursor: pointer;
+}
+button[type="submit"] {
+  background-color: #555;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  text-align: center;
+  cursor: pointer;
+}
+button[type="submit"]:hover {
+  background-color: #444;
+}
+/* CHANGE try to fix on different screens */
+#footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  background-color: var(--bg-color);
+  color: #fff;
+  padding: 0px;
+  width: 100%;
+  margin-top: 0px;
+}
+.right h1 {
+  align-items: center;
+  position: sticky;
+}
+.bx-menu {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  html {
+    font-size: 40%;
+  }
+  .left h1 {
+    font-size: 5em;
+  }
+}
+
+@media (max-width: 991px) {
+  .header {
+    padding: 2rem 3%;
+  }
+
+  section {
+    padding: 10rem 3% 2rem;
+  }
+
+  .footer {
+    padding: 2rem 3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .bx-menu {
+    display: block;
+    font-size: 3.5rem;
+    cursor: pointer;
+  }
+
+  .navbar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 1rem 3%;
+    background: var(--bg-color);
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    display: none;
+  }
+
+  .navbar.active {
+    display: block;
+  }
+
+  .navbar a {
+    display: block;
+    font-size: 2rem;
+    margin: 3rem 0;
+  }
+
+  .home {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 2560px) {
+  /* Your CSS rules for 13-inch MacBook screen go here */
+  html {
+    font-size: 60%;
+  }
+  #footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    background-color: var(--bg-color);
+    color: #fff;
+    padding: 0px;
+    width: 100%;
+    margin-top: 0px;
+  }
+  .left {
+    /* background-color: red; */
+    margin-right: 0;
+    margin-left: 0;
+  }
+  section {
+    padding-bottom: 0;
+    padding-top: 7.5em;
+  }
+}
+.note-card img {
+  max-width: 100%;
+  height: auto;
+  overflow-x: hidden;
+}
+
+.notes-container-preview {
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  /* Adjust width based on desired layout and number of cards */
+  width: 60%; /* Adjust as needed */
+  padding: 15px;
+  background-color: #555555;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.notes-container-preview:hover {
+  background-color: #333333;
+}
+
+#render-container {
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  /* Adjust width based on desired layout and number of cards */
+  width: 80%; /* Adjust as needed */
+  padding: 5px;
+  background-color: #555555;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#render-container:hover {
+  background-color: #333333;
+}
+
+.info-button {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50%;
+  position: relative;
+  top: -5px;
+  transition: background-color 0.3s ease;
+}
+
+.info-button:hover {
+  background-color: #bbb;
+}
+
+.info-text {
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.info-text:hover {
+  background-color: #f1f1f1;
+}
+
+@media (max-width: 1200px) {
+  html {
+    font-size: 40%;
+  }
+  .left h1 {
+    font-size: 5em;
+  }
+}
+
+@media (max-width: 991px) {
+  .header {
+    padding: 2rem 3%;
+  }
+
+  section {
+    padding: 10rem 3% 2rem;
+  }
+
+  .footer {
+    padding: 2rem 3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .bx-menu {
+    display: block;
+    font-size: 3.5rem;
+    cursor: pointer;
+  }
+
+  .navbar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 1rem 3%;
+    background: var(--bg-color);
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    display: none;
+  }
+
+  .navbar.active {
+    display: block;
+  }
+
+  .navbar a {
+    display: block;
+    font-size: 2rem;
+    margin: 3rem 0;
+  }
+
+  .home {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 2560px) {
+  /* Your CSS rules for 13-inch MacBook screen go here */
+  html {
+    font-size: 60%;
+  }
+  #footer {
+    position: fixed;
+    text-align: center;
+    bottom: 0;
+    background-color: var(--bg-color);
+    color: #fff;
+    padding: 0px;
+    width: 100%;
+    margin-top: 0px;
+  }
+  .left {
+    /* background-color: red; */
+    margin-right: 0;
+    margin-left: 0;
+  }
+  section {
+    padding-bottom: 0;
+    padding-top: 7.5em;
+  }
+}

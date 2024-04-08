@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Content - Coursify.ai</title>
+
+    <!-- Icons -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Main Stylesheet -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styleMyCon.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="link_container">
+        <a href="{{ url_for('index') }}"
+          ><img
+            src="{{ url_for('static', filename='cap_logo1.png') }}"
+            alt="Coursify.ai Logo"
+            id="logo"
+        /></a>
+      </div>
+
+      <nav class="navbar">
+        <div id="sidebar">
+         
+            <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+            <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+            <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+            <a href="ai.html" id="ai">AI ASSISTANT</a>
+            <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+            <a href="settings.html" id="settings">SETTINGS</a>
+            <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+          
+        </div>
+      </nav>
+      <i class="bx bx-menu"></i>
+    </header>
+
+    <section id="my-content">
+      <div class="content-header">
+        <h1 id="title">My Generated Content</h1>
+      </div>
+      {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div id="flash">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+      <div class="notes-container">
+        <div class="notes-list">
+            <!-- Note Cards -->
+            <div class="folder-label" data-target="#presentations"><i class="bx bxs-presentation"></i> Presentations</div>
+  <div id="presentations" class="folder collapsible-content">
+    {% for file in file_data %} 
+      {% if file.filename.endswith('.pptx') %}
+        <div class="note-card" onclick="showDetails('{{ file._id }}', '{{ file.filename }}')">
+          <div class="note-title">{{ file.filename }}</div>
+        </div>
+      {% endif %} 
+    {% endfor %}
+  </div>
+
+  <div class="folder-label" data-target="#quizzes">  <i class="bx bx-list-check"></i> Quizzes</div>
+  <div id="quizzes" class="folder collapsible-content">
+    {% for file in file_data %} 
+      {% if file.filename.endswith('.docx') %}
+        <div class="note-card" onclick="showDetails('{{ file._id }}', '{{ file.filename }}')">
+          <div class="note-title">{{ file.filename }}</div>
+        </div>
+      {% endif %} 
+    {% endfor %}
+  </div>
+
+  <div class="folder-label" data-target="#pdfs"><i class="bx bxs-file-pdf"></i> PDFs</div>
+  <div id="pdfs" class="folder collapsible-content">
+    {% for file in file_data %} 
+      {% if file.filename.endswith('.pdf') %}
+        <div class="note-card" onclick="showDetails('{{ file._id }}', '{{ file.filename }}')">
+          <div class="note-title">{{ file.filename }}</div>
+        </div>
+      {% endif %} 
+    {% endfor %}
+  </div>
+          </div>
+          <div id="note-details">
+            <div id="preview-instructions" style="display: block">
+              <h1>Select a File to</h1>
+              <ul>
+                <li>Preview</li>
+                <li>Download</li>
+                <li>Share</li>
+                <li>Generate Quiz</li>
+                <li>Delete</li>
+              </ul>
+            </div>
+            <div id="note-content" class="note-content" style="display: none">
+              <div class="note-title" id="detailTitle"></div>
+              <a href="" id="downloadLink" class="download-btn">Download</a>
+              <a href="" id="PreviewLink" class="preview-btn">Preview</a>
+
+              <button onclick="showForm()" id="shareButton" class="share-btn">
+                Share
+              </button>
+              <form
+                action=""
+                method="post"
+                id="deleteForm"
+                onsubmit="return confirm('Are you sure you want to delete this file ?');"
+              >
+                <button type="submit" class="delete-btn">Delete</button>
+              </form>
+              <br />
+              <div id="quizButtonContainer"></div><br>
+              <button id="addReviewButton" class="add-review-btn">Add Review</button>
+              <button id="deleteReviewButton" class="delete-review-btn" style="display: none;">Delete Review</button>
+
+
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Review Modal -->
+<div id="reviewModal" class="review-modal" style="display: none;">
+  <div class="review-modal-content">
+    <span class="close">&times;</span> <!-- Close button for the modal -->
+    <form class="add-review" method="POST" action="/submit_review">
+      <h3>Add Your Review</h3>
+      <div class="stars">
+        <!-- Clickable stars for rating -->
+        <i class="bx bxs-star" data-value="1"></i>
+        <i class="bx bxs-star" data-value="2"></i>
+        <i class="bx bxs-star" data-value="3"></i>
+        <i class="bx bxs-star" data-value="4"></i>
+        <i class="bx bxs-star" data-value="5"></i>
+      </div>
+      <select name="subject" id="subject_list">
+        <option value="choose">Choose Subject</option> <!-- Dropdown list for subject -->
+        <option value="Math">Math</option>
+        <option value="Geography">Geography</option>
+        <option value="History">History</option>
+        <option value="Biology">Biology</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Physics">Physics</option>
+        <option value="English">English</option>
+        <option value="Economics">Economics</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Business">Business</option>
+        <option value="Other">Other</option>
+      </select>
+      <textarea name="review_text" placeholder="Write your review here..."></textarea>
+      <input type="hidden" name="file_id" id="reviewFileId"> <!-- Store file ID -->
+      <input type="hidden" name="star_rating" id="star_rating" value="">
+      <button type="submit">Submit Review</button>
+    </form>
+  </div>
+</div>
+
+
+    <div class="overlay"></div>
+
+
+    <!-- Share Form -->
+    <div id="shareForm" style="display: none">
+      <i class='bx bx-arrow-back' id="closeForm"></i>
+      <form action="{{ url_for('share_via_email') }}" method="post">
+        <input type="hidden" id="fileId" name="file_id" />
+        <label for="email">Recipient's Email:</label>
+        <input type="email" id="email" name="email" required />
+        <input type="submit" value="Share" />
+      </form>
+    </div>
+  
+    <script>
+
+      
+
+      document
+        .getElementById("shareButton")
+        .addEventListener("click", function () {
+
+          document
+            .getElementById("shareForm")
+            .scrollIntoView({ behavior: "smooth" });
+        });
+
+      document.getElementById("shareButton").addEventListener("click", function() {
+        document.getElementById("shareForm").style.display = "block"; // Show the popup form
+        document.querySelector(".overlay").style.display = "block"; // Show the overlay
+      });
+      
+      // Close the popup form when clicking on the overlay
+      document.querySelector(".overlay").addEventListener("click", function() {
+        document.getElementById("shareForm").style.display = "none"; // Hide the form
+        this.style.display = "none"; // Hide the overlay
+      });
+    
+
+      function showDetails(id, filename) {
+        checkIfReviewExists(id);
+        document.getElementById("detailTitle").textContent = filename;
+
+        document.getElementById("downloadLink").href =
+          "{{ url_for('get_pdf', filename='') }}" + filename;
+        document.getElementById("PreviewLink").href =
+          "{{ url_for('preview', filename='') }}" + filename;
+
+        var quizButtonContainer = document.getElementById(
+          "quizButtonContainer"
+        ); // Ensure this is the correct ID for your container
+
+        // Check if the "Generate Quiz" button already exists
+        var existingQuizLink = document.querySelector(".generate-quiz-link");
+        if (existingQuizLink) {
+          // If the button exists, update its onclick event with the new file ID
+          existingQuizLink.onclick = function () {
+            generateQuiz(id); // Use `id` to generate quiz for the current file
+          };
+        } else {
+          // If the button doesn't exist, create it
+          var generateQuizLink = document.createElement("a");
+          generateQuizLink.textContent = "Generate Quiz";
+          generateQuizLink.href = "javascript:void(0);"; // Prevent the link from navigating
+          generateQuizLink.className = "generate-quiz-link";
+          generateQuizLink.onclick = function () {
+            generateQuiz(id); // Use `id` to generate quiz for the current file
+          };
+          quizButtonContainer.appendChild(generateQuizLink); // Append the new link to the container
+        }
+
+        // Get the downloadLink button
+        var downloadLink = document.getElementById("downloadLink");
+
+        // Remove any existing event listeners
+        var newDownloadLink = downloadLink.cloneNode(true);
+        downloadLink.parentNode.replaceChild(newDownloadLink, downloadLink);
+
+        newDownloadLink.addEventListener("click", function (event) {
+          // Prevent the default action
+          event.preventDefault();
+
+          // Create two 'a' elements with the href set to the download URLs
+          var pdfLink = document.createElement("a");
+          pdfLink.href = "{{ url_for('get_pdf', filename='') }}" + filename;
+          pdfLink.download = filename;
+
+          var presentationLink = document.createElement("a");
+          presentationLink.href =
+            "{{ url_for('get_presentation', filename='') }}" + filename;
+          presentationLink.download = filename;
+
+          // Append the 'a' elements to the body
+          document.body.appendChild(pdfLink);
+          document.body.appendChild(presentationLink);
+
+          // Programmatically click the 'a' elements to start the download
+          pdfLink.click();
+          presentationLink.click();
+
+          // Clean up by removing the 'a' elements from the body
+          document.body.removeChild(pdfLink);
+          document.body.removeChild(presentationLink);
+        });
+
+        document.getElementById("note-content").style.display = "block";
+        document.getElementById("preview-instructions").style.display = "none";
+        document.getElementById("note-details").style.border = "none";
+        document.getElementById("deleteForm").action = "/delete/" + id;
+
+        document.getElementById("shareButton").onclick = function () {
+          showForm(id);
+        };
+
+        document.getElementById("addReviewButton").addEventListener("click", function() {
+            var modal = document.getElementById("reviewModal");
+            modal.style.display = "block";
+            
+            // Set the file_id input to the current file's ID
+            document.getElementById("reviewFileId").value = id; // Ensure `currentFileId` is set correctly in your showDetails function
+          });
+
+          // Close the modal when the close button is clicked
+          document.querySelector(".review-modal .close").addEventListener("click", function() {
+            document.getElementById("reviewModal").style.display = "none";
+          });
+
+          // Optional: Close modal on outside click
+          window.addEventListener("click", function(event) {
+            var modal = document.getElementById("reviewModal");
+            if (event.target == modal) {
+              modal.style.display = "none";
+            }
+          });
+
+          // Example function to handle star rating click
+          document.querySelectorAll('.stars .bx').forEach(function(star) {
+            star.addEventListener('click', function() {
+              var rating = this.getAttribute('data-value');
+              document.getElementById('star_rating').value = rating;
+              // Highlight the stars up to the clicked one
+              document.querySelectorAll('.stars .bx').forEach(function(innerStar, index) {
+                innerStar.style.color = (index < rating) ? "orange" : "black"; // Change as per your color scheme
+              });
+            });
+          });
+   
+
+      }
+      function checkIfReviewExists(fileId) {
+    fetch(`/check_review_existence?file_id=${fileId}`)
+        .then(response => response.json())
+        .then(data => {
+            const addReviewButton = document.getElementById("addReviewButton");
+            const deleteReviewButton = document.getElementById("deleteReviewButton"); // Assume this button is initially hidden
+
+            if (data.reviewExists) {
+                addReviewButton.style.display = "none"; // Hide "Add Review" button
+                deleteReviewButton.style.display = "block"; // Show "Delete Review" button
+
+                deleteReviewButton.onclick = function() {
+                    // Perform fetch call to delete the review
+                    fetch(`/delete_review`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `file_id=${fileId}`
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // On successful deletion, toggle the buttons
+                            addReviewButton.style.display = "block";
+                            deleteReviewButton.style.display = "none";
+                        } else {
+                            alert("Failed to delete review.");
+                        }
+                    });
+                };
+            } else {
+                addReviewButton.style.display = "block"; // Show "Add Review" button
+                deleteReviewButton.style.display = "none"; // Hide "Delete Review" button
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+      /**
+       * Show the share form with the specified file ID
+       * @param {string} fileId - The ID of the file to share
+       */
+      function showForm(fileId) {
+        // Show the form
+        document.getElementById("shareForm").style.display = "block";
+
+        // Set the file's ID in the form
+        document.getElementById("fileId").value = fileId;
+      }
+      /**
+       * Generate a quiz for the specified file ID
+       * @param {string} fileId - The ID of the file to generate a quiz for
+       */
+      function generateQuiz(fileId) {
+        fetch(`/generate_quiz/${fileId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              alert("Failed to generate quiz: " + data.error);
+            } else {
+              alert("Quiz generated successfully");
+
+              // Display questions to the user
+              console.log(data.questions); // For demonstration purposes
+              // Here, you might update the DOM to show the questions or navigate to a new page
+            }
+          })
+          .catch((error) => console.error("Error generating quiz:", error));
+      }
+ 
+       /**
+        * 
+        * @param {string} fileId - The ID of the file to generate a quiz for
+        */
+      window.onload = function () {
+        var noteCards = document.getElementsByClassName("note-card");
+
+        // Add click event listener to each note card
+        for (var i = 0; i < noteCards.length; i++) {
+          noteCards[i].addEventListener("click", function () {
+            // Remove 'clicked' class from all note cards
+            for (var j = 0; j < noteCards.length; j++) {
+              noteCards[j].classList.remove("clicked");
+            }
+            // Add 'clicked' class to the clicked note card
+            this.classList.add("clicked");
+          });
+        }
+      };
+
+      document.addEventListener('DOMContentLoaded', function() {
+    const folderLabels = document.querySelectorAll('.folder-label');
+
+    folderLabels.forEach(label => {
+        label.addEventListener('click', function() {
+            // Remove 'selected' class from all labels
+            folderLabels.forEach(label => {
+                label.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked label
+            this.classList.add('selected');
+
+            // Optional: Collapse all other collapsible content
+            const allCollapsibles = document.querySelectorAll('.collapsible-content');
+            allCollapsibles.forEach(collapsible => {
+                if (collapsible !== document.querySelector(this.getAttribute('data-target'))) {
+                    collapsible.style.maxHeight = null;
+                    collapsible.classList.remove('active');
+                }
+            });
+
+            // Expand the targeted collapsible content
+            const contentId = this.getAttribute('data-target');
+            const content = document.querySelector(contentId);
+            content.classList.toggle('active');
+            if (content.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+        });
+    });
+});
+        
+        /**
+         *  Generate a quiz for the specified file ID
+         * @param {string} fileId - The ID of the file to generate a quiz for
+         */
+        function handleQuizGeneration(fileId) {
+          var generateQuizButton = document.querySelector(
+            ".generate-quiz-link"
+          ); // Assuming this class is used for the button
+          if (generateQuizButton) {
+            generateQuizButton.textContent = "Generating Quiz...";
+            generateQuizButton.style.color = "#FFA500"; // Orange color for generating state
+            generateQuizButton.disabled = true;
+
+            fetch(`/generate_quiz/${fileId}`)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Failed to generate quiz");
+                }
+                return response.blob(); // Assuming the response is a blob for a downloadable file
+              })
+              .then((blob) => {
+                const downloadUrl = URL.createObjectURL(blob);
+                generateQuizButton.textContent = "Download Quiz";
+                generateQuizButton.style.color = "green";
+                generateQuizButton.onclick = function () {
+                  window.location.href = downloadUrl; // URL of the generated quiz file
+                  generateQuizButton.textContent = "Generate Quiz"; // Reset button text after download
+                  generateQuizButton.style.color = ""; // Reset button color
+                  generateQuizButton.disabled = false; // Enable button again for future use
+                };
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+                generateQuizButton.textContent = "Failed to Generate";
+                generateQuizButton.style.color = "red"; // Red color for error state
+                generateQuizButton.disabled = false;
+              });
+          }
+        }
+        // Example of how you might call handleQuizGeneration from within showDetails or another appropriate place
+        // showDetails function or similar needs to setup 'generateQuizButton.onclick' to call 'handleQuizGeneration' with the correct fileId
+      
+      document.getElementById("closeForm").addEventListener("click", function() {
+        document.getElementById("shareForm").style.display = "none";
+        document.querySelector(".overlay").style.display = "none";
+      });
+
+      
+    </script>
+
+    <footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
+  </body>
+</html>

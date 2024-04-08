@@ -1,0 +1,793 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+#my-content {
+  margin-bottom: 0%;
+  padding-bottom: 0%;
+}
+
+:root {
+  --bg-color: #808080;
+  --text-color: white;
+}
+
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  height: 100%;
+  width: 100%;
+}
+
+section {
+  padding: 10rem 9%;
+}
+
+header {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 9%;
+  background: var(--bg-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.navbar {
+  display: block;
+}
+
+.navbar a {
+  font-size: 1.7rem;
+  color: var(--text-color);
+  margin-left: 5rem;
+  transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+}
+.back-button {
+  background-color: #555;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 1.5rem;
+}
+
+/* CHANGE */
+.navbar a:hover,
+.navbar.active {
+  background-color: #3e3f3f;
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 5px solid #1abc9c;
+}
+
+/* #homenav {
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 5px solid #1abc9c;
+} */
+
+.link_container img {
+  width: 5rem;
+}
+.bx-menu {
+  display: none;
+}
+#content {
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 5px solid #1abc9c;
+}
+
+/*--------------------------------------------------------------------*/
+.content-header {
+  text-align: left;
+  margin-bottom: 2rem;
+  color: #fff;
+  padding: 10px 0;
+}
+
+.content-header h1 {
+  font-size: 3rem;
+
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-box {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns for smaller screens */
+  }
+}
+
+.note-card {
+  background-color: rgb(255, 255, 255);
+  /* border: 1px solid #000000; */
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.note-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #000000;
+}
+
+.note-summary {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.download-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.preview-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  width: 100%;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+}
+
+.note-card {
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1em;
+  width: 30em;
+  padding: 1.5em;
+  background-color: #555555;
+  cursor: pointer;
+}
+
+.note-card .note-title {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.note-card:hover {
+  background-color: #777777;
+}
+
+.note-card.clicked {
+  background-color: #7d7a7a;
+  border: 1px solid #1abc9c;
+  border-right: 5px solid #1abc9c;
+}
+
+.note-title {
+  font-weight: 500;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#detailTitle {
+  font-weight: 500;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.note-summary {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+.notes-list {
+  flex-basis: 22%;
+  overflow-y: auto;
+  height: 500px;
+  /* direction: rtl; */
+  scrollbar-color: #353434 #808080;
+  /* thumb and track color */
+  scrollbar-width: 1em;
+}
+
+#note-details {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1.5em;
+  border: 1px solid black;
+  border-radius: 2em;
+}
+#preview-instructions h1 {
+  font-size: 4em;
+  font-weight: 500;
+  justify-content: center;
+}
+#preview-instructions ul {
+  font-size: 2em;
+  font-weight: 500;
+  list-style-position: inside;
+  margin-left: 2em;
+}
+
+.note-content {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 180px;
+  position: relative;
+  background-color: #555555;
+  border-radius: 2em;
+}
+
+.download-btn,
+.share-btn,
+.preview-btn {
+  display: inline-block;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 15px;
+  margin-top: 10px;
+  margin-right: 0.2em;
+  transition: background-color 0.3s;
+  width: 100px;
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 300;
+}
+
+.delete-btn {
+  display: inline-block;
+  width: 310px;
+  height: 40px;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5em;
+  border-radius: 15px;
+  background-color: #333;
+  font-size: 14px;
+  font-weight: 300;
+  color: red;
+}
+#deleteForm button:hover {
+  border-bottom: 5px solid red;
+}
+
+ .add-review-btn,.delete-review-btn {
+  display: inline-block;
+  width: 310px; /* Ensure both buttons have the same width */
+  height: 40px;
+  padding: 10px;
+  vertical-align: middle;
+  margin-top: 0.5em; /* Adjust if necessary to ensure vertical spacing is consistent */
+  border-radius: 15px;
+  background-color: #333;
+  font-size: 14px;
+  font-weight: 300;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  line-height: 20px; /* Adjust line height to vertically center text if needed */
+}
+
+/* Adjust hover effects to be consistent */
+.generate-quiz-link:hover, .add-review-btn:hover {
+  background-color: #555555; /* Match the hover effect */
+  border-bottom: 5px solid #1abc9c; /* Consistent hover effect */
+}
+
+/*
+button[type="submit"] {
+    background-color: #555;
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    text-align: center;
+    cursor: pointer;
+} */
+.generate-quiz {
+  background-color: #555;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  text-align: center;
+  cursor: pointer;
+}
+.generate-quiz-link {
+  display: inline-block;
+  width: 310px;
+  height: 40px;
+  padding: 10px;
+  /*background-color: #007bff;*/
+  color: white;
+  text-decoration: none;
+  border-radius: 15px;
+  background-color: #333;
+  font-size: 14px;
+  font-weight: 300;
+  color: lightblue;
+}
+
+.generate-quiz-link:hover {
+  border-bottom: 5px solid lightblue;
+}
+.download-btn:hover {
+  border-bottom: 5px solid #1abc9c;
+}
+.preview-btn:hover {
+  border-bottom: 5px solid #1abc9c;
+}
+.share-btn:hover {
+  border-bottom: 5px solid #1abc9c;
+}
+.overlay {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.4); 
+  backdrop-filter: blur(10px);
+}
+#shareForm {
+  background-color: #ffffff;
+  display: none; 
+  position: fixed; 
+  z-index: 1500; 
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 0 auto;
+}
+
+#shareForm form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0%;
+}
+
+#shareForm label {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+#shareForm input[type="email"] {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+#shareForm input[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#shareForm input[type="submit"]:hover {
+  background-color: #555555;
+}
+#closeForm {
+  position: absolute;
+  top: 4px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  font-size: 19px; /* Adjust size as needed */
+  color: #333; /* Adjust color as needed */
+}
+
+
+#closeForm:hover {
+  color: #666; 
+}
+.info-button {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50%;
+  position: relative;
+  top: -5px;
+}
+
+.info-text {
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+#footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  background-color: var(--bg-color);
+  color: #fff;
+  padding: 0px;
+  width: 100%;
+  margin-top: 0px;
+}
+@media only screen and (max-width: 1200px) {
+  html {
+    font-size: 40%;
+  }
+
+  .left h1 {
+    font-size: 5em;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .header {
+    padding: 2rem 3%;
+  }
+
+  section {
+    padding: 10rem 3% 2rem;
+  }
+
+  .footer {
+    padding: 2rem 3%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .bx-menu {
+    display: block;
+    font-size: 3.5rem;
+    cursor: pointer;
+  }
+
+  .navbar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 1rem 3%;
+    background: var(--bg-color);
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    display: none;
+  }
+
+  .navbar.active {
+    display: block;
+  }
+
+  .navbar a {
+    display: block;
+    font-size: 2rem;
+    margin: 3rem 0;
+  }
+
+  .home {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 2560px) {
+  /* Your CSS rules for 13-inch MacBook screen go here */
+  html {
+    font-size: 60%;
+  }
+  #footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    background-color: var(--bg-color);
+    color: #fff;
+    padding: 0px;
+    width: 100%;
+    margin-top: 0px;
+  }
+  .notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5rem;
+    margin: 1rem auto;
+    width: 100%;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+  }
+
+  .notes-list {
+    flex-basis: 25%;
+    overflow-y: auto;
+    height: 500px;
+    /* direction: rtl; */
+    scrollbar-color: #353434 #808080;
+    /* thumb and track color */
+    scrollbar-width: 1em;
+  }
+}
+
+/* Folder Appearance */
+.folder {
+  background-color: #555555;
+  padding: 1.5em;
+  margin-bottom: 1em;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: relative;
+  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.folder::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari and Opera */
+}
+
+/* Folder Label */
+.folder-label {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  display: block;
+  cursor: pointer;
+  background-color: #666;
+  padding: 10px 20px;
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+} 
+
+/* Collapsible Content */
+.collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  background-color: #808080;
+  margin: 0.5em 0;
+  padding: 0;
+ 
+}
+
+/* You might want to adjust the text color inside the collapsible content for better contrast */
+.collapsible-content .note-card {
+  color: #333; /* Darker text for better readability on light background */
+}
+
+.folder-label.selected {
+  color: #1ABC9C; /* Change text color when selected */
+  background-color: #555; /* Darker background for selected state */
+}
+
+
+/* Styles for when the folder is clicked and content is shown */
+.folder.active .collapsible-content {
+  max-height: 500px; /* Adjust as necessary for your content */
+  padding: 1em;
+}
+
+/* Adjust the appearance when a folder is targeted */
+.folder:target {
+  background-color: #7d7a7a;
+  border-left: 5px solid #1abc9c;
+}
+
+.collapsible-content.active {
+  max-height: 1000px; /* Set a max-height that will accommodate the content size */
+  overflow: auto;
+}
+.folder-label:active {
+  background-color: #555; /* Slightly darker on click */
+  transform: translateY(1px); /* Push effect */
+}
+
+html,
+body,
+* {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.folder-label:hover {
+  color: #1abc9c;
+  background-color: #777777;
+}
+.folder-label:active {
+  color: #1abc9c;
+  background-color: #777777;
+}
+
+/* Overlay background */
+.review-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.review-modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%; /* Almost full width */
+  max-width: 500px; /* Max width */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+/* Close button */
+.review-modal .close {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.review-modal .close:hover,
+.review-modal .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Form and its elements styling */
+.review-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-modal h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.review-modal .stars {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.review-modal .stars .bx {
+  font-size: 24px; /* Adjust size as needed */
+  color: #ccc; /* Default color */
+  margin: 0 5px; /* Spacing between stars */
+}
+
+.review-modal .stars .bx.active ~ .bx {
+  color: orange; /* Color when hovered or clicked */
+}
+
+
+.review-modal select,
+.review-modal textarea,
+.review-modal button[type="submit"] {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.review-modal textarea {
+  height: 100px; /* Fixed height for the textarea */
+}
+
+.review-modal button[type="submit"] {
+  background-color: #525252;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.review-modal button[type="submit"]:hover {
+  opacity: 0.9;
+}
+#flash{
+  position:fixed;
+  /*bottom: 0; */
+  /*right:0; */
+  top: 120px;
+  right : -5px;
+  /*width: 100%;*/
+  text-align: center;
+  padding: 10px 20px;
+  /*background-color: rgba(65, 61, 61, 0.7); */
+  background-color: #666363;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  z-index: 1000; 
+  border-radius: 5px;
+
+}

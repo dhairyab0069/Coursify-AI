@@ -1,0 +1,438 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+#my-content {
+  margin-bottom: 0%;
+  padding-bottom: 0%;
+}
+
+:root {
+  --bg-color: #808080;
+  --text-color: white;
+}
+
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  height: 100%;
+  width: 100%;
+}
+
+section {
+  padding: 10rem 9%;
+}
+
+header {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 9%;
+  background: var(--bg-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.navbar {
+  display: block;
+}
+
+.navbar a {
+  font-size: 1.7rem;
+  color: var(--text-color);
+  margin-left: 5rem;
+  transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+}
+.back-button {
+  background-color: #555;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 1.5rem;
+}
+
+/* CHANGE */
+.navbar a:hover,
+.navbar.active {
+  background-color: #3e3f3f;
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 5px solid #1abc9c;
+}
+
+#homenav {
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 5px solid #1abc9c;
+}
+
+.link_container img {
+  width: 5rem;
+}
+.bx-menu {
+  display: none;
+}
+#contentnav {
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 5px solid #1abc9c;
+}
+
+/*--------------------------------------------------------------------*/
+.content-header {
+  text-align: left;
+  margin-bottom: 2rem;
+  color: #fff;
+  padding: 10px 0;
+}
+
+.content-header h1 {
+  font-size: 3rem;
+
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-box {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns for smaller screens */
+  }
+}
+.content-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #fff;
+    padding: 10px 0;
+}
+
+
+
+
+
+body .main-content {
+    margin-top: 10rem; /* Adjust as needed to move the content down */
+    padding-top: 1rem; /* Additional padding at the top, adjust as needed */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto auto;
+    gap: 3rem; /* Increased gap for more space between boxes */
+    margin-top: 3rem; /* Adjust this if needed for additional space below the header */
+    padding: 1rem;
+}
+
+
+ .reviews-container {
+    border: 1px solid #1abc9c; /* Maintains existing border styling */
+    box-shadow: 0 2px 10px #1abc9c;
+    border-radius: 8px; /* Adds rounded corners */
+    padding: 2rem; /* Ensures padding is sufficient for content */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Keeps content centered */
+    text-align: center; /* Ensures text is centered */
+    background-color: #dadada; /* Light background color for the container */
+    color: #000000;
+    /* Add your existing styling rules, ensuring not to overwrite them */
+}
+
+
+/* Add responsiveness if needed */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Stack elements in one column on smaller screens */
+    }
+
+    .accuracy-score, .add-review, .reviews-container {
+        grid-column: 1 / 2;
+    }
+
+    .reviews-container {
+        grid-row: 3 / 4; /* Move reviews container to the third row */
+    }
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap');
+
+/* Existing styles remain unchanged */
+
+/* New styles for reviews */
+.review {
+    background-color: #ffffff; /* Light background for each review */
+    color: #000000; /* Dark text for readability */
+    margin-bottom: 1.5rem; /* Space between reviews */
+    padding: 1.5rem; /* Padding inside each review box */
+    border-radius: 8px; /* Rounded corners for the review boxes */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Soft shadow for each review */
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start of the review box */
+    width: 90%;
+}
+
+
+.review-rating {
+    font-size: 1.6rem; /* Slightly larger font size for visibility */
+    color: #1abc9c; /* Gold color for the rating to stand out */
+    margin-bottom: 1rem; /* Space between rating and review text */
+}
+
+.review-text {
+    font-size: 1.4rem; /* Comfortable reading size for review text */
+    margin-top: 1rem; /* Space between the heading and review text */
+    line-height: 1.6; /* Improved line height for readability */
+    text-align: justify; /* Justify text for a cleaner look */
+}
+.review-author {
+    margin-bottom: .5rem; /* Space between author and content */
+    font-size: 1.4rem; /* Adjust font size as needed */
+}
+
+.review-subject {
+    font-size: 1.2rem; /* Smaller than author for hierarchy */
+    color: #666; /* Subtle color for less emphasis */
+}
+
+
+
+.reviews-container {
+    border: 1px solid #1abc9c; /* Maintains existing border styling */
+    box-shadow: 0 2px 10px #1abc9c;
+    grid-row: 1 / 3; /* Span both rows */
+    grid-column: 2 / 3; /* Place in the second column */
+    display: flex;
+    flex-direction: column;
+    background-color: #dadada; /* Light background color for the container */
+    padding: 2rem; /* Add padding for spacing inside the container */
+    border-radius: 10px; /* Rounded corners for a softer look */
+    overflow-y: auto; /* Allows scrolling within the container */
+    min-height: 650px; /* Adjust based on your preference */
+    max-height: 650px; /* Limit height to enforce scrolling */
+    padding-right: 1rem; /* Prevents scrollbar from overlapping content */
+}
+
+
+/* Scrollbar styling for reviews container */
+.reviews-container::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.reviews-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track color */
+}
+
+.reviews-container::-webkit-scrollbar-thumb {
+    background: #888; /* Thumb color */
+}
+
+.reviews-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Thumb hover color */
+}
+
+/* Adjustments for mobile responsiveness */
+@media (max-width: 768px) {
+    .reviews-container {
+        grid-row: 3 / 4; /* Move reviews container to the third row on smaller screens */
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr; /* Stack elements in one column on smaller screens */
+    }
+
+    .accuracy-score, .add-review, .reviews-container {
+        grid-column: 1 / 2;
+    }
+}
+
+.reviews-filter-container select {
+    flex-grow: 1; /* Allows each select element to grow and fill the space */
+    min-width: 160px; /* Minimum width for each select to maintain usability */
+    padding: 0.8rem 1rem; /* Padding for visual appeal and larger click area */
+    background-color: #f0f0f0; /* Background color for the select */
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #dcdcdc; /* Subtle border */
+    font-family: 'Poppins', sans-serif; /* Consistent font */
+    font-size: 1.4rem; /* Text size */
+    color: #333; /* Text color */
+    cursor: pointer; /* Indicates the element is interactive */
+    -webkit-appearance: none; /* Removes default styling on WebKit browsers */
+    -moz-appearance: none; /* Removes default styling on Mozilla browsers */
+    appearance: none; /* Standard way to remove default styling */
+    background-repeat: no-repeat;
+    background-position: right 1rem center; /* Position for the custom arrow icon */
+    background-size: 1.2rem; /* Size of the custom arrow icon */
+}
+.reviews-filter-container select:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #a5a5a5; /* Highlight with a darker border when focused */
+    box-shadow: 0 0 0 2px #1abc9c; /* Soft glow for focus indication */
+}
+
+
+.reviews-filter-container {
+    display: flex;
+    flex-direction: row; /* Align children horizontally */
+    justify-content: start; /* Align items to the start of the container */
+    gap: 1rem; /* Creates space between each filter option */
+    flex-wrap: wrap; /* Allows items to wrap onto the next line on smaller screens */
+    margin-bottom: 2rem; /* Extra space below the filters before the next content */
+}
+
+/* Custom arrow styling */
+.reviews-filter-container select {
+    appearance: none; /* Remove default system appearance */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path fill="%23666" d="M2048 384v128h-2048v-128h2048zm0 640v128h-2048v-128h2048zm0 640v128h-2048v-128h2048z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .reviews-filter-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .reviews-filter-container select {
+        width: auto; /* Allow dropdowns to adjust width on smaller screens */
+    }
+}
+/* Overall styling for the .user-based-accuracy-score element */
+.user-based-accuracy-score {
+    border: 1px solid #1abc9c;
+    box-shadow: 0 2px 10px #1abc9c;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    text-align: center;
+    color: #000000;
+    max-height: 250px;
+    min-height: 250px;
+  }
+  
+  
+#cbdesc {
+    color:white;
+    border: 1px solid #1abc9c;
+    border-radius: 1em;
+    padding: 1.5em;
+    margin-top: 3em;
+}
+#cbdesc h3{
+    font-weight: 300;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+#cbdesc p{
+    font-weight: 300;
+    font-size: 1.25em;
+    margin-bottom: 1em;
+}
+#cbdesc ul{
+    margin-left:1em ;
+    font-weight: 300;
+    font-size: 1.25em;
+    margin-bottom: 1em;
+}
+#cbdesc ul strong{
+    font-weight: 500;
+}
+
+#cbdesc ul li{
+    margin-bottom: 0.5em;
+}
+#cbdesc h4 {
+    font-weight: 300;
+    font-size: 1.75em;
+    margin-bottom: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+  /* Styling for elements within .user-based-accuracy-score */
+  .average-score,
+  .total-ratings {
+    font-size: 1.6rem;
+    margin: 20px 0; /* Keep margins tight */
+  }
+  
+  .score-value {
+    font-size: 2rem; /* Consider if this can be slightly reduced if necessary */
+  }
+  
+  .star-label {
+    font-size: 1.2rem; /* Optimize space */
+  }
+  
+  /* Styling for .bar-container and .bar elements */
+  .bar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 2px 0; /* Minimize margin */
+  }
+  
+  .bar {
+    height: 8px; /* Consider if this can be slightly reduced if necessary */
+    border-radius: 5px;
+    margin-left: 5px;
+  }
+  
+  /* Color coding for the bars remains unchanged */
+  
+  /* Styling for .total-ratings element */
+  .total-ratings {
+    font-size: 1.6rem;
+    color: #6c757d;
+    margin: 10px 0; /* Adjust this margin as necessary */
+  }
+  
+  /* Color coding for the bars */
+  .five-star { background-color: #1abc9c; }
+  .four-star { background-color: #1abc9c; }
+  .three-star { background-color: #1abc9c; }
+  .two-star { background-color: #1abc9c; }
+  .one-star { background-color: #1abc9c; }
+
+@media (max-width: 768px) {
+    .user-based-accuracy-score {
+        padding: 1rem; /* Adjust padding for smaller screens */
+    }
+}
+

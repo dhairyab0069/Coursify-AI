@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Coursify.ai</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">   
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styleLogin.css') }}">
+    <header class="header">
+        <div class="link_container">
+          <!-- <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a> -->
+        </div>
+    </header>
+
+</head>
+<body id="login" style="background: var(--bg-color);">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="flash">
+                <!-- This will display all messages joined by a space -->
+                {{ messages | join(' ') }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+            <div class="col-md-6">
+                    <h2 class="text-center-L">LOGIN</h2>
+                    <form id="login-form" method="POST" action="/login">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">Remember Me</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn btn-primary btn-block">
+                        </div>
+                        <div id="fpw">
+                            <!-- <a href="">Forgot your password ?</a> -->
+                            <a id="fpwlink" href="{{ url_for('forgot_password') }}" style="color: black !important; text-decoration: none !important;">Forgot password?</a>
+                        </div>
+                    </form>
+                    <div class="mt-4 text-center">
+                        <p>Not a member?</p>
+                        <a href="{{ url_for('register') }}" class="btn btn-secondary">Sign Up</a>
+                    </div>
+            </div>
+    </div>
+    <script>
+        //Display the flash message
+        const flashMessage = document.getElementById('flash');
+        if (flashMessage.textContent.includes("Your password has been reset successfully.")) {
+            setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
+
+        } else if (flashMessage.textContent.includes("Invalid credentials. Please try again.")) {
+            setTimeout(() => { flashMessage.style.display = 'none'; }, 4000);
+        } else {
+            flashMessage.style.display = 'none';
+        };
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

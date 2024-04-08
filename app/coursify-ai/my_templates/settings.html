@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - Coursify.ai</title>
+
+    <!--icons-->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <!--Relationship of this sheet and the link-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='SettingsStyle.css') }}" />
+  </head>
+  <body>
+    <!--header design-->
+    <header class="header">
+      <!-- Click the logo to go back to the home page -->
+      <div class="link_container">
+        <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>
+      </div>
+
+      <!-- Rest of the header -->
+      <div class="link_container">
+        <nav class="navbar">
+          <a href="{{ url_for('index') }}" id = "home">HOME</a>
+          <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+          <a href="{{ url_for('my_content') }}" id = "content">MY CONTENT</a>
+          <a href="ai.html" id = "ai">AI ASSISTANT</a>
+          <a href="{{ url_for('reviews') }}">REVIEW</a>
+          <a href="settings.html" id = "settingsnav">SETTINGS</a>
+          <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="settings">
+      <h1>Settings</h1>
+
+      <!-- Flash message -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div id="flash">
+            <!-- This will display all messages joined by a space -->
+            {{ messages | join(' ') }}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <div class="settings-container">
+        <!-- List of settings -->
+        <ul class="settings-list">
+          <li><a href="#" id="account-settings-link" class="selected">Account</a></li>
+          <li><a href="#" id="password-settings-link">Password</a></li>
+        </ul>
+
+        <!--------------------------- Div WHERE THE FORMS WILL DISPLAY ------------------------------------->
+        <!-------------------- THE ACCOUNT SETTINGS PAGE IS DISPLAYED BY DEFAULT --------------------------->
+
+        <div id="settings-content">
+          <!-- ACCOUNT SETTINGS FROM -->
+          <form id="account-settings-form" class="settings-form" action="{{ url_for('update_account_settings') }}" method="post"> <!--  -->
+            <h2 class="form-head">Account Details</h2>
+            <!-- First Name -->
+            <div class="form-group">
+                <label for="firstname">First Name :</label>
+                <input type="text" id="firstname" name="firstname" value="{{ user.get('first_name', '') }}">
+            </div>
+        
+            <!-- Last Name -->
+            <div class="form-group">
+                <label for="lastname"> Last Name :</label>
+                <input type="text" id="lastname" name="lastname" value="{{ user.get('last_name', '') }}">
+            </div>
+        
+            <!-- Username or ID (if you have such a field in your user document) -->
+            <div class="form-group">
+                <label for="username"> ID : </label>
+                <input type="text" id="username" name="username" value="{{ user.get('_id', '') }}" readonly>
+            </div>
+        
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" value="{{ user.get('email', '') }}">
+            </div>
+      
+            <!-- Save Button --> 
+            <div class="form-group">
+                <button type="submit">Save Changes</button>
+            </div>
+          </form>
+
+          <!-- PASSWORD SETTINGS FROM -->
+          <form id="password-settings-form" class="settings-form" action="{{ url_for('change_password') }}" method="post" style="display: none"> <!-- Add action and method -->
+            <h2 class="form-head">Change Password</h2>
+            <!-- Current password -->
+            <div class="form-group">
+              <label for="current-password">Enter Current Password:</label>
+              <input type="password" id="current-password" name="current-password"/>
+            </div>
+
+            <!-- New Password -->
+            <div class="form-group">
+              <label for="new-password">Enter New Password:</label>
+              <input type="password" id="new-password" name="new-password" />
+            </div>
+
+            <!-- Confirm New Password -->
+            <div class="form-group">
+              <label for="confirm-new-password">Confirm New Password:</label>
+              <input
+                type="password"
+                id="confirm-new-password"
+                name="confirm-new-password"
+              />
+            </div>
+
+            <!-- Save changes button -->
+            <div class="form-group">
+              <button type="submit">Change Password</button>
+            </div>
+          </form>
+          <!--------------------- END OF FORMS -------------------------------------------------------------------->
+          <!------------------------------------------------------------------------------------------------------->
+        </div>
+      </div>
+    </section>
+
+      
+    <!-------------------------------------SCRIPT-------------------------------------------------------------------------------------->
+    <!--------------------------------------------------------------------------------------------------------------------------------->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+
+        //Display the flash message
+        const flashMessage = document.getElementById('flash');
+        if (flashMessage) {
+            // make it dissapear
+            setTimeout(() => { flashMessage.style.display = 'none'; }, 4000); // 4 seconds
+        }
+        //This function first hides all of the forms inside of setting-form class by setting the display to none.
+        function showForm(formID) {
+          document.querySelectorAll(".settings-form").forEach(function (form) {
+            form.style.display = "none";
+          });
+          //Then it displays the form corresponding to the Form ID by setting it's display style to 'block'.
+          document.getElementById(formID).style.display = "block";
+        }
+
+        //This function first removes the "selected" class from all links in the 'settings-list'
+        function selectedLink(selectedLinkID) {
+          document.querySelectorAll(".settings-list a").forEach(function (link) {
+              link.classList.remove("selected");
+          });
+          //Then it adds the 'selected' class to the link with the SelectedLinkID
+          document.getElementById(selectedLinkID).classList.add("selected");
+        }
+        ///// passes the settings id that is cliked to the functions///////////////////////////////////////////
+        document.getElementById("account-settings-link").addEventListener("click", function () {
+          showForm("account-settings-form");
+          selectedLink("account-settings-link");
+        });
+
+        document.getElementById("password-settings-link").addEventListener("click", function () {
+          showForm("password-settings-form");
+          selectedLink("password-settings-link");
+        });   
+        document.getElementById("profile-picture").addEventListener("change", function (event) {
+            //constant for the file chosen by the user
+            const [file] = event.target.files;
+            //if the file was selected
+            if (file) {
+              //points a temp URL to the file selected by the user.
+              const preview = document.getElementById(
+                "profile-picture-preview"
+              );
+              preview.src = URL.createObjectURL(file);
+              preview.style.display = "block";
+              document.getElementById("no-image-text").style.display = "none";
+            }
+        });
+
+        showForm("account-settings-form"); // show the Account Form by default when the page is open.
+      });
+    </script>
+
+    <!-------------------------------------END of SCRIPT------------------------------------------------------------------------------->
+    <!--------------------------------------------------------------------------------------------------------------------------------->
+    <footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestApp-20240303231405" tests="6" file=".py" time="5.289" timestamp="2024-03-03T23:14:10" failures="1" errors="0" skipped="0">
+	<testcase classname="TestApp" name="test_home_page" time="1.634" timestamp="2024-03-03T23:14:06" file="app/coursify-ai/test_app.py" line="33"/>
+	<testcase classname="TestApp" name="test_login_page" time="0.850" timestamp="2024-03-03T23:14:07" file="app/coursify-ai/test_app.py" line="60"/>
+	<testcase classname="TestApp" name="test_login_user" time="1.047" timestamp="2024-03-03T23:14:08" file="app/coursify-ai/test_app.py" line="65"/>
+	<testcase classname="TestApp" name="test_logout_user" time="0.522" timestamp="2024-03-03T23:14:09" file="app/coursify-ai/test_app.py" line="73"/>
+	<testcase classname="TestApp" name="test_register_page" time="0.524" timestamp="2024-03-03T23:14:09" file="app/coursify-ai/test_app.py" line="38"/>
+	<testcase classname="TestApp" name="test_register_user" time="0.711" timestamp="2024-03-03T23:14:10" file="app/coursify-ai/test_app.py" line="43">
+		<failure type="AssertionError" message="Template index.html not used. Templates were used: [ &lt; T e m p l a t e   ' r e g i s t e r . h t m l ' &gt; ]"><![CDATA[Traceback (most recent call last):
+  File "/Users/gurbiramrit/Capstone_coursify-v2.0/year-long-project-team-16/app/coursify-ai/test_app.py", line 57, in test_register_user
+    self.assert_template_used('index.html')
+  File "/opt/homebrew/lib/python3.11/site-packages/flask_testing/utils.py", line 254, in assertTemplateUsed
+    raise AssertionError("Template %s not used. Templates were used: %s" % (name, ' '.join(repr(used_templates))))
+AssertionError: Template index.html not used. Templates were used: [ < T e m p l a t e   ' r e g i s t e r . h t m l ' > ]
+]]></failure>
+	</testcase>
+</testsuite>

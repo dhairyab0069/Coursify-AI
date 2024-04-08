@@ -15,6 +15,7 @@
 
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/88bb86b8-169f-46d2-bd54-089a0cacbcde)
 
+
 # Week T2 #12
 ## Date: 24/03/2024 - 31/03/2024
 ### Vinu Ihalagamage - vinui409
@@ -257,6 +258,7 @@
 - Added Jinja2 templating syntax to autopopulate the fields on the settings page based on the specific user that is logged in.
 ![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/a9795dad-3c1d-4726-bca8-c8b30ef600d8)
 
+
 # Week 4 
 ## Date: 25/09/23 - 01/10/23
 
@@ -397,10 +399,26 @@
 - Added Jinja2 templating syntax to autopopulate the fields on the settings page based on the specific user that is logged in.
 <img width="1440" alt="Screenshot 2023-12-04 at 1 19 17 AM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/26ba1696-63e5-4931-8464-341733027094">
 
+# Week T2 #1
+## Date: 26/12/23 - 14/01/24
+### Vinu Ihalagamage - vinui409
+
+### Tasks worked on: 
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/b59b6c53-5586-468a-999c-869b4bc601ff)
 
 
+### Tasks in progress
+- updating my route to the database, that currently fetches user information from the database, so I can also write back to the database for when users want to change their personal information
+- adding an "edit fields" button which can trigger the route that writes back to the database.
+- Figuring out where to store user's profile pictures as it might not be the best idea to store profile pictures within the MongoDB cluster.
+- Researched and planned the steps to safely allow the user to change password
+- 'POST' requests in the forms.
+- Adding notification settings, AI assistance, and the difficulty slider to the 'preference' setting according to the client's feedback.
 
-
+### Tasks Completed
+- Flask route to fetch user information from the MongoDB Cluster.
+- Added Jinja2 templating syntax to autopopulate the fields on the settings page based on the specific user that is logged in.
+![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/71796408/a9795dad-3c1d-4726-bca8-c8b30ef600d8)
 
 
 
