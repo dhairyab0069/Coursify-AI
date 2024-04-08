@@ -1050,31 +1050,83 @@ def check_file(filename):
 @app.route('/submit_review', methods=['POST'])
 @login_required
 def submit_review():
-    '''Submit a review for a file.'''
-    star_rating = request.form['star_rating']
-    review_text = request.form['review_text']
-    user_id = ObjectId(current_user.get_id())
-    subject = request.form['subject']
-    
-    user_details = users_collection.find_one({"_id": user_id})
-    
-    if user_details is not None:
-        first_name = user_details.get('first_name')
-        last_name = user_details.get('last_name')
+    # Simplify getting form data
+    form_data = request.form
+    star_rating = form_data.get('star_rating')
+    review_text = form_data.get('review_text')
+    subject = form_data.get('subject')
+    file_id = form_data.get('file_id')
 
-    review = {"user_id": current_user.get_id(), "first_name": first_name, "last_name": last_name, "star_rating": star_rating, "review_text": review_text, "subject": subject, "timestamp": datetime.utcnow()}
+    # Get user_id from the logged-in user's information
+    user_id = ObjectId(current_user.get_id())
+
+    # Directly unpack first_name and last_name if user details exist
+    user_details = users_collection.find_one({"_id": user_id})
+    if not user_details:
+        # If user details are not found, could return an error or simply redirect
+        return redirect(url_for('my_content'))  # Consider handling this case more gracefully
+
+    first_name = user_details.get('first_name', '')
+    last_name = user_details.get('last_name', '')
+
+    # Check for an existing review
+    if reviews_collection.find_one({"user_id": user_id, "file_id": file_id}):
+        # Instead of flashing a message, directly redirect. Consider logging this event.
+        return redirect(url_for('my_content'))
+
+    # Assemble the review document
+    review = {
+        "user_id": user_id,
+        "file_id": file_id,
+        "first_name": first_name,
+        "last_name": last_name,
+        "star_rating": star_rating,
+        "review_text": review_text,
+        "subject": subject,
+        "timestamp": datetime.utcnow()
+    }
+
+    # Insert the new review
     reviews_collection.insert_one(review)
 
-    
-    return 'Review sent'
-    
+    return redirect(url_for('my_content'))
+
+
+
 @app.route('/reviews')
 @login_required
 def reviews():
     user_id = current_user.get_id()  
-    my_reviews = reviews_collection.find({"user_id": user_id}).sort("timestamp", -1)
+    
     all_reviews = reviews_collection.find().sort("timestamp", -1)
     return render_template('reviews.html', reviews=all_reviews)
+
+
+@app.route('/check_review_existence', methods=['GET'])
+@login_required
+def check_review_existence():
+    file_id = request.args.get('file_id')
+    user_id = ObjectId(current_user.get_id())
+
+    # Check if a review for this file by this user already exists
+    existing_review = reviews_collection.find_one({"user_id": str(user_id), "file_id": file_id})
+    if existing_review:
+        return jsonify({"reviewExists": True})
+    else:
+        return jsonify({"reviewExists": False})
+
+@app.route('/delete_review', methods=['POST'])
+@login_required
+def delete_review():
+    file_id = request.form.get('file_id')
+    user_id = current_user.get_id()  # Assuming `current_user.get_id()` returns the user's ID
+    
+    # Attempt to delete the review
+    result = reviews_collection.delete_one({"user_id": user_id, "file_id": file_id})
+    
+    # Redirect or return a response based on your application's flow
+    return redirect(url_for('reviews'))  # Example: redirecting back to the reviews page
+
 
 
 @app.route('/delete/<file_id>', methods=['POST'])

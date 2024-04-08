@@ -66,31 +66,21 @@
             
             <!-- Add Review Section -->
             <form class="add-review" method="POST" action="/submit_review">
-                <h3>Add Your Review</h3>
-                <div class="stars">
-                    <!-- Clickable stars for rating -->
-                    <i class="bx bxs-star" data-value="1"></i>
-                    <i class="bx bxs-star" data-value="2"></i>
-                    <i class="bx bxs-star" data-value="3"></i>
-                    <i class="bx bxs-star" data-value="4"></i>
-                    <i class="bx bxs-star" data-value="5"></i>
-                </div>
-                <select name="subject" id="subject_list" placeholder="Subject">
-                    <option value="choose">Choose Subject</option> <!-- Dropdown list for subject -->
-                    <option value="Math">Math</option>
-                    <option value="Geography">Geography</option>
-                    <option value="History">History</option>
-                    <option value="Biology">Biology</option>
-                    <option value="Chemistry">Chemistry</option>
-                    <option value="Physics">Physics</option>
-                    <option value="English">English</option>
-                    <option value="Economics">Economics</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Business">Business</option>
-                    <option value="Other">Other</option>
-                </select>
-                <textarea name="review_text" placeholder="Write your review here..."></textarea>
-                <input type="hidden" name="star_rating" id="star_rating" value=""> <!-- Hidden field to store rating -->
+                <div id="cbdesc">
+                    <h3> Welcome to the Coursify Review System!</h3>
+                    <p id="cbpara">This Review System is here to help you get an accuracy score for the content being generated on our website.</p>
+          
+                    <p id="cblist">Here's how you can submit a review:</p>
+                    <ul>
+                      <li><strong>Navigate to my content page:</strong><br> 
+                      </li>
+                      <li><strong>Choose a file you want to review(One for each file)</strong><br> </li>
+                      <li><strong>Click on the file and find the add review button</strong><br> </li>
+                      <li><strong>Now fill the pop-up form and submit the Review</strong><br> </li>
+                    </ul>
+                    <h4> Ask our chatbot for more information </h5>
+                  </div>
+                
                
             </form>
 
