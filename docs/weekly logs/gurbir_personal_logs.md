@@ -158,3 +158,21 @@ Creating a team meeting schedule for the coming weeks and project planning
 )
 <img width="1087" alt="Screenshot 2024-03-31 at 10 56 34 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/bdf90f04-c62a-4561-86d2-e4ace8634629">
 
+# Week T2 #13
+## Date: 31/03/2024 - 07/04/2024
+### Gurbir Amrit - gurbirRemy
+
+### Tasks Completed
+- Completed final implementation for email verification feature and testing
+- Started and completed a new quiz feature that allows users to generate quizzes with a varied amount of computer science
+-  Dockerized the app in a container for easy deployment and smooth process for continuing for further developement
+-  Implemented bug fixes throughout my content page, index page and updated UI elements, including flash messages etc.
+
+I  dedicated 30+ hours this week to our capstone project, focusing solely on development  and deployment tasks outside of report writing. This week, I successfully started and completed two major features, demonstrating my commitment to catching up and contributing significantly to our project. Given the extensive effort and the context of my recent challenges, I kindly request that my contributions be considered for a possible improvement in my grade for past weeks, including any opportunities for a bonus or regrade. I had a severe courseload of 6 courses this semester that impeded the regularity of my progress, but I have made a more than significant portion of our web app despite the challenges and also being sick for almost 2 weeks in the last month. Your consideration would be much appreciated.
+
+
+
+)
+<img width="1087" alt="Screenshot 2024-03-31 at 10 56 34 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/bdf90f04-c62a-4561-86d2-e4ace8634629">
+
+<img width="680" alt="Screenshot 2024-04-08 at 3 22 42 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/74217749/e27a6f15-6816-4903-85dc-614ae290b75a">
