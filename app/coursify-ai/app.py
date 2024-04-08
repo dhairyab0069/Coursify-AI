@@ -636,7 +636,7 @@ def chat():
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "AI, your role is to assist users in navigating and utilizing the features of Courisify.ai \
+                {"role": "system", "content": "AI, your role is to assist users in navigating and utilizing the features of Coursify.ai \
 effectively. You will only answer questions related to this website. When a user inquires \
 about generating content, guide them through entering the desired content length, difficulty, \
 and topics. If they need to manage their notes, direct them to the 'My Content' section. \
