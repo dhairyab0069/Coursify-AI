@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Chatbot</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styleChatbot.css') }}"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="link_container">
+        <a href="{{ url_for('index') }}"
+          ><img
+            src="{{ url_for('static', filename='cap_logo1.png') }}"
+            id="logo"
+        /></a>
+      </div>
+
+      <nav class="navbar">
+        <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+        <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+        <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+        <a href="ai.html" id="ai">AI ASSISTANT</a>
+        <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+        <a href="settings.html" id="settings">SETTINGS</a>
+        <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+      </nav>
+      <i class="bx bx-menu"></i>
+    </header>
+    <div class="container">
+      <div class="sidebar">
+        <h1> AI Chatbot</h1>
+        <a href="{{ url_for('ai_html') }}" id="ai-assistant">AI ASSISTANT</a>
+        <a href="{{ url_for('faq') }}">FAQs</a>
+        <div id="cbdesc">
+          <h3> Welcome to the Coursify Chatbot!</h3>
+          <p id="cbpara">This virtual assistant is here to help you navigate our website and make the most of your Courisify.ai experience.</p>
+
+          <p id="cblist">Here's how I can assist you:</p>
+          <ul>
+            <li><strong>Generating Custom Content:</strong><br> Get step-by-step guidance on creating content tailored to your needs.
+            </li>
+            <li><strong>Account Management:</strong><br> Learn how to update your profile, change your password, and more.</li>
+            <li><strong>Troubleshooting:</strong><br> Receive help with any issues or challenges you face on the website.</li>
+            <li><strong>FAQs:</strong><br> Access frequently asked questions for quick answers to common queries.</li>
+          </ul>
+          <h4> Ask me something &#x263a </h5>
+        </div>
+      </div>
+      <div id="chat-container">
+        <div id="chat-box"></div>
+
+        <div id="typing-indicator" style="display: none">
+          <p>AI is typing...</p>
+        </div>
+
+        <div id="user-input">
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Type your message here..."
+          />
+          <button id="send-button">Send</button>
+          <button id="clear-chat-button">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var botImageUrl = "{{ url_for('static', filename='gpt.jpg') }}";
+      var userImageUrl = "{{ url_for('static', filename='user.png') }}";
+
+      function saveChatHistory(message, sender) {
+        let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+        chatHistory.push({ message, sender });
+        localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+      }
+
+      function loadChatHistory() {
+        let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+        chatHistory.forEach((chat) => {
+          displayMessage(chat.message, chat.sender);
+        });
+      }
+
+      function displayMessage(message, sender, isTypingIndicator = false) {
+        let chatBox = document.getElementById("chat-box");
+        let messageDiv = document.createElement("div");
+
+        messageDiv.classList.add(
+          "message",
+          sender === "bot" ? "bot-message" : "user-message"
+        );
+        if (isTypingIndicator) {
+          messageDiv.classList.add("typing-indicator");
+        }
+
+        let imageUrl = sender === "bot" ? botImageUrl : userImageUrl;
+        messageDiv.innerHTML = `<img src="${imageUrl}" class="icon"> <p>${message}</p>`;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      window.onload = function () {
+        loadChatHistory();
+        displayMessage("How can I help you today?", "bot");
+      };
+
+      document
+        .getElementById("send-button")
+        .addEventListener("click", function () {
+          document.getElementById("typing-indicator").style.display = "none";
+          let message = document.getElementById("message-input").value;
+          if (message) {
+            displayMessage(message, "user");
+            saveChatHistory(message, "user");
+            displayMessage("AI is typing...", "bot", true);
+
+            fetch("/api/chat", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ message: message }),
+            })
+              .then((response) => {
+                let typingIndicator =
+                  document.querySelector(".typing-indicator");
+                if (typingIndicator) {
+                  typingIndicator.remove();
+                }
+                console.log("Raw response:", response);
+                return response.json();
+              })
+              .then((data) => {
+                console.log("Parsed data:", data);
+                if (data.reply) {
+                  displayMessage(data.reply, "bot");
+                  saveChatHistory(data.reply, "bot");
+                } else {
+                  console.log("No reply received:", data);
+                }
+              })
+              .catch((error) => console.error("Fetch error:", error));
+          }
+          document.getElementById("message-input").value = "";
+        });
+
+      document
+        .getElementById("message-input")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("send-button").click();
+          }
+        });
+
+      function clearChatHistory() {
+        document.getElementById("chat-box").innerHTML = "";
+        localStorage.removeItem("chatHistory");
+        displayMessage("How can I help you today?", "bot");
+      }
+
+      document
+        .getElementById("clear-chat-button")
+        .addEventListener("click", function () {
+          clearChatHistory();
+        });
+    </script>
+    <footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
+  </body>
+</html>

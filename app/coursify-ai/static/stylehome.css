@@ -1,0 +1,97 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    background-image: url('robotwithlogo.png');
+    background-size: cover;
+    background-position: center right; /* Align the background to the right */
+    background-repeat: no-repeat;
+  }
+  
+  .container {
+    position: absolute;
+    top: 50%; /* Vertically center the content */
+    right: 15%; /* Further increased the value to move content more to the left */
+    transform: translateY(-50%); /* Center the content vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .inner-content {
+    max-width: 500px; /* Set a max-width for the content if needed */
+  }
+  
+  
+  h1 {
+    color: #fff; /* White text */
+    font-size: 2.2rem; /* Increased font size by 10% */
+    /*margin-bottom: 1em;  Increased distance between text and buttons */
+    font-family: cursive;
+  }
+  p {
+    margin-top: none;
+    font-size: 1.2rem;
+    margin-bottom: 3em;
+    color: white;
+    font-family: cursive;
+  }
+  
+  .btn {
+    font-size: 1.1rem; /* Increased font size by 10% */
+    padding: 0.75rem 1.5rem;
+    margin: 0.75rem; /* Increased margin to add more space between buttons */
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    
+  }
+  
+  .btn-coursify {
+    background-color: #0056b3; /* Blue background */
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-coursify:hover {
+    background-color: #003d82; /* Darker shade of blue for hover effect */
+  }
+
+  .text-center{
+
+  }
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .container {
+      right: 20%; /* Adjusted for medium screens */
+    }
+  
+    h1 {
+      font-size: 1.925rem; /* Scaled font size for medium screens */
+    }
+  
+    .btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.99rem; /* Scaled font size for medium screens */
+      margin: 0.75rem; /* Keep increased margin for medium screens */
+      text-decoration: none;
+    }   
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+      right: 25%; /* Adjusted for small screens */
+    }
+  
+    h1 {
+      font-size: 1.65rem; /* Scaled font size for small screens */
+    }
+  
+    .btn {
+      padding: 0.5rem;
+      font-size: 0.88rem; /* Scaled font size for small screens */
+      margin: 0.75rem; /* Keep increased margin for small screens */
+      text-decoration: none;
+    }
+  }
+  

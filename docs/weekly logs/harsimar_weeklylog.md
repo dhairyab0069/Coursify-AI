@@ -150,6 +150,26 @@ Tasks in progress: Save AI chatbot conversation in the database.
 
 
 
+
+
+
+<p><h1>Individual Log Week T2 W1 - Harsimar Singh </h1> </p>
+<p>Date Started : 1/08/2024 <br>
+Date Ended: 1/14/2023
+</p>
+![evalu](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/5e68134b-fa73-4ba2-8d97-03eed32d8fde)
+
+<br>
+Goals this week: Train Chatbot model
+<br>
+Screenshot of tasks assigned on the board
+![kanb](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/2f872f03-91c3-4298-baa2-12ea361d6a99)
+
+
+
+Tasks Completed: Still learning how to use OpenAi assistant to implement it directly with our chatbot  <br>
+Tasks in progress: Training Chat bot Model using Open AI Assistant feature to customise it according to the website. This update would allow our chatbot to provide responses to the questions based on our website specifically.
+
 <p><h1>Individual Log Week 11 and 12 - Harsimar Singh </h1> </p>
 <p>Date Started : 11/12/2023 <br>
 Date Ended: 11/26/2023
@@ -165,155 +185,6 @@ Screenshot of tasks assigned on the board
 Tasks Completed: Modified Chatbot code with responsiveness and icons for profiles <br> Also coded app.py for integrating open ai API for chatbot.<br>
 Tasks in progress: Integrate the Python and chatbot code
 
-
-<p><h1>Individual Log Week T2 W1 - Harsimar Singh </h1> </p>
-<p>Date Started : 1/08/2024 <br>
-Date Ended: 1/14/2023
-</p>
-![evalu](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/5e68134b-fa73-4ba2-8d97-03eed32d8fde)
-
-<br>
-Goals this week: Train Chatbot model
-<br>
-Screenshot of tasks assigned on the board
-![kanb](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/2f872f03-91c3-4298-baa2-12ea361d6a99)
-
-Tasks Completed: Still learning how to use OpenAi assistant to implement it directly with our chatbot  <br>
-Tasks in progress: Training Chat bot Model using Open AI Assistant feature to customise it according to the website. This update would allow our chatbot to provide responses to the questions based on our website specifically.
-
-
-
-<p><h1>Individual Log Week T2 W2 - Harsimar Singh </h1> </p>
-<p>Date Started : 1/14/2024 <br>
-Date Ended: 1/21/2024
-</p>
-![eval](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/8102b1bd-8c73-4356-9ffb-030e48470f9c)
-
-
-<br>
-Goals this week: Create FAQ page for the website
-<br>
-Screenshot of tasks assigned on the board
-![board](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/17347296-f78c-4825-8552-9ee705fc6192)
-
-
-Tasks Completed: Finished the FAQ page (Code pushed by dhairya bhatia) <br>
-Tasks in progress: Training Chat bot. Preparing instructions and reading the API documentation.
-
-
-
-
-
-# Individual Log Week T2 W3 - Harsimar Singh (Code pushed to branch V2.0)
-## Date: 1/21/24 - 1/28/24
-
-### Tasks worked on: 
-![task](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/ba4d5ef9-a314-4884-a1c1-d50742978df7)
-
-### Tasks in progress
-- Save AI chat for the Session
-- Google translate API for PDFS translation
-
-### Tasks Completed
-- typing indicators for Chatbot
-- Enter to send message for Chatbot
-
-  ![Screenshot (172)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/23765aaf-4b83-48cc-910b-581037a124b3)
-
-
-
-
-
-# Individual Log Week T2 W4 - Harsimar Singh (Code pushed to branch V2.0-AI)
-## Date: 1/28/24 - 2/04/24
-(Code pushed to branch V2.0-AI)
-### Tasks worked on: 
-![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/e3dc075f-cb62-4d7f-80c3-48da4babb298)
-
-
-### Tasks in progress
-- Update the UI of the website
-- Work on Peer test reviews
-
-### Tasks Completed
-- Chats saved locally for Users 
-- Clear chat function to remove chat
-
- ![2](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/b09c4900-ce39-46b9-9cb9-e151346a78f7)
-
-
-
-# Individual Log Week T2 W5 - Harsimar Singh (Code pushed to branch V2.0)
-## Date: 2/04/24 - 2/11/24
-(Code pushed to branch V2.0)
-### Tasks worked on: 
-![t5](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/a3b1f974-5ade-44fa-bb68-58f2304a9238)
-
-
-### Tasks in progress
-- Update the UI of the website
-- Work on Peer test reviews
-
-### Tasks Completed
-- Updated the index page UI
-- created Mockup for Review Page
-
-![k5](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/047112f1-e68a-4aae-8070-030dd6d2f973)
-
-![image](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/aa032ff4-5b73-40cd-ada8-0e1e36bf352a)
-
-
-
-# Individual Log Week T2 W6 - Harsimar Singh (Code pushed to branch V2.0)
-## Date: 2/11/24 - 2/18/24
-(Code pushed to branch V2.0 from branch V2.0-Reviewsystem)
-### Tasks worked on: 
-![2](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/e1714617-c7ce-4a16-b609-b28384c49466)
-
-### Tasks completed
-- Created the front end elements for the new review system
-- Updated the CSS of New review System
-
-### Tasks in progress
-- Backend of the Review System
-![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
-
-
-
-# Individual Log Week T2 W7 and W8 - Harsimar Singh (Worked in branch V2.0-Review System)
-## Date: 2/18/24- 3/3/2024
-
-### Tasks worked on: 
-![Screenshot (184)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/e9816af4-f3db-44f1-b0f6-de2c3e6327fe)
-
-
-### Tasks completed
-reviewsystem Backend Star system
-- Implemented ability to read and write user reviews from the database
-- Function to Filter the reviews based on user ratings
-- Function for Average accuracy score calculation based on ratings
-
-### Tasks in progress
-- Backend of the Review System
-![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
-
-
-
-# Individual Log Week W9 - Harsimar Singh (Worked in branch V2.0-BugFix)
-## Date: 3/3/24- 3/10/2024
-
-### Tasks worked on: 
-![Screenshot (186)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/c8fc8a3e-ae3a-4bd2-8867-cebf03e4a51b)
-
-### Tasks completed
-
-- reviewsystem frontend update
-- form validation
-- bug fixes in review system
-
-### Tasks in progress
-- implement a Average star view on the review page (Just like google reviews)
-![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
 
 
 

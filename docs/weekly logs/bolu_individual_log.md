@@ -128,12 +128,10 @@ Completed the UI section of Design Document (Completed) <br>
 
 ![Screenshot 2023-12-03 at 11 18 32 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/c50b165a-abf8-4233-b5da-2ca1ce5e2533)
 
-# Dates worked on: 08/01/2024 - 14/01/2024
+# Dates worked on: 08/01/2023 - 14/01/2023
 
 ## Name: Bolu Yomi-Adeyemi
 ## Username: boluya
-
-Link to the branch this week: [  ](https://github.com/COSC-499-W2023/year-long-project-team-16/tree/DashboardHome)
 
 <img width="1071" alt="Screenshot 2024-01-14 at 6 41 09 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/42e560b3-5e91-4764-bf3e-29921804c71e">
 
@@ -143,6 +141,7 @@ File preview (In Progress) <br>
 My Content Page reorganisation (In Progress) <br>
 
 <img width="1404" alt="Screenshot 2024-01-14 at 6 52 22 PM" src="https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/b78a13de-5207-4579-8ca9-12223ad25a4e">
+
 
 # Dates worked on: 14/01/2024 - 21/01/2024
 
@@ -362,6 +361,7 @@ Renaming function (In Progress) <br>
 Linking review with slide (In Progress) <br>
 
 ![Screenshot 2024-03-24 at 10 57 34 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/e0bf4d68-3bf6-4fc4-a2af-21671b15fdd6)
+
 
 
 

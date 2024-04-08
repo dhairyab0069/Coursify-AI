@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Coursify.ai</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styleLogin.css') }}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <header class="header">
+        <div class="link_container">
+          <!--<a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='cap_logo1.png') }}" id="logo"></a>-->
+    </div>
+    </header>
+
+    <!-- -->
+</head>
+<body id="register" style="background: var(--bg-color);">
+    <div class="container">
+        <!--<div class="row justify-content-center align-items-center vh-100">-->
+            <div class="col-md-6">
+                <!--<div class="form-container bg-white p-4 rounded shadow-sm">-->
+                    <h2 class="text-center-R">REGISTER</h2>
+                    <form id="register-form" method="POST" action="/register">
+                        <div class="form-group">
+                            <label for="firstName">First Name:</label>
+                            <input type="text" id="firstName" name="first_name" class="form-control" required>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" id="lastName" name="last_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                            <span class="input-message" id="emailMessage" style="display: none;">We'll never share your email with anyone else.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                             <small id="passwordHelp" class="form-text">Your password must be 8-20 characters long, contain at least one letter, number, and special character but must not contain spaces or emoji.</small> 
+                           <!---- <span class="input-message" id="pwMessage" style="display: none;">Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.</span>-->
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password:</label>
+                            <input type="password" id="confirmPassword" name="confirm_password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Birth Date:</label>
+                            <div class="row">
+                                <div class="col">
+                                    <select name="birth_day" id="birthDay" class="form-control">
+                                        {% for day in range(1, 32) %}
+                                        <option value="{{ day }}">{{ day }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select name="birth_month" id="birthMonth" class="form-control">
+                                        {% for month in ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+                                        <option value="{{ loop.index }}">{{ month }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select name="birth_year" id="birthYear" class="form-control">
+                                        {% for year in range(1900, 2051) %}
+                                        <option value="{{ year }}">{{ year }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                        <fieldset class="form-group">
+                            <legend class="col-form-label pt-0">Gender</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male" checked>
+                                <label class="form-check-label" for="genderMale">
+                                    Male
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="female">
+                                <label class="form-check-label" for="genderFemale">
+                                    Female
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" id="genderCustom" value="custom">
+                                <label class="form-check-label" for="genderCustom">
+                                    Custom
+                                </label>
+                                <input type="text" id="customGender" name="custom_gender" class="form-control" style="display:none;" placeholder="Enter your gender">
+                            </div>
+                        </fieldset>-->
+                        <div id="regbtn" class="form-group">
+                            <input type="submit" value="Register" class="btn btn-primary btn-block">
+                        </div>
+                    </form>
+                    <div class="mt-4 text-center">
+                        <P> Already a member?</P>
+                        <a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a>
+                    </div>
+                <!--</div>-->
+            </div>
+        <!--</div>-->
+    </div>
+    <script>
+        $(document).ready(function() {
+            // Password validation
+            $("#password").on("input", function() {
+                var password = $(this).val();
+                var errors = [];
+                var passwordStrength = 0;
+                
+                if (password.length < 8 || password.length > 20) {
+                    errors.push("Your password must be 8-20 characters long.");
+                } else {
+                    passwordStrength++;
+                }
+                if (password.match(/[A-Za-z]/)) {
+                    passwordStrength++;
+                }
+                if (password.match(/[0-9]/)) {
+                    passwordStrength++;
+                }
+                if (!password.match(/[\s]/)) {
+                    passwordStrength++;
+                }
+                if (password.match(/[\!\@\#\$\%\^\&\*\(\)\_\+\!]/)) {
+                    passwordStrength++;
+                }
+                
+                if (passwordStrength < 3) {
+                    errors.push("Your password is weak. Please include a combination of letters, numbers, and special characters.");
+                    $("#passwordHelp").html("Weak password").css("color", "red");
+                } else if (passwordStrength < 5) {
+                    $("#passwordHelp").html("Medium password strength").css("color", "orange");
+                } else {
+                    $("#passwordHelp").html("Strong password").css("color", "green");
+                }
+        
+                if (errors.length > 0) {
+                    $("#passwordHelp").append("<br>" + errors.join("<br>")).css("color", "red");
+                }
+            });
+    
+            // Confirm Password validation
+            $("#confirmPassword").on("input", function() {
+                var confirmPassword = $(this).val();
+                var password = $("#password").val();
+                if (confirmPassword !== password) {
+                    $("#passwordHelp").html("Password and confirm password do not match.").css("color", "blue");
+                } else {
+                    // Only update if there are no other errors
+                    if ($("#passwordHelp").css("color") != "blue") { // Check if color is red
+                        $("#passwordHelp").html("Your password meets all requirements.").css("color", "green");
+                    }
+                }
+            });
+    
+            // Function to show a message
+            function showMessage(inputId, messageId) {
+                var input = $("#" + inputId);
+                var message = $("#" + messageId);
+                input.focus(function() {
+                    message.show(); // Show message
+                });
+                input.blur(function() {
+                    message.hide(); // Hide message
+                });
+            }
+            
+            // Example usage for the email field
+            showMessage('email', 'emailMessage');
+        });
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
