@@ -186,3 +186,62 @@ Tasks Completed: Modified Chatbot code with responsiveness and icons for profile
 Tasks in progress: Integrate the Python and chatbot code
 
 
+
+
+
+# Individual Log Week W10 - Harsimar Singh (Worked in branch review-system-bugs)
+## Date: 3/10/24- 3/17/2024
+
+### Tasks worked on: 
+![Screenshot (188)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/7f30e778-6d18-4643-bcff-451c91b5540d)
+
+
+### Tasks completed
+
+- Minor changes to the css to ensure UI is consistent
+- bug fixes in review system (The average accuracy score is not getting picked from the database)
+
+### Tasks in progress
+- implement a Average star view on the review page (Just like google reviews)
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+
+
+
+# Individual Log Week W11 - Harsimar Singh (Worked in branch v2.0-review_finishing)
+## Date: 3/17/24- 3/24/2024
+
+### Tasks worked on: 
+![Screenshot (190)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/ca5227c7-dfd4-4c6c-a9c5-9c45b1e4fb66)
+
+
+### Tasks completed
+
+- CSS for the Average star view bars
+- Backend For the average star view bars(has bugs)
+-  Javascript function for the average star view bars
+
+### Tasks in progress
+- implement a Average star view on the review page (Just like google reviews)
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+
+
+
+
+# Individual Log Week W12 - Harsimar Singh (Worked in branch v2.0-review_finishing)
+## Date: 3/24/24- 3/31/2024
+
+### Tasks worked on: 
+![Screenshot (191)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/aefb7704-5fc0-4d6e-8532-a7542cdd5451)
+
+
+
+### Tasks completed
+
+- Update AI chatbot queries according to our new features.
+- implemented a Average star view on the review page (Just like google reviews)
+
+### Tasks in progress
+- Final Changes for Revieww system
+  
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+
