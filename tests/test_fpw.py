@@ -46,11 +46,10 @@ def test_landing_log(browser):
     )
     fpw_link = WebDriverWait(browser,5).until(
         EC.presence_of_element_located((By.ID, "fpw"))
-    )
+    )      
 
     # assert login_form, "Navigated to the Login page successfully, did not navigate to the Login page "
     assert fpw_link, "Navigated to the Login page successfully, did not navigate to the Login page "
-
 
 # checks if the forgot password link is there
 def test_fpw(browser):
