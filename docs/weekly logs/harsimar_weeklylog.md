@@ -245,3 +245,21 @@ Tasks in progress: Integrate the Python and chatbot code
   
 ![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
 
+
+
+# Individual Log Week W13 - Harsimar Singh (Worked in branch v2.0-reviewAdvance)
+## Date: 3/31/2024-4/7/24 
+
+### Tasks worked on: 
+![Screenshot (191)](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/aefb7704-5fc0-4d6e-8532-a7542cdd5451)
+
+
+
+### Tasks completed
+- Linked reviews with files in My content to restrict one review per file
+- Update the file management system css on my content page
+- Created a new instructions div section on review page
+  
+![1](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/73526528/3edf2b21-df8a-406c-bb17-bcddf242431a)
+
+

@@ -362,6 +362,25 @@ Linking review with slide (In Progress) <br>
 
 ![Screenshot 2024-03-24 at 10 57 34 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/e0bf4d68-3bf6-4fc4-a2af-21671b15fdd6)
 
+# Dates worked on: 31/03/2024 - 07/04/2024
+
+## Name: Bolu Yomi-Adeyemi
+## Username: boluya
+
+![Screenshot 2024-04-07 at 11 03 02 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/b51bc86e-56b0-479d-8bc3-a70fcaf320c1)
+
+### Tasks:
+Sharing for pop-up when share button is clicked (Completed) <br>
+Review feature (Completed) <br>
+Working on slides download (Completed) <br>
+Working on the backend of the review system (Completed) <br>
+Working on sharing feature (Completed) <br>
+Delete feature (Completed) <br>
+Information button feature (Completed) <br>
+Adjustment of share feature (It sends as an attachment rather than a downloadable link) (Completed) <br>
+
+![Screenshot 2024-04-07 at 11 05 25 PM](https://github.com/COSC-499-W2023/year-long-project-team-16/assets/119131124/a570193b-a983-4b71-874b-f177326dd1d9)
+
 
 
 
