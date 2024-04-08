@@ -86,12 +86,12 @@ header {
   border-bottom: 5px solid #1abc9c;
 }
 
-#homenav {
+/* #homenav {
   margin-left: 50px;
   padding-left: 20px;
   padding-right: 20px;
   border-bottom: 5px solid #1abc9c;
-}
+} */
 
 .link_container img {
   width: 5rem;
@@ -99,7 +99,7 @@ header {
 .bx-menu {
   display: none;
 }
-#contentnav {
+#content {
   margin-left: 50px;
   padding-left: 20px;
   padding-right: 20px;
