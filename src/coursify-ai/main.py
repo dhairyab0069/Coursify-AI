@@ -90,19 +90,25 @@ openai.api_key = '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'
 main.secret_key = 'coursifyai1234'
 
 serializer = URLSafeTimedSerializer(main.secret_key)
-MONGO_USER = os.environ.get('MONGO_USER', 'mongo')
-MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', '')
-MONGO_HOST = os.environ.get('MONGO_HOST', 'localhost')
+MONGO_USER = os.environ.get('MONGO_USER')
+MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD')
+MONGO_HOST = os.environ.get('MONGO_HOST')
 MONGO_PORT = os.environ.get('MONGO_PORT', '27017')
 
-MONGO_URL = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}"
+print(f"Connecting to MongoDB: {MONGO_USER}@{MONGO_HOST}:{MONGO_PORT}")
+
+if not all([MONGO_USER, MONGO_PASSWORD, MONGO_HOST]):
+    raise Exception("Missing MongoDB credentials!")
+
+MONGO_URL = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/?authSource=admin"
+
 client = MongoClient(MONGO_URL)
 db = client['new_pdfs']
-db2=client['Login_details']
-db3=client['reviews']
+db2 = client['Login_details']
+db3 = client['reviews']
 fs = GridFS(db)
-users_collection=db2.users
-reviews_collection=db3.reviews
+users_collection = db2.users
+reviews_collection = db3.reviews
 
 main.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
 main.config['MAIL_PORT'] = 587
