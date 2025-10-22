@@ -78,18 +78,18 @@ class RegistrationForm(FlaskForm):
 
 
 
-application = Flask(__name__, template_folder='my_templates')
-CORS(app)
-bcrypt = Bcrypt(app)
+main = Flask(__name__, template_folder='my_templates')
+CORS(main)
+bcrypt = Bcrypt(main)
 login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager.init_app(main)
 login_manager.login_view = 'login'
 openai.api_key = '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'
 
 
-app.secret_key = 'coursifyai1234'
+main.secret_key = 'coursifyai1234'
 
-serializer = URLSafeTimedSerializer(app.secret_key)
+serializer = URLSafeTimedSerializer(main.secret_key)
 
 
 
@@ -103,13 +103,13 @@ fs = GridFS(db)
 users_collection=db2.users
 reviews_collection=db3.reviews
 
-app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'coursify@outlook.com'  
-app.config['MAIL_PASSWORD'] = 'Gunners4Eva$'
+main.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
+main.config['MAIL_PORT'] = 587
+main.config['MAIL_USE_TLS'] = True
+main.config['MAIL_USERNAME'] = 'coursify@outlook.com'  
+main.config['MAIL_PASSWORD'] = 'Gunners4Eva$'
 
-mail = Mail(app)
+mail = Mail(main)
 
 
 
@@ -132,7 +132,7 @@ def load_user(user_id):
         return None
     return User(user_id=user["_id"], email=user["email"])
 
-@app.route('/')
+@main.route('/')
 def home():
     '''Function to render the homepage.'''
     # If the user is authenticated, redirect to the dashboard
@@ -158,7 +158,7 @@ def validate_password(password):
     return None
    
 # Registration Route
-@app.route('/register', methods=['GET', 'POST'])
+@main.route('/register', methods=['GET', 'POST'])
 def register():
     '''Function to register a new user.'''
     if request.method == 'POST':
@@ -227,7 +227,7 @@ def register():
 def send_email(to_email, subject, html_content):
     '''Function to send an email to the user for verification.'''
     msg = Message(subject,
-                  sender=app.config['MAIL_USERNAME'],
+                  sender=main.config['MAIL_USERNAME'],
                   recipients=[to_email],
                   html=html_content)
     print(html_content)
@@ -235,7 +235,7 @@ def send_email(to_email, subject, html_content):
 
 
 # Email Confirmation Route
-@app.route('/confirm/<token>')
+@main.route('/confirm/<token>')
 def confirm_email(token):
     try:
         email = serializer.loads(token, salt='email-confirm', max_age=3600)  # 1 hour to verify
@@ -251,7 +251,7 @@ def confirm_email(token):
     return redirect(url_for('login'))
 
 # Login Route
-@app.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
@@ -274,26 +274,26 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/index')
+@main.route('/index')
 @login_required
 def index():
     '''Function to render the dashboard page after successful login.'''
     return render_template('index.html')
 
-@app.route('/logout')
+@main.route('/logout')
 def logout():
     '''Function to log out the user.'''
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/quiz_generate')
+@main.route('/quiz_generate')
 def quiz_generate():
     '''Function to render the quiz generation page.'''
     return render_template('quiz.html')
 
 
 # SETINGS PAGE
-@app.route('/settings.html')
+@main.route('/settings.html')
 @login_required
 def settings_html():
     '''Function to render the settings page.'''
@@ -306,7 +306,7 @@ def settings_html():
         return redirect(url_for('index'))
  
 #ACCOUNT SETTINGS - UPDATE (FIRST / LAST NAME, EMAIL)
-@app.route('/update_account_settings', methods=['POST'])
+@main.route('/update_account_settings', methods=['POST'])
 @login_required
 def update_account_settings():
     '''Function to update the user's account settings.'''
@@ -339,7 +339,7 @@ def update_account_settings():
 
     return redirect(url_for('settings_html'))
 
-@app.route('/change_password', methods=['POST'])
+@main.route('/change_password', methods=['POST'])
 @login_required
 def change_password():
     '''Function to change the user's password.'''
@@ -379,7 +379,7 @@ def send_pw_reset_email(recipient_email, reset_url):
     msg.html = f"<p>Please click on the following link to reset your password:</p><a href='{reset_url}'>{reset_url}</a>"
     mail.send(msg)
 
-@app.route('/quiz-generator-page', methods=['POST'])
+@main.route('/quiz-generator-page', methods=['POST'])
 def quiz_generator_page():
     '''Function to generate a quiz based on the user's input.'''
     topic = request.form.get('topic')
@@ -453,7 +453,7 @@ def quiz_page_generate(topic, subject, mcqs, true_false, short_questions, long_q
     return quiz_content
 
 
-@app.route('/forgot_password', methods=['GET','POST'])
+@main.route('/forgot_password', methods=['GET','POST'])
 def forgot_password():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -468,7 +468,7 @@ def forgot_password():
 
     return render_template('forgot_password.html')
 
-@app.route('/reset_forgot_password/<token>', methods=['GET', 'POST'])
+@main.route('/reset_forgot_password/<token>', methods=['GET', 'POST'])
 def reset_forgot_password(token):
     try:
         email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
@@ -500,7 +500,7 @@ def reset_forgot_password(token):
 
     return render_template('reset_password.html', token=token)
 
-@app.route('/share_via_email', methods=['POST'])
+@main.route('/share_via_email', methods=['POST'])
 def share_via_email():
     '''Function to share a file via email as an attachment.'''
     recipient = request.form.get('email')
@@ -521,7 +521,7 @@ def share_via_email():
     return redirect(url_for('my_content'))
 
         
-@app.route('/share/<file_id>')
+@main.route('/share/<file_id>')
 def share_file(file_id):
     '''Function to share a file with a unique URL.'''
     file_id = ObjectId(file_id)
@@ -541,7 +541,7 @@ def extract_text_from_pdf(pdf_path):
             text += page.extract_text()
     return text
 
-@app.route('/content')
+@main.route('/content')
 def my_content():
     '''Function to display the content page.'''
     if current_user.is_authenticated:
@@ -552,19 +552,19 @@ def my_content():
             file_data.append({"filename": file.filename, "_id": str(file._id)})
         return render_template('content.html', file_data=file_data)
 
-@app.route('/ai.html')
+@main.route('/ai.html')
 def ai_html():
     return render_template('ai.html')
 
-@app.route('/preview.html')
+@main.route('/preview.html')
 def preview():
     return render_template('preview.html')
 
-@app.route('/faq.html')
+@main.route('/faq.html')
 def faq():
     return render_template('faq.html')
 
-@app.route('/api/chat', methods=['POST'])
+@main.route('/api/chat', methods=['POST'])
 def chat():
     '''Function for the chatbot API endpoint.'''
     try:
@@ -659,7 +659,7 @@ def call_openai_api(prompt):
         return None
     
 
-@app.route('/generate_content', methods=['POST'])
+@main.route('/generate_content', methods=['POST'])
 def generate_content():
     '''Function to generate content based on the user's input.'''
     length = request.form.get('length', type=int, default=100)
@@ -918,7 +918,7 @@ def split_content_into_chunks(content):
     content_chunks.append(current_chunk)
     return content_chunks
 
-@app.route('/get_user_pdfs', methods=['GET'])
+@main.route('/get_user_pdfs', methods=['GET'])
 def get_user_pdfs():
     '''Get all PDFs uploaded by the currently logged in user.'''
     if current_user.is_authenticated:
@@ -926,7 +926,7 @@ def get_user_pdfs():
         user_pdfs = fs.find({'user_id': current_user.user_id})
     return user_pdfs
 
-@app.route('/pdf/<filename>')
+@main.route('/pdf/<filename>')
 def get_pdf(filename):
     '''Download a PDF from GridFS based on its filename.'''
     if current_user.is_authenticated:
@@ -942,7 +942,7 @@ def get_pdf(filename):
     else:
         return "Unauthorized", 401
 
-@app.route('/presentation/<filename>')
+@main.route('/presentation/<filename>')
 def get_presentation(filename):
     '''Download a presentation from GridFS based on its filename.'''
     if current_user.is_authenticated:
@@ -959,7 +959,7 @@ def get_presentation(filename):
     else:
         abort(401, description="Unauthorized to access this presentation")
 
-@app.route('/get_doc/<file_id>')
+@main.route('/get_doc/<file_id>')
 def get_doc(file_id):
     '''Download a file from GridFS based on its file_id.'''
     try:
@@ -969,7 +969,7 @@ def get_doc(file_id):
     except NoFile:
         return jsonify({'error': 'File not found'}), 404
 
-@app.route('/list_pdfs', methods=['GET'])
+@main.route('/list_pdfs', methods=['GET'])
 def list_pdfs():
     '''List all PDFs in the database.'''
     if current_user.is_authenticated:
@@ -977,7 +977,7 @@ def list_pdfs():
         user_pdfs = fs.find({'user_id': current_user.user_id})
     return render_template('content.html', pdfs=user_pdfs)    
   
-@app.route('/check_file/<filename>', methods=['GET'])
+@main.route('/check_file/<filename>', methods=['GET'])
 def check_file(filename):
     '''Check if a file exists in the database.'''
     try:
@@ -987,7 +987,7 @@ def check_file(filename):
     except:
         return jsonify(success=False, message="File does not exist in the database.")
     
-@app.route('/submit_review', methods=['POST'])
+@main.route('/submit_review', methods=['POST'])
 @login_required
 def submit_review():
     '''Submit a review for a file.'''
@@ -1023,7 +1023,7 @@ def submit_review():
     reviews_collection.insert_one(review)
     return redirect(url_for('my_content'))
 
-@app.route('/reviews')
+@main.route('/reviews')
 @login_required
 def reviews():
     '''Display all reviews.'''
@@ -1031,7 +1031,7 @@ def reviews():
     all_reviews = reviews_collection.find().sort("timestamp", -1)
     return render_template('reviews.html', reviews=all_reviews)
 
-@app.route('/check_review_existence', methods=['GET'])
+@main.route('/check_review_existence', methods=['GET'])
 @login_required
 def check_review_existence():
     '''Check if a review exists for a file.'''
@@ -1044,7 +1044,7 @@ def check_review_existence():
     else:
         return jsonify({"reviewExists": False})
 
-@app.route('/delete_review', methods=['POST'])
+@main.route('/delete_review', methods=['POST'])
 @login_required
 def delete_review():
     '''Delete a review.'''
@@ -1053,14 +1053,14 @@ def delete_review():
     result = reviews_collection.delete_one({"user_id": user_id, "file_id": file_id})
     return redirect(url_for('reviews'))
 
-@app.route('/delete/<file_id>', methods=['POST'])
+@main.route('/delete/<file_id>', methods=['POST'])
 def delete_file(file_id):
     '''Delete a file from GridFS based on its file_id.'''
     file_id = ObjectId(file_id)
     fs.delete(file_id)
     return redirect(url_for('my_content'))
 
-@app.route("/chatbot", methods=["POST"])
+@main.route("/chatbot", methods=["POST"])
 def chatbot():
     '''Chatbot route to handle user messages and generate responses.'''
     message = request.json.get("message")
@@ -1077,7 +1077,7 @@ def chatbot():
     else:
         return 'Failed to Generate response!'
 
-@app.route('/generate_quiz/<file_id>')
+@main.route('/generate_quiz/<file_id>')
 def generate_quiz(file_id):
     '''Generate a quiz based on the text extracted from a PDF or PPTX file.'''
     try:
@@ -1201,7 +1201,7 @@ def calculate_ratings():
     average_rating = total_rating / total_count if total_count else 0
     return star_counts, average_rating
 
-@app.route('/ratings')
+@main.route('/ratings')
 @login_required
 def ratings():
     '''Display the star ratings and average rating based on all reviews.'''
@@ -1209,4 +1209,4 @@ def ratings():
     return jsonify({'star_counts': star_counts, 'average_rating': average_rating})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    main.run(host='0.0.0.0', port=5000, debug=True)
