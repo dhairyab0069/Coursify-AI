@@ -9,7 +9,8 @@ from bson.objectid import ObjectId
 
 # Import extensions and models
 from config import Config
-from extensions import cors, bcrypt, login_manager, init_mongodb, fs, users_collection
+from extensions import cors, bcrypt, login_manager, init_mongodb
+import extensions
 from models import User, load_user
 
 # Import route functions
