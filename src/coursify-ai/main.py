@@ -57,6 +57,105 @@ from collections import defaultdict
 from collections import Counter
 
 
+# ============================================================================
+# FLASK APP INITIALIZATION
+# ============================================================================
+
+main = Flask(__name__, template_folder='my_templates')
+CORS(main)
+bcrypt = Bcrypt(main)
+login_manager = LoginManager()
+login_manager.init_app(main)
+login_manager.login_view = 'login'
+
+
+# ============================================================================
+# CONFIGURATION - LOAD FROM ENVIRONMENT VARIABLES
+# ============================================================================
+
+# Flask Secret Key
+main.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-CHANGE-IN-PRODUCTION')
+if main.secret_key == 'dev-secret-CHANGE-IN-PRODUCTION':
+    print("WARNING: Using default Flask secret key. Set FLASK_SECRET_KEY environment variable in production!")
+
+# OpenAI API Key
+openai.api_key = os.environ.get('OPENAI_API_KEY')
+if not openai.api_key:
+    print("ERROR: OPENAI_API_KEY environment variable not set!")
+    raise Exception("OPENAI_API_KEY is required. Please set it in your environment variables.")
+
+# SendGrid API Key
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+if not SENDGRID_API_KEY:
+    print("WARNING: SENDGRID_API_KEY not set. Email features may not work.")
+
+# Email Configuration
+main.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp-mail.outlook.com')
+main.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', '587'))
+main.config['MAIL_USE_TLS'] = True
+main.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'coursify@outlook.com')
+main.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+
+if not main.config['MAIL_PASSWORD']:
+    print("WARNING: MAIL_PASSWORD not set. Email features will not work.")
+
+mail = Mail(main)
+serializer = URLSafeTimedSerializer(main.secret_key)
+
+
+# ============================================================================
+# MONGODB CONNECTION
+# ============================================================================
+
+# Try to get full MongoDB URL first (Railway typically provides this)
+MONGO_URL = os.environ.get('MONGO_URL') or os.environ.get('DATABASE_URL')
+
+if not MONGO_URL:
+    # Fall back to constructing it manually from individual components
+    MONGO_USER = os.environ.get('MONGO_USER', '').strip()
+    MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', '').strip()
+    MONGO_HOST = os.environ.get('MONGO_HOST', '').strip()
+    MONGO_PORT = os.environ.get('MONGO_PORT', '27017').strip()
+
+    # Validate that we have all required credentials
+    if not all([MONGO_USER, MONGO_PASSWORD, MONGO_HOST]):
+        print("="*60)
+        print("ERROR: Missing MongoDB credentials!")
+        print(f"MONGO_USER: {'✓ SET' if MONGO_USER else '✗ MISSING'}")
+        print(f"MONGO_PASSWORD: {'✓ SET' if MONGO_PASSWORD else '✗ MISSING'}")
+        print(f"MONGO_HOST: {'✓ SET' if MONGO_HOST else '✗ MISSING'}")
+        print(f"MONGO_PORT: {MONGO_PORT}")
+        print("="*60)
+        raise Exception("Missing MongoDB credentials! Please set MONGO_URL or individual MONGO_* variables.")
+
+    # Construct MongoDB URL
+    MONGO_URL = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/?authSource=admin"
+    print(f"Connecting to MongoDB: {MONGO_USER}@{MONGO_HOST}:{MONGO_PORT}")
+else:
+    print("Using provided MONGO_URL connection string")
+
+# Create MongoDB client and test connection
+try:
+    client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=10000)
+    # Test the connection
+    client.server_info()
+    print("✓ Successfully connected to MongoDB!")
+except Exception as e:
+    print(f"✗ Failed to connect to MongoDB: {e}")
+    raise
+
+# Database references
+db = client['new_pdfs']
+db2 = client['Login_details']
+db3 = client['reviews']
+fs = GridFS(db)
+users_collection = db2.users
+reviews_collection = db3.reviews
+
+
+# ============================================================================
+# MODELS
+# ============================================================================
 
 class RegistrationForm(FlaskForm):
     '''Registration form class. Inherits from FlaskForm. '''
@@ -77,44 +176,6 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
 
-
-main = Flask(__name__, template_folder='my_templates')
-CORS(main)
-bcrypt = Bcrypt(main)
-login_manager = LoginManager()
-login_manager.init_app(main)
-login_manager.login_view = 'login'
-openai.api_key = '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'
-
-
-main.secret_key = 'coursifyai1234'
-
-serializer = URLSafeTimedSerializer(main.secret_key)
-MONGO_URL = os.environ.get('MONGO_URL') or os.environ.get('DATABASE_URL')
-
-if not MONGO_URL:
-    # Fall back to constructing it manually
-    MONGO_USER = os.environ.get('MONGO_USER', '').strip()
-
-client = MongoClient(MONGO_URL)
-db = client['new_pdfs']
-db2 = client['Login_details']
-db3 = client['reviews']
-fs = GridFS(db)
-users_collection = db2.users
-reviews_collection = db3.reviews
-
-main.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
-main.config['MAIL_PORT'] = 587
-main.config['MAIL_USE_TLS'] = True
-main.config['MAIL_USERNAME'] = 'coursify@outlook.com'  
-main.config['MAIL_PASSWORD'] = 'Gunners4Eva$'
-
-mail = Mail(main)
-
-
-
-# User model
 class User(UserMixin):
     '''User class for Flask-Login.'''
     def __init__(self, user_id, email):
@@ -124,7 +185,11 @@ class User(UserMixin):
     def get_id(self):
         return self.user_id
 
-# User Loader
+
+# ============================================================================
+# FLASK-LOGIN USER LOADER
+# ============================================================================
+
 @login_manager.user_loader
 def load_user(user_id):
     '''Function to load a user from the database.'''
@@ -133,16 +198,10 @@ def load_user(user_id):
         return None
     return User(user_id=user["_id"], email=user["email"])
 
-@main.route('/')
-def home():
-    '''Function to render the homepage.'''
-    # If the user is authenticated, redirect to the dashboard
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    # Otherwise, show the homepage with login and register options
-    return render_template('homepage.html')
 
-SENDGRID_API_KEY = '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'  
+# ============================================================================
+# UTILITY FUNCTIONS
+# ============================================================================
 
 def validate_password(password):
     '''Validation of password'''
@@ -157,8 +216,211 @@ def validate_password(password):
     if not re.search("[!@#$%^&*]", password):
         return "Password must contain at least one special character (!@#$%^&*)."
     return None
-   
-# Registration Route
+
+
+def send_email(to_email, subject, html_content):
+    '''Function to send an email to the user for verification.'''
+    msg = Message(subject,
+                  sender=main.config['MAIL_USERNAME'],
+                  recipients=[to_email],
+                  html=html_content)
+    print(html_content)
+    mail.send(msg)
+
+
+def send_pw_reset_email(recipient_email, reset_url):
+    subject = "Password Reset Request"
+    sender_email = main.config['MAIL_USERNAME']
+    recipients = [recipient_email]
+
+    msg = Message(subject,
+                  sender=sender_email,
+                  recipients=recipients)
+
+    msg.html = f"<p>Please click on the following link to reset your password:</p><a href='{reset_url}'>{reset_url}</a>"
+    mail.send(msg)
+
+
+def sanitize_filename(text):
+    '''Sanitize a string to be used as a filename.'''
+    valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+    sanitized = ''.join(c for c in text if c in valid_chars)
+    return sanitized[:255]
+
+
+def wrap_text(text, max_width, font_name, font_size):
+    '''Wrap text to fit within a given width.'''
+    wrapped_text = []
+    words = text.split()
+
+    while words:
+        line = ''
+        while words and stringWidth(line + words[0], font_name, font_size) <= max_width:
+            line += (words.pop(0) + ' ')
+        wrapped_text.append(line)
+
+    return wrapped_text
+
+
+def is_latex(text):
+    '''Check if a string contains LaTeX content.'''
+    return bool(re.search(r"\$.*\$", text))
+
+
+def render_latex(formula, fontsize=12, dpi=150):
+    '''Render a LaTeX formula to an image and return the image as a BytesIO buffer.'''
+    plt.rcParams['text.usetex'] = True
+    fig = plt.figure()
+    fig.patch.set_alpha(0)
+    ax = fig.add_subplot(111)
+    ax.axis('off')
+    ax.patch.set_alpha(0)
+    ax.text(0, 0, f"\\begin{{equation}}{formula}\\end{{equation}}", fontsize=fontsize)
+    buffer = BytesIO()
+    fig.savefig(buffer, dpi=dpi, transparent=True, format='png')
+    plt.close(fig)
+    buffer.seek(0)
+    return buffer
+
+
+def call_openai_api(prompt):
+    '''Calls the OpenAI API to generate content based on the user's input.'''
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a content generation tool. Give as much accurate information as you are supposed to give and follow the instruction in the prompt."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return response['choices'][0]['message']['content']
+    except Exception as e:
+        print(f"Error calling OpenAI API: {e}")
+        return None
+
+
+def content(prompt, length):
+    '''Calls the OpenAI API to generate content based on the user's input.'''
+    return call_openai_api(prompt)
+
+
+def extract_text_from_pdf(pdf_path):
+    '''Extract text from a PDF using PdfReader.'''
+    with open(pdf_path, 'rb') as f:
+        reader = PdfReader(f)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text()
+    return text
+
+
+def split_content_into_chunks(content):
+    '''Split content into chunks that fit on a slide.'''
+    max_chars_per_chunk = 400
+    content_chunks = []
+    current_chunk = ''
+    for line in content.split('\n'):
+        if len(current_chunk) + len(line) <= max_chars_per_chunk:
+            current_chunk += line + '\n'
+        else:
+            content_chunks.append(current_chunk)
+            current_chunk = line + '\n'
+    content_chunks.append(current_chunk)
+    return content_chunks
+
+
+def get_file_stream(file_id):
+    '''Retrieve a file from GridFS and return it as a stream.'''
+    try:
+        file_id = ObjectId(file_id)
+        fs_instance = GridFS(db)
+        file = fs_instance.get(file_id)
+        file_stream = io.BytesIO(file.read())
+        return file_stream
+    except Exception as e:
+        print(f"Error retrieving file: {e}")
+        return None
+
+
+def extract_text_from_pdf(file_stream):
+    '''Extract text from a PDF file stream.'''
+    file_stream.seek(0)
+    reader = PdfReader(file_stream)
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text() + "\n"
+    return text
+
+
+def extract_text_from_pptx(file_stream):
+    '''Extract text from a PPTX file stream.'''
+    file_stream.seek(0)
+    presentation = Presentation(file_stream)
+    text = ""
+    first_slide = presentation.slides[0]
+    for shape in first_slide.shapes:
+        if hasattr(shape, "text"):
+            text += shape.text + "\n"
+            break
+    return text
+
+
+def generate_questions(text):
+    '''Generate quiz questions based on the given text.'''
+    mcq_prompt = f"Create 20 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
+    short_ans_prompt = f"Create 5 short answer questions based on the following text: \n{text}"
+    long_ans_prompt = f"Create 2 long answer questions based on the following text: \n{text}"
+    application_prompt = f"Create 1 application question based on the following text: \n{text}"
+
+    mcq_text = call_openai_api(mcq_prompt)
+    short_ans_text = call_openai_api(short_ans_prompt)
+    long_ans_text = call_openai_api(long_ans_prompt)
+    application_text = call_openai_api(application_prompt)
+
+    questions = []
+    if mcq_text:
+        questions.extend(mcq_text.strip().split('\n\n'))
+    if short_ans_text:
+        questions.extend(short_ans_text.strip().split('\n\n'))
+    if long_ans_text:
+        questions.extend(long_ans_text.strip().split('\n\n'))
+    if application_text:
+        questions.extend(application_text.strip().split('\n\n'))
+
+    return questions if questions else ["Failed to generate questions."]
+
+
+def calculate_ratings():
+    '''Calculate the star ratings and average rating based on all reviews.'''
+    all_reviews = list(reviews_collection.find())
+    star_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
+    total_rating = 0
+    total_count = 0
+
+    for review in all_reviews:
+        rating = review.get('star_rating')
+        if rating is not None and rating != '' and rating != 0 and rating != []:
+            rating = int(rating)
+            star_counts[rating] += 1
+            total_rating += rating
+            total_count += 1
+
+    average_rating = total_rating / total_count if total_count else 0
+    return star_counts, average_rating
+
+
+# ============================================================================
+# ROUTES - HOMEPAGE & AUTHENTICATION
+# ============================================================================
+
+@main.route('/')
+def home():
+    '''Function to render the homepage.'''
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    return render_template('homepage.html')
+
+
 @main.route('/register', methods=['GET', 'POST'])
 def register():
     '''Function to register a new user.'''
@@ -172,29 +434,29 @@ def register():
         birth_year = int(request.form.get('birth_year'))
         gender = request.form.get('gender')
         custom_gender = request.form.get('custom_gender') if 'custom_gender' in request.form else None
-        
+
         if gender == 'custom' and custom_gender:
             gender_value = custom_gender
         else:
             gender_value = gender
-        
+
         # Validate if user exists
         user = users_collection.find_one({"email": email})
         if user:
             flash('Email already exists.')
             return redirect(url_for('register'))
-        
+
         # Validate the password
         password_error = validate_password(password)
         if password_error:
             flash(password_error)
             return redirect(url_for('register'))
-        
+
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        
-        # Construct birthdate and gender
+
+        # Construct birthdate
         birth_date = datetime(birth_year, birth_month, birth_day)
-        
+
         # Insert new user into MongoDB with 'verified' set to False initially
         user_id = users_collection.insert_one({
             "first_name": first_name,
@@ -205,37 +467,26 @@ def register():
             "gender": gender_value,
             "verified": False
         }).inserted_id
-        
+
         # Generate a token for email verification
         token = serializer.dumps(email, salt='email-confirm')
-        
+
         # Construct the URL for email verification
         confirm_url = url_for('confirm_email', token=token, _external=True)
-        
+
         # Prepare the verification email content
         html_content = render_template('email_verification.html', confirm_url=confirm_url)
         subject = "Please confirm your email"
-        
-        # Use the existing function to send the email
+
+        # Send the email
         send_email(email, subject, html_content)
 
         flash('A confirmation email has been sent. Please check your inbox.', 'info')
         return redirect(url_for('login'))
-    
+
     return render_template('register.html')
 
-# Send Email Function
-def send_email(to_email, subject, html_content):
-    '''Function to send an email to the user for verification.'''
-    msg = Message(subject,
-                  sender=main.config['MAIL_USERNAME'],
-                  recipients=[to_email],
-                  html=html_content)
-    print(html_content)
-    mail.send(msg)
 
-
-# Email Confirmation Route
 @main.route('/confirm/<token>')
 def confirm_email(token):
     try:
@@ -251,7 +502,7 @@ def confirm_email(token):
         flash('Your email is already verified or the user does not exist.', 'warning')
     return redirect(url_for('login'))
 
-# Login Route
+
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -261,11 +512,9 @@ def login():
         user = users_collection.find_one({"email": email})
         if user and bcrypt.check_password_hash(user['password'], password):
             if not user.get('verified', False):
-                # User found but not verified
                 flash('Please verify your email address before logging in.', 'warning')
                 return redirect(url_for('login'))
 
-            # User is verified, proceed to login
             user_obj = User(user_id=str(user["_id"]), email=email)
             login_user(user_obj, remember='remember' in request.form)
             return redirect(url_for('index'))
@@ -275,17 +524,72 @@ def login():
     return render_template('login.html')
 
 
+@main.route('/logout')
+def logout():
+    '''Function to log out the user.'''
+    logout_user()
+    return redirect(url_for('home'))
+
+
+@main.route('/forgot_password', methods=['GET','POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = users_collection.find_one({"email": email})
+        if user:
+            token = serializer.dumps(email, salt='password-reset-salt')
+            reset_url = url_for('reset_forgot_password', token=token, _external=True)
+            send_pw_reset_email(email, reset_url)
+            flash('An email has been sent with instructions to reset your password.', 'reset_password_sent')
+        else:
+            flash('User does not exist. Please check the email address.', 'reset_password_sent')
+
+    return render_template('forgot_password.html')
+
+
+@main.route('/reset_forgot_password/<token>', methods=['GET', 'POST'])
+def reset_forgot_password(token):
+    try:
+        email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
+    except SignatureExpired:
+        flash('The password reset link has expired.', 'reset_password_page')
+        return redirect(url_for('forgot_password'))
+    except BadSignature:
+        flash('The password reset link is invalid.', 'reset_password_page')
+        return redirect(url_for('forgot_password'))
+
+    if request.method == 'POST':
+        new_password = request.form.get('new_password')
+        confirm_new_password = request.form.get('confirm_new_password')
+
+        if new_password != confirm_new_password:
+            flash('New passwords do not match.', 'reset_password_page')
+            return redirect(url_for('reset_forgot_password', token=token))
+
+        password_error = validate_password(new_password)
+        if password_error:
+            flash(password_error)
+            return redirect(url_for('reset_forgot_password', token=token))
+
+        hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        users_collection.update_one({"email": email}, {"$set": {"password": hashed_new_password}})
+
+        flash('Your password has been reset successfully.', 'login_page')
+        return redirect(url_for('login'))
+
+    return render_template('reset_password.html', token=token)
+
+
+# ============================================================================
+# ROUTES - DASHBOARD & PAGES
+# ============================================================================
+
 @main.route('/index')
 @login_required
 def index():
     '''Function to render the dashboard page after successful login.'''
     return render_template('index.html')
 
-@main.route('/logout')
-def logout():
-    '''Function to log out the user.'''
-    logout_user()
-    return redirect(url_for('home'))
 
 @main.route('/quiz_generate')
 def quiz_generate():
@@ -293,7 +597,37 @@ def quiz_generate():
     return render_template('quiz.html')
 
 
-# SETINGS PAGE
+@main.route('/content')
+def my_content():
+    '''Function to display the content page.'''
+    if current_user.is_authenticated:
+        fs_instance = GridFS(db)
+        files = fs_instance.find({"user_id": current_user.get_id()}).sort("_id",-1)
+        file_data = []
+        for file in files:
+            file_data.append({"filename": file.filename, "_id": str(file._id)})
+        return render_template('content.html', file_data=file_data)
+
+
+@main.route('/ai.html')
+def ai_html():
+    return render_template('ai.html')
+
+
+@main.route('/preview.html')
+def preview():
+    return render_template('preview.html')
+
+
+@main.route('/faq.html')
+def faq():
+    return render_template('faq.html')
+
+
+# ============================================================================
+# ROUTES - SETTINGS
+# ============================================================================
+
 @main.route('/settings.html')
 @login_required
 def settings_html():
@@ -305,8 +639,8 @@ def settings_html():
     else:
         flash("User not found.")
         return redirect(url_for('index'))
- 
-#ACCOUNT SETTINGS - UPDATE (FIRST / LAST NAME, EMAIL)
+
+
 @main.route('/update_account_settings', methods=['POST'])
 @login_required
 def update_account_settings():
@@ -314,7 +648,7 @@ def update_account_settings():
     first_name = request.form.get('firstname')
     last_name = request.form.get('lastname')
     email = request.form.get('email')
-    
+
     user_id = current_user.get_id()
     user = users_collection.find_one({"_id": ObjectId(user_id)})
 
@@ -340,6 +674,7 @@ def update_account_settings():
 
     return redirect(url_for('settings_html'))
 
+
 @main.route('/change_password', methods=['POST'])
 @login_required
 def change_password():
@@ -353,8 +688,8 @@ def change_password():
 
     if not user:
         return redirect(url_for('settings_html'))
-    
-    if not bcrypt.check_password_hash(user['password'], current_password): 
+
+    if not bcrypt.check_password_hash(user['password'], current_password):
         flash('Current password is incorrect.','settings_page')
         return redirect(url_for('settings_html'))
 
@@ -368,17 +703,243 @@ def change_password():
     flash('Your password has been updated successfully.','settings_page')
     return redirect(url_for('settings_html'))
 
-def send_pw_reset_email(recipient_email, reset_url):
-    subject = "Password Reset Request"
-    sender_email = 'coursify@outlook.com'
-    recipients = [recipient_email]
-    
-    msg = Message(subject,
-                  sender=sender_email,
-                  recipients=recipients)
-   
-    msg.html = f"<p>Please click on the following link to reset your password:</p><a href='{reset_url}'>{reset_url}</a>"
-    mail.send(msg)
+
+# ============================================================================
+# ROUTES - CONTENT GENERATION
+# ============================================================================
+
+@main.route('/generate_content', methods=['POST'])
+def generate_content():
+    '''Function to generate content based on the user's input.'''
+    length = request.form.get('length', type=int, default=100)
+    prompt = request.form.get('topics', default='')
+    difficulty = request.form.get('difficulty', type=int, default=1)
+    content_format = request.form.get('format', default='pdf')
+
+    if content_format == 'pdf':
+        return generate_pdf(prompt, length, difficulty)
+    elif content_format == 'slides':
+        return generate_slides(prompt, length, difficulty)
+    else:
+        return jsonify(success=False, error="Invalid format selected")
+
+
+def generate_pdf(prompt, length, difficulty):
+    '''Generate a PDF based on the user's input.'''
+    pdf_directory = os.path.join(os.getcwd(), 'pdfs')
+    if not os.path.exists(pdf_directory):
+        os.makedirs(pdf_directory)
+
+    pdf_basename = sanitize_filename(prompt)
+    pdf_basename = pdf_basename if pdf_basename else 'generated_file'
+
+    timestamp = datetime.now().strftime('%Y-%m-%d')
+    unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+    pdf_filename = f"{pdf_basename}_{timestamp}.pdf"
+
+    # Difficulty level mapping
+    difficulty_map = {
+        1: "Grade 1 - Introduction to fundamental concepts",
+        2: "Grade 2 - Building on basic skills and knowledge",
+        3: "Grade 3 - Expanding core understanding",
+        4: "Grade 4 - Deepening comprehension of key topics",
+        5: "Grade 5 - Preparing for intermediate challenges",
+        6: "Grade 6 - Transitioning to more complex subjects",
+        7: "Grade 7 - Enhancing critical thinking and application",
+        8: "Grade 8 - Solidifying foundational knowledge",
+        9: "Grade 9 - High school introductory concepts",
+        10: "Grade 10 - Sophomore explorations and depth",
+        11: "Grade 11 - Junior year, college prep, and advanced topics",
+        12: "Grade 12 - Senior year, culmination, and readiness for next steps"
+    }
+    diff = difficulty_map.get(difficulty, difficulty_map[1])
+
+    toc = call_openai_api("Give Table of contents for topic: " + prompt + "(such that there are max 5 topics and each topic has two sub topics. Topics should be upper Case and subtopics otherwise. Dont Start with heading : Table of contents, just show contents with difficulty " + diff)
+    if toc is None:
+        return jsonify(success=False, error="Failed to generate text from OpenAI API")
+
+    font_name = "Helvetica"
+    font_size = 12
+    left_margin = 72
+    top_margin = 720
+    line_height = 14
+    page_width, page_height = letter
+    bottom_margin = 72
+    content_width = page_width - 2 * left_margin
+
+    pdf_path = os.path.join(pdf_directory, pdf_filename)
+    c = canvas.Canvas(pdf_path, pagesize=letter)
+    c.setFont(font_name, font_size)
+    toc_dict = {}
+    current_topic = ""
+
+    y_position = top_margin
+    c.drawString(left_margin, y_position, "Table of Contents")
+    y_position -= line_height
+
+    for line in toc.split('\n'):
+        is_topic = line.isupper()
+        contains_latex = is_latex(line)
+
+        if contains_latex:
+            latex_image_io = render_latex(line[1:-1])
+            c.drawImage(latex_image_io, left_margin, y_position, width=200, height=100, preserveAspectRatio=True, anchor='n')
+            y_position -= 100
+        else:
+            if is_topic:
+                c.setFont("Helvetica-Bold", 14)
+                y_position -= 20
+            else:
+                if current_topic:
+                    toc_dict[current_topic].append(line.strip())
+                c.setFont("Helvetica", 12)
+                line = "   " + line
+
+            c.drawString(left_margin, y_position, line)
+            y_position -= line_height
+
+        if y_position < 100:
+            c.showPage()
+            c.setFont("Helvetica", 12)
+            y_position = top_margin
+
+    c.showPage()
+    c.setFont("Helvetica", 12)
+    y_position = top_margin
+
+    lines = toc.split('\n')
+
+    for line in lines:
+        is_topic = line.isupper()
+        contains_latex = is_latex(line)
+
+        if contains_latex:
+            latex_image_io = render_latex(line[1:-1])
+            c.drawImage(latex_image_io, left_margin, y_position, width=200, height=100, preserveAspectRatio=True, anchor='n')
+            y_position -= 100
+        else:
+            if is_topic:
+                c.setFont("Helvetica-Bold", 14)
+                wrapped_text = wrap_text(line, content_width, font_name, 14)
+            else:
+                c.setFont("Helvetica", 12)
+                c.drawString(left_margin, y_position, line)
+                y_position -= line_height
+                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + "words and difficulty level is " + diff)
+
+                if prompt2 is None:
+                    return jsonify(success=False, error="Failed to generate text from OpenAI API")
+                wrapped_text = wrap_text(prompt2, content_width, font_name, 12)
+
+            for text_line in wrapped_text:
+                if y_position < bottom_margin:
+                    c.showPage()
+                    c.setFont(font_name, 12)
+                    y_position = top_margin
+                c.drawString(left_margin, y_position, text_line)
+                y_position -= line_height
+
+    c.save()
+    print("PDF saved to", pdf_path)
+
+    if current_user.is_authenticated:
+        fs_instance = GridFS(db)
+        with open(pdf_path, 'rb') as pdf_file:
+            fs_instance.put(pdf_file, filename=pdf_filename, user_id=current_user.user_id)
+
+    pdf_url = url_for('get_pdf', filename=pdf_filename)
+    return jsonify(success=True, pdf_url=pdf_url)
+
+
+def generate_slides(prompt, length, difficulty):
+    '''Generate a presentation based on the user's input.'''
+    pptx_directory = os.path.join(os.getcwd(), 'presentations')
+    if not os.path.exists(pptx_directory):
+        os.makedirs(pptx_directory)
+
+    # Difficulty level mapping
+    difficulty_map = {
+        1: "Grade 1 - Introduction to fundamental concepts",
+        2: "Grade 2 - Building on basic skills and knowledge",
+        3: "Grade 3 - Expanding core understanding",
+        4: "Grade 4 - Deepening comprehension of key topics",
+        5: "Grade 5 - Preparing for intermediate challenges",
+        6: "Grade 6 - Transitioning to more complex subjects",
+        7: "Grade 7 - Enhancing critical thinking and application",
+        8: "Grade 8 - Solidifying foundational knowledge",
+        9: "Grade 9 - High school introductory concepts",
+        10: "Grade 10 - Sophomore explorations and depth",
+        11: "Grade 11 - Junior year, college prep, and advanced topics",
+        12: "Grade 12 - Senior year, culmination, and readiness for next steps"
+    }
+    diff = difficulty_map.get(difficulty, difficulty_map[1])
+
+    pptx_basename = sanitize_filename(prompt)
+    pptx_basename = pptx_basename if pptx_basename else 'generated_presentation'
+    timestamp = datetime.now().strftime('%Y-%m-%d')
+    unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+    pptx_filename = f"{pptx_basename}_{timestamp}.pptx"
+
+    toc = call_openai_api("Give Table of contents for topic: " + prompt + "..." + "Difficulty level is " + diff + "..." + "Length of content is " + str(length) + " words.")
+    if toc is None:
+        return jsonify(success=False, error="Failed to generate text from OpenAI API")
+
+    prs = Presentation()
+    slide_layout = prs.slide_layouts[1]
+
+    slide = prs.slides.add_slide(slide_layout)
+    title = slide.shapes.title
+    title.text = "Table of Contents"
+
+    toc_chunks = split_content_into_chunks(toc)
+
+    for chunk in toc_chunks:
+        slide = prs.slides.add_slide(slide_layout)
+        content = slide.placeholders[1]
+        tf = content.text_frame
+        tf.text = chunk
+        for paragraph in tf.paragraphs:
+            for run in paragraph.runs:
+                run.font.size = Pt(15)
+
+    content = slide.placeholders[1]
+    tf = content.text_frame
+
+    for line in toc.split('\n'):
+        p = tf.add_paragraph()
+        p.text = line
+        p.level = 0 if line.isupper() else 1
+
+    length = length // len(toc.split('\n'))
+    for line in toc.split('\n'):
+        if line.strip():
+            section_content = call_openai_api(f"Explain {line.strip()} in detail. Difficulty: " + diff + "..." + "Length of content is " + str(length) + " words.")
+            content_chunks = split_content_into_chunks(section_content)
+
+            for chunk in content_chunks:
+                slide = prs.slides.add_slide(slide_layout)
+                title = slide.shapes.title
+                title.text = line.strip()
+
+                content_box = slide.placeholders[1]
+                tf = content_box.text_frame
+                tf.text = chunk
+
+    pptx_path = os.path.join(pptx_directory, pptx_filename)
+    prs.save(pptx_path)
+
+    if current_user.is_authenticated:
+        fs_instance = GridFS(db)
+        with open(pptx_path, 'rb') as pptx_file:
+            fs_instance.put(pptx_file, filename=pptx_filename, user_id=current_user.user_id)
+
+    pptx_url = url_for('get_presentation', filename=pptx_filename)
+    return jsonify(success=True, pptx_url=pptx_url)
+
+
+# ============================================================================
+# ROUTES - QUIZ GENERATION
+# ============================================================================
 
 @main.route('/quiz-generator-page', methods=['POST'])
 def quiz_generator_page():
@@ -396,9 +957,8 @@ def quiz_generator_page():
     doc.add_heading(f"Quiz on {topic} - {subject}", level=1)
     doc.add_paragraph(quiz_content)
     quiz_filename = f"{topic}_{subject}_quiz.docx"
-    
+
     if not os.path.exists('quiz_files'):
-        print("Creating directory at:", os.path.abspath('quiz_files'))
         os.makedirs('quiz_files')
     quiz_path = os.path.join('quiz_files', quiz_filename)
     doc.save(quiz_path)
@@ -454,630 +1014,6 @@ def quiz_page_generate(topic, subject, mcqs, true_false, short_questions, long_q
     return quiz_content
 
 
-@main.route('/forgot_password', methods=['GET','POST'])
-def forgot_password():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        user = users_collection.find_one({"email": email}) 
-        if user:
-            token = serializer.dumps(email, salt='password-reset-salt')
-            reset_url = url_for('reset_forgot_password', token=token, _external=True)
-            send_pw_reset_email(email, reset_url)
-            flash('An email has been sent with instructions to reset your password.', 'reset_password_sent')
-        else:
-            flash('User does not exist. Please check the email address.', 'reset_password_sent')
-
-    return render_template('forgot_password.html')
-
-@main.route('/reset_forgot_password/<token>', methods=['GET', 'POST'])
-def reset_forgot_password(token):
-    try:
-        email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
-    except SignatureExpired:
-        flash('The password reset link has expired.', 'reset_password_page')
-        return redirect(url_for('forgot_password'))
-    except BadSignature:
-        flash('The password reset link is invalid.', 'reset_password_page')
-        return redirect(url_for('forgot_password'))
-
-    if request.method == 'POST':
-        new_password = request.form.get('new_password')
-        confirm_new_password = request.form.get('confirm_new_password')
-
-        if new_password != confirm_new_password:
-            flash('New passwords do not match.', 'reset_password_page')
-            return redirect(url_for('reset_forgot_password', token=token))
-
-        password_error = validate_password(new_password)
-        if password_error:
-            flash(password_error)
-            return redirect(url_for('reset_forgot_password', token=token))
-
-        hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-        users_collection.update_one({"email": email}, {"$set": {"password": hashed_new_password}})
-
-        flash('Your password has been reset successfully.', 'login_page')
-        return redirect(url_for('login'))
-
-    return render_template('reset_password.html', token=token)
-
-@main.route('/share_via_email', methods=['POST'])
-def share_via_email():
-    '''Function to share a file via email as an attachment.'''
-    recipient = request.form.get('email')
-    file_id = request.form.get('file_id')
-
-    file_obj = fs.get(ObjectId(file_id))
-    file_data = file_obj.read()
-    file_name = file_obj.filename
-
-    msg = Message('Your Shared File',
-                  sender='coursify@outlook.com',
-                  recipients=[recipient])
-    msg.body = 'Please find the attached file.'
-    msg.attach(file_name, "application/octet-stream", file_data)
-    mail.send(msg)
-
-    flash('Email sent with the file attached!')
-    return redirect(url_for('my_content'))
-
-        
-@main.route('/share/<file_id>')
-def share_file(file_id):
-    '''Function to share a file with a unique URL.'''
-    file_id = ObjectId(file_id)
-    file = fs.get(file_id)
-    response = make_response(file.read())
-    response.mimetype = 'application/pdf'
-    response.headers.set('Content-Disposition', 'attachment', filename=file.filename)
-    return response
-
-
-def extract_text_from_pdf(pdf_path):
-    '''Extract text from a PDF using PdfReader.'''
-    with open(pdf_path, 'rb') as f:
-        reader = PdfReader(f)
-        text = ""
-        for page in reader.pages:
-            text += page.extract_text()
-    return text
-
-@main.route('/content')
-def my_content():
-    '''Function to display the content page.'''
-    if current_user.is_authenticated:
-        fs=GridFS(db)
-        files = fs.find({"user_id": current_user.get_id()}).sort("_id",-1)
-        file_data = []
-        for file in files:
-            file_data.append({"filename": file.filename, "_id": str(file._id)})
-        return render_template('content.html', file_data=file_data)
-
-@main.route('/ai.html')
-def ai_html():
-    return render_template('ai.html')
-
-@main.route('/preview.html')
-def preview():
-    return render_template('preview.html')
-
-@main.route('/faq.html')
-def faq():
-    return render_template('faq.html')
-
-@main.route('/api/chat', methods=['POST'])
-def chat():
-    '''Function for the chatbot API endpoint.'''
-    try:
-        user_input = request.json['message']
-        print("User input received:", user_input)
-        
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "AI, your role is to assist users in navigating and utilizing the features of Coursify.ai effectively. You will only answer questions related to this website. When a user inquires about generating content, guide them through entering the desired content length, difficulty, and topics. If they need to manage their notes, direct them to the 'My Content' section. For account-related queries, help users find where to update their details or change their password on the 'Settings' page. Remember to always respect user privacy and handle their data with care. Should users need assistance with features or encounter issues, use the AI assistant chat to offer support. Provide clear, friendly guidance, ensuring users feel supported at every step. For new users, explain the registration process, and for returning users, assist them with the login procedure. Always communicate in a warm, professional manner, creating a positive user experience."},
-                {"role": "user", "content": user_input}
-            ]
-        )
-        print("Response from OpenAI:", response)
-
-        ai_reply = response['choices'][0]['message']['content']
-        print("AI Reply:", ai_reply)
-
-        return jsonify({'reply': ai_reply})
-    except Exception as e:
-        print("An error occurred:", e)
-        return jsonify({'error': str(e)}), 500
-
-def is_latex(text):
-    '''Check if a string contains LaTeX content.'''
-    return bool(re.search(r"\$.*\$", text))
-
-def render_latex(formula, fontsize=12, dpi=150):
-    '''Render a LaTeX formula to an image and return the image as a BytesIO buffer.'''
-    plt.rcParams['text.usetex'] = True
-    fig = plt.figure()
-    fig.patch.set_alpha(0)
-    ax = fig.add_subplot(111)
-    ax.axis('off')
-    ax.patch.set_alpha(0)
-    ax.text(0, 0, f"\\begin{{equation}}{formula}\\end{{equation}}", fontsize=fontsize)
-    buffer = BytesIO()
-    fig.savefig(buffer, dpi=dpi, transparent=True, format='png')
-    plt.close(fig)
-    buffer.seek(0)
-    return buffer
-
-
-def sanitize_filename(text):
-    '''Sanitize a string to be used as a filename.'''
-    valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
-    sanitized = ''.join(c for c in text if c in valid_chars)
-    return sanitized[:255]
-
-
-def wrap_text(text, max_width, font_name, font_size):
-    '''Wrap text to fit within a given width.'''
-    wrapped_text = []
-    words = text.split()
-
-    while words:
-        line = ''
-        while words and stringWidth(line + words[0], font_name, font_size) <= max_width:
-            line += (words.pop(0) + ' ')
-        wrapped_text.append(line)
-
-    return wrapped_text
-
-def content(prompt, length):
-    '''Calls the OpenAI API to generate content based on the user's input.'''
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a content generation tool. Give as much accurate information as you are supposed to give and follow the instruction in the prompt."},
-                {"role": "user", "content": prompt}
-            ]
-        )
-        return response['choices'][0]['message']['content']
-    except Exception as e:
-        print(f"Error calling OpenAI API: {e}")
-        return None
-
-def call_openai_api(prompt):
-    '''Calls the OpenAI API to generate content based on the user's input.'''
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a content generation tool. Give as much accurate information as you are supposed to give and follow the instruction in the prompt."},
-                {"role": "user", "content": prompt}
-            ]
-        )
-        return response['choices'][0]['message']['content']
-    except Exception as e:
-        print(f"Error calling OpenAI API: {e}")
-        return None
-    
-
-@main.route('/generate_content', methods=['POST'])
-def generate_content():
-    '''Function to generate content based on the user's input.'''
-    length = request.form.get('length', type=int, default=100)
-    prompt = request.form.get('topics', default='')
-    difficulty = request.form.get('difficulty', type=int, default=1)
-    content_format = request.form.get('format', default='pdf')
-
-    if content_format == 'pdf':
-        return generate_pdf(prompt, length, difficulty)
-    elif content_format == 'slides':
-        return generate_slides(prompt, length, difficulty)
-    else:
-        return jsonify(success=False, error="Invalid format selected")
-
-def generate_pdf(prompt, length, difficulty):
-    '''Generate a PDF based on the user's input.'''
-    pdf_directory = os.path.join(os.getcwd(), 'pdfs')
-    if not os.path.exists(pdf_directory):
-        os.makedirs(pdf_directory)
-
-    pdf_basename = sanitize_filename(prompt)
-    pdf_basename = pdf_basename if pdf_basename else 'generated_file'
-
-    timestamp = datetime.now().strftime('%Y-%m-%d')
-    unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-    pdf_filename = f"{pdf_basename}_{timestamp}.pdf"
-
-    if difficulty == 1:
-        diff = "Grade 1 - Introduction to fundamental concepts"
-    elif difficulty == 2:
-        diff = "Grade 2 - Building on basic skills and knowledge"
-    elif difficulty == 3:
-        diff = "Grade 3 - Expanding core understanding"
-    elif difficulty == 4:
-        diff = "Grade 4 - Deepening comprehension of key topics"
-    elif difficulty == 5:
-        diff = "Grade 5 - Preparing for intermediate challenges"
-    elif difficulty == 6:
-        diff = "Grade 6 - Transitioning to more complex subjects"
-    elif difficulty == 7:
-        diff = "Grade 7 - Enhancing critical thinking and application"
-    elif difficulty == 8:
-        diff = "Grade 8 - Solidifying foundational knowledge"
-    elif difficulty == 9:
-        diff = "Grade 9 - High school introductory concepts"
-    elif difficulty == 10:
-        diff = "Grade 10 - Sophomore explorations and depth"
-    elif difficulty == 11:
-        diff = "Grade 11 - Junior year, college prep, and advanced topics"
-    elif difficulty == 12:
-        diff = "Grade 12 - Senior year, culmination, and readiness for next steps"
-
-    toc = call_openai_api("Give Table of contents for topic: " +prompt+"(such that there are max 5 topics and each topic has two sub topics. Topics should be upper Case and subtopics otherwise. Dont Start with heading : Table of contents, just show contents with difficulty " + diff)
-    if toc is None:
-        return jsonify(success=False, error="Failed to generate text from OpenAI API")
-
-    font_name = "Helvetica"
-    font_size = 12
-    left_margin = 72
-    top_margin = 720
-    line_height = 14
-    page_width, page_height = letter
-    bottom_margin = 72
-    content_width = page_width - 2 * left_margin
-
-    pdf_path = os.path.join(pdf_directory, pdf_filename)
-    c = canvas.Canvas(pdf_path, pagesize=letter)
-    c.setFont(font_name, font_size)
-    toc_dict = {}
-    current_topic = ""
-
-    y_position = top_margin
-    c.drawString(left_margin, y_position, "Table of Contents")
-    y_position -= line_height
-    for line in toc.split('\n'):
-        is_topic = line.isupper()
-        contains_latex = is_latex(line)
-
-        if contains_latex:
-            latex_image_io = render_latex(line[1:-1])
-            c.drawImage(latex_image_io, left_margin, y_position, width=200, height=100, preserveAspectRatio=True, anchor='n')
-            y_position -= 100
-        else:
-            if is_topic:
-                c.setFont("Helvetica-Bold", 14)
-                y_position -= 20
-            else:
-                if current_topic:
-                    toc_dict[current_topic].append(line.strip())
-                c.setFont("Helvetica", 12)
-                line = "   " + line
-
-            c.drawString(left_margin, y_position, line)
-            y_position -= line_height
-
-        if y_position < 100:
-            c.showPage()
-            c.setFont("Helvetica", 12)
-            y_position = top_margin
-    
-    c.showPage()
-    c.setFont("Helvetica", 12)
-    y_position = top_margin
-
-    lines = toc.split('\n')
-    
-    print(lines)
-    for line in lines:
-        is_topic = line.isupper()
-        contains_latex = is_latex(line)
-
-        if contains_latex:
-            latex_image_io = render_latex(line[1:-1])
-            c.drawImage(latex_image_io, left_margin, y_position, width=200, height=100, preserveAspectRatio=True, anchor='n')
-            y_position -= 100
-        else:
-            if is_topic:
-                c.setFont("Helvetica-Bold", 14)
-                wrapped_text = wrap_text(line, content_width, font_name, 14)
-                print(wrapped_text)
-            else:
-                c.setFont("Helvetica", 12)
-                c.drawString(left_margin, y_position, line)
-                y_position -= line_height 
-                prompt2 = content("explain in 3 lines about the following topic " + line + " related to " + prompt, "length : " + str(length/(len(lines))) + "words and difficulty level is " + diff)
-
-                if prompt2 is None:
-                    return jsonify(success=False, error="Failed to generate text from OpenAI API")
-                wrapped_text = wrap_text(prompt2, content_width, font_name, 12)
-                print ("sub topic done")
-                
-            for text_line in wrapped_text:
-                if y_position < bottom_margin:
-                    c.showPage()
-                    c.setFont(font_name, 12)
-                    y_position = top_margin
-                c.drawString(left_margin, y_position, text_line)
-                y_position -= line_height 
-
-    c.save()
-    print("PDF saved to", pdf_path)
-
-    if current_user.is_authenticated:
-        fs = GridFS(db)
-        with open(pdf_path, 'rb') as pdf_file:
-            fs.put(pdf_file, filename=pdf_filename, user_id=current_user.user_id)
-
-    pdf_url = url_for('get_pdf', filename=pdf_filename)
-    return jsonify(success=True, pdf_url=pdf_url)
-
-def generate_slides(prompt, length, difficulty):
-    '''Generate a presentation based on the user's input.'''
-    pptx_directory = os.path.join(os.getcwd(), 'presentations')
-    if not os.path.exists(pptx_directory):
-        os.makedirs(pptx_directory)
-
-    if difficulty == 1:
-        diff = "Grade 1 - Introduction to fundamental concepts"
-    elif difficulty == 2:
-        diff = "Grade 2 - Building on basic skills and knowledge"
-    elif difficulty == 3:
-        diff = "Grade 3 - Expanding core understanding"
-    elif difficulty == 4:
-        diff = "Grade 4 - Deepening comprehension of key topics"
-    elif difficulty == 5:
-        diff = "Grade 5 - Preparing for intermediate challenges"
-    elif difficulty == 6:
-        diff = "Grade 6 - Transitioning to more complex subjects"
-    elif difficulty == 7:
-        diff = "Grade 7 - Enhancing critical thinking and application"
-    elif difficulty == 8:
-        diff = "Grade 8 - Solidifying foundational knowledge"
-    elif difficulty == 9:
-        diff = "Grade 9 - High school introductory concepts"
-    elif difficulty == 10:
-        diff = "Grade 10 - Sophomore explorations and depth"
-    elif difficulty == 11:
-        diff = "Grade 11 - Junior year, college prep, and advanced topics"
-    elif difficulty == 12:
-        diff = "Grade 12 - Senior year, culmination, and readiness for next steps"
-
-    pptx_basename = sanitize_filename(prompt)
-    pptx_basename = pptx_basename if pptx_basename else 'generated_presentation'
-    timestamp = datetime.now().strftime('%Y-%m-%d')
-    unique_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-    pptx_filename = f"{pptx_basename}_{timestamp}.pptx"
-
-    toc = call_openai_api("Give Table of contents for topic: " + prompt + "..." + "Difficulty level is " + diff + "..." + "Length of content is " + str(length) + " words.")
-    if toc is None:
-        return jsonify(success=False, error="Failed to generate text from OpenAI API")
-
-    prs = Presentation()
-    slide_layout = prs.slide_layouts[1]
-
-    slide = prs.slides.add_slide(slide_layout)
-    title = slide.shapes.title
-    title.text = "Table of Contents"
-
-    toc_chunks = split_content_into_chunks(toc)
-
-    for chunk in toc_chunks:
-        slide = prs.slides.add_slide(slide_layout)
-        content = slide.placeholders[1]
-        tf = content.text_frame
-        tf.text = chunk
-        for paragraph in tf.paragraphs:
-            for run in paragraph.runs:
-                run.font.size = Pt(15)
-
-    content = slide.placeholders[1]
-    tf = content.text_frame
-
-    for line in toc.split('\n'):
-        p = tf.add_paragraph()
-        p.text = line
-        p.level = 0 if line.isupper() else 1
-
-    length = length // len(toc.split('\n'))
-    for line in toc.split('\n'):
-        if line.strip():
-            section_content = call_openai_api(f"Explain {line.strip()} in detail. Difficulty: " + diff + "..." + "Length of content is " + str(length) + " words.")
-            content_chunks = split_content_into_chunks(section_content)
-
-            for chunk in content_chunks:
-                slide = prs.slides.add_slide(slide_layout)
-                title = slide.shapes.title
-                title.text = line.strip()
-
-                content_box = slide.placeholders[1]
-                tf = content_box.text_frame
-                tf.text = chunk
-                print("Topic done")
-
-    pptx_path = os.path.join(pptx_directory, pptx_filename)
-    prs.save(pptx_path)
-
-    if current_user.is_authenticated:
-        fs = GridFS(db)
-        with open(pptx_path, 'rb') as pptx_file:
-            fs.put(pptx_file, filename=pptx_filename, user_id=current_user.user_id)
-
-    pptx_url = url_for('get_presentation', filename=pptx_filename)
-    return jsonify(success=True, pptx_url=pptx_url)
-
-def split_content_into_chunks(content):
-    '''Split content into chunks that fit on a slide.'''
-    max_chars_per_chunk = 400
-    content_chunks = []
-    current_chunk = ''
-    for line in content.split('\n'):
-        if len(current_chunk) + len(line) <= max_chars_per_chunk:
-            current_chunk += line + '\n'
-        else:
-            content_chunks.append(current_chunk)
-            current_chunk = line + '\n'
-    content_chunks.append(current_chunk)
-    return content_chunks
-
-@main.route('/get_user_pdfs', methods=['GET'])
-def get_user_pdfs():
-    '''Get all PDFs uploaded by the currently logged in user.'''
-    if current_user.is_authenticated:
-        fs = GridFS(db)
-        user_pdfs = fs.find({'user_id': current_user.user_id})
-    return user_pdfs
-
-@main.route('/pdf/<filename>')
-def get_pdf(filename):
-    '''Download a PDF from GridFS based on its filename.'''
-    if current_user.is_authenticated:
-        fs = GridFS(db)
-        grid_out = fs.find_one({'filename': filename, 'user_id': current_user.user_id})
-
-        if grid_out:
-            response = make_response(grid_out.read())
-            response.mimetype = 'application/pdf'
-            return response
-        else:
-            return "File not found", 404
-    else:
-        return "Unauthorized", 401
-
-@main.route('/presentation/<filename>')
-def get_presentation(filename):
-    '''Download a presentation from GridFS based on its filename.'''
-    if current_user.is_authenticated:
-        fs = GridFS(db)
-        grid_out = fs.find_one({'filename': filename, 'user_id': current_user.user_id})
-
-        if grid_out:
-            response = make_response(grid_out.read())
-            response.mimetype = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-            response.headers["Content-Disposition"] = f"attachment; filename={filename}"
-            return response
-        else:
-            abort(404, description="Presentation file not found")
-    else:
-        abort(401, description="Unauthorized to access this presentation")
-
-@main.route('/get_doc/<file_id>')
-def get_doc(file_id):
-    '''Download a file from GridFS based on its file_id.'''
-    try:
-        file_id = ObjectId(file_id)
-        grid_out = fs.get(file_id)
-        return send_file(grid_out, download_name=grid_out.filename, as_attachment=True)
-    except NoFile:
-        return jsonify({'error': 'File not found'}), 404
-
-@main.route('/list_pdfs', methods=['GET'])
-def list_pdfs():
-    '''List all PDFs in the database.'''
-    if current_user.is_authenticated:
-        fs = GridFS(db)
-        user_pdfs = fs.find({'user_id': current_user.user_id})
-    return render_template('content.html', pdfs=user_pdfs)    
-  
-@main.route('/check_file/<filename>', methods=['GET'])
-def check_file(filename):
-    '''Check if a file exists in the database.'''
-    try:
-        file = fs.get_last_version(filename=filename)
-        if file:
-            return jsonify(success=True, message="File exists in the database.")
-    except:
-        return jsonify(success=False, message="File does not exist in the database.")
-    
-@main.route('/submit_review', methods=['POST'])
-@login_required
-def submit_review():
-    '''Submit a review for a file.'''
-    form_data = request.form
-    star_rating = form_data.get('star_rating')
-    review_text = form_data.get('review_text')
-    subject = form_data.get('subject')
-    file_id = form_data.get('file_id')
-
-    user_id = ObjectId(current_user.get_id())
-    user_details = users_collection.find_one({"_id": user_id})
-    
-    if not user_details:
-        return redirect(url_for('my_content'))
-
-    first_name = user_details.get('first_name', '')
-    last_name = user_details.get('last_name', '')
-
-    if reviews_collection.find_one({"user_id": user_id, "file_id": file_id}):
-        return redirect(url_for('my_content'))
-
-    review = {
-        "user_id": user_id,
-        "file_id": file_id,
-        "first_name": first_name,
-        "last_name": last_name,
-        "star_rating": star_rating,
-        "review_text": review_text,
-        "subject": subject,
-        "timestamp": datetime.utcnow()
-    }
-
-    reviews_collection.insert_one(review)
-    return redirect(url_for('my_content'))
-
-@main.route('/reviews')
-@login_required
-def reviews():
-    '''Display all reviews.'''
-    user_id = current_user.get_id()  
-    all_reviews = reviews_collection.find().sort("timestamp", -1)
-    return render_template('reviews.html', reviews=all_reviews)
-
-@main.route('/check_review_existence', methods=['GET'])
-@login_required
-def check_review_existence():
-    '''Check if a review exists for a file.'''
-    file_id = request.args.get('file_id')
-    user_id = ObjectId(current_user.get_id())
-
-    existing_review = reviews_collection.find_one({"user_id": str(user_id), "file_id": file_id})
-    if existing_review:
-        return jsonify({"reviewExists": True})
-    else:
-        return jsonify({"reviewExists": False})
-
-@main.route('/delete_review', methods=['POST'])
-@login_required
-def delete_review():
-    '''Delete a review.'''
-    file_id = request.form.get('file_id')
-    user_id = current_user.get_id()
-    result = reviews_collection.delete_one({"user_id": user_id, "file_id": file_id})
-    return redirect(url_for('reviews'))
-
-@main.route('/delete/<file_id>', methods=['POST'])
-def delete_file(file_id):
-    '''Delete a file from GridFS based on its file_id.'''
-    file_id = ObjectId(file_id)
-    fs.delete(file_id)
-    return redirect(url_for('my_content'))
-
-@main.route("/chatbot", methods=["POST"])
-def chatbot():
-    '''Chatbot route to handle user messages and generate responses.'''
-    message = request.json.get("message")
-    openai.api_key = 'your-api-key'
-
-    completion = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=message,
-        max_tokens=150
-    )
-
-    if completion.choices and completion.choices[0].text.strip() != "":
-        return completion.choices[0].text.strip()
-    else:
-        return 'Failed to Generate response!'
-
 @main.route('/generate_quiz/<file_id>')
 def generate_quiz(file_id):
     '''Generate a quiz based on the text extracted from a PDF or PPTX file.'''
@@ -1113,94 +1049,213 @@ def generate_quiz(file_id):
     timestamp = str(int(time.time()))
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
     doc_filename = file_name.split('.')[0] + '_quiz_' + timestamp + '_' + random_string + '.docx'
-    
+
     temp_path = os.path.join(temp_dir, doc_filename)
     doc.save(temp_path)
 
     with open(temp_path, 'rb') as doc_file:
         if current_user.is_authenticated:
             file_id = fs.put(doc_file, filename=doc_filename, user_id=str(current_user.get_id()))
-    
+
     os.remove(temp_path)
     os.rmdir(temp_dir)
 
     quiz_url = url_for('get_doc', file_id=file_id, _external=True)
     return jsonify(success=True, quiz_url=quiz_url)
 
-def get_file_stream(file_id):
-    '''Retrieve a file from GridFS and return it as a stream.'''
+
+# ============================================================================
+# ROUTES - FILE OPERATIONS
+# ============================================================================
+
+@main.route('/pdf/<filename>')
+def get_pdf(filename):
+    '''Download a PDF from GridFS based on its filename.'''
+    if current_user.is_authenticated:
+        fs_instance = GridFS(db)
+        grid_out = fs_instance.find_one({'filename': filename, 'user_id': current_user.user_id})
+
+        if grid_out:
+            response = make_response(grid_out.read())
+            response.mimetype = 'application/pdf'
+            return response
+        else:
+            return "File not found", 404
+    else:
+        return "Unauthorized", 401
+
+
+@main.route('/presentation/<filename>')
+def get_presentation(filename):
+    '''Download a presentation from GridFS based on its filename.'''
+    if current_user.is_authenticated:
+        fs_instance = GridFS(db)
+        grid_out = fs_instance.find_one({'filename': filename, 'user_id': current_user.user_id})
+
+        if grid_out:
+            response = make_response(grid_out.read())
+            response.mimetype = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+            return response
+        else:
+            abort(404, description="Presentation file not found")
+    else:
+        abort(401, description="Unauthorized to access this presentation")
+
+
+@main.route('/get_doc/<file_id>')
+def get_doc(file_id):
+    '''Download a file from GridFS based on its file_id.'''
     try:
         file_id = ObjectId(file_id)
-        fs = GridFS(db)
-        file = fs.get(file_id)
-        file_stream = io.BytesIO(file.read())
-        return file_stream
-    except Exception as e:
-        print(f"Error retrieving file: {e}")
-        return None
+        grid_out = fs.get(file_id)
+        return send_file(grid_out, download_name=grid_out.filename, as_attachment=True)
+    except NoFile:
+        return jsonify({'error': 'File not found'}), 404
 
-def extract_text_from_pdf(file_stream):
-    '''Extract text from a PDF file stream.'''
-    file_stream.seek(0)
-    reader = PdfReader(file_stream)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text() + "\n"
-    return text
 
-def extract_text_from_pptx(file_stream):
-    '''Extract text from a PPTX file stream.'''
-    file_stream.seek(0)
-    presentation = Presentation(file_stream)
-    text = ""
-    first_slide = presentation.slides[0]
-    for shape in first_slide.shapes:
-        if hasattr(shape, "text"):
-            text += shape.text + "\n"
-            break
-    return text
+@main.route('/delete/<file_id>', methods=['POST'])
+def delete_file(file_id):
+    '''Delete a file from GridFS based on its file_id.'''
+    file_id = ObjectId(file_id)
+    fs.delete(file_id)
+    return redirect(url_for('my_content'))
 
-def generate_questions(text):
-    '''Generate quiz questions based on the given text.'''
-    mcq_prompt = f"Create 20 multiple-choice questions based on the following text: \n{text}\nEach question should have 4 options (A, B, C, D), and indicate the correct answer."
-    short_ans_prompt = f"Create 5 short answer questions based on the following text: \n{text}"
-    long_ans_prompt = f"Create 2 long answer questions based on the following text: \n{text}"
-    application_prompt = f"Create 1 application question based on the following text: \n{text}"
 
-    mcq_text = call_openai_api(mcq_prompt)
-    short_ans_text = call_openai_api(short_ans_prompt)
-    long_ans_text = call_openai_api(long_ans_prompt)
-    application_text = call_openai_api(application_prompt)
+@main.route('/share/<file_id>')
+def share_file(file_id):
+    '''Function to share a file with a unique URL.'''
+    file_id = ObjectId(file_id)
+    file = fs.get(file_id)
+    response = make_response(file.read())
+    response.mimetype = 'application/pdf'
+    response.headers.set('Content-Disposition', 'attachment', filename=file.filename)
+    return response
 
-    questions = []
-    if mcq_text:
-        questions.extend(mcq_text.strip().split('\n\n'))
-    if short_ans_text:
-        questions.extend(short_ans_text.strip().split('\n\n'))
-    if long_ans_text:
-        questions.extend(long_ans_text.strip().split('\n\n'))
-    if application_text:
-        questions.extend(application_text.strip().split('\n\n'))
 
-    return questions if questions else ["Failed to generate questions."]
+@main.route('/share_via_email', methods=['POST'])
+def share_via_email():
+    '''Function to share a file via email as an attachment.'''
+    recipient = request.form.get('email')
+    file_id = request.form.get('file_id')
 
-def calculate_ratings():
-    '''Calculate the star ratings and average rating based on all reviews.'''
-    all_reviews = list(reviews_collection.find())
-    star_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
-    total_rating = 0
-    total_count = 0
+    file_obj = fs.get(ObjectId(file_id))
+    file_data = file_obj.read()
+    file_name = file_obj.filename
 
-    for review in all_reviews:
-        rating = review.get('star_rating')
-        if rating is not None and rating != '' and rating != 0 and rating != []:
-            rating = int(rating)
-            star_counts[rating] += 1
-            total_rating += rating
-            total_count += 1
+    msg = Message('Your Shared File',
+                  sender=main.config['MAIL_USERNAME'],
+                  recipients=[recipient])
+    msg.body = 'Please find the attached file.'
+    msg.attach(file_name, "application/octet-stream", file_data)
+    mail.send(msg)
 
-    average_rating = total_rating / total_count if total_count else 0
-    return star_counts, average_rating
+    flash('Email sent with the file attached!')
+    return redirect(url_for('my_content'))
+
+
+@main.route('/check_file/<filename>', methods=['GET'])
+def check_file(filename):
+    '''Check if a file exists in the database.'''
+    try:
+        file = fs.get_last_version(filename=filename)
+        if file:
+            return jsonify(success=True, message="File exists in the database.")
+    except:
+        return jsonify(success=False, message="File does not exist in the database.")
+
+
+@main.route('/list_pdfs', methods=['GET'])
+def list_pdfs():
+    '''List all PDFs in the database.'''
+    if current_user.is_authenticated:
+        fs_instance = GridFS(db)
+        user_pdfs = fs_instance.find({'user_id': current_user.user_id})
+    return render_template('content.html', pdfs=user_pdfs)
+
+
+@main.route('/get_user_pdfs', methods=['GET'])
+def get_user_pdfs():
+    '''Get all PDFs uploaded by the currently logged in user.'''
+    if current_user.is_authenticated:
+        fs_instance = GridFS(db)
+        user_pdfs = fs_instance.find({'user_id': current_user.user_id})
+    return user_pdfs
+
+
+# ============================================================================
+# ROUTES - REVIEWS
+# ============================================================================
+
+@main.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review():
+    '''Submit a review for a file.'''
+    form_data = request.form
+    star_rating = form_data.get('star_rating')
+    review_text = form_data.get('review_text')
+    subject = form_data.get('subject')
+    file_id = form_data.get('file_id')
+
+    user_id = ObjectId(current_user.get_id())
+    user_details = users_collection.find_one({"_id": user_id})
+
+    if not user_details:
+        return redirect(url_for('my_content'))
+
+    first_name = user_details.get('first_name', '')
+    last_name = user_details.get('last_name', '')
+
+    if reviews_collection.find_one({"user_id": user_id, "file_id": file_id}):
+        return redirect(url_for('my_content'))
+
+    review = {
+        "user_id": user_id,
+        "file_id": file_id,
+        "first_name": first_name,
+        "last_name": last_name,
+        "star_rating": star_rating,
+        "review_text": review_text,
+        "subject": subject,
+        "timestamp": datetime.utcnow()
+    }
+
+    reviews_collection.insert_one(review)
+    return redirect(url_for('my_content'))
+
+
+@main.route('/reviews')
+@login_required
+def reviews():
+    '''Display all reviews.'''
+    user_id = current_user.get_id()
+    all_reviews = reviews_collection.find().sort("timestamp", -1)
+    return render_template('reviews.html', reviews=all_reviews)
+
+
+@main.route('/check_review_existence', methods=['GET'])
+@login_required
+def check_review_existence():
+    '''Check if a review exists for a file.'''
+    file_id = request.args.get('file_id')
+    user_id = ObjectId(current_user.get_id())
+
+    existing_review = reviews_collection.find_one({"user_id": str(user_id), "file_id": file_id})
+    if existing_review:
+        return jsonify({"reviewExists": True})
+    else:
+        return jsonify({"reviewExists": False})
+
+
+@main.route('/delete_review', methods=['POST'])
+@login_required
+def delete_review():
+    '''Delete a review.'''
+    file_id = request.form.get('file_id')
+    user_id = current_user.get_id()
+    result = reviews_collection.delete_one({"user_id": user_id, "file_id": file_id})
+    return redirect(url_for('reviews'))
+
 
 @main.route('/ratings')
 @login_required
@@ -1208,6 +1263,61 @@ def ratings():
     '''Display the star ratings and average rating based on all reviews.'''
     star_counts, average_rating = calculate_ratings()
     return jsonify({'star_counts': star_counts, 'average_rating': average_rating})
+
+
+# ============================================================================
+# ROUTES - CHATBOT
+# ============================================================================
+
+@main.route('/api/chat', methods=['POST'])
+def chat():
+    '''Function for the chatbot API endpoint.'''
+    try:
+        user_input = request.json['message']
+        print("User input received:", user_input)
+
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "AI, your role is to assist users in navigating and utilizing the features of Coursify.ai effectively. You will only answer questions related to this website. When a user inquires about generating content, guide them through entering the desired content length, difficulty, and topics. If they need to manage their notes, direct them to the 'My Content' section. For account-related queries, help users find where to update their details or change their password on the 'Settings' page. Remember to always respect user privacy and handle their data with care. Should users need assistance with features or encounter issues, use the AI assistant chat to offer support. Provide clear, friendly guidance, ensuring users feel supported at every step. For new users, explain the registration process, and for returning users, assist them with the login procedure. Always communicate in a warm, professional manner, creating a positive user experience."},
+                {"role": "user", "content": user_input}
+            ]
+        )
+        print("Response from OpenAI:", response)
+
+        ai_reply = response['choices'][0]['message']['content']
+        print("AI Reply:", ai_reply)
+
+        return jsonify({'reply': ai_reply})
+    except Exception as e:
+        print("An error occurred:", e)
+        return jsonify({'error': str(e)}), 500
+
+
+@main.route("/chatbot", methods=["POST"])
+def chatbot():
+    '''Chatbot route to handle user messages and generate responses.'''
+    message = request.json.get("message")
+
+    try:
+        completion = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=message,
+            max_tokens=150
+        )
+
+        if completion.choices and completion.choices[0].text.strip() != "":
+            return completion.choices[0].text.strip()
+        else:
+            return 'Failed to Generate response!'
+    except Exception as e:
+        print(f"Chatbot error: {e}")
+        return 'Failed to Generate response!'
+
+
+# ============================================================================
+# MAIN ENTRY POINT
+# ============================================================================
 
 if __name__ == '__main__':
     main.run(host='0.0.0.0', port=5000, debug=True)
