@@ -20,4 +20,4 @@ EXPOSE 5000
 ENV PYTHONUNBUFFERED=1
 
 # Run main.py directly - NO wsgi.py needed!
-CMD gunicorn main:main --bind 0.0.0.0:${PORT:-5000} --workers 1 --timeout 300 --graceful-timeout 300 --preload
+CMD gunicorn main:app --bind 0.0.0.0:${PORT:-5000} --workers 1 --timeout 300 --graceful-timeout 300 --preload

@@ -15,6 +15,8 @@ from pptx import Presentation
 from pptx.util import Pt
 from docx import Document
 from PyPDF2 import PdfReader
+from io import BytesIO
+from bson.objectid import ObjectId
 
 from extensions import fs
 from utils import llm, sanitize_filename, wrap_text, split_content_into_chunks, is_latex, render_latex, get_difficulty_text
