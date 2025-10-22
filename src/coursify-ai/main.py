@@ -90,17 +90,11 @@ openai.api_key = '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'
 main.secret_key = 'coursifyai1234'
 
 serializer = URLSafeTimedSerializer(main.secret_key)
-MONGO_USER = os.environ.get('MONGO_USER', '').strip()
-MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', '').strip()
-MONGO_HOST = os.environ.get('MONGO_HOST', '').strip()
-MONGO_PORT = os.environ.get('MONGO_PORT', '27017').strip()
+MONGO_URL = os.environ.get('MONGO_URL') or os.environ.get('DATABASE_URL')
 
-print(f"Connecting to MongoDB: {MONGO_USER}@{MONGO_HOST}:{MONGO_PORT}")
-
-if not all([MONGO_USER, MONGO_PASSWORD, MONGO_HOST]):
-    raise Exception("Missing MongoDB credentials!")
-
-MONGO_URL = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/?authSource=admin"
+if not MONGO_URL:
+    # Fall back to constructing it manually
+    MONGO_USER = os.environ.get('MONGO_USER', '').strip()
 
 client = MongoClient(MONGO_URL)
 db = client['new_pdfs']
