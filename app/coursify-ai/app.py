@@ -1573,8 +1573,6 @@ def pptx_to_images(pptx_file):
     return images
         
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
 def create_app():
