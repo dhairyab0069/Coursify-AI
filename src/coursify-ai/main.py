@@ -186,7 +186,7 @@ def generate_quiz(file_id):
 @login_required
 def my_content():
     """Display user's content"""
-    files = fs.find({"user_id": current_user.get_id()}).sort("_id", -1)
+    files = extensions.fs.find({"user_id": current_user.get_id()}).sort("_id", -1)
     file_data = []
     for file in files:
         file_data.append({"filename": file.filename, "_id": str(file._id)})

@@ -27,9 +27,8 @@ class LLMClient:
         self.openai_key = Config.OPENAI_API_KEY
 
         if self.provider == 'openai' and self.openai_key:
-            import openai
-            openai.api_key = self.openai_key
-            self.openai = openai
+            from openai import OpenAI
+            self.openai_client = OpenAI(api_key=self.openai_key)
 
     def generate(self, prompt, system_prompt=None):
         """Generate text using configured LLM"""
@@ -39,18 +38,20 @@ class LLMClient:
             return self._generate_ollama(prompt, system_prompt)
 
     def _generate_openai(self, prompt, system_prompt=None):
-        """Generate using OpenAI API"""
+        """Generate using OpenAI API (new v1.0+ syntax)"""
         try:
             messages = []
             if system_prompt:
                 messages.append({"role": "system", "content": system_prompt})
             messages.append({"role": "user", "content": prompt})
 
-            response = self.openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=messages
+            response = self.openai_client.chat.completions.create(
+                model=Config.OPENAI_MODEL,
+                messages=messages,
+                temperature=Config.LLM_TEMPERATURE,
+                max_tokens=Config.LLM_MAX_TOKENS
             )
-            return response['choices'][0]['message']['content']
+            return response.choices[0].message.content
         except Exception as e:
             print(f"Error calling OpenAI API: {e}")
             return None
