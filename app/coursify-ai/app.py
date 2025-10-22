@@ -1460,9 +1460,7 @@ def generate_questions(text):
     return questions if questions else ["Failed to generate questions."]
 
     
-if __name__ == '__main__':
-    app.debug = True
-    app.run()
+
 
     
 @app.route('/submit_review', methods=['POST'], endpoint='submit_review1')
@@ -1605,3 +1603,8 @@ def ratings():
     '''Display the star ratings and average rating based on all reviews.'''
     star_counts, average_rating = calculate_ratings()
     return jsonify({'star_counts': star_counts, 'average_rating': average_rating})
+
+
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
