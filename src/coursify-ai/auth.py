@@ -1,3 +1,4 @@
+
 """
 Authentication routes: Login, Registration, Password Reset
 No email verification required
@@ -11,6 +12,7 @@ from itsdangerous import SignatureExpired, BadSignature
 from extensions import bcrypt, users_collection, serializer
 from models import User
 from utils import validate_password
+
 
 
 # ============================================================================
@@ -27,13 +29,6 @@ def register():
         birth_day = int(request.form.get('birth_day'))
         birth_month = int(request.form.get('birth_month'))
         birth_year = int(request.form.get('birth_year'))
-        gender = request.form.get('gender')
-        custom_gender = request.form.get('custom_gender') if 'custom_gender' in request.form else None
-
-        if gender == 'custom' and custom_gender:
-            gender_value = custom_gender
-        else:
-            gender_value = gender
 
         # Check if user already exists
         user = users_collection.find_one({"email": email})
@@ -57,7 +52,6 @@ def register():
             "email": email,
             "password": hashed_password,
             "birth_date": birth_date,
-            "gender": gender_value,
             "verified": True,  # Auto-verified (no email needed)
             "created_at": datetime.utcnow()
         })
