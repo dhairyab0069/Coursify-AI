@@ -1,213 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>File Preview</title>
+    <title>File Preview - Coursify.ai</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
+            rel="stylesheet"
     />
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styleIndex.css') }}"
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
     />
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
-    // Add the missing import statement for pdfjsLib
-
-  </head>
-  <body>
-    <header class="header">
-      <div class="link_container">
-        <a href="{{ url_for('index') }}"
-          ><img
-            src="{{ url_for('static', filename='cap_logo1.png') }}"
-            id="logo"
-        /></a>
-      </div>
-      <nav class="navbar">
-        <div id="sidebar">
-
-            <a href="{{ url_for('index') }}" id="homenav">HOME</a>
-            <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
-            <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
-            <a href="{{ url_for('ai_html') }}">AI ASSISTANT</a>
-            <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
-            <a href="{{ url_for('settings') }}" id="settings">SETTINGS</a>
-            <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
-         
-        </div>
-      </nav>
-      <i class="bx bx-menu"></i>
-    </header>
-    <div class="content-header">
-      <h1 id="title">File Preview</h1>
-      <button id="back-button">Back</button>
+    <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='styleIndex.css') }}"
+    />
+    <style>
+        #preview-container {
+            width: 95%;
+            height: calc(100vh - 250px);
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+        #preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .preview-message {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+        }
+        .download-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+        .download-button:hover {
+            background: #45a049;
+        }
+        .content-header {
+            text-align: center;
+            padding: 20px;
+        }
+        #back-button {
+            padding: 10px 20px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        #back-button:hover {
+            background: #0b7dda;
+        }
+        #loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="link_container">
+        <a href="{{ url_for('index') }}">
+            <img
+                    src="{{ url_for('static', filename='cap_logo1.png') }}"
+                    alt="Coursify Logo"
+                    id="logo"
+            />
+        </a>
     </div>
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}" id="homenav">HOME</a>
+        <a href="{{ url_for('quiz_generate') }}" id="quiz">QUIZ</a>
+        <a href="{{ url_for('my_content') }}" id="content">MY CONTENT</a>
+        <a href="{{ url_for('ai_html') }}" id="ai">AI ASSISTANT</a>
+        <a href="{{ url_for('reviews') }}" id="reviews">REVIEW</a>
+        <a href="{{ url_for('settings') }}" id="settings">SETTINGS</a>
+        <a href="{{ url_for('logout') }}" id="logout">LOGOUT</a>
+    </nav>
+    <i class="bx bx-menu"></i>
+</header>
 
-    <div id="loadingIndicator" style="display: none">Loading...</div>
-    <div id="render-container" style="overflow-y: auto"></div>
+<div class="content-header">
+    <h1 id="title">File Preview</h1>
+    <button id="back-button">← Back to My Content</button>
+</div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        function renderFile(fileUrl, fileType) {
-          const renderContainer = document.getElementById("render-container");
-          const loadingIndicator = document.getElementById("loadingIndicator");
-          loadingIndicator.style.display = "block"; // Show loading indicator
+<div id="loading" style="display: block;">Loading preview...</div>
+<div id="preview-container" style="display: none;">
+    <div id="preview-content"></div>
+</div>
 
-          //get filename from url
-          let filename = fileUrl.split("/").pop();
-          let encodedFilename = encodeURIComponent(filename);
-          let urlPath;
-          if (fileType === "pdf") {
-            urlPath = `pdf/${encodedFilename}`;
-          } else if (fileType === "pptx") {
-            urlPath = `presentation/${encodedFilename}`; // Adjusted to fetch from presentations directory
-          }
-            const fullUrl = `/${urlPath}`;
-          if (fileType === "pdf") {
-            renderPDFOnCanvas(fullUrl);
-          } else if (fileType === "pptx") {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Extract filename from URL path
+        const pathParts = window.location.pathname.split('/');
+        const filename = decodeURIComponent(pathParts[pathParts.length - 1]);
+        const fileExtension = filename.split('.').pop().toLowerCase();
+        const previewContent = document.getElementById('preview-content');
+        const loadingDiv = document.getElementById('loading');
+        const previewContainer = document.getElementById('preview-container');
 
-            renderPPTXAsPDF(fullUrl);
+        // Hide loading and show preview container
+        setTimeout(() => {
+            loadingDiv.style.display = 'none';
+            previewContainer.style.display = 'block';
+        }, 500);
 
-          }
+        if (fileExtension === 'pdf') {
+            // Use iframe for PDF preview - browser handles it natively
+            const pdfUrl = `/pdf/${encodeURIComponent(filename)}`;
+            previewContent.innerHTML = `<iframe id="preview-iframe" src="${pdfUrl}#toolbar=1&navpanes=1&scrollbar=1"></iframe>`;
+
+        } else if (fileExtension === 'pptx') {
+            // Use Microsoft Office Online Viewer for PPTX
+            const pptxUrl = `/presentation/${encodeURIComponent(filename)}`;
+            const fullUrl = window.location.origin + pptxUrl;
+            const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}`;
+            previewContent.innerHTML = `<iframe id="preview-iframe" src="${viewerUrl}"></iframe>`;
+
+        } else if (fileExtension === 'docx') {
+            // For DOCX, we need the file_id from somewhere
+            // Since we only have filename, let's show a download option
+            previewContent.innerHTML = `
+            <div class="preview-message">
+              <h2>📄 ${filename}</h2>
+              <p>Word document preview is not available.</p>
+              <p>Please download the file to view it.</p>
+              <a href="{{ url_for('my_content') }}" class="download-button">← Back to My Content</a>
+            </div>
+          `;
+
+        } else {
+            previewContent.innerHTML = `
+            <div class="preview-message">
+              <h2>Preview Not Available</h2>
+              <p>This file type (${fileExtension}) cannot be previewed in the browser.</p>
+              <a href="{{ url_for('my_content') }}" class="download-button">← Back to My Content</a>
+            </div>
+          `;
         }
+    });
 
-        function renderPDFOnCanvas(pdfUrl) {
+    // Back button functionality
+    document.getElementById("back-button").addEventListener("click", function () {
+        window.location.href = "{{ url_for('my_content') }}";
+    });
+</script>
 
-          console.log(pdfUrl);
-
-          const loadingIndicator = document.getElementById("loadingIndicator");
-          loadingIndicator.style.display = "block"; // Show loading indicator
-
-          const renderContainer = document.getElementById("render-container");
-          renderContainer.innerHTML = ""; // Clear previous content
-
-          pdfjsLib.getDocument(pdfUrl).promise.then(
-            function (pdfDoc) {
-              console.log(`PDF Document loaded. Pages: ${pdfDoc.numPages}`);
-
-              for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
-                pdfDoc.getPage(pageNum).then(function (page) {
-                  var viewport = page.getViewport({ scale: 1.5 });
-                  var canvas = document.createElement("canvas");
-                  renderContainer.appendChild(canvas);
-
-                  canvas.height = viewport.height;
-                  canvas.width = viewport.width;
-                  var context = canvas.getContext("2d");
-
-                  var renderContext = {
-                    canvasContext: context,
-                    viewport: viewport,
-                  };
-                  page.render(renderContext).promise.then(function () {
-                    console.log(`Page ${pageNum} rendered`);
-                    if (pageNum === pdfDoc.numPages) {
-                      loadingIndicator.style.display = "none"; // Hide loading indicator once all pages are rendered
-                    }
-                  });
-                });
-              }
-            },
-            function (error) {
-              console.error("Error loading PDF:", error);
-              loadingIndicator.style.display = "none"; // Hide loading indicator on error
-            }
-          );
-        }
-
-
-        function renderPPTXAsPDF(fileUrl) {
-          console.log(`Requesting PDF for: ${fileUrl}`);
-          const loadingIndicator = document.getElementById("loadingIndicator");
-          loadingIndicator.style.display = "block"; // Show loading indicator
-
-          const renderContainer = document.getElementById("render-container");
-          renderContainer.innerHTML = ""; // Clear previous content
-
-          // get pdf filename from the url
-          let pdfUrl = fileUrl.replace("pptx", "pdf");
-          pdfUrl = pdfUrl.replace("presentation", "pdf");
-          console.log(`PDF URL: ${pdfUrl}`);
-
-          // Fetch the URL of the converted PDF from the Flask server
-          fetch(pdfUrl)
-            .then((response) => response.text())
-            .then((data) => {
-              const pdfFileUrl = data;
-              // Use PDF.js to load and render the PDF
-              pdfjsLib.getDocument(pdfFileUrl).promise.then(
-                function (pdfDoc) {
-                  console.log(`PDF Document loaded. Pages: ${pdfDoc.numPages}`);
-
-                  // Render each page in the PDF
-                  for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
-                    pdfDoc.getPage(pageNum).then(function (page) {
-                      var viewport = page.getViewport({ scale: 1.5 });
-                      var canvas = document.createElement("canvas");
-                      renderContainer.appendChild(canvas);
-
-                      canvas.height = viewport.height;
-                      canvas.width = viewport.width;
-                      var context = canvas.getContext("2d");
-
-                      var renderContext = {
-                        canvasContext: context,
-                        viewport: viewport,
-                      };
-                      page.render(renderContext).promise.then(function () {
-                        console.log(`Page ${pageNum} rendered`);
-                        if (pageNum === pdfDoc.numPages) {
-                          loadingIndicator.style.display = "none"; // Hide loading indicator once all pages are rendered
-                        }
-                      });
-                    });
-                  }
-                },
-                function (error) {
-                  console.error("Error loading PDF:", error);
-                  loadingIndicator.style.display = "none"; // Hide loading indicator on error
-                  // Optionally, add user feedback here (e.g., display an error message)
-                }
-              );
-            });
-
-        }
-
-        const filename = getQueryParam("filename");
-        if (filename) {
-          const fileType = filename.split(".").pop();
-          renderFile(filename, fileType); // Pass just the filename and fileType
-        }
-        window.addEventListener("DOMContentLoaded", (event) => {
-          const filename = getQueryParam("filename");
-          const fileType = filename.split(".").pop();
-          const fileUrl = `/presentation/${filename}`;
-        });
-
-        function getQueryParam(param) {
-          const urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get(param);
-        }
-      });
-
-      document
-        .getElementById("back-button")
-        .addEventListener("click", function () {
-          window.history.back();
-        });
-    </script>
-
-    <script>
-      document
-        .getElementById("back-button")
-        .addEventListener("click", function () {
-          window.history.back();
-        });
-    </script>
-  </body>
+<footer id="footer">&copy; 2023 CoursifyAI. All rights reserved.</footer>
+</body>
 </html>
