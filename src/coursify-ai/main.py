@@ -90,12 +90,12 @@ openai.api_key = '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'
 main.secret_key = 'coursifyai1234'
 
 serializer = URLSafeTimedSerializer(main.secret_key)
+MONGO_USER = os.environ.get('MONGO_USER', 'mongo')
+MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', '')
+MONGO_HOST = os.environ.get('MONGO_HOST', 'localhost')
+MONGO_PORT = os.environ.get('MONGO_PORT', '27017')
 
-
-
-
-# Setup MongoDB connection
-MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/')
+MONGO_URL = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}"
 client = MongoClient(MONGO_URL)
 db = client['new_pdfs']
 db2=client['Login_details']
