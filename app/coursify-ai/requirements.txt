@@ -101,3 +101,4 @@ wsproto==1.2.0
 WTForms==3.1.2
 XlsxWriter==3.1.9
 yarl==1.9.4
+gunicorn==21.2.0
