@@ -10,8 +10,11 @@ class Config:
     # MongoDB Configuration
     MONGODB_URI = os.environ.get('MONGODB_URI') or 'mongodb://localhost:27017/coursify'
 
-    # OpenAI API Configuration
+    # OpenAI/LLM Configuration
     OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+    LLM_PROVIDER = os.environ.get('LLM_PROVIDER', 'openai')  # Default to 'openai'
+    LLM_MODEL = os.environ.get('LLM_MODEL', 'gpt-3.5-turbo')  # Default model
+    LLM_API_KEY = os.environ.get('OPENAI_API_KEY')  # Alias for compatibility
 
     # Flask Configuration
     DEBUG = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
