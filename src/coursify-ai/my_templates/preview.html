@@ -135,18 +135,28 @@
             previewContent.innerHTML = `<iframe id="preview-iframe" src="${viewerUrl}"></iframe>`;
 
         } else if (fileExtension === 'docx') {
-            // For DOCX, we need the file_id from somewhere
-            // Since we only have filename, let's show a download option
+            // DOCX cannot be previewed - show download option
             previewContent.innerHTML = `
-            <div class="preview-message">
-              <h2>📄 ${filename}</h2>
-              <p>Word document preview is not available.</p>
-              <p>Please download the file to view it.</p>
-              <a href="{{ url_for('my_content') }}" class="download-button">← Back to My Content</a>
-            </div>
-          `;
-
-        } else {
+    <div class="preview-message">
+      <h2>📄 Document Preview</h2>
+      <p><strong>${filename}</strong></p>
+      <p>Word documents cannot be previewed directly in the browser.</p>
+      <p>Click the button below to download and open in Microsoft Word or Google Docs.</p>
+      <button onclick="window.history.back()" class="download-button">← Back to My Content</button>
+    </div>
+  `;
+        }else if (fileExtension === 'pptx') {
+            // PPTX cannot be previewed - show download option
+            previewContent.innerHTML = `
+    <div class="preview-message">
+      <h2>📊 Presentation Preview</h2>
+      <p><strong>${filename}</strong></p>
+      <p>PowerPoint files cannot be previewed directly in the browser.</p>
+      <p>Click the button below to download and open in PowerPoint or Google Slides.</p>
+      <button onclick="window.history.back()" class="download-button">← Back to My Content</button>
+    </div>
+  `;
+        }else {
             previewContent.innerHTML = `
             <div class="preview-message">
               <h2>Preview Not Available</h2>
