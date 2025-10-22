@@ -95,7 +95,8 @@ serializer = URLSafeTimedSerializer(main.secret_key)
 
 
 # Setup MongoDB connection
-client = MongoClient('mongodb+srv://Remy:1234@cluster0.vgzdbrr.mongodb.net/')
+MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/')
+client = MongoClient(MONGO_URL)
 db = client['new_pdfs']
 db2=client['Login_details']
 db3=client['reviews']
