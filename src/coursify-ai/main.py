@@ -281,7 +281,8 @@ def ai_html():
     return render_template('ai.html')
 
 
-@app.route('/preview.html')
+@app.route('/preview/<filename>')
+@login_required
 def preview():
     return render_template('preview.html')
 
