@@ -24,7 +24,7 @@ import generators
 
 print("Initializing Coursify-AI...")
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='my_templates')
 app.config.from_object(Config)
 
 # Initialize extensions
