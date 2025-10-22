@@ -590,7 +590,6 @@ def reset_forgot_password(token):
 # ============================================================================
 
 @main.route('/index')
-@login_required
 def index():
     '''Function to render the dashboard page after successful login.'''
     return render_template('index.html')
