@@ -81,8 +81,9 @@ if main.secret_key == 'dev-secret-CHANGE-IN-PRODUCTION':
 # OpenAI API Key
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 if not openai.api_key:
-    print("ERROR: OPENAI_API_KEY environment variable not set!")
-    raise Exception("OPENAI_API_KEY is required. Please set it in your environment variables.")
+    print("WARNING: OPENAI_API_KEY environment variable not set! AI features will not work.")
+else:
+    print("✓ OpenAI API key loaded")
 
 # SendGrid API Key
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
@@ -285,6 +286,10 @@ def render_latex(formula, fontsize=12, dpi=150):
 
 def call_openai_api(prompt):
     '''Calls the OpenAI API to generate content based on the user's input.'''
+    if not openai.api_key:
+        print("ERROR: Cannot call OpenAI API - API key not configured")
+        return None
+
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
