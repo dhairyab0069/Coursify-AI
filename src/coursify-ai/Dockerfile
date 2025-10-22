@@ -16,4 +16,4 @@ ENV FLASK_RUN_HOST=0.0.0.0
 ENV PYTHONUNBUFFERED=1
 
 # Now gunicorn looks for 'application' in 'main.py' - no naming conflict!
-CMD gunicorn main:application --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120
+CMD gunicorn main:main --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120
