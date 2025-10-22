@@ -78,7 +78,7 @@ class RegistrationForm(FlaskForm):
 
 
 
-app = Flask(__name__, template_folder='my_templates')
+application = Flask(__name__, template_folder='my_templates')
 CORS(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
