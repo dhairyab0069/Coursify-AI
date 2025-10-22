@@ -18,6 +18,6 @@
     "restartPolicyMaxRetries": 10
   },
   "network": {
-    "type": "PRIVATE"
+    "type": "PUBLIC"
   }
 }
