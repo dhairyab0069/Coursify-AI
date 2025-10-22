@@ -1,4 +1,3 @@
-
 """
 Authentication routes: Login, Registration, Password Reset
 No email verification required
@@ -9,10 +8,10 @@ from datetime import datetime
 from bson.objectid import ObjectId
 from itsdangerous import SignatureExpired, BadSignature
 
-from extensions import bcrypt, users_collection, serializer
+from extensions import bcrypt, serializer
+import extensions
 from models import User
 from utils import validate_password
-
 
 
 # ============================================================================
@@ -31,7 +30,7 @@ def register():
         birth_year = int(request.form.get('birth_year'))
 
         # Check if user already exists
-        user = users_collection.find_one({"email": email})
+        user = extensions.users_collection.find_one({"email": email})
         if user:
             flash('Email already exists. Please login or use a different email.', 'danger')
             return redirect(url_for('register'))
@@ -46,7 +45,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         birth_date = datetime(birth_year, birth_month, birth_day)
 
-        users_collection.insert_one({
+        extensions.users_collection.insert_one({
             "first_name": first_name,
             "last_name": last_name,
             "email": email,
@@ -72,7 +71,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        user = users_collection.find_one({"email": email})
+        user = extensions.users_collection.find_one({"email": email})
 
         if user and bcrypt.check_password_hash(user['password'], password):
             user_obj = User(user_id=str(user["_id"]), email=email)
@@ -108,7 +107,7 @@ def forgot_password():
         birth_month = request.form.get('birth_month')
         birth_year = request.form.get('birth_year')
 
-        user = users_collection.find_one({"email": email})
+        user = extensions.users_collection.find_one({"email": email})
 
         if user:
             # Verify identity using birthdate
@@ -152,7 +151,7 @@ def reset_password(token):
             return redirect(url_for('reset_password', token=token))
 
         hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-        users_collection.update_one({"email": email}, {"$set": {"password": hashed_new_password}})
+        extensions.users_collection.update_one({"email": email}, {"$set": {"password": hashed_new_password}})
 
         flash('Your password has been reset successfully. Please login.', 'success')
         return redirect(url_for('login'))
@@ -172,7 +171,7 @@ def update_account_settings():
     email = request.form.get('email')
 
     user_id = current_user.get_id()
-    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    user = extensions.users_collection.find_one({"_id": ObjectId(user_id)})
 
     if user:
         updates = {}
@@ -184,7 +183,7 @@ def update_account_settings():
             updates['email'] = email
 
         if updates:
-            users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": updates})
+            extensions.users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": updates})
             flash('Your account has been updated successfully', 'success')
         else:
             flash('No changes were made to your account.', 'info')
@@ -202,7 +201,7 @@ def change_password():
     confirm_new_password = request.form.get('confirm_new_password')
 
     user_id = current_user.get_id()
-    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    user = extensions.users_collection.find_one({"_id": ObjectId(user_id)})
 
     if not user:
         return redirect(url_for('settings'))
@@ -221,7 +220,7 @@ def change_password():
         return redirect(url_for('settings'))
 
     hashed_new_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-    users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": {"password": hashed_new_password}})
+    extensions.users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": {"password": hashed_new_password}})
 
     flash('Your password has been updated successfully.', 'success')
     return redirect(url_for('settings'))

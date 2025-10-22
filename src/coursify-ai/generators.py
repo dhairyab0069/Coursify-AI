@@ -7,6 +7,7 @@ import string
 import tempfile
 import time
 from datetime import datetime
+from io import BytesIO
 from flask import jsonify, url_for
 from flask_login import current_user
 from reportlab.pdfgen import canvas
@@ -15,10 +16,9 @@ from pptx import Presentation
 from pptx.util import Pt
 from docx import Document
 from PyPDF2 import PdfReader
-from io import BytesIO
 from bson.objectid import ObjectId
 
-from extensions import fs
+import extensions
 from utils import llm, sanitize_filename, wrap_text, split_content_into_chunks, is_latex, render_latex, get_difficulty_text
 
 
@@ -129,7 +129,7 @@ def generate_pdf(prompt, length, difficulty):
     # Save to GridFS
     if current_user.is_authenticated:
         with open(pdf_path, 'rb') as pdf_file:
-            fs.put(pdf_file, filename=pdf_filename, user_id=current_user.user_id)
+            extensions.fs.put(pdf_file, filename=pdf_filename, user_id=current_user.user_id)
 
     pdf_url = url_for('get_pdf', filename=pdf_filename)
     return jsonify(success=True, pdf_url=pdf_url)
@@ -207,7 +207,7 @@ def generate_slides(prompt, length, difficulty):
     # Save to GridFS
     if current_user.is_authenticated:
         with open(pptx_path, 'rb') as pptx_file:
-            fs.put(pptx_file, filename=pptx_filename, user_id=current_user.user_id)
+            extensions.fs.put(pptx_file, filename=pptx_filename, user_id=current_user.user_id)
 
     pptx_url = url_for('get_presentation', filename=pptx_filename)
     return jsonify(success=True, pptx_url=pptx_url)
@@ -287,7 +287,7 @@ def generate_quiz_from_form(topic, subject, mcqs, true_false, short_questions, l
     doc.save(quiz_path)
 
     with open(quiz_path, 'rb') as f:
-        file_id = fs.put(f, filename=quiz_filename, user_id=current_user.get_id())
+        file_id = extensions.fs.put(f, filename=quiz_filename, user_id=current_user.get_id())
 
     quiz_url = url_for('get_doc', file_id=str(file_id), _external=True)
     return jsonify(success=True, quiz_url=quiz_url)
@@ -296,13 +296,12 @@ def generate_quiz_from_form(topic, subject, mcqs, true_false, short_questions, l
 def generate_quiz_from_file(file_id):
     """Generate quiz from uploaded PDF/PPTX"""
     try:
-        from bson.objectid import ObjectId
         file_id = ObjectId(file_id)
     except:
         return jsonify({'error': 'Invalid file ID'}), 400
 
     try:
-        file = fs.get(file_id)
+        file = extensions.fs.get(file_id)
     except:
         return jsonify({'error': 'File not found'}), 404
 
@@ -335,7 +334,7 @@ def generate_quiz_from_file(file_id):
 
     with open(temp_path, 'rb') as doc_file:
         if current_user.is_authenticated:
-            file_id = fs.put(doc_file, filename=doc_filename, user_id=str(current_user.get_id()))
+            file_id = extensions.fs.put(doc_file, filename=doc_filename, user_id=str(current_user.get_id()))
 
     os.remove(temp_path)
     os.rmdir(temp_dir)
