@@ -17,6 +17,10 @@ EXPOSE 5000
 # Define environment variable
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
+ENV PYTHONUNBUFFERED=1
+
+# Test if app can be imported - this will show the actual error
+RUN python -c "import sys; sys.path.insert(0, '.'); import app; print('✓ App imported successfully'); print('✓ Flask app:', app.app)" || (echo "✗ IMPORT FAILED - See error above" && exit 1)
 
 # Run with gunicorn for production
-CMD gunicorn app:app --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120
+CMD gunicorn app:app --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120 --log-level debug --access-logfile - --error-logfile -
