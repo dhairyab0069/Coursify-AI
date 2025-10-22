@@ -4,28 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>File Preview - Coursify.ai</title>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap"
-            rel="stylesheet"
-    />
-    <link
-            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-            rel="stylesheet"
-    />
-    <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='styleIndex.css') }}"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;500&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleIndex.css') }}" />
+
+    <!-- Add Mammoth.js for DOCX rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
     <style>
-        /* Override body background for preview page */
         body {
-            background: #ffffff !important; /* Force white background for preview */
+            background: #ffffff !important;
             margin: 0;
             padding: 0;
         }
 
         header {
-            background: #808080 !important; /* Keep header gray */
+            background: #808080 !important;
         }
 
         #preview-container {
@@ -36,7 +30,8 @@
             background: #ffffff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             border-radius: 8px;
-            overflow: hidden;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         #preview-iframe {
@@ -44,6 +39,16 @@
             height: 100%;
             border: none;
             background: #ffffff;
+        }
+
+        #preview-content {
+            width: 100%;
+            height: 100%;
+            background: white;
+            padding: 30px;
+            overflow-y: auto;
+            color: #333;
+            line-height: 1.6;
         }
 
         .preview-message {
@@ -114,11 +119,7 @@
 <header class="header">
     <div class="link_container">
         <a href="{{ url_for('index') }}">
-            <img
-                    src="{{ url_for('static', filename='cap_logo1.png') }}"
-                    alt="Coursify Logo"
-                    id="logo"
-            />
+            <img src="{{ url_for('static', filename='cap_logo1.png') }}" alt="Coursify Logo" id="logo" />
         </a>
     </div>
     <nav class="navbar">
@@ -138,73 +139,83 @@
     <button id="back-button">← Back to My Content</button>
 </div>
 
-<div id="loading" style="display: block;">Loading preview...</div>
+<div id="loading">Loading preview...</div>
 <div id="preview-container" style="display: none;">
     <div id="preview-content"></div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Extract filename from URL path
         const pathParts = window.location.pathname.split('/');
         const filename = decodeURIComponent(pathParts[pathParts.length - 1]);
         const fileExtension = filename.split('.').pop().toLowerCase();
         const previewContent = document.getElementById('preview-content');
         const loadingDiv = document.getElementById('loading');
         const previewContainer = document.getElementById('preview-container');
-
-        // Hide loading and show preview container
-        setTimeout(() => {
-            loadingDiv.style.display = 'none';
-            previewContainer.style.display = 'block';
-        }, 500);
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileId = urlParams.get('file_id');
 
         if (fileExtension === 'pdf') {
-            // Use iframe for PDF preview - browser handles it natively
+            // PDF - use iframe with native viewer
             const pdfUrl = `/pdf/${encodeURIComponent(filename)}`;
             previewContent.innerHTML = `<iframe id="preview-iframe" src="${pdfUrl}#toolbar=1&navpanes=1&scrollbar=1"></iframe>`;
+            loadingDiv.style.display = 'none';
+            previewContainer.style.display = 'block';
+
+        } else if (fileExtension === 'docx') {
+            // DOCX - use Mammoth.js to render in browser
+            if (!fileId) {
+                loadingDiv.innerHTML = '<p style="color: red;">Error: File ID missing</p>';
+                return;
+            }
+
+            loadingDiv.innerHTML = 'Converting document to HTML...';
+
+            // Fetch the DOCX file
+            fetch(`/get_doc/${fileId}`)
+                .then(response => response.arrayBuffer())
+                .then(arrayBuffer => {
+                    // Convert DOCX to HTML using Mammoth.js
+                    return mammoth.convertToHtml({arrayBuffer: arrayBuffer});
+                })
+                .then(result => {
+                    // Display the converted HTML
+                    previewContent.innerHTML = result.value;
+                    loadingDiv.style.display = 'none';
+                    previewContainer.style.display = 'block';
+
+                    // Log any warnings
+                    if (result.messages.length > 0) {
+                        console.log('Conversion warnings:', result.messages);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error rendering DOCX:', error);
+                    loadingDiv.innerHTML = `
+              <p style="color: red;">Failed to load document</p>
+              <p>${error.message}</p>
+            `;
+                });
 
         } else if (fileExtension === 'pptx') {
-            // Use Microsoft Office Online Viewer for PPTX
+            // PPTX - Microsoft Office viewer
             const pptxUrl = `/presentation/${encodeURIComponent(filename)}`;
             const fullUrl = window.location.origin + pptxUrl;
             const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}`;
             previewContent.innerHTML = `<iframe id="preview-iframe" src="${viewerUrl}"></iframe>`;
+            loadingDiv.style.display = 'none';
+            previewContainer.style.display = 'block';
 
-        } else if (fileExtension === 'docx') {
-            // DOCX cannot be previewed - show download option
-            previewContent.innerHTML = `
-    <div class="preview-message">
-      <h2>📄 Document Preview</h2>
-      <p><strong>${filename}</strong></p>
-      <p>Word documents cannot be previewed directly in the browser.</p>
-      <p>Click the button below to download and open in Microsoft Word or Google Docs.</p>
-      <button onclick="window.history.back()" class="download-button">← Back to My Content</button>
-    </div>
-  `;
-        }else if (fileExtension === 'pptx') {
-            // PPTX cannot be previewed - show download option
-            previewContent.innerHTML = `
-    <div class="preview-message">
-      <h2>📊 Presentation Preview</h2>
-      <p><strong>${filename}</strong></p>
-      <p>PowerPoint files cannot be previewed directly in the browser.</p>
-      <p>Click the button below to download and open in PowerPoint or Google Slides.</p>
-      <button onclick="window.history.back()" class="download-button">← Back to My Content</button>
-    </div>
-  `;
-        }else {
-            previewContent.innerHTML = `
-            <div class="preview-message">
-              <h2>Preview Not Available</h2>
-              <p>This file type (${fileExtension}) cannot be previewed in the browser.</p>
-              <a href="{{ url_for('my_content') }}" class="download-button">← Back to My Content</a>
-            </div>
-          `;
+        } else {
+            loadingDiv.innerHTML = `
+          <div class="preview-message">
+            <h2>Preview Not Available</h2>
+            <p>File type: ${fileExtension}</p>
+          </div>
+        `;
         }
     });
 
-    // Back button functionality
     document.getElementById("back-button").addEventListener("click", function () {
         window.location.href = "{{ url_for('my_content') }}";
     });

@@ -219,7 +219,7 @@
 
         document.getElementById("downloadLink").href =
           "{{ url_for('get_pdf', filename='') }}" + filename;
-          document.getElementById("PreviewLink").href = `/preview/${encodeURIComponent(filename)}`;
+          document.getElementById("PreviewLink").href = `/preview/${encodeURIComponent(filename)}?file_id=${id}`;
 
         var quizButtonContainer = document.getElementById(
           "quizButtonContainer"
