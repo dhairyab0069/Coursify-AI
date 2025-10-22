@@ -90,10 +90,10 @@ openai.api_key = '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'
 main.secret_key = 'coursifyai1234'
 
 serializer = URLSafeTimedSerializer(main.secret_key)
-MONGO_USER = os.environ.get('MONGO_USER')
-MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD')
-MONGO_HOST = os.environ.get('MONGO_HOST')
-MONGO_PORT = os.environ.get('MONGO_PORT', '27017')
+MONGO_USER = os.environ.get('MONGO_USER', '').strip()
+MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', '').strip()
+MONGO_HOST = os.environ.get('MONGO_HOST', '').strip()
+MONGO_PORT = os.environ.get('MONGO_PORT', '27017').strip()
 
 print(f"Connecting to MongoDB: {MONGO_USER}@{MONGO_HOST}:{MONGO_PORT}")
 
