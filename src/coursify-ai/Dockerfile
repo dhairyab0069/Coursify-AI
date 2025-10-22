@@ -2,17 +2,18 @@ FROM python:3.11-slim
 
 WORKDIR /code
 
-# Copy from relative to Dockerfile location (which is src/coursify-ai/)
-COPY ../../requirements.txt /code/requirements.txt
-COPY . /code/
+# Copy from build context root (Railway uses repo root as context)
+COPY requirements.txt /code/
+COPY src/coursify-ai/ /code/
 
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
-ENV FLASK_APP=app.py
+ENV FLASK_APP=main.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV PYTHONUNBUFFERED=1
 
-CMD gunicorn app:application --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120
+# Now gunicorn looks for 'application' in 'main.py' - no naming conflict!
+CMD gunicorn main:application --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120
