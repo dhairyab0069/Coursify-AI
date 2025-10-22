@@ -9,7 +9,13 @@ class Config:
 
     # MongoDB Configuration
     MONGODB_URI = os.environ.get('MONGODB_URI') or 'mongodb://localhost:27017/coursify'
+    MONGO_URL = os.environ.get('MONGODB_URI') or 'mongodb://localhost:27017/coursify'  # Alias for compatibility
     MONGODB_DB_NAME = os.environ.get('MONGODB_DB_NAME', 'coursify')
+
+    # MongoDB Database Names (for different collections)
+    DB_PDFS = os.environ.get('DB_PDFS', 'coursify_pdfs')
+    DB_USERS = os.environ.get('DB_USERS', 'coursify_users')
+    DB_REVIEWS = os.environ.get('DB_REVIEWS', 'coursify_reviews')
 
     # LLM Provider Configuration
     LLM_PROVIDER = os.environ.get('LLM_PROVIDER', 'openai')  # 'openai', 'ollama', 'anthropic', etc.
