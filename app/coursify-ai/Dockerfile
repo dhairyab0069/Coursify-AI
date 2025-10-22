@@ -27,4 +27,5 @@ RUN echo "=== Files in /app ===" && ls -la /app && \
     python -c "import sys; sys.path.insert(0, '.'); import app; print('Module location:', app.__file__); print('Module type:', type(app)); print('Has app attr?', hasattr(app, 'app')); import inspect; print('First 50 lines of app.py:'); print(inspect.getsource(app)[:2000])" || echo "Import failed"
 
 # Run with gunicorn for production
-CMD gunicorn app:app --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120 --log-level debug --access-logfile - --error-logfile -
+CMD gunicorn app:application --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120
+
