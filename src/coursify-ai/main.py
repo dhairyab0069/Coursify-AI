@@ -107,7 +107,7 @@ def reset_password(token):
 def settings():
     """Settings page"""
     user_id = current_user.get_id()
-    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    user = extensions.users_collection.find_one({"_id": ObjectId(user_id)})
     if user:
         return render_template('settings.html', user=user)
     else:
